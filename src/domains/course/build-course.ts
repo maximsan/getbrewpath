@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
 /**
- * Turns the app's generated content banks (brewpath repo,
- * `assets/content/generated/*.json`) into the small course summary this site
- * ships: every module with its lesson count, and every collectible card with
- * the text its shared page shows.
+ * Turns the app's generated lesson, module and collectible files into the
+ * course summary this site ships. The summary lists every module with its
+ * lesson count, and every card with the text its shared page shows.
+ * Source: brewpath repo, assets/content/generated/*.json.
  */
 
 const specRowSchema = z.tuple([z.string(), z.string()]);
@@ -44,39 +44,41 @@ const collectiblesBankSchema = z.object({
 
 export type Reward = z.infer<typeof rewardSchema>;
 
-export interface CourseModule {
-  id: string;
-  number: number;
-  title: string;
-  lessonCount: number;
-}
+const courseModuleSchema = z.object({
+  id: z.string(),
+  number: z.number().int().positive(),
+  title: z.string(),
+  lessonCount: z.number().int().positive(),
+});
 
-interface CardBase {
-  id: string;
-  reward: Reward;
-  moduleNumber: number;
-  moduleTitle: string;
-}
+const cardBase = {
+  id: z.string(),
+  reward: rewardSchema,
+  moduleNumber: z.number().int().positive(),
+  moduleTitle: z.string(),
+};
 
 /** A card earned by a perfect score on one lesson. */
-export interface LessonCard extends CardBase {
-  source: 'lesson';
-  lessonTitle: string;
+const lessonCardSchema = z.object({
+  ...cardBase,
+  source: z.literal('lesson'),
+  lessonTitle: z.string(),
   /** 1-based position of the lesson inside its module. */
-  lessonNumber: number;
-}
+  lessonNumber: z.number().int().positive(),
+});
 
 /** A Field Guide, earned by finishing a whole module. */
-export interface FieldGuideCard extends CardBase {
-  source: 'module';
-}
+const fieldGuideCardSchema = z.object({ ...cardBase, source: z.literal('module') });
 
-export type CourseCard = LessonCard | FieldGuideCard;
+/** The course summary this site ships in `src/content/course.json`. */
+export const courseSchema = z.object({
+  modules: z.array(courseModuleSchema),
+  cards: z.array(z.discriminatedUnion('source', [lessonCardSchema, fieldGuideCardSchema])),
+});
 
-export interface Course {
-  modules: CourseModule[];
-  cards: CourseCard[];
-}
+export type CourseModule = z.infer<typeof courseModuleSchema>;
+export type CourseCard = z.infer<typeof courseSchema>['cards'][number];
+export type Course = z.infer<typeof courseSchema>;
 
 export interface ContentBanks {
   lessons: unknown;
