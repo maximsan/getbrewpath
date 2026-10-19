@@ -1,0 +1,326 @@
+@import 'tailwindcss';
+
+/*
+ * BrewPath design tokens, copied from the app's design system
+ * (prototype/_ds/.../tokens/brewpath-tokens.css). The cupping mood is the
+ * default; [data-mood='dark-roast'] swaps the palette on <html> or on any
+ * section that is always dark.
+ */
+:root {
+  --bg: #f4efe6;
+  --surface: #fbf7ee;
+  --surface-2: #efe8da;
+  --ink: #1b1614;
+  --ink-mute: #6b5f54;
+  --rule: #d8cfbf;
+  --accent: #a6462f;
+  --accent-ink: #fbf7ee;
+  --sage: #5f6e55;
+  --warn: #9a5f1c;
+  --berry: #a8362a;
+  --scrim: color-mix(in oklab, #1b1614 58%, transparent);
+  --scrim-ink: #fbf7ee;
+  --r: 14px;
+
+  /* Illustration colours are literal coffee and the same in both moods. */
+  --art-roast-light: #c79a63;
+  --art-roast-mid: #a2703c;
+  --art-roast-deep: #7a4526;
+  --art-roast-dark: #54301c;
+  --art-ripe: #c8843a;
+  --art-cherry-skin: #a93227;
+  --art-hairline: #1b1614;
+  --art-cream: #f0dcb8;
+
+  --t-hero: 56px;
+  --t-display: 30px;
+  --t-title: 26px;
+  --t-subtitle: 22px;
+  --t-heading: 19px;
+  --t-lead: 17px;
+  --t-body: 15px;
+  --t-support: 13px;
+  --t-label: 11px;
+  --t-micro: 9.5px;
+
+  /* The dark frame around every phone screenshot. */
+  --phone-frame: #1b1614;
+  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+[data-mood='dark-roast'] {
+  --bg: #1a130e;
+  --surface: #251b14;
+  --surface-2: #30231a;
+  --ink: #f3e7d2;
+  --ink-mute: #b59e84;
+  --rule: #44321e;
+  --accent: #e07a4f;
+  --accent-ink: #1a130e;
+  --sage: #97a285;
+  --warn: #e6a35c;
+  --berry: #c75450;
+  color: var(--ink);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-mute: var(--ink-mute);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-sage: var(--sage);
+  --color-warn: var(--warn);
+  --color-berry: var(--berry);
+  --color-scrim: var(--scrim);
+  --color-scrim-ink: var(--scrim-ink);
+  --color-phone-frame: var(--phone-frame);
+
+  --font-display: var(--font-fraunces), serif;
+  --font-ui: var(--font-plex-sans), sans-serif;
+  --font-mono: var(--font-plex-mono), monospace;
+
+  --radius-r: var(--r);
+  --ease-soft: var(--ease-out-soft);
+
+  --text-hero: var(--t-hero);
+  --text-display: var(--t-display);
+  --text-title: var(--t-title);
+  --text-subtitle: var(--t-subtitle);
+  --text-heading: var(--t-heading);
+  --text-lead: var(--t-lead);
+  --text-body: var(--t-body);
+  --text-support: var(--t-support);
+  --text-label: var(--t-label);
+  --text-micro: var(--t-micro);
+
+  --animate-rise-in: rise-in 0.8s var(--ease-out-soft) both;
+  --animate-menu-in: menu-in 0.28s var(--ease-out-soft) both;
+  --animate-dot-pulse: dot-pulse 1.6s ease-in-out infinite;
+  --animate-hero-float: hero-float 6s ease-in-out infinite;
+  --animate-hero-float-2: hero-float-2 7s ease-in-out infinite;
+  --animate-save-note-in: rise-in 0.5s var(--ease-out-soft) both;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(-5deg);
+  }
+}
+@keyframes hero-float-2 {
+  0%,
+  100% {
+    transform: translateY(0) rotate(7deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(7deg);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+    transition:
+      background-color 0.45s ease,
+      color 0.45s ease;
+  }
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 999px;
+  }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+  input,
+  textarea {
+    font-family: inherit;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      animation-delay: 0ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+      transition-delay: 0ms !important;
+    }
+  }
+}
+
+/* Design-system type and control classes the app shares with this site. */
+@layer components {
+  .ff-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+  .ff-ui {
+    font-family: var(--font-ui);
+  }
+  .ff-mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+  .smallcaps {
+    font-family: var(--font-ui);
+    font-size: var(--t-label);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .btn {
+    appearance: none;
+    border: none;
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: var(--t-body);
+    letter-spacing: 0.02em;
+    transition:
+      transform 120ms ease,
+      opacity 120ms ease;
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-radius: var(--r);
+    padding: 16px 24px;
+    width: 100%;
+  }
+  .btn-primary:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    padding: 16px 24px;
+    border: 1px solid var(--rule);
+    border-radius: var(--r);
+    width: 100%;
+  }
+  .btn-ghost:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+}
+
+/*
+ * Scroll reveal: sections fade up once they enter the viewport (see
+ * components/reveal). Without JavaScript they stay visible.
+ */
+@layer utilities {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.75s var(--ease-out-soft),
+      transform 0.75s var(--ease-out-soft);
+  }
+  .js [data-reveal].in {
+    opacity: 1;
+    transform: none;
+  }
+  [data-reveal][data-delay='1'] {
+    transition-delay: 0.1s;
+  }
+  [data-reveal][data-delay='2'] {
+    transition-delay: 0.2s;
+  }
+  [data-reveal][data-delay='3'] {
+    transition-delay: 0.3s;
+  }
+  [data-reveal][data-delay='4'] {
+    transition-delay: 0.4s;
+  }
+  /* A phone shot inside a revealed card rises a little after the card. */
+  [data-rise] {
+    transform: translateY(var(--y, 0));
+  }
+  .js [data-rise] {
+    transform: translateY(calc(var(--y, 0%) + 16%));
+    transition: transform 1.1s var(--ease-out-soft) 0.15s;
+  }
+  .js [data-reveal].in [data-rise] {
+    transform: translateY(var(--y, 0));
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

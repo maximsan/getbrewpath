@@ -1,0 +1,471 @@
+{
+  "nav": {
+    "course": "Course",
+    "how": "How it works",
+    "demo": "Try a lesson",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "getApp": "Get the app",
+    "menu": "Menu",
+    "moodSwitch": "Switch light and dark mood",
+    "moodLight": "Cupping",
+    "moodDark": "Dark roast",
+    "skip": "Skip to content",
+    "primary": "Main",
+    "footer": "Footer"
+  },
+  "hero": {
+    "title": "Learn coffee.\nGrow a tree.",
+    "body": "Three-minute lessons in the craft of coffee — beans, roast, grind, brew. Every one you finish feeds a living tree and earns a card worth keeping.",
+    "download": "Download on the App Store",
+    "tryFirst": "Try a lesson first",
+    "note": "Free to start. Foundations is one purchase, no subscription",
+    "shotToday": "The BrewPath Today screen",
+    "shotLesson": "A BrewPath lesson asking for a first guess"
+  },
+  "modules": {
+    "title": "Five modules, bean to cup.",
+    "meta": "{lessons} lessons, {cards} cards, about {minutes} min each",
+    "lessons": "{n, plural, one {# lesson} other {# lessons}}",
+    "lessonsFree": "{n, plural, one {# lesson, free} other {# lessons, free}}",
+    "items": {
+      "m1": {
+        "title": "Beans",
+        "desc": "What coffee actually is, arabica vs robusta, origin, altitude."
+      },
+      "m2": {
+        "title": "Processing",
+        "desc": "Washed, natural, honey — and why it changes the cup."
+      },
+      "m3": {
+        "title": "Roasting",
+        "desc": "Light to dark, first and second crack, reading a roast date."
+      },
+      "m4": {
+        "title": "Grind",
+        "desc": "Particle size in plain English, burr vs blade, dialing in."
+      },
+      "m5": {
+        "title": "Brew",
+        "desc": "Ratio, water, extraction, your first truly good cup."
+      }
+    }
+  },
+  "how": {
+    "title": "Guess. Find out. Keep the card.",
+    "step": "Step {n}",
+    "items": {
+      "step1": {
+        "title": "Guess first",
+        "body": "Every lesson opens with a question you answer before you know. Being wrong is the point — it’s what makes the answer stick.",
+        "alt": "First guess card"
+      },
+      "step2": {
+        "title": "Find out, in three minutes",
+        "body": "Short cards, one idea each. Complete the sentence, put steps in order, match a taste to its cause.",
+        "alt": "Complete the sentence card"
+      },
+      "step3": {
+        "title": "Keep the card",
+        "body": "A perfect lesson earns a Coffee Card. Finish a module and its Field Guide joins your deck. Your tree grows either way.",
+        "alt": "Foundations complete screen"
+      }
+    }
+  },
+  "features": {
+    "title": "Built for a few quiet minutes a day.",
+    "moodTitleDark": "Dark roast, for late nights",
+    "moodTitleLight": "Cupping, for the morning",
+    "introBody": "Short, hands-on lessons in the craft of coffee. Every one you finish feeds a living tree, growing from seed to harvest.",
+    "introCue": "Tap anywhere to continue",
+    "items": {
+      "path": {
+        "title": "A path, not a feed",
+        "body": "Beans → Processing → Roasting → Grind → Brew. Each module unlocks the next, with a brew challenge along the way.",
+        "alt": "Path screen"
+      },
+      "today": {
+        "title": "Today, in one glance",
+        "body": "Pick up where you left off, or play one of 15 two-minute practice games.",
+        "alt": "Today screen"
+      },
+      "roasty": {
+        "title": "Roasty comes along",
+        "body": "He reacts to every answer, celebrates every card, and gets a new look in the Studio.",
+        "alt": "Meet Roasty"
+      },
+      "mood": {
+        "body": "Two moods, same warmth. Try the switch in the header — this page follows the app.",
+        "alt": "Intro screen"
+      }
+    }
+  },
+  "demo": {
+    "title": "This is lesson one. Have a go.",
+    "body": "Three real cards from “What coffee actually is”, running the same way they do in the app. Pick an answer, read why, tap Continue.",
+    "scorePerfect": "{n} of {total}. That card is yours.",
+    "scorePartial": "{n} of {total}. Close — the card wants a perfect run.",
+    "scoreBodyPerfect": "In the app, a perfect lesson keeps the card for good. The full lesson is eight cards and free.",
+    "scoreBodyPartial": "In the app you can replay any lesson until it’s perfect. The full lesson is eight cards and free.",
+    "get": "Get BrewPath",
+    "again": "Play again",
+    "restart": "Restart",
+    "progress": "Card {n} of {total}. Tap an answer on the phone",
+    "card0": {
+      "prompt": "How many seeds sit inside a typical coffee cherry?",
+      "choices": {
+        "c1": "One",
+        "c2": "Two",
+        "c3": "Five",
+        "c4": "Four"
+      },
+      "explain": "Two flat-faced seeds sit pressed together inside each cherry. A “peaberry” is the rare cherry that grew only one — which is why it’s rounder."
+    },
+    "card1": {
+      "statement": "Arabica and robusta are two roasts of the same bean",
+      "explain": "False — they are two different species of coffee plant. Roast is what happens later, to either one."
+    },
+    "card2": {
+      "prompt": "Which grows best high up a mountain?",
+      "choices": {
+        "c1": "Robusta",
+        "c2": "Arabica",
+        "c3": "Both equally",
+        "c4": "Neither"
+      },
+      "explain": "Arabica prefers cool altitude — often 1,200 m and up. The slower ripening packs in more sugar, which is why it tastes sweeter."
+    }
+  },
+  "roasty": {
+    "title": "Meet Roasty. He takes it personally.",
+    "body": "A coffee bean with a beanie and strong opinions. He cheers a right answer, winces at a wrong one, and dozes off if you leave him too long. Dress him in the Studio — hats, glasses, a sprout.",
+    "tapMoment": "Tap a moment",
+    "lines": {
+      "idle": "Breathing. Mostly.",
+      "correct": "Yes! That’s the one.",
+      "wrong": "Hm. Close, but no.",
+      "lesson": "Lesson done. Card earned.",
+      "module": "Beans to brew — the whole thing.",
+      "sleep": "Zzz… wake me for coffee."
+    },
+    "chips": {
+      "idle": "Idle",
+      "correct": "Right answer",
+      "wrong": "Wrong answer",
+      "lesson": "Lesson done",
+      "module": "Module done",
+      "sleep": "Left alone"
+    }
+  },
+  "pricing": {
+    "title": "The first module is free. The course is one purchase.",
+    "free": "Free",
+    "forever": "forever",
+    "freeCta": "Download free",
+    "pro": "Foundations, one-time purchase",
+    "once": "once, no subscription",
+    "proCta": "Start free, unlock in the app",
+    "freeList": {
+      "item1": "Module 1: Beans, all 7 lessons",
+      "item2": "15 daily practice games",
+      "item3": "Dictionary essentials",
+      "item4": "Roasty, your tree and your streak"
+    },
+    "proList": {
+      "item1": "Modules 2–5 — every lesson",
+      "item2": "The five premium card formats",
+      "item3": "The complete Dictionary",
+      "item4": "Unlimited saved terms and cards",
+      "item5": "The Studio — dress Roasty, choose your plant"
+    },
+    "note": "Prices in USD. The App Store sets the final price in your region. Fixes and improvements are included; nothing renews."
+  },
+  "faq": {
+    "title": "Things people ask before downloading.",
+    "items": {
+      "q1": {
+        "q": "Is BrewPath free?",
+        "a": "The first module — Beans, seven lessons — and the daily practice games are free, forever. Foundations unlocks the other four modules for a single payment. Nothing renews."
+      },
+      "q2": {
+        "q": "Do I need any equipment?",
+        "a": "No. The lessons are about understanding what happens to coffee, not about owning gear. The optional brew challenges use whatever is already in your kitchen."
+      },
+      "q3": {
+        "q": "Is there an Android version?",
+        "a": "Not yet. BrewPath is iPhone-only for now; Android is on the plan. Write to us from the support page and we’ll tell you when."
+      },
+      "q4": {
+        "q": "Does it work offline?",
+        "a": "Yes. Everything is on your phone — lessons, dictionary, your progress. Planes and bad café Wi-Fi are fine."
+      },
+      "q5": {
+        "q": "What exactly is a Coffee Card?",
+        "a": "A collectible you earn by finishing a lesson with a perfect score. Each one holds a fact, a specimen drawing and the spec of what you learned. There are 37, including five Field Guides for finished modules. You can share any card with a link."
+      }
+    },
+    "more": "Something else? <link>Write to us</link> — a human answers, usually the same day."
+  },
+  "cta": {
+    "title": "Your first lesson takes three minutes.",
+    "body": "Free, offline, no account. Roasty is already waiting.",
+    "download": "Download on the App Store"
+  },
+  "card": {
+    "shared": "Shared from BrewPath",
+    "earned": "A friend earned <em>{card}</em>.",
+    "lessonBody": "A perfect score on <strong>{lesson}</strong>, lesson {lessonNumber} of the {module} module. In BrewPath, every lesson you ace becomes a Coffee Card — a fact worth keeping, in a deck worth finishing.",
+    "guideBody": "Earned by finishing every lesson of the <strong>{module}</strong> module. Each module you finish adds its Field Guide to your deck, next to the cards from its lessons.",
+    "defaultBadge": "Coffee card",
+    "get": "Get BrewPath — it’s free",
+    "open": "Open in the app",
+    "avail": "Available on iPhone",
+    "curious": "Curious what the whole thing is? <link>See BrewPath</link>",
+    "count": "{cards} cards and {guides} field guides",
+    "pitch": {
+      "lessons": {
+        "title": "{lessons} short lessons",
+        "body": "Beans to brew in five modules. Three minutes each, one idea per card."
+      },
+      "cards": {
+        "title": "{cards} cards to keep",
+        "body": "A perfect lesson earns its card. Finish a module for its Field Guide."
+      },
+      "tree": {
+        "title": "A tree that grows",
+        "body": "Every lesson feeds a living coffee tree, seed to harvest. Roasty tends it."
+      }
+    }
+  },
+  "docs": {
+    "updated": "Last updated {date}",
+    "draft": "Draft, pending legal review",
+    "contents": "Contents",
+    "questions": "Questions about this document?",
+    "terms": {
+      "title": "Terms of Use",
+      "intro": "These terms are the agreement between you and BrewPath when you use the app or this website. We tried to write them the way we write the lessons: short, plain, and honest.",
+      "sections": {
+        "s1": {
+          "h": "Agreeing to these terms",
+          "ps": {
+            "p1": "By downloading or using BrewPath you agree to these terms and to our Privacy Policy. If you don’t agree, please don’t use the app.",
+            "p2": "You must be at least 13 years old, or the minimum age in your country, to use BrewPath."
+          }
+        },
+        "s2": {
+          "h": "The app, and what’s free",
+          "ps": {
+            "p1": "BrewPath is a learning app. The first module and the daily practice games are free. “Foundations” unlocks the rest of the course and is sold as a one-time in-app purchase through Apple’s App Store.",
+            "p2": "There is no account. Your progress lives on your device. If you delete the app, your progress goes with it unless you have a device backup."
+          }
+        },
+        "s3": {
+          "h": "Purchases, restores and refunds",
+          "ps": {
+            "p1": "All purchases are processed by Apple under its terms. Prices are shown in the App Store in your local currency and may change.",
+            "p2": "You can restore a purchase on any device signed in to the same Apple Account from Profile → Restore purchases. Refund requests go through Apple at reportaproblem.apple.com; we can’t issue them directly."
+          }
+        },
+        "s4": {
+          "h": "Our content",
+          "ps": {
+            "p1": "Lesson text, illustrations, Roasty, the cards and the BrewPath name are ours or licensed to us. You may use them for your own learning and share cards with friends through the app’s share feature. Please don’t copy, resell or republish the course."
+          }
+        },
+        "s5": {
+          "h": "Fair use of the app",
+          "ps": {
+            "p1": "Don’t try to break the app, bypass a purchase, or use it in a way that harms others. We may stop providing BrewPath to anyone who does."
+          }
+        },
+        "s6": {
+          "h": "No guarantees about coffee",
+          "ps": {
+            "p1": "We work hard to keep lessons accurate and up to date, but coffee is a craft with many opinions. BrewPath is provided “as is”; we aren’t liable for a bad cup, a ruined bag of beans, or any indirect loss arising from your use of the app."
+          }
+        },
+        "s7": {
+          "h": "Changes",
+          "ps": {
+            "p1": "We may update these terms as the app grows. The date at the top tells you when. Continuing to use BrewPath after a change means you accept the new terms."
+          }
+        },
+        "s8": {
+          "h": "Contact",
+          "ps": {
+            "p1": "Questions about these terms: {email}."
+          }
+        }
+      }
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": "BrewPath is built to work without an account and without following you around. This policy explains the little data the app does handle, and who sees it.",
+      "sections": {
+        "s1": {
+          "h": "What stays on your phone",
+          "ps": {
+            "p1": "Your lessons, cards, streak, saved terms, Roasty’s outfit and the growth of your tree are stored on your device only. We can’t see them. There is no sign-up, no email, no password.",
+            "p2": "The first name you may give Roasty is used to greet you and never leaves the device."
+          }
+        },
+        "s2": {
+          "h": "What leaves your phone",
+          "ps": {
+            "p1": "Purchases. When you buy Foundations, Apple processes the payment. A purchase receipt and an anonymous app-user id are sent to RevenueCat, the service that confirms what you own and lets you restore it. We never see your card details.",
+            "p2": "Crash reports. If the app crashes, an anonymised report (device model, iOS version, the error) is sent to Firebase Crashlytics so we can fix it.",
+            "p3": "Paywall views. Whether the paywall was shown and whether a purchase followed is counted, anonymously, so we can price the course fairly."
+          }
+        },
+        "s3": {
+          "h": "What we don’t do",
+          "ps": {
+            "p1": "We don’t sell data. We don’t run third-party advertising. We don’t track you across other apps or websites, and we don’t ask for App Tracking permission because we have no use for it."
+          }
+        },
+        "s4": {
+          "h": "Shared cards",
+          "ps": {
+            "p1": "When you share a card, the app creates a link to a page on this site showing that card. The link contains the card id and the first name you chose to show, nothing else. Anyone with the link can see it."
+          }
+        },
+        "s5": {
+          "h": "Your choices",
+          "ps": {
+            "p1": "Reset progress from Profile → Reset progress. Delete everything by deleting the app. To ask us to remove purchase records held by RevenueCat, email us from the device that made the purchase."
+          }
+        },
+        "s6": {
+          "h": "Children",
+          "ps": {
+            "p1": "BrewPath is not directed at children under 13 and we knowingly collect no personal data from them."
+          }
+        },
+        "s7": {
+          "h": "Changes and contact",
+          "ps": {
+            "p1": "If this policy changes in a way that matters, the app will tell you. Questions: {email}."
+          }
+        }
+      }
+    }
+  },
+  "support": {
+    "title": "How can we help?",
+    "body": "BrewPath is made by a very small team. Write to us and a person — not a bot — replies, usually within a day.",
+    "topics": {
+      "topic1": {
+        "title": "Restore a purchase",
+        "steps": {
+          "step1": "Open BrewPath on the device signed in to the same Apple Account.",
+          "step2": "Go to Profile → Restore purchases.",
+          "step3": "Still locked? Email us with the receipt date."
+        }
+      },
+      "topic2": {
+        "title": "Unlock or refund",
+        "steps": {
+          "step1": "Foundations is a one-time purchase, sold by Apple.",
+          "step2": "Refunds are handled at reportaproblem.apple.com.",
+          "step3": "Not sure what you bought? Ask us — we can check what the store says."
+        }
+      },
+      "topic3": {
+        "title": "Progress and the tree",
+        "steps": {
+          "step1": "Progress lives on your phone; an iCloud backup keeps it across devices.",
+          "step2": "Reset everything from Profile → Reset progress.",
+          "step3": "Lost progress after reinstalling? Restore from a backup, then relaunch."
+        }
+      }
+    },
+    "heading": "Report a bug, ask a question, tell us a coffee fact we got wrong.",
+    "include": "Include your iPhone model and iOS version if it’s a bug — it saves a round-trip.",
+    "yourEmail": "Your email",
+    "emailPlaceholder": "you@example.com",
+    "what": "What happened",
+    "messagePlaceholder": "Tell us as much as you can",
+    "send": "Send message",
+    "sentTitle": "Got it. Thank you.",
+    "sentBody": "We’ll reply to {email} — usually within a day.",
+    "another": "Send another",
+    "consent": "We only use your address to reply. See the <link>privacy policy</link>.",
+    "sending": "Sending…",
+    "errors": {
+      "email": "Enter an email address we can reply to.",
+      "message": "Tell us what happened — a sentence or two is plenty.",
+      "messageTooLong": "That is longer than we can take in one message. Please trim it to {max} characters.",
+      "failed": "We couldn’t send that. Please try again, or write to {email}.",
+      "rateLimited": "That’s a lot of messages in a short time. Please wait a minute and try again."
+    }
+  },
+  "press": {
+    "title": "BrewPath, in one paragraph and a few files.",
+    "body": "BrewPath is a coffee-learning app for iPhone. Short lessons and mini-games teach the craft of coffee — beans, processing, roasting, grind and brew — while a living tree and a collectible deck mark your progress. Roasty, a coffee bean with a beanie, comes along. The first module is free; the full course is a single purchase.",
+    "downloadIcon": "Download icon",
+    "facts": {
+      "name": "Name",
+      "nameV": "BrewPath (one word)",
+      "platform": "Platform",
+      "platformV": "iPhone, iOS 16 and later",
+      "price": "Price",
+      "priceV": "Free download, Foundations {price} once",
+      "course": "Course",
+      "courseV": "{modules} modules, {lessons} lessons, {cards} cards",
+      "mascot": "Mascot",
+      "mascotV": "Roasty, a coffee bean",
+      "website": "Website"
+    },
+    "screens": "Screens",
+    "colour": "Colour",
+    "type": "Type",
+    "shots": {
+      "today": "Today",
+      "path": "Path",
+      "lesson": "First guess",
+      "fill": "Complete the sentence",
+      "roasty": "Meet Roasty",
+      "complete": "Module complete",
+      "paywall": "Foundations",
+      "intro": "Intro"
+    },
+    "swatches": {
+      "paper": "Paper",
+      "ink": "Ink",
+      "crema": "Crema",
+      "darkRoast": "Dark roast",
+      "sage": "Sage",
+      "ripeCherry": "Ripe cherry"
+    },
+    "typeTitles": "Titles, weight 400",
+    "typeBody": "Body & controls, 400 / 500",
+    "typeMono": "Numbers & labels, 500",
+    "note": "Please don’t recolour Roasty, stretch the icon, or set the name as “Brew Path”. It’s one word."
+  },
+  "notfound": {
+    "label": "Error 404",
+    "title": "This cup’s empty.",
+    "body": "The page you’re after isn’t here — maybe it moved, maybe it was never brewed. Roasty slept through it.",
+    "back": "Back to the start",
+    "get": "Get the app"
+  },
+  "footer": {
+    "copyright": "© {year}",
+    "terms": "Terms of Use",
+    "privacy": "Privacy",
+    "support": "Support",
+    "press": "Press"
+  },
+  "metadata": {
+    "title": "BrewPath — learn coffee, grow a tree",
+    "titleTemplate": "%s · BrewPath",
+    "description": "Three-minute lessons in the craft of coffee — beans, roast, grind, brew. Every one you finish feeds a living tree and earns a card worth keeping.",
+    "cardTitle": "{card} — a BrewPath Coffee Card",
+    "cardDescription": "A friend shared a Coffee Card from BrewPath: {summary}",
+    "support": "Support",
+    "press": "Press kit",
+    "notFound": "Page not found"
+  },
+  "brand": "BrewPath"
+}
