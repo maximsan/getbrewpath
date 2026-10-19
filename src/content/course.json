@@ -1,0 +1,904 @@
+{
+  "modules": [
+    {
+      "id": "m1",
+      "number": 1,
+      "title": "Beans",
+      "lessonCount": 7
+    },
+    {
+      "id": "m2",
+      "number": 2,
+      "title": "Processing",
+      "lessonCount": 6
+    },
+    {
+      "id": "m3",
+      "number": 3,
+      "title": "Roasting",
+      "lessonCount": 6
+    },
+    {
+      "id": "m4",
+      "number": 4,
+      "title": "Grind",
+      "lessonCount": 6
+    },
+    {
+      "id": "m5",
+      "number": 5,
+      "title": "Brew",
+      "lessonCount": 7
+    }
+  ],
+  "cards": [
+    {
+      "id": "c1",
+      "source": "lesson",
+      "reward": {
+        "title": "The Coffee Cherry",
+        "summary": "The fruit of the coffee plant. Two seeds inside each one.",
+        "fact": "Cherries ripen unevenly on the same branch — pickers return three or four times.",
+        "meta": [
+          [
+            "FAMILY",
+            "Rubiaceae"
+          ],
+          [
+            "ORIGIN",
+            "Ethiopia, ~9th c."
+          ],
+          [
+            "FRUIT",
+            "Drupe / cherry"
+          ]
+        ]
+      },
+      "moduleNumber": 1,
+      "moduleTitle": "Beans",
+      "lessonTitle": "What coffee actually is",
+      "lessonNumber": 1
+    },
+    {
+      "id": "c2",
+      "source": "lesson",
+      "reward": {
+        "title": "The Bean Belt",
+        "summary": "The equatorial band where coffee grows — and why place ends up in the cup.",
+        "fact": "The same variety planted in two countries can taste completely different. Origin does the talking.",
+        "meta": [
+          [
+            "LATITUDE",
+            "25°N – 25°S"
+          ],
+          [
+            "SHAPED BY",
+            "Soil, altitude, climate"
+          ],
+          [
+            "GRANULARITY",
+            "Country → farm"
+          ]
+        ]
+      },
+      "moduleNumber": 1,
+      "moduleTitle": "Beans",
+      "lessonTitle": "What origin means",
+      "lessonNumber": 3
+    },
+    {
+      "id": "c3",
+      "source": "lesson",
+      "reward": {
+        "title": "Arabica",
+        "summary": "The species behind most specialty coffee. Sweet, nuanced, fragile.",
+        "fact": "Every arabica plant traces back to a small founding population in Ethiopia — the genetic diversity is unusually narrow.",
+        "meta": [
+          [
+            "SPECIES",
+            "Coffea arabica"
+          ],
+          [
+            "SHARE",
+            "~60% world"
+          ],
+          [
+            "CAFFEINE",
+            "~1.2%"
+          ]
+        ]
+      },
+      "moduleNumber": 1,
+      "moduleTitle": "Beans",
+      "lessonTitle": "Arabica vs Robusta",
+      "lessonNumber": 2
+    },
+    {
+      "id": "cM1",
+      "source": "module",
+      "reward": {
+        "title": "Beans Field Guide",
+        "summary": "Arabica or Robusta, where it grew, how it was processed.",
+        "fact": "That coffee bag isn’t just labels anymore — you know what they mean.",
+        "badge": "BEANS · COMPLETE"
+      },
+      "moduleNumber": 1,
+      "moduleTitle": "Beans"
+    },
+    {
+      "id": "c-m2l1",
+      "source": "lesson",
+      "reward": {
+        "title": "The Drying Bed",
+        "summary": "Where the choice gets made — fruit on, fruit off, or somewhere between.",
+        "fact": "On a raised bed, cherries are turned by hand every few hours so they dry evenly and never ferment too far.",
+        "meta": [
+          [
+            "METHODS",
+            "Washed / natural / honey"
+          ],
+          [
+            "CONTROLS",
+            "Fruit contact time"
+          ],
+          [
+            "DECIDES",
+            "Clarity vs fruit"
+          ]
+        ]
+      },
+      "moduleNumber": 2,
+      "moduleTitle": "Processing",
+      "lessonTitle": "Washed, natural, honey",
+      "lessonNumber": 1
+    },
+    {
+      "id": "c-m2l2",
+      "source": "lesson",
+      "reward": {
+        "title": "Fermentation",
+        "summary": "The quiet chemistry that turns leftover fruit sugar into flavour.",
+        "fact": "A few extra hours of fermentation can be the difference between clean citrus and full-on blueberry.",
+        "meta": [
+          [
+            "DRIVEN BY",
+            "Sugar + microbes + time"
+          ],
+          [
+            "MORE OF IT",
+            "Fruit, funk, body"
+          ],
+          [
+            "CAN BEAT",
+            "Origin itself"
+          ]
+        ]
+      },
+      "moduleNumber": 2,
+      "moduleTitle": "Processing",
+      "lessonTitle": "Why processing matters",
+      "lessonNumber": 2
+    },
+    {
+      "id": "c-m2l3",
+      "source": "lesson",
+      "reward": {
+        "title": "The Coffee Label",
+        "summary": "Origin, variety, process, roast date — four lines that predict your cup.",
+        "fact": "Read enough labels and you’ll guess the taste before the first sip more often than not.",
+        "meta": [
+          [
+            "READS",
+            "Origin · variety · process"
+          ],
+          [
+            "FORECASTS",
+            "Clarity vs fruit"
+          ],
+          [
+            "SKILL",
+            "Buy with intent"
+          ]
+        ]
+      },
+      "moduleNumber": 2,
+      "moduleTitle": "Processing",
+      "lessonTitle": "Reading a bag label",
+      "lessonNumber": 3
+    },
+    {
+      "id": "c-m3l1",
+      "source": "lesson",
+      "reward": {
+        "title": "The Roast Spectrum",
+        "summary": "Light to dark — how far the heat goes, and what it trades away.",
+        "fact": "Roast level barely changes caffeine — it mostly trades origin acidity for roast flavour.",
+        "meta": [
+          [
+            "LIGHT",
+            "Bright · acidic"
+          ],
+          [
+            "MEDIUM",
+            "Balanced · sweet"
+          ],
+          [
+            "DARK",
+            "Bitter · bold"
+          ]
+        ]
+      },
+      "moduleNumber": 3,
+      "moduleTitle": "Roasting",
+      "lessonTitle": "Light, medium, dark",
+      "lessonNumber": 2
+    },
+    {
+      "id": "c-m3l2",
+      "source": "lesson",
+      "reward": {
+        "title": "First and Second Crack",
+        "summary": "The two sounds that tell a roaster how far a roast has gone.",
+        "fact": "First crack sounds like faint popcorn; second crack is sharper, like crackling.",
+        "meta": [
+          [
+            "FIRST",
+            "Light roast begins"
+          ],
+          [
+            "SECOND",
+            "Dark roast begins"
+          ],
+          [
+            "BETWEEN",
+            "Medium"
+          ]
+        ]
+      },
+      "moduleNumber": 3,
+      "moduleTitle": "Roasting",
+      "lessonTitle": "First and second crack",
+      "lessonNumber": 3
+    },
+    {
+      "id": "c-m3l3",
+      "source": "lesson",
+      "reward": {
+        "title": "The Roast Date",
+        "summary": "The one number that tells you whether a bag is worth buying.",
+        "fact": "Most coffee is at its best from a few days to about a month after roasting.",
+        "meta": [
+          [
+            "LOOK FOR",
+            "A roast date"
+          ],
+          [
+            "SWEET SPOT",
+            "~4 weeks"
+          ],
+          [
+            "BUY",
+            "A month’s worth"
+          ]
+        ]
+      },
+      "moduleNumber": 3,
+      "moduleTitle": "Roasting",
+      "lessonTitle": "Reading a roast date",
+      "lessonNumber": 4
+    },
+    {
+      "id": "c-m4l1",
+      "source": "lesson",
+      "reward": {
+        "title": "Particle Size",
+        "summary": "How coarse or fine you grind — the speed dial for extraction.",
+        "fact": "Halving particle size roughly doubles the surface the water can reach.",
+        "meta": [
+          [
+            "FINER",
+            "More surface · faster"
+          ],
+          [
+            "COARSER",
+            "Less surface · slower"
+          ],
+          [
+            "SET BY",
+            "Your brewer"
+          ]
+        ]
+      },
+      "moduleNumber": 4,
+      "moduleTitle": "Grind",
+      "lessonTitle": "Particle size, in plain English",
+      "lessonNumber": 1
+    },
+    {
+      "id": "c-m4l2",
+      "source": "lesson",
+      "reward": {
+        "title": "Burr vs Blade",
+        "summary": "Why an even grind — not a fancy brewer — is the upgrade that counts.",
+        "fact": "Blade grinders make dust and boulders at once; burrs make one even size.",
+        "meta": [
+          [
+            "BURR",
+            "Even · dial-able"
+          ],
+          [
+            "BLADE",
+            "Uneven · muddy"
+          ],
+          [
+            "BUY",
+            "A burr, any size"
+          ]
+        ]
+      },
+      "moduleNumber": 4,
+      "moduleTitle": "Grind",
+      "lessonTitle": "Burr vs blade",
+      "lessonNumber": 2
+    },
+    {
+      "id": "c-m4l3",
+      "source": "lesson",
+      "reward": {
+        "title": "The Grinder",
+        "summary": "Your first and best dial for fixing a cup that tastes off.",
+        "fact": "Baristas change grind before almost anything else — it moves the cup more than any other single tweak.",
+        "meta": [
+          [
+            "CONTROLS",
+            "Extraction speed"
+          ],
+          [
+            "FINER",
+            "Faster · stronger"
+          ],
+          [
+            "COARSER",
+            "Slower · lighter"
+          ]
+        ]
+      },
+      "moduleNumber": 4,
+      "moduleTitle": "Grind",
+      "lessonTitle": "Dialing in by taste",
+      "lessonNumber": 4
+    },
+    {
+      "id": "c-m5l1",
+      "source": "lesson",
+      "reward": {
+        "title": "The Brew Ratio",
+        "summary": "Coffee to water, by weight — the dial that sets your cup’s strength.",
+        "fact": "Most filter recipes live between 1:15 and 1:17. Pick one, weigh it, and stay consistent.",
+        "meta": [
+          [
+            "BASELINE",
+            "1:16"
+          ],
+          [
+            "STRONGER",
+            "More coffee"
+          ],
+          [
+            "WEAKER",
+            "More water"
+          ]
+        ]
+      },
+      "moduleNumber": 5,
+      "moduleTitle": "Brew",
+      "lessonTitle": "The brew ratio",
+      "lessonNumber": 1
+    },
+    {
+      "id": "c-m5l2",
+      "source": "lesson",
+      "reward": {
+        "title": "Water",
+        "summary": "The invisible 98% — temperature and quality shape every cup.",
+        "fact": "Brewed coffee is about 98% water; filtered and just off the boil is the easy target.",
+        "meta": [
+          [
+            "COFFEE IS",
+            "~98% water"
+          ],
+          [
+            "TARGET",
+            "~90–96°C"
+          ],
+          [
+            "USE",
+            "Clean, filtered"
+          ]
+        ]
+      },
+      "moduleNumber": 5,
+      "moduleTitle": "Brew",
+      "lessonTitle": "Water, the variable",
+      "lessonNumber": 2
+    },
+    {
+      "id": "c-m5l3",
+      "source": "lesson",
+      "reward": {
+        "title": "Sour vs Bitter",
+        "summary": "Two words that diagnose almost any bad cup.",
+        "fact": "Sour and thin means too little extraction; bitter and dry means too much. Everything else is a nudge back to the middle.",
+        "meta": [
+          [
+            "SOUR + THIN",
+            "Extract more"
+          ],
+          [
+            "BITTER + DRY",
+            "Extract less"
+          ],
+          [
+            "GOLDEN RULE",
+            "One change at a time"
+          ]
+        ]
+      },
+      "moduleNumber": 5,
+      "moduleTitle": "Brew",
+      "lessonTitle": "Tasting your cup",
+      "lessonNumber": 5
+    },
+    {
+      "id": "cM2",
+      "source": "module",
+      "reward": {
+        "title": "Processing Field Guide",
+        "summary": "You can taste the difference between a washed and a natural coffee.",
+        "fact": "Washed, natural, honey — now you know why they matter.",
+        "badge": "PROCESSING · COMPLETE"
+      },
+      "moduleNumber": 2,
+      "moduleTitle": "Processing"
+    },
+    {
+      "id": "cM3",
+      "source": "module",
+      "reward": {
+        "title": "Roasting Field Guide",
+        "summary": "You can read a roast date and tell if a bag is still fresh.",
+        "fact": "Light, medium, dark — now you know what the roast is telling you.",
+        "badge": "ROASTING · COMPLETE"
+      },
+      "moduleNumber": 3,
+      "moduleTitle": "Roasting"
+    },
+    {
+      "id": "cM4",
+      "source": "module",
+      "reward": {
+        "title": "Grind Field Guide",
+        "summary": "You know how grind size and grinder type change the cup.",
+        "fact": "Coarse, medium, fine — now you know which way to turn the dial.",
+        "badge": "GRIND · COMPLETE"
+      },
+      "moduleNumber": 4,
+      "moduleTitle": "Grind"
+    },
+    {
+      "id": "cM5",
+      "source": "module",
+      "reward": {
+        "title": "Brew Field Guide",
+        "summary": "You can set a ratio, fix your water, and understand what went wrong.",
+        "fact": "You’re not just making coffee anymore — you know what changes the cup.",
+        "badge": "BREW · COMPLETE"
+      },
+      "moduleNumber": 5,
+      "moduleTitle": "Brew"
+    },
+    {
+      "id": "c-m1l4",
+      "source": "lesson",
+      "reward": {
+        "title": "Altitude",
+        "summary": "Why the number in metres on a bag predicts the cup.",
+        "fact": "Most specialty coffee grows between 1,200 and 2,200 metres — high enough to ripen slowly, low enough to avoid frost.",
+        "meta": [
+          [
+            "SPECIALTY BAND",
+            "1,200–2,200 m"
+          ],
+          [
+            "MECHANISM",
+            "Cooler · slower"
+          ]
+        ]
+      },
+      "moduleNumber": 1,
+      "moduleTitle": "Beans",
+      "lessonTitle": "Why altitude matters",
+      "lessonNumber": 4
+    },
+    {
+      "id": "c-m1l5",
+      "source": "lesson",
+      "reward": {
+        "title": "The Trade",
+        "summary": "What the words on a bag promise, and who they promise it to.",
+        "fact": "Specialty is a score, not a vibe — 80 or more out of 100, cupped.",
+        "meta": [
+          [
+            "CERTIFIES",
+            "Price floor"
+          ],
+          [
+            "DOES NOT",
+            "Guarantee quality"
+          ]
+        ]
+      },
+      "moduleNumber": 1,
+      "moduleTitle": "Beans",
+      "lessonTitle": "What the shelf promises",
+      "lessonNumber": 5
+    },
+    {
+      "id": "c-m1l7",
+      "source": "lesson",
+      "reward": {
+        "title": "The Cherry in Section",
+        "summary": "Skin, pulp, mucilage, parchment, silverskin, seed.",
+        "fact": "Around 80% of a picked cherry never leaves the farm — you brew the small hard bit in the middle.",
+        "meta": [
+          [
+            "LAYERS",
+            "6"
+          ],
+          [
+            "THE STICKY ONE",
+            "Mucilage"
+          ],
+          [
+            "BECOMES CHAFF",
+            "Silverskin"
+          ]
+        ]
+      },
+      "moduleNumber": 1,
+      "moduleTitle": "Beans",
+      "lessonTitle": "Inside the cherry, layer by layer",
+      "lessonNumber": 7
+    },
+    {
+      "id": "c-m1l6",
+      "source": "lesson",
+      "reward": {
+        "title": "Varieties",
+        "summary": "Typica, Bourbon, Geisha — the names behind the cup.",
+        "fact": "Almost every Arabica grown today traces back to Typica or Bourbon.",
+        "meta": [
+          [
+            "ANCESTORS",
+            "Typica · Bourbon"
+          ],
+          [
+            "PRIZED",
+            "Geisha"
+          ]
+        ]
+      },
+      "moduleNumber": 1,
+      "moduleTitle": "Beans",
+      "lessonTitle": "Why two Ethiopias taste different",
+      "lessonNumber": 6
+    },
+    {
+      "id": "c-m2l4",
+      "source": "lesson",
+      "reward": {
+        "title": "Drying",
+        "summary": "The slow step that decides whether a lot survives the journey.",
+        "fact": "Sun drying takes 10–25 days, and naturals run longest because the fruit is still on.",
+        "meta": [
+          [
+            "TARGET",
+            "~11% moisture"
+          ],
+          [
+            "TURNED",
+            "By hand, daily"
+          ]
+        ]
+      },
+      "moduleNumber": 2,
+      "moduleTitle": "Processing",
+      "lessonTitle": "Drying coffee",
+      "lessonNumber": 4
+    },
+    {
+      "id": "c-m2l5",
+      "source": "lesson",
+      "reward": {
+        "title": "Anaerobic Fermentation",
+        "summary": "The stage where much of the flavour is actually made.",
+        "fact": "Seal the tank and starve it of oxygen, and the same cherry tastes like a different fruit.",
+        "meta": [
+          [
+            "DRIVEN BY",
+            "Microbes"
+          ],
+          [
+            "DIALS",
+            "Time · oxygen"
+          ]
+        ]
+      },
+      "moduleNumber": 2,
+      "moduleTitle": "Processing",
+      "lessonTitle": "What happens in the tank",
+      "lessonNumber": 5
+    },
+    {
+      "id": "c-m2l6",
+      "source": "lesson",
+      "reward": {
+        "title": "Decaf",
+        "summary": "How the caffeine comes out, and what stays behind.",
+        "fact": "Roughly 97% removed is the bar — a decaf cup still carries a few milligrams.",
+        "meta": [
+          [
+            "METHODS",
+            "Solvent · water · CO₂"
+          ],
+          [
+            "REMOVED",
+            "~97%"
+          ]
+        ]
+      },
+      "moduleNumber": 2,
+      "moduleTitle": "Processing",
+      "lessonTitle": "Decaf, honestly",
+      "lessonNumber": 6
+    },
+    {
+      "id": "c-m3l4",
+      "source": "lesson",
+      "reward": {
+        "title": "The Roast",
+        "summary": "What heat actually does to a green bean.",
+        "fact": "First crack arrives around 195–205 °C, when steam pressure pops the bean open.",
+        "meta": [
+          [
+            "BUILDS",
+            "Aroma · colour"
+          ],
+          [
+            "TRADES",
+            "Acidity for body"
+          ]
+        ]
+      },
+      "moduleNumber": 3,
+      "moduleTitle": "Roasting",
+      "lessonTitle": "What roasting does",
+      "lessonNumber": 1
+    },
+    {
+      "id": "c-m3l5",
+      "source": "lesson",
+      "reward": {
+        "title": "Light vs Dark",
+        "summary": "Two ends of the spectrum, and how to choose between them.",
+        "fact": "Caffeine survives roasting — light roasts only win by the scoop because dark beans are less dense.",
+        "meta": [
+          [
+            "LIGHT",
+            "Origin forward"
+          ],
+          [
+            "DARK",
+            "Roast forward"
+          ]
+        ]
+      },
+      "moduleNumber": 3,
+      "moduleTitle": "Roasting",
+      "lessonTitle": "Light vs dark, side by side",
+      "lessonNumber": 5
+    },
+    {
+      "id": "c-m3l6",
+      "source": "lesson",
+      "reward": {
+        "title": "Caffeine",
+        "summary": "How much is really in the cup in front of you.",
+        "fact": "A single espresso carries less caffeine than a mug of drip — concentration is not dose.",
+        "meta": [
+          [
+            "ESPRESSO",
+            "~63 mg"
+          ],
+          [
+            "DRIP CUP",
+            "~95 mg"
+          ]
+        ]
+      },
+      "moduleNumber": 3,
+      "moduleTitle": "Roasting",
+      "lessonTitle": "How much caffeine are you actually drinking?",
+      "lessonNumber": 6
+    },
+    {
+      "id": "c-m4l5",
+      "source": "lesson",
+      "reward": {
+        "title": "Grind and Brewer",
+        "summary": "Which grind belongs to which brewer, and why.",
+        "fact": "The longer the water sits with the coffee, the coarser the grind has to be.",
+        "meta": [
+          [
+            "RULE",
+            "Contact time"
+          ],
+          [
+            "COARSEST",
+            "French press"
+          ]
+        ]
+      },
+      "moduleNumber": 4,
+      "moduleTitle": "Grind",
+      "lessonTitle": "Which grind for which brewer",
+      "lessonNumber": 3
+    },
+    {
+      "id": "c-m4l6",
+      "source": "lesson",
+      "reward": {
+        "title": "Freshness",
+        "summary": "Aroma escaping is what you smell — and flavour you will never taste. Peak flavour holds:",
+        "fact": "Grinding multiplies the exposed surface enormously — staling starts immediately.",
+        "meta": [
+          [
+            "WHOLE BEAN",
+            "Weeks"
+          ],
+          [
+            "GROUND",
+            "Minutes"
+          ]
+        ]
+      },
+      "moduleNumber": 4,
+      "moduleTitle": "Grind",
+      "lessonTitle": "Why pre-ground never tastes as good",
+      "lessonNumber": 5
+    },
+    {
+      "id": "c-m4l7",
+      "source": "lesson",
+      "reward": {
+        "title": "Your Grinder",
+        "summary": "What the money actually buys in a grinder.",
+        "fact": "A hand burr grinder usually out-grinds an electric at the same price.",
+        "meta": [
+          [
+            "PAY FOR",
+            "Burrs · alignment"
+          ],
+          [
+            "IGNORE",
+            "Wattage"
+          ]
+        ]
+      },
+      "moduleNumber": 4,
+      "moduleTitle": "Grind",
+      "lessonTitle": "Choosing your first grinder",
+      "lessonNumber": 6
+    },
+    {
+      "id": "c-m5l4",
+      "source": "lesson",
+      "reward": {
+        "title": "Extraction",
+        "summary": "How much of the coffee actually made it into the water.",
+        "fact": "Only about 30% of a bean can dissolve at all — and you want 18–22% of the bean’s weight in the cup.",
+        "meta": [
+          [
+            "CEILING",
+            "~30% soluble"
+          ],
+          [
+            "TARGET",
+            "18–22%"
+          ],
+          [
+            "FIRST OUT",
+            "Acids"
+          ]
+        ]
+      },
+      "moduleNumber": 5,
+      "moduleTitle": "Brew",
+      "lessonTitle": "Extraction explained",
+      "lessonNumber": 3
+    },
+    {
+      "id": "c-m5l5",
+      "source": "lesson",
+      "reward": {
+        "title": "The Filter",
+        "summary": "Paper, metal or cloth — and what each one keeps out of the cup.",
+        "fact": "Paper traps the oils that carry body; metal lets them straight through.",
+        "meta": [
+          [
+            "PAPER",
+            "Clean · light"
+          ],
+          [
+            "METAL",
+            "Heavy · oily"
+          ]
+        ]
+      },
+      "moduleNumber": 5,
+      "moduleTitle": "Brew",
+      "lessonTitle": "Choosing a filter",
+      "lessonNumber": 4
+    },
+    {
+      "id": "c-m5l7",
+      "source": "lesson",
+      "reward": {
+        "title": "The Shot",
+        "summary": "Why nine bars makes a different drink out of the same coffee.",
+        "fact": "Espresso is a method, not a roast: ~9 bars for ~28 seconds, 18 g in and about 36 g out, with crema on top.",
+        "meta": [
+          [
+            "PRESSURE",
+            "~9 bar"
+          ],
+          [
+            "TIME",
+            "~28 sec"
+          ],
+          [
+            "FAULT TO KNOW",
+            "Channeling"
+          ]
+        ]
+      },
+      "moduleNumber": 5,
+      "moduleTitle": "Brew",
+      "lessonTitle": "Espresso, in one small cup",
+      "lessonNumber": 6
+    },
+    {
+      "id": "c-m5l6",
+      "source": "lesson",
+      "reward": {
+        "title": "Your First Cup",
+        "summary": "Every decision in the course, assembled into one brew.",
+        "fact": "Weighing the water matters as much as weighing the coffee — most people only do half.",
+        "meta": [
+          [
+            "RATIO",
+            "1:16 — 1:17"
+          ],
+          [
+            "TOTAL TIME",
+            "2:30 — 3:30"
+          ]
+        ]
+      },
+      "moduleNumber": 5,
+      "moduleTitle": "Brew",
+      "lessonTitle": "Your first good cup",
+      "lessonNumber": 7
+    }
+  ]
+}
