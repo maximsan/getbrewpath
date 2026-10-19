@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes';
 
 import { cn } from '@shared/styles/cn';
 
-import type { Mood } from './mood';
+import { DEFAULT_MOOD, type Mood, MOODS } from './mood';
 
 /**
  * The header's two-label switch. The knob position and label colours come
@@ -15,7 +15,8 @@ import type { Mood } from './mood';
 export function MoodSwitch() {
   const t = useTranslations('nav');
   const { resolvedTheme, setTheme } = useTheme();
-  const next: Mood = resolvedTheme === 'dark-roast' ? 'cupping' : 'dark-roast';
+  const current = resolvedTheme ?? DEFAULT_MOOD;
+  const next: Mood = MOODS.find((mood) => mood !== current) ?? DEFAULT_MOOD;
 
   const label =
     'ff-mono relative z-[1] flex w-min items-center justify-center justify-self-center px-[9px] text-center text-[9.5px] leading-[1.25] tracking-[.14em] uppercase transition-colors duration-300 min-[600px]:px-3';

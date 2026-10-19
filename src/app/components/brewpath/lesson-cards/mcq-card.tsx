@@ -7,7 +7,7 @@ import { type Choice, ChoiceCard, choiceVerdict } from './choice-card';
 
 export interface MCQChoice {
   /** The answer text. */
-  t: string;
+  text: string;
   /** Exactly one choice is correct. */
   correct?: boolean;
 }
@@ -42,8 +42,8 @@ function shuffledIndices(n: number): number[] {
 const subscribeNever = () => () => {};
 
 /**
- * false on the server and during hydration, true after it, so the server HTML
- * and the first client render both show the authored order.
+ * false on the server and during hydration, true after it. The server HTML
+ * and the first client render then both list the answers in their written order.
  */
 function useHydrated(): boolean {
   return useSyncExternalStore(
@@ -59,7 +59,7 @@ export function MCQCard({ card, onContinue, onCorrect }: MCQCardProps) {
   const [picked, setPicked] = useState<number | null>(null);
   const [shuffled] = useState(() => shuffledIndices(card.choices.length));
   const hydrated = useHydrated();
-  // Render order only: grading and feedback key off the authored index.
+  // The shuffle changes display order only; grading uses each answer's written position.
   const order = hydrated ? shuffled : card.choices.map((_, i) => i);
   const correctIndex = card.choices.findIndex((choice) => choice.correct);
 
@@ -71,7 +71,7 @@ export function MCQCard({ card, onContinue, onCorrect }: MCQCardProps) {
 
   const choices: Choice[] = order.map((index) => ({
     key: index,
-    label: card.choices[index]?.t ?? '',
+    label: card.choices[index]?.text ?? '',
     picked: picked === index,
     verdict: choiceVerdict(index, correctIndex, picked),
     onSelect: () => pick(index),

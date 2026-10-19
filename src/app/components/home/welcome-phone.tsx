@@ -14,8 +14,8 @@ const PHONE_HEIGHT = SCREEN_HEIGHT + 2 * BEZEL;
 const SHOWN_MAX_WIDTH = 200;
 
 /**
- * The app's Welcome screen, rebuilt live (brewpath repo,
- * welcome_screen.dart) so it follows the header's mood switch.
+ * The app's Welcome screen, rebuilt in HTML so it follows the header's mood switch.
+ * Source: brewpath repo, lib/features/onboarding/presentation/welcome/welcome_screen.dart.
  */
 export function WelcomePhone({ alt }: { alt: string }) {
   const t = useTranslations();
