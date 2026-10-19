@@ -119,14 +119,7 @@ function SupportFormRound({ email, onEmailChange, onSendAnother }: SupportFormRo
       )}
 
       {/* Hidden from people; bots that fill it in are dropped (see parseSupportMessage). */}
-      <input
-        type="text"
-        name="website"
-        tabIndex={-1}
-        autoComplete="off"
-        aria-hidden
-        className="hidden"
-      />
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
 
       <button type="submit" disabled={pending} className="btn btn-primary mt-1">
         {pending ? t('sending') : t('send')}

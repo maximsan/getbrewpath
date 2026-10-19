@@ -2,11 +2,13 @@ import 'server-only';
 
 import { z } from 'zod';
 
+import { EMAIL_HELLO, EMAIL_SUPPORT_SENDER } from '@domains/site/site';
+
 const serverEnvSchema = z.object({
-  /** Unset in local development: the support form then reports that sending failed. */
+  /** Usually unset in local development. Without it, the support form reports that sending failed. */
   RESEND_API_KEY: z.string().min(1).optional(),
-  SUPPORT_FROM_EMAIL: z.string().min(1).default('BrewPath Support <support@getbrewpath.com>'),
-  SUPPORT_TO_EMAIL: z.email().default('hello@getbrewpath.com'),
+  SUPPORT_FROM_EMAIL: z.string().min(1).default(EMAIL_SUPPORT_SENDER),
+  SUPPORT_TO_EMAIL: z.email().default(EMAIL_HELLO),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;

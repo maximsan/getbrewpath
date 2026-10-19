@@ -25,6 +25,14 @@ describe('parseSupportMessage', () => {
     });
   });
 
+  it('refuses an address too long to be real as an email error', () => {
+    const email = `${'a'.repeat(250)}@example.com`;
+    expect(parseSupportMessage({ email, message: 'Hi' })).toEqual({
+      kind: 'invalid',
+      errors: { email: 'email' },
+    });
+  });
+
   it('treats a filled hidden field as spam', () => {
     expect(
       parseSupportMessage({ email: 'bot@example.com', message: 'Buy', website: 'http://x' }),
