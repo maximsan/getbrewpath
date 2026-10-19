@@ -2,14 +2,16 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import type { ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 
 import { RewardCard } from '@components/brewpath/reward-card/reward-card';
 import { CardsIcon, LeafIcon, RouteIcon, ShareIcon } from '@components/icons/icons';
 import { LinkButton } from '@components/link-button/link-button';
 import { monoNoteClass } from '@components/section/section';
-import { course, courseCounts, findCard } from '@domains/course/course';
+import { cardRouteParams, courseCounts, findCard } from '@domains/course/course';
 import { APP_STORE_URL, appCardLink } from '@domains/site/site';
+
+import { pageMetadata } from '@domains/site/page-metadata';
 
 interface CardPageProps {
   params: Promise<{ id: string }>;
@@ -18,9 +20,7 @@ interface CardPageProps {
 /** Every card is known at build time; any other id is a 404. */
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return course.cards.map((card) => ({ id: card.id }));
-}
+export const generateStaticParams = cardRouteParams;
 
 export async function generateMetadata({ params }: CardPageProps): Promise<Metadata> {
   const card = findCard((await params).id);
@@ -28,12 +28,13 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
   const t = await getTranslations('metadata');
   const title = t('cardTitle', { card: card.reward.title });
   const description = t('cardDescription', { summary: card.reward.summary });
-  return {
-    title: { absolute: title },
+  const path = `/card/${card.id}`;
+  return pageMetadata({
+    absoluteTitle: title,
     description,
-    alternates: { canonical: `/card/${card.id}` },
-    openGraph: { title, description, url: `/card/${card.id}` },
-  };
+    path,
+    shareImage: `${path}/opengraph-image`,
+  });
 }
 
 const PITCH = [
@@ -47,21 +48,19 @@ export default async function CardPage({ params }: CardPageProps) {
   if (!card) notFound();
   const t = await getTranslations('card');
 
+  const strong = (chunks: ReactNode) => <strong className="font-medium text-ink">{chunks}</strong>;
   const body =
     card.source === 'lesson'
       ? t.rich('lessonBody', {
           lesson: card.lessonTitle,
           lessonNumber: card.lessonNumber,
           module: card.moduleTitle,
-          strong: (chunks) => <strong className="font-medium text-ink">{chunks}</strong>,
+          strong,
         })
-      : t.rich('guideBody', {
-          module: card.moduleTitle,
-          strong: (chunks) => <strong className="font-medium text-ink">{chunks}</strong>,
-        });
+      : t.rich('guideBody', { module: card.moduleTitle, strong });
 
   return (
-    <section className="mx-auto max-w-[1160px] px-6 pt-[clamp(32px,5vw,64px)]">
+    <section className="page-width px-6 pt-[clamp(32px,5vw,64px)]">
       <div className="ff-mono mb-7 flex items-center gap-2.5 text-[11px] tracking-[.16em] text-ink-mute uppercase">
         <ShareIcon size={16} className="flex-none" />
         {t('shared')}

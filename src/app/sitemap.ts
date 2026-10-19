@@ -1,10 +1,9 @@
 import type { MetadataRoute } from 'next';
 
+import { PAGE_ROUTES } from '@domains/site/routes';
 import { SITE_URL } from '@domains/site/site';
 
-/** Shared card pages are left out: they are reached from links people send, not from search. */
-const PAGES = ['', '/support', '/press', '/terms', '/privacy'];
-
+/** Card pages are left out: people reach them from links friends send, not from search. */
 export default function sitemap(): MetadataRoute.Sitemap {
-  return PAGES.map((path) => ({ url: `${SITE_URL}${path}` }));
+  return Object.values(PAGE_ROUTES).map((path) => ({ url: new URL(path, SITE_URL).href }));
 }
