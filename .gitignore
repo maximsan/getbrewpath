@@ -1,0 +1,15 @@
+/node_modules
+/.pnpm-store
+/coverage
+/.next/
+/out/
+/build
+.DS_Store
+*.pem
+npm-debug.log*
+pnpm-debug.log*
+.env*.local
+.env
+.vercel
+*.tsbuildinfo
+next-env.d.ts

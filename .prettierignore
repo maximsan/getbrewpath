@@ -1,0 +1,4 @@
+prototype
+pnpm-lock.yaml
+.next
+src/content/*.json
