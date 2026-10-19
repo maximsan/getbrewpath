@@ -9,7 +9,7 @@ import styles from './lesson-cards.module.css';
 export interface Choice {
   key: string | number;
   label: string;
-  /** Shown after the pick: the right answer turns sage, a wrong pick turns berry. */
+  /** Shown after the pick: the right answer turns green (--sage), a wrong pick turns red (--berry). */
   verdict?: 'correct' | 'incorrect';
   /** This is the choice the learner picked. */
   picked: boolean;

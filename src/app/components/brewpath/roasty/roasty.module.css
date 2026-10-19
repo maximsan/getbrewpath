@@ -3,9 +3,9 @@
   line-height: 0;
 }
 
-/* The plate tone is pinned paper, not --surface: surface tokens invert with
-   the mood while the bean stays brown, so a mood-following plate would merge
-   into the mascot on dark-roast. */
+/* The plate behind Roasty always uses the paper colour, never --surface.
+   --surface turns dark in the dark-roast mood, and the brown bean would
+   disappear against it. */
 .roasty {
   --roasty-plate: #fbf7ee;
   display: block;

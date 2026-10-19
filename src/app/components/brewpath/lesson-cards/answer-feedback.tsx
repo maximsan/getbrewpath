@@ -6,11 +6,11 @@ import { Roasty } from '@components/brewpath/roasty/roasty';
 
 import styles from './lesson-cards.module.css';
 
-/** Roasty's size in lesson cards, in px. */
+/** The size of Roasty, the coffee-bean mascot, in lesson cards, in px. */
 const ROASTY_SIZE = 72;
 
 export interface AnswerFeedbackProps {
-  /** true shows Roasty's correct face and a sage "CORRECT"; false his wrong face and a berry "NOT QUITE". */
+  /** true shows Roasty's happy face and a green "CORRECT"; false shows his wince and a red "NOT QUITE". */
   correct: boolean;
   /** The explanation under the verdict. */
   text: string;
