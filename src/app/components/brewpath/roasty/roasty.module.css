@@ -1,0 +1,519 @@
+.wrap {
+  display: inline-block;
+  line-height: 0;
+}
+
+/* The plate tone is pinned paper, not --surface: surface tokens invert with
+   the mood while the bean stays brown, so a mood-following plate would merge
+   into the mascot on dark-roast. */
+.roasty {
+  --roasty-plate: #fbf7ee;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.pointsText {
+  font-family: var(--font-plex-mono), monospace;
+}
+
+.sleepZzz {
+  font-family: var(--font-fraunces), serif;
+}
+
+/* ── state → face visibility ── */
+.faceDefault,
+.faceCorrect,
+.faceWrong,
+.faceLesson,
+.faceModule,
+.facePoints,
+.faceCard,
+.faceSleep,
+.faceAwake {
+  display: none;
+}
+.roasty[data-state='idle'] .faceDefault,
+.roasty[data-state='correct'] .faceCorrect,
+.roasty[data-state='wrong'] .faceWrong,
+.roasty[data-state='lesson'] .faceLesson,
+.roasty[data-state='module'] .faceModule,
+.roasty[data-state='points'] .facePoints,
+.roasty[data-state='card'] .faceCard,
+.roasty[data-state='sleep'] .faceSleep,
+.roasty[data-state='awake'] .faceAwake {
+  display: block;
+}
+
+/* ── state → particle visibility ── */
+.beanBurst,
+.crema,
+.pointsBurst,
+.cardGlow,
+.moduleRays,
+.wrongX,
+.sleepZzz {
+  display: none;
+}
+.roasty[data-state='correct'] .crema,
+.roasty[data-state='lesson'] .beanBurst,
+.roasty[data-state='module'] .moduleRays,
+.roasty[data-state='points'] .pointsBurst,
+.roasty[data-state='card'] .cardGlow,
+.roasty[data-state='wrong'] .wrongX,
+.roasty[data-state='sleep'] .sleepZzz {
+  display: block;
+}
+
+/* ── body: one motion per state ── */
+.bodyGroup {
+  transform-origin: 100px 158px;
+  transform-box: fill-box;
+}
+.roasty[data-state='idle'] .bodyGroup {
+  animation: breathe 3.2s ease-in-out infinite;
+}
+.roasty[data-state='correct'] .bodyGroup {
+  animation: hop 900ms ease-out;
+}
+.roasty[data-state='wrong'] .bodyGroup {
+  animation: shake 500ms ease-in-out;
+}
+.roasty[data-state='lesson'] .bodyGroup {
+  animation: heat-crack 1600ms ease-out;
+}
+.roasty[data-state='module'] .bodyGroup {
+  animation: grow 1300ms cubic-bezier(0.34, 1.1, 0.5, 1) forwards;
+}
+.roasty[data-state='card'] .bodyGroup {
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+.roasty[data-state='sleep'] .bodyGroup {
+  animation: sleep-breathe 3.4s ease-in-out infinite;
+}
+.roasty[data-state='awake'] .bodyGroup {
+  animation: awake-pop 400ms ease-out;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.005, 0.995);
+  }
+}
+@keyframes hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-10px) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0);
+  }
+  75% {
+    transform: translateY(-10px) rotate(3deg);
+  }
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+@keyframes grow {
+  0% {
+    transform: scale(1);
+  }
+  55% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1.04);
+  }
+}
+@keyframes shimmer {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 var(--warn));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px var(--warn));
+  }
+}
+@keyframes sleep-breathe {
+  0%,
+  100% {
+    transform: rotate(6deg) scale(1, 1);
+  }
+  50% {
+    transform: rotate(6deg) scale(1.018, 0.982);
+  }
+}
+@keyframes awake-pop {
+  0% {
+    transform: scale(0.94);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ── sprout: sways while awake and cheerful, gone while asleep ── */
+.sproutGroup {
+  transform-origin: 50% 100%;
+  transform-box: fill-box;
+}
+.roasty[data-state='idle'] .sproutGroup,
+.roasty[data-state='correct'] .sproutGroup,
+.roasty[data-state='lesson'] .sproutGroup,
+.roasty[data-state='module'] .sproutGroup,
+.roasty[data-state='points'] .sproutGroup,
+.roasty[data-state='card'] .sproutGroup {
+  animation: leaf-sway 2.8s ease-in-out infinite;
+}
+/* Scale 0 and opacity 0 together: at a small scale a stub of stem stays visible. */
+.roasty[data-state='sleep'] .sproutGroup,
+.roasty[data-state='awake'] .sproutGroup {
+  transform: scale(0);
+  opacity: 0;
+}
+@keyframes leaf-sway {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+/* ── correct: crema bubbles swell in, wobble, burst at 62% into droplets ── */
+.cremaBubble,
+.cremaPop,
+.cremaDrop {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.cremaBubble {
+  animation: crema-swell 1200ms cubic-bezier(0.3, 1.2, 0.5, 1) both;
+}
+.cremaPop {
+  animation: crema-pop 1200ms ease-out both;
+}
+.cremaDrop {
+  animation: crema-drop 1200ms cubic-bezier(0.15, 0.8, 0.3, 1) both;
+}
+@keyframes crema-swell {
+  0% {
+    opacity: 0;
+    transform: scale(0.15);
+  }
+  18% {
+    opacity: 1;
+  }
+  35% {
+    transform: scale(1);
+  }
+  44% {
+    transform: scale(1.04, 0.97);
+  }
+  52% {
+    transform: scale(0.97, 1.04);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  64% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+}
+@keyframes crema-pop {
+  0%,
+  61% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  64% {
+    opacity: 0.7;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+@keyframes crema-drop {
+  0%,
+  61% {
+    opacity: 0;
+    transform: translate(0, 0) scale(1);
+  }
+  64% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), calc(var(--dy) + 4px)) scale(0.4);
+  }
+}
+
+/* ── lesson: the bean heats and trembles (0–36%), cracks and launches (46%), lands ── */
+@keyframes heat-crack {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  10% {
+    transform: translate(0, 3px) scale(1.05, 0.94);
+  }
+  14% {
+    transform: translate(-1.5px, 4px) scale(1.07, 0.92);
+  }
+  18% {
+    transform: translate(1.5px, 4px) scale(1.07, 0.92);
+  }
+  22% {
+    transform: translate(-1.5px, 4px) scale(1.08, 0.91);
+  }
+  26% {
+    transform: translate(1.5px, 5px) scale(1.08, 0.9);
+  }
+  30% {
+    transform: translate(-1px, 5px) scale(1.09, 0.89);
+  }
+  36% {
+    transform: translate(0, 5px) scale(1.09, 0.89);
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+  46% {
+    transform: translate(0, -24px) scale(0.93, 1.09);
+  }
+  58% {
+    transform: translate(0, -20px) scale(1, 1);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.4);
+  }
+  74% {
+    transform: translate(0, 2px) scale(1.06, 0.94);
+  }
+  86% {
+    transform: translate(0, -4px) scale(0.99, 1.01);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.heatGlow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: heat-glow 1600ms ease-out both;
+}
+@keyframes heat-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  34% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  44% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  60% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
+.crackRing {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: crack-ring 520ms ease-out 640ms both;
+}
+.crackLine {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: crack-line 420ms ease-out 660ms both;
+}
+@keyframes crack-ring {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+@keyframes crack-line {
+  0% {
+    transform: translateY(6px) scaleY(0.2);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-14px) scaleY(1);
+    opacity: 0;
+  }
+}
+
+/* Flavour notes fly on three nested groups so the horizontal drift, the
+   arcing rise-and-fall and the flutter each keep their own easing. */
+.flyX {
+  animation: fly-x 2600ms linear both;
+}
+.flyY {
+  animation: fly-y 2600ms both;
+}
+.noteFlutter {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: note-flutter 2600ms ease-out both;
+}
+@keyframes fly-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--dx));
+  }
+}
+@keyframes fly-y {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  8% {
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(var(--peak));
+    animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.4);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(var(--fall));
+    opacity: 0;
+  }
+}
+@keyframes note-flutter {
+  0% {
+    transform: rotate(0) scale(0.3);
+  }
+  12% {
+    transform: rotate(calc(var(--spin) * 0.15)) scale(1.15) scaleX(1);
+  }
+  35% {
+    transform: rotate(calc(var(--spin) * 0.4)) scale(1) scaleX(0.35);
+  }
+  55% {
+    transform: rotate(calc(var(--spin) * 0.6)) scale(1) scaleX(1);
+  }
+  75% {
+    transform: rotate(calc(var(--spin) * 0.8)) scale(1) scaleX(0.4);
+  }
+  100% {
+    transform: rotate(var(--spin)) scale(0.9) scaleX(1);
+  }
+}
+
+/* ── module: rays radiate outward from the bean ── */
+.moduleRays {
+  transform-origin: 100px 158px;
+  transform-box: fill-box;
+}
+.roasty[data-state='module'] .moduleRays {
+  animation: ray-radiate 1600ms cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+}
+@keyframes ray-radiate {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  28% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* ── points: the tag rises and fades ── */
+.roasty[data-state='points'] .pointsBurst {
+  animation: points-rise 1.3s ease-out forwards;
+}
+@keyframes points-rise {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+}
+
+/* ── sleep: three z's float up one after another ── */
+.sleepZzz text {
+  animation: zzz-float 2.6s ease-in-out infinite;
+}
+.sleepZzz text:nth-child(2) {
+  animation-delay: 0.6s;
+}
+.sleepZzz text:nth-child(3) {
+  animation-delay: 1.2s;
+}
+@keyframes zzz-float {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(8px, -12px);
+  }
+}
