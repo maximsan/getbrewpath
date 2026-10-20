@@ -6,7 +6,7 @@ import { LeafIcon, LockIcon, RematchIcon } from '@components/icons/icons';
 import { pageTitleClass } from '@components/section/section';
 import { pageMetadata } from '@domains/site/page-metadata';
 import { PAGE_ROUTES } from '@domains/site/routes';
-import { EMAIL_HELLO, SELLING_MODEL } from '@domains/site/site';
+import { EMAIL_HI, SELLING_MODEL } from '@domains/site/site';
 import type { Messages } from '@i18n/messages';
 import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 
@@ -79,11 +79,11 @@ export default async function SupportPage({ params }: LocaleParams) {
           </h2>
           <div className="mt-6 flex flex-col gap-3.5">
             <a
-              href={`mailto:${EMAIL_HELLO}`}
+              href={`mailto:${EMAIL_HI}`}
               translate="no"
               className="ff-ui inline-flex items-center gap-2.5 text-[17px] font-medium wrap-anywhere"
             >
-              {EMAIL_HELLO}
+              {EMAIL_HI}
             </a>
             <p className="ff-ui m-0 text-sm leading-[1.55] text-ink-mute">{t('include')}</p>
           </div>

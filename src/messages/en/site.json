@@ -240,114 +240,646 @@
     }
   },
   "docs": {
-    "updated": "Last updated {date}",
-    "draft": "Draft, pending legal review",
     "contents": "Contents",
+    "download": "Download as PDF",
     "questions": "Questions about this document?",
     "terms": {
       "title": "Terms of Use",
-      "intro": "These terms are the agreement between you and BrewPath when you use the app or this website. We tried to write them the way we write the lessons: short, plain, and honest.",
+      "dated": "Effective {date}",
+      "intro": {
+        "p1": "These Terms of Use (\"Terms\") govern your use of the BrewPath mobile application (\"BrewPath\" or the \"App\") and the educational content and functionality made available through it.",
+        "p2": "BrewPath is provided by Maksim Shchutski, a sole proprietor registered in the Central Register and Information on Economic Activity (CEIDG) in Poland.",
+        "p3": "By downloading, accessing, or using BrewPath, you agree to these Terms. If you do not agree to them, you should not use the App."
+      },
       "sections": {
         "s1": {
-          "h": "Agreeing to these terms",
-          "ps": {
-            "p1": "By downloading or using BrewPath you agree to these terms and to our Privacy Policy. If you don’t agree, please don’t use the app.",
-            "p2": "You must be at least 13 years old, or the minimum age in your country, to use BrewPath."
+          "h": "About BrewPath",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath is an educational application designed to help users learn about coffee through lessons, interactive exercises, mini-games, reference materials, progress features, and optional real-world Coffee Challenges."
+            },
+            "b2": {
+              "p": "BrewPath provides educational information and practice tools. It does not provide professional certification and does not guarantee particular brewing, tasting, or other results."
+            }
           }
         },
         "s2": {
-          "h": "The app, and what’s free",
-          "ps": {
-            "p1": "BrewPath is a learning app. The first module and the daily practice games are free. “Foundations” unlocks the rest of the course. {model, select, oneTime {It is sold as a one-time in-app purchase through Apple’s App Store.} subscription {It is sold as a monthly or yearly subscription through Apple’s App Store. A subscription renews automatically unless you cancel it at least 24 hours before the current period ends; manage or cancel it in your Apple Account settings.} other {It is sold through Apple’s App Store as a monthly or yearly subscription, or as a one-time in-app purchase. A subscription renews automatically unless you cancel it at least 24 hours before the current period ends; manage or cancel it in your Apple Account settings.}}",
-            "p2": "There is no account. Your progress lives on your device. If you delete the app, your progress goes with it unless you have a device backup."
+          "h": "App License",
+          "blocks": {
+            "b1": {
+              "p": "The license to download and use the iOS version of BrewPath is governed by Apple's applicable Standard End User License Agreement and App Store terms unless another license is expressly provided."
+            },
+            "b2": {
+              "p": "These Terms supplement that license and govern BrewPath-specific matters such as educational content, paid content, subscriptions, purchases, functionality, and use of the BrewPath service."
+            }
           }
         },
         "s3": {
-          "h": "Purchases, restores and refunds",
-          "ps": {
-            "p1": "All purchases are processed by Apple under its terms. Prices are shown in the App Store in your local currency and may change.",
-            "p2": "You can restore a purchase on any device signed in to the same Apple Account from Profile → Restore purchases. Refund requests go through Apple at reportaproblem.apple.com; we can’t issue them directly."
+          "h": "Eligibility",
+          "blocks": {
+            "b1": {
+              "p": "You may use BrewPath if you are legally permitted to do so under the laws applicable to you."
+            },
+            "b2": {
+              "p": "If you are below the age at which you can independently enter into these Terms in your country, you should use BrewPath only with the permission and supervision of a parent or legal guardian where required by law."
+            }
           }
         },
         "s4": {
-          "h": "Our content",
-          "ps": {
-            "p1": "Lesson text, illustrations, Roasty, the cards and the BrewPath name are ours or licensed to us. You may use them for your own learning and share cards with friends through the app’s share feature. Please don’t copy, resell or republish the course."
+          "h": "No BrewPath Account and App Data",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath does not currently require users to create a BrewPath account."
+            },
+            "b2": {
+              "p": "Learning progress, preferences, achievements, saved content, and other application state are stored locally on your device and, where applicable and enabled by you, through Apple's iCloud services."
+            },
+            "b3": {
+              "p": "Because BrewPath does not maintain a separate BrewPath account containing this progress, recovery or synchronization of application state may depend on your device, Apple Account, iCloud configuration, backups, and the availability of Apple services."
+            },
+            "b4": {
+              "p": "Local data may be lost if the App is deleted, the device is reset or replaced, or local data is otherwise removed without an available backup or synchronization mechanism."
+            },
+            "b5": {
+              "p": "Information about personal data and third-party services is provided separately in the BrewPath Privacy Policy."
+            }
           }
         },
         "s5": {
-          "h": "Fair use of the app",
-          "ps": {
-            "p1": "Don’t try to break the app, bypass a purchase, or use it in a way that harms others. We may stop providing BrewPath to anyone who does."
+          "h": "Free and Paid Access",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath may provide both free and paid content and functionality."
+            },
+            "b2": {
+              "p": "The amount of free content, usage limits, and functionality available without payment are shown within the App and may change over time."
+            },
+            "b3": {
+              "p": "Paid access may be offered through auto-renewable subscriptions, one-time purchases, or other purchase options supported by Apple's App Store."
+            },
+            "b4": {
+              "p": "The purchase screen shown before you complete a transaction will identify the product, access provided, price, and applicable billing model."
+            },
+            "b5": {
+              "p": "Purchasing or subscribing to one BrewPath product does not automatically provide access to future separate products or services unless this is expressly stated as part of the offer."
+            }
           }
         },
         "s6": {
-          "h": "No guarantees about coffee",
-          "ps": {
-            "p1": "We work hard to keep lessons accurate and up to date, but coffee is a craft with many opinions. BrewPath is provided “as is”; we aren’t liable for a bad cup, a ruined bag of beans, or any indirect loss arising from your use of the app."
+          "h": "Prices, Offers, and Purchase Screen Variations",
+          "blocks": {
+            "b1": {
+              "p": "Digital content and functionality purchased through the iOS version of BrewPath are offered using Apple's In-App Purchase system."
+            },
+            "b2": {
+              "p": "The applicable product, total price, billing period, renewal conditions, and access terms will be displayed before you confirm a transaction."
+            },
+            "b3": {
+              "p": "Prices and offers may vary by App Store country or region, currency, applicable taxes, product configuration, eligibility, promotional availability, time, or lawful testing of different purchase-screen configurations."
+            },
+            "b4": {
+              "p": "Different users may therefore see different combinations of plans, prices, introductory offers, promotional offers, layouts, or purchase options. The terms displayed to you before you confirm a transaction apply to that transaction."
+            },
+            "b5": {
+              "p": "Where applicable law requires disclosure that a price has been personalized on the basis of automated decision-making, the required information will be provided before purchase."
+            },
+            "b6": {
+              "p": "Promotional and reduced-price offers will be presented in accordance with applicable consumer-protection and pricing laws."
+            }
           }
         },
         "s7": {
-          "h": "Changes",
-          "ps": {
-            "p1": "We may update these terms as the app grows. The date at the top tells you when. Continuing to use BrewPath after a change means you accept the new terms."
+          "h": "Auto-Renewable Subscriptions",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath may offer auto-renewable subscription plans, including monthly and annual plans."
+            },
+            "b2": {
+              "p": "A subscription provides access to the premium BrewPath content and functionality identified on the purchase screen for as long as the subscription remains active."
+            },
+            "b3": {
+              "p": "The subscription name, duration, full renewal price, included access, and any introductory or trial offer will be shown before you subscribe."
+            },
+            "b4": {
+              "p": "Subscriptions automatically renew for another billing period unless you cancel them through your Apple Account or Apple's subscription-management interface."
+            },
+            "b5": {
+              "p": "Cancelling a subscription prevents future renewals. Unless otherwise required by applicable law or resulting from a refund or other transaction adjustment, paid access generally continues until the end of the subscription period already paid for."
+            },
+            "b6": {
+              "p": "If a subscription price changes, any notice or consent required for continued renewal will be handled in accordance with Apple's procedures and applicable law."
+            },
+            "b7": {
+              "p": "When an active subscription ends, access to content or functionality requiring that subscription may end. Free content and any separately purchased non-expiring entitlement remain unaffected."
+            },
+            "b8": {
+              "p": "BrewPath may update, improve, or expand its premium content and functionality over time. Unless expressly stated in a specific offer, no particular quantity, frequency, or release schedule for future content is guaranteed."
+            }
           }
         },
         "s8": {
-          "h": "Contact",
-          "ps": {
-            "p1": "Questions about these terms: {email}."
+          "h": "One-Time Purchases",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath may also offer certain content or functionality as a one-time purchase."
+            },
+            "b2": {
+              "p": "A one-time purchase does not create a recurring subscription."
+            },
+            "b3": {
+              "p": "Where a product is described as providing \"permanent access\", \"lifetime access\", or similar wording, this means that the purchase creates a non-expiring entitlement to the BrewPath content or functionality identified as included in that purchase. No recurring payment is required to maintain that entitlement."
+            },
+            "b4": {
+              "p": "Such wording does not guarantee that BrewPath, Apple's App Store, a particular operating system, device platform, Apple service, or other technical infrastructure will continue to exist or remain compatible indefinitely."
+            },
+            "b5": {
+              "p": "We may stop offering a one-time-purchase option to new customers in the future. Discontinuing its sale does not by itself terminate an existing valid non-expiring entitlement previously purchased by a user."
+            },
+            "b6": {
+              "p": "Corrections, updates, restructuring, and reasonable improvements may be made to purchased content."
+            },
+            "b7": {
+              "p": "Future separate courses, major expansions, products, or services are not automatically included in a previous one-time purchase unless the original offer expressly stated that they were included."
+            },
+            "b8": {
+              "p": "Eligible purchases may be restored using BrewPath's Restore Purchases functionality where supported by Apple and the relevant purchase infrastructure."
+            }
+          }
+        },
+        "s9": {
+          "h": "Payments, Cancellation, Withdrawal, and Refunds",
+          "blocks": {
+            "b1": {
+              "p": "Payments made through the iOS version of BrewPath are processed through Apple's App Store."
+            },
+            "b2": {
+              "p": "Depending on the applicable App Store storefront and transaction, Apple or an Apple affiliate may act as the merchant of record."
+            },
+            "b3": {
+              "p": "Payment processing, billing, subscription renewal, subscription cancellation, purchase confirmation, withdrawal from an App Store transaction, and refund requests are handled in accordance with Apple's applicable terms and procedures and mandatory consumer law."
+            },
+            "b4": {
+              "p": "Cancelling an auto-renewable subscription is different from requesting a refund for a transaction. Subscription cancellation can be managed through your Apple Account, while refund or withdrawal requests are handled through Apple's applicable process."
+            },
+            "b5": {
+              "p": "If Apple refunds, reverses, cancels, or otherwise invalidates a transaction, the BrewPath entitlement associated with that transaction may be removed or adjusted accordingly."
+            },
+            "b6": {
+              "p": "For issues concerning BrewPath content or functionality rather than App Store payment processing, contact us at {email}."
+            },
+            "b7": {
+              "p": "Nothing in these Terms limits any mandatory right to withdrawal, refund, price reduction, repair, replacement, termination, legal guarantee, or other remedy available under applicable consumer law."
+            }
+          }
+        },
+        "s10": {
+          "h": "Digital Content and Consumer Rights",
+          "blocks": {
+            "b1": {
+              "p": "If you are a consumer, BrewPath's paid digital content and services must comply with mandatory legal requirements applicable to digital content and digital services."
+            },
+            "b2": {
+              "p": "If purchased BrewPath content is not provided, does not conform to the applicable contract, or is otherwise defective in a way covered by mandatory consumer law, you may have statutory remedies in addition to any remedies available through Apple."
+            },
+            "b3": {
+              "p": "We will handle consumer complaints relating to BrewPath content or functionality in accordance with applicable law."
+            }
+          }
+        },
+        "s11": {
+          "h": "Changes to BrewPath and Its Content",
+          "blocks": {
+            "b1": {
+              "p": "We may update BrewPath to improve or expand the learning experience, correct errors or inaccurate information, keep educational materials up to date, improve security or performance, maintain compatibility, change visual design, improve learning or game mechanics, or introduce new functionality."
+            },
+            "b2": {
+              "p": "Free features and free content may be added, modified, replaced, or removed."
+            },
+            "b3": {
+              "p": "Purchased content may receive reasonable updates, corrections, restructuring, and improvements."
+            },
+            "b4": {
+              "p": "Where applicable law imposes additional requirements on changes to paid digital content or services, including notice requirements or remedies where a change materially and negatively affects access or use, those requirements will apply."
+            },
+            "b5": {
+              "p": "We will not use these Terms to remove mandatory consumer rights relating to content or services that you have purchased."
+            }
+          }
+        },
+        "s12": {
+          "h": "Coffee Challenges and Safety",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath may include optional Coffee Challenges or other real-world activities intended to complement its educational content."
+            },
+            "b2": {
+              "p": "Participation in these activities is voluntary. BrewPath does not supervise how you perform an activity."
+            },
+            "b3": {
+              "p": "Coffee preparation may involve hot liquids, electrical appliances, grinders, glassware, sharp components, and other equipment capable of causing injury or property damage if used incorrectly."
+            },
+            "b4": {
+              "p": "You are responsible for using equipment appropriately, following manufacturer instructions, exercising reasonable care, and deciding whether a particular activity can be performed safely."
+            },
+            "b5": {
+              "p": "Do not perform a Coffee Challenge or other activity if you cannot do so safely."
+            }
+          }
+        },
+        "s13": {
+          "h": "Educational Information",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath content is intended for general coffee education."
+            },
+            "b2": {
+              "p": "We aim to provide accurate and useful information, but coffee preparation and sensory evaluation involve equipment differences, ingredient differences, personal preferences, environmental factors, and other variables."
+            },
+            "b3": {
+              "p": "BrewPath therefore does not guarantee a particular brewing or tasting result."
+            }
+          }
+        },
+        "s14": {
+          "h": "Intellectual Property",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath and its original materials, including lessons, written content, illustrations, characters, graphics, exercises, educational materials, game elements, visual identity, and branding, are owned by or licensed to Maksim Shchutski and are protected by applicable intellectual-property laws."
+            },
+            "b2": {
+              "p": "Access to BrewPath does not transfer ownership of BrewPath or its content to you."
+            },
+            "b3": {
+              "p": "Unless permitted by applicable law or expressly authorized by us, BrewPath content may not be reproduced, distributed, sold, sublicensed, or commercially exploited."
+            },
+            "b4": {
+              "p": "The BrewPath name, branding, characters, visual identity, and associated materials may not be used in a manner suggesting endorsement, affiliation, or ownership without permission."
+            }
+          }
+        },
+        "s15": {
+          "h": "Availability",
+          "blocks": {
+            "b1": {
+              "p": "We aim to keep BrewPath available and functioning correctly, but uninterrupted or error-free availability cannot be guaranteed."
+            },
+            "b2": {
+              "p": "Availability may be affected by maintenance, technical problems, device or operating-system changes, App Store services, iCloud, network availability, third-party services, or circumstances outside our reasonable control."
+            },
+            "b3": {
+              "p": "We may discontinue BrewPath or particular features where reasonably necessary."
+            },
+            "b4": {
+              "p": "Where discontinuation or another change affects paid digital content or services, applicable mandatory consumer rights remain unaffected."
+            }
+          }
+        },
+        "s16": {
+          "h": "Third-Party Services",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath may depend on services supplied by Apple and other third parties, including services used for App Store distribution, purchases, purchase-entitlement management, iCloud functionality, diagnostics, analytics, or similar technical purposes."
+            },
+            "b2": {
+              "p": "Those services may be governed by separate terms and privacy policies provided by their respective operators."
+            },
+            "b3": {
+              "p": "Information about third parties that process personal data in connection with BrewPath is provided in the BrewPath Privacy Policy."
+            }
+          }
+        },
+        "s17": {
+          "h": "Responsibility and Liability",
+          "blocks": {
+            "b1": {
+              "p": "You are responsible for using BrewPath and any coffee equipment involved in optional real-world activities in a reasonable and safe manner."
+            },
+            "b2": {
+              "p": "To the extent permitted by applicable law, we are not responsible for loss or damage resulting from misuse of BrewPath, improper use of equipment, failure to follow safety instructions, or events outside our reasonable control."
+            },
+            "b3": {
+              "p": "Nothing in these Terms excludes or restricts liability where such exclusion or restriction is prohibited by law."
+            },
+            "b4": {
+              "p": "In particular, nothing in these Terms excludes or restricts mandatory rights available to consumers."
+            }
+          }
+        },
+        "s18": {
+          "h": "Changes to These Terms",
+          "blocks": {
+            "b1": {
+              "p": "We may update these Terms when BrewPath changes, when our commercial model changes, when legal or regulatory requirements change, or when clarification is reasonably necessary."
+            },
+            "b2": {
+              "p": "The current version will be made available through BrewPath and/or at getbrewpath.com/terms."
+            },
+            "b3": {
+              "p": "The effective date at the beginning of this document identifies the current version."
+            },
+            "b4": {
+              "p": "Where a change materially affects existing users' rights or obligations, we will provide notice where required by applicable law."
+            },
+            "b5": {
+              "p": "Changes to these Terms will not retroactively remove mandatory consumer rights or rights already attached to a completed purchase where doing so would be unlawful."
+            }
+          }
+        },
+        "s19": {
+          "h": "Governing Law",
+          "blocks": {
+            "b1": {
+              "p": "These Terms are governed by the laws of Poland."
+            },
+            "b2": {
+              "p": "If you are a consumer, this choice of law does not deprive you of mandatory consumer protections that apply under the law of your country of habitual residence."
+            },
+            "b3": {
+              "p": "Nothing in these Terms requires a consumer to bring a dispute exclusively before a court in Poland where applicable law gives the consumer the right to bring proceedings elsewhere."
+            }
+          }
+        },
+        "s20": {
+          "h": "Provider and Contact Information",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath is provided by:"
+            },
+            "b2": {
+              "lines": {
+                "l1": "Maksim Shchutski",
+                "l2": "Sole proprietor registered in CEIDG",
+                "l3": "Zaborowska 3-21",
+                "l4": "01-462 Warsaw",
+                "l5": "Poland"
+              }
+            },
+            "b3": {
+              "lines": {
+                "l1": "NIP: 5252946268",
+                "l2": "Email: {email}",
+                "l3": "Telephone: {phone}",
+                "l4": "Website: getbrewpath.com"
+              }
+            },
+            "b4": {
+              "p": "For questions about these Terms, BrewPath content or functionality, or consumer complaints, contact us at {email} or {phone}."
+            }
           }
         }
       }
     },
     "privacy": {
       "title": "Privacy Policy",
-      "intro": "BrewPath is built to work without an account and without following you around. This policy explains the little data the app does handle, and who sees it.",
+      "dated": "Last updated {date}",
+      "intro": {
+        "p1": "This Privacy Policy explains how information is handled when you use BrewPath.",
+        "p2": "BrewPath is operated by Maksim Shchutski, a sole proprietor registered in Poland (\"we\", \"us\", or \"our\").",
+        "p3": "BrewPath is designed to collect as little personal information as reasonably necessary to provide the App."
+      },
       "sections": {
         "s1": {
-          "h": "What stays on your phone",
-          "ps": {
-            "p1": "Your lessons, cards, streak, saved terms, Roasty’s outfit and the growth of your tree are stored on your device only. We can’t see them. There is no sign-up, no email, no password.",
-            "p2": "The first name you may give Roasty is used to greet you and never leaves the device."
+          "h": "Information BrewPath Handles",
+          "blocks": {
+            "b1": {
+              "h": "Learning progress and preferences"
+            },
+            "b2": {
+              "p": "BrewPath stores information about your activity in the App, such as:"
+            },
+            "b3": {
+              "list": {
+                "i1": "lesson and module progress;",
+                "i2": "completed activities;",
+                "i3": "streak and progress information;",
+                "i4": "Coffee Tree progress;",
+                "i5": "saved lessons and dictionary terms;",
+                "i6": "Coffee Challenge progress;",
+                "i7": "unlocked content;",
+                "i8": "App settings and preferences."
+              }
+            },
+            "b4": {
+              "p": "This information is used to provide the learning experience and remember your progress."
+            },
+            "b5": {
+              "p": "This data is stored locally on your device and may be synchronized through Apple's iCloud services."
+            },
+            "b6": {
+              "p": "BrewPath does not require you to create an account."
+            },
+            "b7": {
+              "h": "Purchase information"
+            },
+            "b8": {
+              "p": "Purchases made in BrewPath are processed through Apple's App Store."
+            },
+            "b9": {
+              "p": "BrewPath uses RevenueCat to manage purchases, restore purchases, and determine which purchased content you are entitled to access."
+            },
+            "b10": {
+              "p": "Because BrewPath does not use user accounts, RevenueCat assigns an anonymous identifier to the App installation. RevenueCat may process limited technical and transaction information required to manage purchases, including App Store purchase and receipt information."
+            },
+            "b11": {
+              "p": "We do not receive or store your full payment-card information."
+            },
+            "b12": {
+              "h": "Support communications"
+            },
+            "b13": {
+              "p": "If you contact us for support or a privacy-related request, we will receive the information you choose to provide, such as your email address and the contents of your message."
+            },
+            "b14": {
+              "p": "We use this information only to respond to your request and resolve the relevant issue."
+            }
           }
         },
         "s2": {
-          "h": "What leaves your phone",
-          "ps": {
-            "p1": "Purchases. When you buy Foundations, Apple processes the payment. A purchase receipt and an anonymous app-user id are sent to RevenueCat, the service that confirms what you own and lets you restore it. We never see your card details.",
-            "p2": "Crash reports. If the app crashes, an anonymised report (device model, iOS version, the error) is sent to Firebase Crashlytics so we can fix it.",
-            "p3": "Paywall views. Whether the paywall was shown and whether a purchase followed is counted, anonymously, so we can price the course fairly."
+          "h": "Analytics and Advertising",
+          "blocks": {
+            "b1": {
+              "p": "At this time, BrewPath does not use third-party product analytics or crash analytics services."
+            },
+            "b2": {
+              "p": "BrewPath does not display third-party advertising and does not use your information for cross-app advertising tracking."
+            },
+            "b3": {
+              "p": "If we introduce analytics or other data-processing services in the future, this Privacy Policy will be updated before or when those practices are introduced."
+            }
           }
         },
         "s3": {
-          "h": "What we don’t do",
-          "ps": {
-            "p1": "We don’t sell data. We don’t run third-party advertising. We don’t track you across other apps or websites, and we don’t ask for App Tracking permission because we have no use for it."
+          "h": "Notifications",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath may offer optional reminders, such as daily learning reminders."
+            },
+            "b2": {
+              "p": "These reminders are scheduled locally on your device. BrewPath does not currently operate a server-based push-notification system for these reminders."
+            },
+            "b3": {
+              "p": "You can enable or disable notifications through BrewPath or your device settings."
+            }
           }
         },
         "s4": {
-          "h": "Shared cards",
-          "ps": {
-            "p1": "When you share a card, the app creates a link to a page on this site showing that card. The link contains the card id and nothing else. Anyone with the link can see it."
+          "h": "How We Use Information",
+          "blocks": {
+            "b1": {
+              "p": "We use information processed through BrewPath only where necessary to:"
+            },
+            "b2": {
+              "list": {
+                "i1": "provide the App and its learning features;",
+                "i2": "save and synchronize your progress and preferences;",
+                "i3": "provide access to purchased content;",
+                "i4": "verify and restore purchases;",
+                "i5": "maintain the reliability and security of the App;",
+                "i6": "respond to support and privacy requests;",
+                "i7": "comply with applicable legal obligations."
+              }
+            }
           }
         },
         "s5": {
-          "h": "Your choices",
-          "ps": {
-            "p1": "Reset progress from Profile → Reset progress. Delete everything by deleting the app. To ask us to remove purchase records held by RevenueCat, email us from the device that made the purchase."
+          "h": "Third-Party Services",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath currently relies on the following third-party services:"
+            },
+            "b2": {
+              "h": "Apple"
+            },
+            "b3": {
+              "p": "Apple provides services used by BrewPath, including App Store purchases and, where enabled, iCloud synchronization."
+            },
+            "b4": {
+              "p": "Your use of these Apple services is also subject to Apple's applicable privacy policies and terms."
+            },
+            "b5": {
+              "h": "RevenueCat"
+            },
+            "b6": {
+              "p": "RevenueCat provides purchase and entitlement-management infrastructure."
+            },
+            "b7": {
+              "p": "RevenueCat may process anonymous identifiers, technical information, and purchase-related information in order to verify purchases and determine access to purchased BrewPath content."
+            },
+            "b8": {
+              "p": "We do not provide RevenueCat with your name or email address as a BrewPath account identifier because BrewPath currently does not use user accounts."
+            }
           }
         },
         "s6": {
-          "h": "Children",
-          "ps": {
-            "p1": "BrewPath is not directed at children under 13 and we knowingly collect no personal data from them."
+          "h": "Sharing of Information",
+          "blocks": {
+            "b1": {
+              "p": "We do not sell your personal information."
+            },
+            "b2": {
+              "p": "Information may be processed by service providers such as Apple and RevenueCat where necessary to provide BrewPath's functionality."
+            },
+            "b3": {
+              "p": "We may also disclose information where required by applicable law or a valid legal request."
+            }
           }
         },
         "s7": {
-          "h": "Changes and contact",
-          "ps": {
-            "p1": "If this policy changes in a way that matters, the app will tell you. Questions: {email}."
+          "h": "Data Retention",
+          "blocks": {
+            "b1": {
+              "p": "Information stored locally in BrewPath remains on your device until it is removed by you, deleted as part of App data removal, or otherwise removed by the operating system."
+            },
+            "b2": {
+              "p": "Information synchronized through iCloud is subject to your iCloud settings and Apple's applicable data-management practices."
+            },
+            "b3": {
+              "p": "Purchase and entitlement information may be retained for as long as reasonably necessary to verify purchases, restore access to purchased content, maintain transaction records, and comply with applicable legal obligations."
+            },
+            "b4": {
+              "p": "Support correspondence may be retained for as long as reasonably necessary to resolve the relevant request and maintain appropriate records."
+            }
+          }
+        },
+        "s8": {
+          "h": "Your Privacy Rights",
+          "blocks": {
+            "b1": {
+              "p": "Depending on where you live, applicable privacy laws may give you rights concerning your personal information, including rights to:"
+            },
+            "b2": {
+              "list": {
+                "i1": "request information about personal data relating to you;",
+                "i2": "request correction or deletion where applicable;",
+                "i3": "object to or restrict certain processing;",
+                "i4": "withdraw consent where processing relies on consent;",
+                "i5": "lodge a complaint with the competent data-protection authority."
+              }
+            },
+            "b3": {
+              "p": "Because BrewPath does not currently use user accounts, much of your learning information is stored on your own device or through your personal iCloud environment rather than in a BrewPath user account."
+            },
+            "b4": {
+              "p": "For privacy-related requests, contact us at: {email}"
+            }
+          }
+        },
+        "s9": {
+          "h": "Children's Privacy",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath is a general-audience educational application about coffee and is not specifically directed to children."
+            },
+            "b2": {
+              "p": "We do not knowingly request personal information from children through user accounts because BrewPath does not currently provide user accounts."
+            },
+            "b3": {
+              "p": "If we become aware that information has been processed in a way that requires additional protections under applicable children's privacy laws, we will take appropriate steps to address it."
+            }
+          }
+        },
+        "s10": {
+          "h": "International Data Processing",
+          "blocks": {
+            "b1": {
+              "p": "Some third-party service providers used by BrewPath may process information outside your country of residence."
+            },
+            "b2": {
+              "p": "Where applicable data-protection law requires safeguards for international transfers, appropriate safeguards are used by us or our service providers."
+            }
+          }
+        },
+        "s11": {
+          "h": "Changes to This Privacy Policy",
+          "blocks": {
+            "b1": {
+              "p": "We may update this Privacy Policy when BrewPath's features, service providers, or data-processing practices change."
+            },
+            "b2": {
+              "p": "When we update the policy, we will change the Last updated date shown at the top."
+            },
+            "b3": {
+              "p": "If we introduce functionality that materially changes how personal information is handled, we will update this policy accordingly."
+            }
+          }
+        },
+        "s12": {
+          "h": "Contact",
+          "blocks": {
+            "b1": {
+              "p": "BrewPath is operated by:"
+            },
+            "b2": {
+              "lines": {
+                "l1": "Maksim Shchutski",
+                "l2": "Sole proprietor, Poland",
+                "l3": "Website: getbrewpath.com",
+                "l4": "Email: {email}"
+              }
+            },
+            "b3": {
+              "p": "This document describes BrewPath's current release-state privacy practices. It should be updated if analytics, crash reporting, advertising, account functionality, server-side push notifications, or other material data-processing features are introduced."
+            }
           }
         }
       }

@@ -30,6 +30,10 @@ pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpat
   app repo's content; do not edit by hand.
 - `public/images/screens/<mood>/` — app screenshots, one folder per
   [mood](GLOSSARY.md).
+- `public/legal/` — the signed-off Terms of Use and Privacy Policy files. The
+  `/terms` and `/privacy` pages copy their text word for word, into `docs` in
+  `src/messages/en/site.json`; their dates and contact addresses are in
+  `src/domains/site/legal-docs.ts`. Update both together.
 
 Terms such as Foundations and Module Reward are defined in [GLOSSARY.md](GLOSSARY.md).
 

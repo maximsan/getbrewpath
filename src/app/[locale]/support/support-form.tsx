@@ -5,7 +5,7 @@ import { useActionState, useId, useState } from 'react';
 
 import { TextField } from '@components/brewpath/text-field/text-field';
 import { CheckIcon } from '@components/icons/icons';
-import { EMAIL_HELLO } from '@domains/site/site';
+import { EMAIL_HI } from '@domains/site/site';
 import { MAX_MESSAGE_LENGTH } from '@domains/support/support-message';
 import { PAGE_ROUTES } from '@domains/site/routes';
 import { Link } from '@i18n/navigation';
@@ -69,7 +69,7 @@ function SupportFormRound({ email, onEmailChange, onSendAnother }: SupportFormRo
   const errors = state.status === 'invalid' ? state.errors : {};
   const formError =
     state.status === 'failed'
-      ? t('errors.failed', { email: EMAIL_HELLO })
+      ? t('errors.failed', { email: EMAIL_HI })
       : state.status === 'rate-limited'
         ? t('errors.rateLimited')
         : null;

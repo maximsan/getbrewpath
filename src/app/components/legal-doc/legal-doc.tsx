@@ -3,24 +3,37 @@ import { getFormatter, getMessages, getTranslations } from 'next-intl/server';
 import { pageTitleClass } from '@components/section/section';
 import { pageMetadata } from '@domains/site/page-metadata';
 import { PAGE_ROUTES } from '@domains/site/routes';
-import { EMAIL_HELLO, LEGAL_DOCS_UPDATED, SELLING_MODEL } from '@domains/site/site';
+import { LEGAL_DOCS, type LegalDocId } from '@domains/site/legal-docs';
+import { PHONE } from '@domains/site/site';
 import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 import { TWO_DIGITS } from '@shared/format/number';
 
-export type LegalDocId = 'terms' | 'privacy';
+/** One piece of a section, as the document lays it out. */
+type Block =
+  | { p: string }
+  | { h: string }
+  | { list: Record<string, string> }
+  | { lines: Record<string, string> };
 
-/** The Terms of Use or Privacy Policy: title, draft note, sticky contents and numbered sections. */
+const paragraphClass = 'ff-ui mt-0 mb-3.5 text-base leading-[1.7] text-pretty text-ink';
+
+/**
+ * The Terms of Use or Privacy Policy, word for word from its file in `public/legal/`:
+ * title, date, sticky contents and numbered sections.
+ */
 export async function LegalDoc({ doc }: { doc: LegalDocId }) {
   const t = await getTranslations('docs');
   const format = await getFormatter();
   const { docs } = await getMessages();
+  const source = LEGAL_DOCS[doc];
   const sections = Object.entries(docs[doc].sections);
-  type ParagraphKey = Parameters<typeof t>[0];
+  const intro = Object.keys(docs[doc].intro);
+  type TextKey = Parameters<typeof t>[0];
+  /** The text at `path` inside this doc. Paths are read from the doc's own messages, which TypeScript cannot follow. */
+  const text = (path: string) =>
+    t(`${doc}.${path}` as TextKey, { email: source.email, phone: PHONE });
   const anchor = (key: string) => `doc-${key}`;
-  const updated = format.dateTime(new Date(LEGAL_DOCS_UPDATED), {
-    dateStyle: 'long',
-    timeZone: 'UTC',
-  });
+  const date = format.dateTime(new Date(source.date), { dateStyle: 'long', timeZone: 'UTC' });
 
   return (
     <section className="mx-auto max-w-[1000px] px-6 pt-[clamp(40px,6vw,72px)]">
@@ -28,15 +41,20 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
         <h1 className={pageTitleClass}>{t(`${doc}.title`)}</h1>
         <div className="mt-5 flex flex-wrap items-center gap-x-[18px] gap-y-2.5">
           <span className="ff-mono text-[11px] tracking-[.1em] text-ink-mute uppercase">
-            {t('updated', { date: updated })}
+            {t(`${doc}.dated`, { date })}
           </span>
-          <span className="ff-mono rounded-full border border-dashed border-[color-mix(in_oklab,var(--warn)_50%,var(--rule))] px-2.5 py-[5px] text-[11px] tracking-[.1em] text-warn uppercase">
-            {t('draft')}
-          </span>
+          <a href={source.file} download className="ff-ui text-sm font-medium">
+            {t('download')}
+          </a>
         </div>
-        <p className="ff-ui mt-[22px] mb-0 text-[17px] leading-[1.6] text-pretty text-ink-mute">
-          {t(`${doc}.intro`)}
-        </p>
+        {intro.map((paragraph, index) => (
+          <p
+            key={paragraph}
+            className={`ff-ui mb-0 text-[17px] leading-[1.6] text-pretty text-ink-mute ${index === 0 ? 'mt-[22px]' : 'mt-3.5'}`}
+          >
+            {text(`intro.${paragraph}`)}
+          </p>
+        ))}
       </div>
       <div className="mt-14 grid items-start gap-12 min-[980px]:grid-cols-[220px_minmax(0,1fr)]">
         <nav
@@ -65,30 +83,62 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
               <h2 className="ff-display m-0 mb-3.5 text-[26px] leading-[1.15] font-normal tracking-[-0.015em]">
                 {section.h}
               </h2>
-              {Object.keys(section.ps).map((paragraph) => (
-                <p
-                  key={paragraph}
-                  className="ff-ui mt-0 mb-3.5 text-base leading-[1.7] text-pretty text-ink"
-                >
-                  {/* The key is read from this doc's own sections, which TypeScript cannot follow. */}
-                  {t(`${doc}.sections.${key}.ps.${paragraph}` as ParagraphKey, {
-                    email: EMAIL_HELLO,
-                    model: SELLING_MODEL,
-                  })}
-                </p>
+              {Object.entries(section.blocks as Record<string, Block>).map(([id, block]) => (
+                <SectionBlock
+                  key={id}
+                  block={block}
+                  path={`sections.${key}.blocks.${id}`}
+                  text={text}
+                />
               ))}
             </div>
           ))}
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-rule pt-6">
             <span className="ff-ui text-sm text-ink-mute">{t('questions')}</span>
-            <a href={`mailto:${EMAIL_HELLO}`} translate="no" className="ff-ui text-sm font-medium">
-              {EMAIL_HELLO}
+            <a href={`mailto:${source.email}`} translate="no" className="ff-ui text-sm font-medium">
+              {source.email}
             </a>
           </div>
         </div>
       </div>
     </section>
   );
+}
+
+interface SectionBlockProps {
+  block: Block;
+  /** Where the block sits in the doc's messages, e.g. "sections.s1.blocks.b2". */
+  path: string;
+  text: (path: string) => string;
+}
+
+function SectionBlock({ block, path, text }: SectionBlockProps) {
+  if ('h' in block) {
+    return (
+      <h3 className="ff-ui mt-6 mb-2.5 text-base font-semibold text-ink">{text(`${path}.h`)}</h3>
+    );
+  }
+  if ('list' in block) {
+    return (
+      <ul className={`${paragraphClass} list-disc ps-5`}>
+        {Object.keys(block.list).map((item) => (
+          <li key={item}>{text(`${path}.list.${item}`)}</li>
+        ))}
+      </ul>
+    );
+  }
+  if ('lines' in block) {
+    return (
+      <address className={`${paragraphClass} not-italic`}>
+        {Object.keys(block.lines).map((line) => (
+          <span key={line} className="block">
+            {text(`${path}.lines.${line}`)}
+          </span>
+        ))}
+      </address>
+    );
+  }
+  return <p className={paragraphClass}>{text(`${path}.p`)}</p>;
 }
 
 /** The Terms of Use or Privacy Policy page's title, description and address. */
@@ -98,7 +148,7 @@ export async function legalDocMetadata(doc: LegalDocId, params: LocaleParams['pa
   return pageMetadata({
     locale,
     title: t('title'),
-    description: t('intro'),
+    description: t('intro.p1'),
     path: PAGE_ROUTES[doc],
   });
 }

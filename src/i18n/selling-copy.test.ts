@@ -2,7 +2,7 @@ import { createTranslator } from 'next-intl';
 import { describe, expect, it } from 'vitest';
 
 import { SELLING_MODELS } from '@domains/selling/selling';
-import { EMAIL_HELLO } from '@domains/site/site';
+import { EMAIL_HI } from '@domains/site/site';
 
 import { messageEntries } from './message-entries';
 import { MESSAGES } from './messages';
@@ -20,7 +20,7 @@ describe.each(routing.locales)('%s selling copy', (locale) => {
     for (const key of keys) {
       const versions = SELLING_MODELS.map((model) =>
         // Keys are read from the messages themselves, which TypeScript cannot follow.
-        t(key as Parameters<typeof t>[0], { model, email: EMAIL_HELLO }),
+        t(key as Parameters<typeof t>[0], { model, email: EMAIL_HI }),
       );
       expect(new Set(versions).size, key).toBe(SELLING_MODELS.length);
     }

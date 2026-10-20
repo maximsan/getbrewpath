@@ -8,10 +8,13 @@ export const SITE_HOST = 'getbrewpath.com';
 /** Placeholder listing until the App Store record exists; swap in the real id at launch. */
 export const APP_STORE_URL = 'https://apps.apple.com/app/brewpath/id0000000000';
 
-export const EMAIL_HELLO = 'hello@getbrewpath.com';
+export const EMAIL_HI = 'hi@getbrewpath.com';
 export const EMAIL_PRESS = 'press@getbrewpath.com';
+export const EMAIL_SUPPORT = 'support@getbrewpath.com';
 /** The From line of support emails; its domain must be verified in Resend. */
-export const EMAIL_SUPPORT_SENDER = 'BrewPath Support <support@getbrewpath.com>';
+export const EMAIL_SUPPORT_SENDER = `BrewPath Support <${EMAIL_SUPPORT}>`;
+/** The provider's telephone, as the Terms of Use give it. */
+export const PHONE = '+48 571 033 267';
 
 export const PRICE_CURRENCY = 'USD';
 export const PRICE_FREE = 0;
@@ -30,9 +33,6 @@ export const PLAN_PRICES: Record<PlanTerm, number> = {
 };
 
 export const MINUTES_PER_LESSON = 3;
-
-/** Shown as "Last updated" on the Terms of Use and Privacy Policy. */
-export const LEGAL_DOCS_UPDATED = '2026-10-14';
 
 /**
  * The domain whose links the app opens (universal links).
