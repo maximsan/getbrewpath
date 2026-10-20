@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import type { ComponentType, ReactNode } from 'react';
@@ -8,13 +7,14 @@ import { RewardCard } from '@components/brewpath/reward-card/reward-card';
 import { CardsIcon, LeafIcon, RouteIcon, ShareIcon } from '@components/icons/icons';
 import { LinkButton } from '@components/link-button/link-button';
 import { monoNoteClass } from '@components/section/section';
-import { cardRouteParams, courseCounts, findCard } from '@domains/course/course';
-import { APP_STORE_URL, appCardLink } from '@domains/site/site';
-
+import { cardRouteParams, courseCounts, findCard, getCourse } from '@domains/course/course';
 import { pageMetadata } from '@domains/site/page-metadata';
+import { APP_STORE_URL, appCardLink } from '@domains/site/site';
+import { Link } from '@i18n/navigation';
+import { pageLocale } from '@i18n/page-locale';
 
 interface CardPageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ locale: string; id: string }>;
 }
 
 /** Every card is known at build time; any other id is a 404. */
@@ -23,13 +23,15 @@ export const dynamicParams = false;
 export const generateStaticParams = cardRouteParams;
 
 export async function generateMetadata({ params }: CardPageProps): Promise<Metadata> {
-  const card = findCard((await params).id);
+  const locale = await pageLocale(params);
+  const card = findCard(await getCourse(locale), (await params).id);
   if (!card) return {};
-  const t = await getTranslations('metadata');
+  const t = await getTranslations({ locale, namespace: 'metadata' });
   const title = t('cardTitle', { card: card.reward.title });
   const description = t('cardDescription', { summary: card.reward.summary });
   const path = `/card/${card.id}`;
   return pageMetadata({
+    locale,
     absoluteTitle: title,
     description,
     path,
@@ -44,8 +46,10 @@ const PITCH = [
 ] as const satisfies readonly { key: string; Icon: ComponentType }[];
 
 export default async function CardPage({ params }: CardPageProps) {
-  const card = findCard((await params).id);
+  const course = await getCourse(await pageLocale(params));
+  const card = findCard(course, (await params).id);
   if (!card) notFound();
+  const counts = courseCounts(course);
   const t = await getTranslations('card');
 
   const strong = (chunks: ReactNode) => <strong className="font-medium text-ink">{chunks}</strong>;
@@ -102,8 +106,8 @@ export default async function CardPage({ params }: CardPageProps) {
             </span>
             <h2 className="ff-display m-0 text-[22px] leading-[1.1] font-normal tracking-[-0.01em]">
               {t(`pitch.${key}.title`, {
-                lessons: courseCounts.lessons,
-                cards: courseCounts.cards,
+                lessons: counts.lessons,
+                cards: counts.cards,
               })}
             </h2>
             <p className="ff-ui m-0 text-sm leading-[1.55] text-ink-mute">
@@ -117,7 +121,7 @@ export default async function CardPage({ params }: CardPageProps) {
           {t.rich('curious', { link: (chunks) => <Link href="/">{chunks}</Link> })}
         </div>
         <div className="ff-mono text-[11px] tracking-[.1em] text-ink-mute uppercase">
-          {t('count', { cards: courseCounts.cards, guides: courseCounts.fieldGuides })}
+          {t('count', { cards: counts.cards, guides: counts.fieldGuides })}
         </div>
       </div>
     </section>

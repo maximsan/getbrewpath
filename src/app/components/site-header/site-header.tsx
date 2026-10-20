@@ -1,14 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { type MouseEvent, useId, useState } from 'react';
 
 import { LinkButton } from '@components/link-button/link-button';
 import { MoodSwitch } from '@components/mood/mood-switch';
 import { APP_STORE_URL } from '@domains/site/site';
+import { Link, usePathname } from '@i18n/navigation';
 import { cn } from '@shared/styles/cn';
 
 import { NAV_SECTIONS, sectionHref } from './nav-items';

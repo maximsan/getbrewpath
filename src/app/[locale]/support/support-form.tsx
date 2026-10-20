@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useActionState, useId, useState } from 'react';
 
@@ -8,6 +7,8 @@ import { TextField } from '@components/brewpath/text-field/text-field';
 import { CheckIcon } from '@components/icons/icons';
 import { EMAIL_HELLO } from '@domains/site/site';
 import { MAX_MESSAGE_LENGTH } from '@domains/support/support-message';
+import { PAGE_ROUTES } from '@domains/site/routes';
+import { Link } from '@i18n/navigation';
 
 import { submitSupportMessage, type SupportFormState } from './actions';
 
@@ -128,7 +129,7 @@ function SupportFormRound({ email, onEmailChange, onSendAnother }: SupportFormRo
         {formError && <FieldMessage>{formError}</FieldMessage>}
       </div>
       <p className="ff-ui m-0 text-xs leading-normal text-ink-mute">
-        {t.rich('consent', { link: (chunks) => <Link href="/privacy">{chunks}</Link> })}
+        {t.rich('consent', { link: (chunks) => <Link href={PAGE_ROUTES.privacy}>{chunks}</Link> })}
       </p>
     </form>
   );

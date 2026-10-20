@@ -4,7 +4,7 @@ import { getFormatter, getTranslations } from 'next-intl/server';
 import { linkButtonClass } from '@components/link-button/link-button';
 import { PhoneShot } from '@components/phone-shot/phone-shot';
 import { pageTitleClass } from '@components/section/section';
-import { courseCounts } from '@domains/course/course';
+import { courseCounts, getCourse } from '@domains/course/course';
 import {
   BRAND_COLORS,
   BRAND_ICON_DOWNLOAD_NAME,
@@ -16,10 +16,13 @@ import { formatPrice } from '@domains/site/price';
 import { PAGE_ROUTES } from '@domains/site/routes';
 import { screenDownloadName, SCREENS, screenSrc } from '@domains/site/screens';
 import { EMAIL_PRESS, PRICE_FOUNDATIONS, SITE_HOST } from '@domains/site/site';
+import { type LocaleParams, pageLocale } from '@i18n/page-locale';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations();
+export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
+  const locale = await pageLocale(params);
+  const t = await getTranslations({ locale });
   return pageMetadata({
+    locale,
     title: t('metadata.press'),
     description: t('press.body'),
     path: PAGE_ROUTES.press,
@@ -28,7 +31,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const labelClass = 'ff-mono text-[11px] tracking-[.08em] text-ink-mute uppercase';
 
-export default async function PressPage() {
+export default async function PressPage({ params }: LocaleParams) {
+  const counts = courseCounts(await getCourse(await pageLocale(params)));
   const t = await getTranslations('press');
   const format = await getFormatter();
 
@@ -42,9 +46,9 @@ export default async function PressPage() {
     {
       label: t('facts.course'),
       value: t('facts.courseV', {
-        modules: courseCounts.modules,
-        lessons: courseCounts.lessons,
-        cards: courseCounts.cards,
+        modules: counts.modules,
+        lessons: counts.lessons,
+        cards: counts.cards,
       }),
     },
     { label: t('facts.mascot'), value: t('facts.mascotV') },

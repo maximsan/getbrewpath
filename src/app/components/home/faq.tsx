@@ -1,8 +1,9 @@
-import Link from 'next/link';
 import { getMessages, getTranslations } from 'next-intl/server';
 
 import { Disclosure } from '@components/brewpath/disclosure/disclosure';
 import { Section, sectionTitleClass } from '@components/section/section';
+import { PAGE_ROUTES } from '@domains/site/routes';
+import { Link } from '@i18n/navigation';
 
 export async function Faq() {
   const t = await getTranslations('faq');
@@ -14,7 +15,7 @@ export async function Faq() {
         <div data-reveal>
           <h2 className={sectionTitleClass}>{t('title')}</h2>
           <p className="ff-ui mt-[18px] mb-0 max-w-[40ch] text-[15px] leading-[1.6] text-ink-mute">
-            {t.rich('more', { link: (chunks) => <Link href="/support">{chunks}</Link> })}
+            {t.rich('more', { link: (chunks) => <Link href={PAGE_ROUTES.support}>{chunks}</Link> })}
           </p>
         </div>
         <div data-reveal data-delay="1" className="border-t border-rule">

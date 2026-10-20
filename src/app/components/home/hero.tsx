@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { LinkButton } from '@components/link-button/link-button';
 import { PhoneShot } from '@components/phone-shot/phone-shot';
 import { monoNoteClass } from '@components/section/section';
+import { sectionHref } from '@components/site-header/nav-items';
 import { APP_STORE_URL } from '@domains/site/site';
 
 export async function Hero() {
@@ -21,7 +22,7 @@ export async function Hero() {
           <LinkButton href={APP_STORE_URL} tone="ink" size="xl">
             {t('download')}
           </LinkButton>
-          <LinkButton href="/#demo" tone="outline" size="xl">
+          <LinkButton href={sectionHref('demo')} tone="outline" size="xl">
             {t('tryFirst')}
           </LinkButton>
         </div>
