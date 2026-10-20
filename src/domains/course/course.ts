@@ -27,7 +27,7 @@ export const courseCounts = (course: Course) => ({
   modules: course.modules.length,
   lessons: course.modules.reduce((sum, module) => sum + module.lessonCount, 0),
   cards: course.cards.length,
-  fieldGuides: course.cards.filter((card) => card.source === 'module').length,
+  moduleRewards: course.cards.filter((card) => card.source === 'module').length,
 });
 
 /** Lesson one's card, which the home page demo awards. */

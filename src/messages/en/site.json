@@ -68,7 +68,7 @@
       },
       "step3": {
         "title": "Keep the card",
-        "body": "A perfect lesson earns a Coffee Card. Finish a module and its Field Guide joins your deck. Your tree grows either way.",
+        "body": "A perfect lesson earns a Coffee Card. Finish a module and its Module Reward joins your deck. Your tree grows either way.",
         "alt": "Foundations complete screen"
       }
     }
@@ -202,7 +202,7 @@
       },
       "q5": {
         "q": "What exactly is a Coffee Card?",
-        "a": "A collectible you earn by finishing a lesson with a perfect score. Each one holds a fact, a specimen drawing and the spec of what you learned. There are 37, including five Field Guides for finished modules. You can share any card with a link."
+        "a": "A collectible you earn by finishing a lesson with a perfect score. Each one holds a fact, a specimen drawing and the spec of what you learned. There are 37, including a Module Reward for each of the five modules. You can share any card with a link."
       }
     },
     "more": "Something else? <link>Write to us</link> — a human answers, usually the same day."
@@ -216,13 +216,13 @@
     "shared": "Shared from BrewPath",
     "earned": "A friend earned <em>{card}</em>.",
     "lessonBody": "A perfect score on <strong>{lesson}</strong>, lesson {lessonNumber} of the {module} module. In BrewPath, every lesson you ace becomes a Coffee Card — a fact worth keeping, in a deck worth finishing.",
-    "guideBody": "Earned by finishing every lesson of the <strong>{module}</strong> module. Each module you finish adds its Field Guide to your deck, next to the cards from its lessons.",
+    "moduleRewardBody": "This is a Module Reward, earned by finishing every lesson of the <strong>{module}</strong> module. Each module you finish adds its Module Reward to your deck, next to the cards from its lessons.",
     "defaultBadge": "Coffee card",
     "get": "Get BrewPath — it’s free",
     "open": "Open in the app",
     "avail": "Available on iPhone",
     "curious": "Curious what the whole thing is? <link>See BrewPath</link>",
-    "count": "{cards} cards and {guides} field guides",
+    "count": "{cards} cards, {moduleRewards} of them Module Rewards",
     "pitch": {
       "lessons": {
         "title": "{lessons} short lessons",
@@ -230,7 +230,7 @@
       },
       "cards": {
         "title": "{cards} cards to keep",
-        "body": "A perfect lesson earns its card. Finish a module for its Field Guide."
+        "body": "A perfect lesson earns its card. Finish a module for its Module Reward."
       },
       "tree": {
         "title": "A tree that grows",

@@ -67,7 +67,7 @@ const lessonCardSchema = z.object({
   lessonNumber: z.number().int().positive(),
 });
 
-/** A Field Guide, earned by finishing a whole module. */
+/** A Module Reward, earned by finishing a whole module. */
 const fieldGuideCardSchema = z.object({ ...cardBase, source: z.literal('module') });
 
 /** The course summary this site ships in `src/content/course.json`. */

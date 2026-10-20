@@ -61,7 +61,7 @@ export default async function CardPage({ params }: CardPageProps) {
           module: card.moduleTitle,
           strong,
         })
-      : t.rich('guideBody', { module: card.moduleTitle, strong });
+      : t.rich('moduleRewardBody', { module: card.moduleTitle, strong });
 
   return (
     <section className="page-width px-6 pt-[clamp(32px,5vw,64px)]">
@@ -121,7 +121,7 @@ export default async function CardPage({ params }: CardPageProps) {
           {t.rich('curious', { link: (chunks) => <Link href="/">{chunks}</Link> })}
         </div>
         <div className="ff-mono text-[11px] tracking-[.1em] text-ink-mute uppercase">
-          {t('count', { cards: counts.cards, guides: counts.fieldGuides })}
+          {t('count', { cards: counts.cards, moduleRewards: counts.moduleRewards })}
         </div>
       </div>
     </section>
