@@ -13,7 +13,7 @@ export interface LocaleParams {
  * The page's language, from its address. Also hands it to next-intl, which
  * lets the page be built ahead of time; an unknown code is a 404.
  */
-export async function pageLocale(params: LocaleParams['params']): Promise<Locale> {
+export async function setPageLocale(params: LocaleParams['params']): Promise<Locale> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);

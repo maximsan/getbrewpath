@@ -8,12 +8,12 @@ import { pageMetadata } from '@domains/site/page-metadata';
 import { PAGE_ROUTES } from '@domains/site/routes';
 import { EMAIL_HELLO, SELLING_MODEL } from '@domains/site/site';
 import type { Messages } from '@i18n/messages';
-import { type LocaleParams, pageLocale } from '@i18n/page-locale';
+import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 
 import { SupportForm } from './support-form';
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
-  const locale = await pageLocale(params);
+  const locale = await setPageLocale(params);
   const t = await getTranslations({ locale });
   return pageMetadata({
     locale,
@@ -33,7 +33,7 @@ const TOPICS = [
 }[];
 
 export default async function SupportPage({ params }: LocaleParams) {
-  await pageLocale(params);
+  await setPageLocale(params);
   const t = await getTranslations('support');
   const { support } = await getMessages();
   type StepKey = Parameters<typeof t>[0];

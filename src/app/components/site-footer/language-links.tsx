@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link, usePathname } from '@i18n/navigation';
 import { LOCALE_NAMES, routing } from '@i18n/routing';
 
-/** Links to this page in the site's other languages; absent while the site has one. */
+/** Links to this page in the site's other languages. Hidden while the site has only one language. */
 export function LanguageLinks() {
   const t = useTranslations('nav');
   const current = useLocale();

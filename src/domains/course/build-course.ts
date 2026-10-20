@@ -68,12 +68,12 @@ const lessonCardSchema = z.object({
 });
 
 /** A Module Reward, earned by finishing a whole module. */
-const fieldGuideCardSchema = z.object({ ...cardBase, source: z.literal('module') });
+const moduleRewardCardSchema = z.object({ ...cardBase, source: z.literal('module') });
 
-/** The course summary this site ships in `src/content/course.json`. */
+/** The course summary this site ships in `src/content/<language>/course.json`. */
 export const courseSchema = z.object({
   modules: z.array(courseModuleSchema),
-  cards: z.array(z.discriminatedUnion('source', [lessonCardSchema, fieldGuideCardSchema])),
+  cards: z.array(z.discriminatedUnion('source', [lessonCardSchema, moduleRewardCardSchema])),
 });
 
 export type CourseModule = z.infer<typeof courseModuleSchema>;

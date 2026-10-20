@@ -26,7 +26,7 @@ describe('overlayTranslation', () => {
     });
   });
 
-  it('drops the translation tool’s notes', () => {
+  it('drops the translatedFrom and nativeReviewed bookkeeping fields', () => {
     const [merged] = overlayTranslation(
       [beansModule],
       [{ id: 'm1', title: 'Зерны', translatedFrom: { title: 'Beans' } }],
@@ -35,19 +35,19 @@ describe('overlayTranslation', () => {
     expect(merged).not.toHaveProperty('translatedFrom');
   });
 
-  it('refuses a field English lacks', () => {
+  it('throws on a field English lacks', () => {
     expect(() =>
       overlayTranslation([beansModule], [{ id: 'm1', titel: 'Зерны' }], 'modules'),
     ).toThrow(/titel/);
   });
 
-  it('refuses a list shorter than English', () => {
+  it('throws on a list shorter than English', () => {
     expect(() => overlayTranslation([beansModule], [{ id: 'm1', lessons: [] }], 'modules')).toThrow(
       /lists 0 where English lists 1/,
     );
   });
 
-  it('refuses an id English no longer has', () => {
+  it('throws on an id English no longer has', () => {
     expect(() =>
       overlayTranslation([beansModule], [{ id: 'm9', title: 'Зерны' }], 'modules'),
     ).toThrow(/m9/);

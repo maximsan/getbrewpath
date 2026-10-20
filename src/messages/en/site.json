@@ -404,7 +404,7 @@
   },
   "press": {
     "title": "BrewPath, in one paragraph and a few files.",
-    "body": "BrewPath is a coffee-learning app for iPhone. Short lessons and mini-games teach the craft of coffee — beans, processing, roasting, grind and brew — while a living tree and a collectible deck mark your progress. Roasty, a coffee bean with a beanie, comes along. The first module is free; the full course is a single purchase.",
+    "body": "BrewPath is a coffee-learning app for iPhone. Short lessons and mini-games teach the craft of coffee — beans, processing, roasting, grind and brew — while a living tree and a collectible deck mark your progress. Roasty, a coffee bean with a beanie, comes along. The first module is free; {model, select, oneTime {the full course is a single purchase.} subscription {the full course is a monthly or yearly subscription.} other {the full course is a subscription or a single purchase.}}",
     "downloadIcon": "Download icon",
     "facts": {
       "name": "Name",

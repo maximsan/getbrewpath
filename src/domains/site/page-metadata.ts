@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
-import { getPathname } from '@i18n/navigation';
-import { type Locale, routing } from '@i18n/routing';
+import { languageVersions, localizedPath } from '@i18n/language-versions';
+import type { Locale } from '@i18n/routing';
 
 import { BRAND_NAME } from './brand';
 
@@ -32,26 +32,21 @@ export function pageMetadata({
   path,
   shareImage = SITE_SHARE_IMAGE,
 }: PageMetadataInput): Metadata {
-  const localized = (href: string, inLocale: Locale = locale) =>
-    getPathname({ locale: inLocale, href });
   const shareTitle = absoluteTitle ?? title;
   return {
     ...(absoluteTitle ? { title: { absolute: absoluteTitle } } : title ? { title } : null),
     description,
     alternates: {
-      canonical: localized(path),
-      languages: {
-        ...Object.fromEntries(routing.locales.map((other) => [other, localized(path, other)])),
-        'x-default': localized(path, routing.defaultLocale),
-      },
+      canonical: localizedPath(locale, path),
+      languages: languageVersions(path),
     },
     openGraph: {
       type: 'website',
       siteName: BRAND_NAME,
-      url: localized(path),
+      url: localizedPath(locale, path),
       title: shareTitle,
       description,
-      images: [localized(shareImage)],
+      images: [localizedPath(locale, shareImage)],
     },
   };
 }

@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server';
 import { Roasty } from '@components/brewpath/roasty/roasty';
 import { LinkButton } from '@components/link-button/link-button';
 import { pageTitleClass } from '@components/section/section';
+import { PAGE_ROUTES } from '@domains/site/routes';
 import { APP_STORE_URL } from '@domains/site/site';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -29,7 +30,7 @@ export default async function NotFound() {
         {t('body')}
       </p>
       <div className="mt-[30px] flex flex-wrap justify-center gap-3">
-        <LinkButton href="/" tone="ink" size="lg">
+        <LinkButton href={PAGE_ROUTES.home} tone="ink" size="lg">
           {t('back')}
         </LinkButton>
         <LinkButton href={APP_STORE_URL} tone="outline" size="lg">

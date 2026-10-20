@@ -17,17 +17,17 @@ import { formatPrice } from '@domains/site/price';
 import { PAGE_ROUTES } from '@domains/site/routes';
 import { screenDownloadName, SCREENS, screenShots } from '@domains/site/screens';
 import { cn } from '@shared/styles/cn';
-import { PLANS } from '@domains/selling/selling';
-import { EMAIL_PRESS, PLAN_PRICES, SELLING_MODEL, SITE_HOST } from '@domains/site/site';
-import { type LocaleParams, pageLocale } from '@i18n/page-locale';
+import { PLANS_ON_SALE } from '@domains/selling/selling';
+import { EMAIL_PRESS, SELLING_MODEL, SITE_HOST } from '@domains/site/site';
+import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
-  const locale = await pageLocale(params);
+  const locale = await setPageLocale(params);
   const t = await getTranslations({ locale });
   return pageMetadata({
     locale,
     title: t('metadata.press'),
-    description: t('press.body'),
+    description: t('press.body', { model: SELLING_MODEL }),
     path: PAGE_ROUTES.press,
   });
 }
@@ -35,13 +35,13 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
 const labelClass = 'ff-mono text-[11px] tracking-[.08em] text-ink-mute uppercase';
 
 export default async function PressPage({ params }: LocaleParams) {
-  const counts = courseCounts(await getCourse(await pageLocale(params)));
+  const counts = courseCounts(await getCourse(await setPageLocale(params)));
   const t = await getTranslations('press');
   const tPricing = await getTranslations('pricing');
   const format = await getFormatter();
   const prices = format.list(
-    PLANS[SELLING_MODEL].map((term) =>
-      tPricing('planPrice', { price: formatPrice(format, PLAN_PRICES[term]), term }),
+    PLANS_ON_SALE.map(({ term, price }) =>
+      tPricing('planPrice', { price: formatPrice(format, price), term }),
     ),
     { type: 'disjunction' },
   );
@@ -71,7 +71,7 @@ export default async function PressPage({ params }: LocaleParams) {
         <div>
           <h1 className={pageTitleClass}>{t('title')}</h1>
           <p className="ff-ui mt-5 mb-0 text-[17px] leading-[1.6] text-pretty text-ink-mute">
-            {t('body')}
+            {t('body', { model: SELLING_MODEL })}
           </p>
           <div className="mt-[26px] flex flex-wrap gap-3">
             <a

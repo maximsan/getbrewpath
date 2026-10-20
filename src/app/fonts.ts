@@ -25,9 +25,9 @@ const plexMono = IBM_Plex_Mono({
 });
 
 /**
- * The headline serif for each language. Fraunces has no Cyrillic, so the app
- * draws Belarusian headings in Literata; a new language picks a serif that
- * covers its script. Every serif sets `--font-serif`.
+ * The headline serif for each language. Fraunces has Latin letters only.
+ * The app draws Belarusian headings in Literata instead.
+ * A new language needs a serif that covers its script. Every serif sets `--font-serif`.
  */
 const DISPLAY_FONT: Record<Locale, typeof fraunces> = {
   en: fraunces,

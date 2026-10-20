@@ -13,29 +13,31 @@ type JsonRecord = Record<string, unknown>;
 /** The translation tool's own notes, which the app strips before reading a record. */
 const BOOKKEEPING_FIELDS = new Set(['translatedFrom', 'nativeReviewed']);
 
-const isRecord = (value: unknown): value is JsonRecord =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
+/** Whether `value` holds fields or items rather than being text. */
+const isNested = (value: unknown): value is object => typeof value === 'object' && value !== null;
+const isRecord = (value: unknown): value is JsonRecord => isNested(value) && !Array.isArray(value);
 
+/** `where` names the bank in error messages, e.g. "be/lessons". */
 export function overlayTranslation(
   master: readonly JsonRecord[],
   translated: readonly JsonRecord[],
-  bank: string,
+  where: string,
 ): JsonRecord[] {
   const byId = new Map<unknown, JsonRecord>();
   for (const record of translated) {
-    if (byId.has(record.id)) throw new Error(`${bank} translates "${String(record.id)}" twice`);
+    if (byId.has(record.id)) throw new Error(`${where} translates "${String(record.id)}" twice`);
     byId.set(record.id, record);
   }
   const merged = master.map((record) => {
     const translation = byId.get(record.id);
     byId.delete(record.id);
     return translation
-      ? mergeRecord(record, translation, `${bank} "${String(record.id)}"`)
+      ? mergeRecord(record, translation, `${where} "${String(record.id)}"`)
       : record;
   });
-  const [orphan] = byId.keys();
   if (byId.size > 0) {
-    throw new Error(`${bank} translates "${String(orphan)}", which English no longer has`);
+    const [orphan] = byId.keys();
+    throw new Error(`${where} translates "${String(orphan)}", which English no longer has`);
   }
   return merged;
 }
@@ -61,8 +63,7 @@ function mergeValue(master: unknown, translation: unknown, where: string): unkno
       mergeValue(item, translation[index], `${where} item ${index + 1}`),
     );
   }
-  const nested = (value: unknown) => typeof value === 'object' && value !== null;
-  if (nested(master) || nested(translation)) {
+  if (isNested(master) || isNested(translation)) {
     throw new Error(`${where} has a different shape from English`);
   }
   return translation;

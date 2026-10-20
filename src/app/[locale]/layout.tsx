@@ -15,7 +15,7 @@ import { BRAND_COLORS, BRAND_NAME } from '@domains/site/brand';
 import { PAGE_ROUTES } from '@domains/site/routes';
 import { SITE_URL } from '@domains/site/site';
 import { pageMetadata } from '@domains/site/page-metadata';
-import { type LocaleParams, localeRouteParams, pageLocale } from '@i18n/page-locale';
+import { type LocaleParams, localeRouteParams, setPageLocale } from '@i18n/page-locale';
 
 import { fontClasses } from '../fonts';
 
@@ -28,7 +28,7 @@ export const dynamicParams = false;
 export const generateStaticParams = localeRouteParams;
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
-  const locale = await pageLocale(params);
+  const locale = await setPageLocale(params);
   const t = await getTranslations({ locale, namespace: 'metadata' });
   return {
     ...pageMetadata({ locale, description: t('description'), path: PAGE_ROUTES.home }),
@@ -50,7 +50,7 @@ export default async function LocaleLayout({
   children,
   params,
 }: LocaleParams & { children: ReactNode }) {
-  const locale = await pageLocale(params);
+  const locale = await setPageLocale(params);
   const t = await getTranslations('nav');
 
   return (

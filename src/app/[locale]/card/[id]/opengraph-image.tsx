@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { OG_SIZE, renderOgImage } from '@components/og/og-image';
 import { cardRouteParams, findCard, getCourse } from '@domains/course/course';
-import { pageLocale } from '@i18n/page-locale';
+import { setPageLocale } from '@i18n/page-locale';
 
 export const size = OG_SIZE;
 export const contentType = 'image/png';
@@ -16,7 +16,7 @@ export default async function CardOpenGraphImage({
 }: {
   params: Promise<{ locale: string; id: string }>;
 }) {
-  const locale = await pageLocale(params);
+  const locale = await setPageLocale(params);
   const card = findCard(await getCourse(locale), (await params).id);
   if (!card) notFound();
   const t = await getTranslations({ locale, namespace: 'card' });

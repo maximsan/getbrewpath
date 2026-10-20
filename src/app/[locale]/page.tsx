@@ -9,10 +9,10 @@ import { Pricing } from '@components/home/pricing';
 import { RoastyShowcase } from '@components/home/roasty-showcase';
 import { Section } from '@components/section/section';
 import { DEMO_REWARD_CARD_ID, getCourse, rewardOf } from '@domains/course/course';
-import { type LocaleParams, pageLocale } from '@i18n/page-locale';
+import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 
 export default async function HomePage({ params }: LocaleParams) {
-  const course = await getCourse(await pageLocale(params));
+  const course = await getCourse(await setPageLocale(params));
 
   return (
     <>

@@ -1,7 +1,10 @@
 import { getFormatter, getMessages, getTranslations } from 'next-intl/server';
 
 import { pageTitleClass } from '@components/section/section';
+import { pageMetadata } from '@domains/site/page-metadata';
+import { PAGE_ROUTES } from '@domains/site/routes';
 import { EMAIL_HELLO, LEGAL_DOCS_UPDATED, SELLING_MODEL } from '@domains/site/site';
+import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 import { TWO_DIGITS } from '@shared/format/number';
 
 export type LegalDocId = 'terms' | 'privacy';
@@ -86,4 +89,16 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
       </div>
     </section>
   );
+}
+
+/** The Terms of Use or Privacy Policy page's title, description and address. */
+export async function legalDocMetadata(doc: LegalDocId, params: LocaleParams['params']) {
+  const locale = await setPageLocale(params);
+  const t = await getTranslations({ locale, namespace: `docs.${doc}` });
+  return pageMetadata({
+    locale,
+    title: t('title'),
+    description: t('intro'),
+    path: PAGE_ROUTES[doc],
+  });
 }

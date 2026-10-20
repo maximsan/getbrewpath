@@ -3,7 +3,12 @@
  * Source: brewpath repo, lib/shared/models/monetization/plus_offering.dart.
  */
 
-/** One-time: buy once, keep it. Subscription: monthly or yearly. Hybrid: the learner's choice of all three. */
+import { PLAN_PRICES, SELLING_MODEL } from '@domains/site/site';
+
+/**
+ * One-time: buy once, keep it. Subscription: pay monthly or yearly.
+ * Hybrid: the learner picks a monthly, yearly or one-time plan.
+ */
 export const SELLING_MODELS = ['oneTime', 'subscription', 'hybrid'] as const;
 export type SellingModel = (typeof SELLING_MODELS)[number];
 
@@ -17,3 +22,9 @@ export const PLANS: Record<SellingModel, readonly PlanTerm[]> = {
   subscription: ['monthly', 'yearly'],
   hybrid: ['monthly', 'yearly', 'lifetime'],
 };
+
+/** The plans on sale under the site's selling model, with their prices. */
+export const PLANS_ON_SALE = PLANS[SELLING_MODEL].map((term) => ({
+  term,
+  price: PLAN_PRICES[term],
+}));

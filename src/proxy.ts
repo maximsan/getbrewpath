@@ -6,6 +6,7 @@ import { routing } from '@i18n/routing';
 export default createMiddleware(routing);
 
 export const config = {
-  // Everything but Next's own files, the iOS app-link file and files with an extension (images, robots.txt).
+  // Every address except /_next/, /_vercel/, /.well-known/apple-app-site-association
+  // and files with an extension, such as images and robots.txt.
   matcher: ['/((?!_next|_vercel|\\.well-known|.*\\..*).*)'],
 };

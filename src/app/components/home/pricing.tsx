@@ -3,9 +3,9 @@ import { getFormatter, getMessages, getTranslations } from 'next-intl/server';
 import { CheckIcon } from '@components/icons/icons';
 import { LinkButton } from '@components/link-button/link-button';
 import { Section, SectionHeading } from '@components/section/section';
-import { PLANS } from '@domains/selling/selling';
+import { PLANS_ON_SALE } from '@domains/selling/selling';
 import { formatPrice } from '@domains/site/price';
-import { APP_STORE_URL, PLAN_PRICES, PRICE_FREE, SELLING_MODEL } from '@domains/site/site';
+import { APP_STORE_URL, PRICE_FREE, SELLING_MODEL } from '@domains/site/site';
 import { cn } from '@shared/styles/cn';
 
 export async function Pricing() {
@@ -43,12 +43,8 @@ export async function Pricing() {
               {t('pro', { model: SELLING_MODEL })}
             </div>
             <div className="flex flex-col gap-3">
-              {PLANS[SELLING_MODEL].map((term) => (
-                <Price
-                  key={term}
-                  amount={formatPrice(format, PLAN_PRICES[term])}
-                  note={t('per', { term })}
-                />
+              {PLANS_ON_SALE.map(({ term, price }) => (
+                <Price key={term} amount={formatPrice(format, price)} note={t('per', { term })} />
               ))}
             </div>
           </div>

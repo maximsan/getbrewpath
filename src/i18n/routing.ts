@@ -9,8 +9,9 @@ export const routing = defineRouting({
   locales: ['en'],
   defaultLocale: 'en',
   localePrefix: 'as-needed',
-  // A visitor picks a language from the footer; the site never redirects by
-  // browser language, so it needs no cookie and every address shows one page.
+  // A visitor picks a language from the footer links. The site never redirects
+  // by browser language and stores no language cookie. Each address always
+  // shows the same language.
   localeDetection: false,
   localeCookie: false,
 });

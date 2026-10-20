@@ -9,15 +9,18 @@ export type Messages = typeof site & { lesson: typeof lesson; reward: typeof rew
 
 type JsonModule<T> = Promise<{ default: T }>;
 
-async function bundle(
-  siteFile: JsonModule<typeof site>,
-  lessonFile: JsonModule<typeof lesson>,
-  rewardFile: JsonModule<typeof reward>,
-): Promise<Messages> {
+interface MessageFiles {
+  site: JsonModule<typeof site>;
+  lesson: JsonModule<typeof lesson>;
+  reward: JsonModule<typeof reward>;
+}
+
+/** One language's files as the single strings object next-intl reads. */
+async function bundle(files: MessageFiles): Promise<Messages> {
   const [siteStrings, lessonStrings, rewardStrings] = await Promise.all([
-    siteFile,
-    lessonFile,
-    rewardFile,
+    files.site,
+    files.lesson,
+    files.reward,
   ]);
   return { ...siteStrings.default, lesson: lessonStrings.default, reward: rewardStrings.default };
 }
@@ -28,9 +31,9 @@ async function bundle(
  */
 export const MESSAGES: Record<Locale, () => Promise<Messages>> = {
   en: () =>
-    bundle(
-      import('@messages/en/site.json'),
-      import('@messages/en/lesson.json'),
-      import('@messages/en/reward.json'),
-    ),
+    bundle({
+      site: import('@messages/en/site.json'),
+      lesson: import('@messages/en/lesson.json'),
+      reward: import('@messages/en/reward.json'),
+    }),
 };

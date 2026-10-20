@@ -9,9 +9,10 @@ import { LinkButton } from '@components/link-button/link-button';
 import { monoNoteClass } from '@components/section/section';
 import { cardRouteParams, courseCounts, findCard, getCourse } from '@domains/course/course';
 import { pageMetadata } from '@domains/site/page-metadata';
+import { PAGE_ROUTES } from '@domains/site/routes';
 import { APP_STORE_URL, appCardLink } from '@domains/site/site';
 import { Link } from '@i18n/navigation';
-import { pageLocale } from '@i18n/page-locale';
+import { setPageLocale } from '@i18n/page-locale';
 
 interface CardPageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -23,7 +24,7 @@ export const dynamicParams = false;
 export const generateStaticParams = cardRouteParams;
 
 export async function generateMetadata({ params }: CardPageProps): Promise<Metadata> {
-  const locale = await pageLocale(params);
+  const locale = await setPageLocale(params);
   const card = findCard(await getCourse(locale), (await params).id);
   if (!card) return {};
   const t = await getTranslations({ locale, namespace: 'metadata' });
@@ -46,7 +47,7 @@ const PITCH = [
 ] as const satisfies readonly { key: string; Icon: ComponentType }[];
 
 export default async function CardPage({ params }: CardPageProps) {
-  const course = await getCourse(await pageLocale(params));
+  const course = await getCourse(await setPageLocale(params));
   const card = findCard(course, (await params).id);
   if (!card) notFound();
   const counts = courseCounts(course);
@@ -118,7 +119,7 @@ export default async function CardPage({ params }: CardPageProps) {
       </div>
       <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
         <div className="ff-ui text-[15px] text-ink-mute">
-          {t.rich('curious', { link: (chunks) => <Link href="/">{chunks}</Link> })}
+          {t.rich('curious', { link: (chunks) => <Link href={PAGE_ROUTES.home}>{chunks}</Link> })}
         </div>
         <div className="ff-mono text-[11px] tracking-[.1em] text-ink-mute uppercase">
           {t('count', { cards: counts.cards, moduleRewards: counts.moduleRewards })}

@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes';
 
 import { cn } from '@shared/styles/cn';
 
-import type { ColorScheme } from '@domains/site/mood';
+import type { ColorScheme } from './mood-scheme';
 
 /**
  * The header's two-label switch. The knob position and label colours come

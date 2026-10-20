@@ -40,9 +40,18 @@
         "summary": "The fruit of the coffee plant. Two seeds inside each one.",
         "fact": "Cherries ripen unevenly on the same branch — pickers return three or four times.",
         "meta": [
-          ["FAMILY", "Rubiaceae"],
-          ["ORIGIN", "Ethiopia, ~9th c."],
-          ["FRUIT", "Drupe / cherry"]
+          [
+            "FAMILY",
+            "Rubiaceae"
+          ],
+          [
+            "ORIGIN",
+            "Ethiopia, ~9th c."
+          ],
+          [
+            "FRUIT",
+            "Drupe / cherry"
+          ]
         ]
       },
       "moduleNumber": 1,
@@ -58,9 +67,18 @@
         "summary": "The equatorial band where coffee grows — and why place ends up in the cup.",
         "fact": "The same variety planted in two countries can taste completely different. Origin does the talking.",
         "meta": [
-          ["LATITUDE", "25°N – 25°S"],
-          ["SHAPED BY", "Soil, altitude, climate"],
-          ["GRANULARITY", "Country → farm"]
+          [
+            "LATITUDE",
+            "25°N – 25°S"
+          ],
+          [
+            "SHAPED BY",
+            "Soil, altitude, climate"
+          ],
+          [
+            "GRANULARITY",
+            "Country → farm"
+          ]
         ]
       },
       "moduleNumber": 1,
@@ -76,9 +94,18 @@
         "summary": "The species behind most specialty coffee. Sweet, nuanced, fragile.",
         "fact": "Every arabica plant traces back to a small founding population in Ethiopia — the genetic diversity is unusually narrow.",
         "meta": [
-          ["SPECIES", "Coffea arabica"],
-          ["SHARE", "~60% world"],
-          ["CAFFEINE", "~1.2%"]
+          [
+            "SPECIES",
+            "Coffea arabica"
+          ],
+          [
+            "SHARE",
+            "~60% world"
+          ],
+          [
+            "CAFFEINE",
+            "~1.2%"
+          ]
         ]
       },
       "moduleNumber": 1,
@@ -106,9 +133,18 @@
         "summary": "Where the choice gets made — fruit on, fruit off, or somewhere between.",
         "fact": "On a raised bed, cherries are turned by hand every few hours so they dry evenly and never ferment too far.",
         "meta": [
-          ["METHODS", "Washed / natural / honey"],
-          ["CONTROLS", "Fruit contact time"],
-          ["DECIDES", "Clarity vs fruit"]
+          [
+            "METHODS",
+            "Washed / natural / honey"
+          ],
+          [
+            "CONTROLS",
+            "Fruit contact time"
+          ],
+          [
+            "DECIDES",
+            "Clarity vs fruit"
+          ]
         ]
       },
       "moduleNumber": 2,
@@ -124,9 +160,18 @@
         "summary": "The quiet chemistry that turns leftover fruit sugar into flavour.",
         "fact": "A few extra hours of fermentation can be the difference between clean citrus and full-on blueberry.",
         "meta": [
-          ["DRIVEN BY", "Sugar + microbes + time"],
-          ["MORE OF IT", "Fruit, funk, body"],
-          ["CAN BEAT", "Origin itself"]
+          [
+            "DRIVEN BY",
+            "Sugar + microbes + time"
+          ],
+          [
+            "MORE OF IT",
+            "Fruit, funk, body"
+          ],
+          [
+            "CAN BEAT",
+            "Origin itself"
+          ]
         ]
       },
       "moduleNumber": 2,
@@ -142,9 +187,18 @@
         "summary": "Origin, variety, process, roast date — four lines that predict your cup.",
         "fact": "Read enough labels and you’ll guess the taste before the first sip more often than not.",
         "meta": [
-          ["READS", "Origin · variety · process"],
-          ["FORECASTS", "Clarity vs fruit"],
-          ["SKILL", "Buy with intent"]
+          [
+            "READS",
+            "Origin · variety · process"
+          ],
+          [
+            "FORECASTS",
+            "Clarity vs fruit"
+          ],
+          [
+            "SKILL",
+            "Buy with intent"
+          ]
         ]
       },
       "moduleNumber": 2,
@@ -160,9 +214,18 @@
         "summary": "Light to dark — how far the heat goes, and what it trades away.",
         "fact": "Roast level barely changes caffeine — it mostly trades origin acidity for roast flavour.",
         "meta": [
-          ["LIGHT", "Bright · acidic"],
-          ["MEDIUM", "Balanced · sweet"],
-          ["DARK", "Bitter · bold"]
+          [
+            "LIGHT",
+            "Bright · acidic"
+          ],
+          [
+            "MEDIUM",
+            "Balanced · sweet"
+          ],
+          [
+            "DARK",
+            "Bitter · bold"
+          ]
         ]
       },
       "moduleNumber": 3,
@@ -178,9 +241,18 @@
         "summary": "The two sounds that tell a roaster how far a roast has gone.",
         "fact": "First crack sounds like faint popcorn; second crack is sharper, like crackling.",
         "meta": [
-          ["FIRST", "Light roast begins"],
-          ["SECOND", "Dark roast begins"],
-          ["BETWEEN", "Medium"]
+          [
+            "FIRST",
+            "Light roast begins"
+          ],
+          [
+            "SECOND",
+            "Dark roast begins"
+          ],
+          [
+            "BETWEEN",
+            "Medium"
+          ]
         ]
       },
       "moduleNumber": 3,
@@ -196,9 +268,18 @@
         "summary": "The one number that tells you whether a bag is worth buying.",
         "fact": "Most coffee is at its best from a few days to about a month after roasting.",
         "meta": [
-          ["LOOK FOR", "A roast date"],
-          ["SWEET SPOT", "~4 weeks"],
-          ["BUY", "A month’s worth"]
+          [
+            "LOOK FOR",
+            "A roast date"
+          ],
+          [
+            "SWEET SPOT",
+            "~4 weeks"
+          ],
+          [
+            "BUY",
+            "A month’s worth"
+          ]
         ]
       },
       "moduleNumber": 3,
@@ -214,9 +295,18 @@
         "summary": "How coarse or fine you grind — the speed dial for extraction.",
         "fact": "Halving particle size roughly doubles the surface the water can reach.",
         "meta": [
-          ["FINER", "More surface · faster"],
-          ["COARSER", "Less surface · slower"],
-          ["SET BY", "Your brewer"]
+          [
+            "FINER",
+            "More surface · faster"
+          ],
+          [
+            "COARSER",
+            "Less surface · slower"
+          ],
+          [
+            "SET BY",
+            "Your brewer"
+          ]
         ]
       },
       "moduleNumber": 4,
@@ -232,9 +322,18 @@
         "summary": "Why an even grind — not a fancy brewer — is the upgrade that counts.",
         "fact": "Blade grinders make dust and boulders at once; burrs make one even size.",
         "meta": [
-          ["BURR", "Even · dial-able"],
-          ["BLADE", "Uneven · muddy"],
-          ["BUY", "A burr, any size"]
+          [
+            "BURR",
+            "Even · dial-able"
+          ],
+          [
+            "BLADE",
+            "Uneven · muddy"
+          ],
+          [
+            "BUY",
+            "A burr, any size"
+          ]
         ]
       },
       "moduleNumber": 4,
@@ -250,9 +349,18 @@
         "summary": "Your first and best dial for fixing a cup that tastes off.",
         "fact": "Baristas change grind before almost anything else — it moves the cup more than any other single tweak.",
         "meta": [
-          ["CONTROLS", "Extraction speed"],
-          ["FINER", "Faster · stronger"],
-          ["COARSER", "Slower · lighter"]
+          [
+            "CONTROLS",
+            "Extraction speed"
+          ],
+          [
+            "FINER",
+            "Faster · stronger"
+          ],
+          [
+            "COARSER",
+            "Slower · lighter"
+          ]
         ]
       },
       "moduleNumber": 4,
@@ -268,9 +376,18 @@
         "summary": "Coffee to water, by weight — the dial that sets your cup’s strength.",
         "fact": "Most filter recipes live between 1:15 and 1:17. Pick one, weigh it, and stay consistent.",
         "meta": [
-          ["BASELINE", "1:16"],
-          ["STRONGER", "More coffee"],
-          ["WEAKER", "More water"]
+          [
+            "BASELINE",
+            "1:16"
+          ],
+          [
+            "STRONGER",
+            "More coffee"
+          ],
+          [
+            "WEAKER",
+            "More water"
+          ]
         ]
       },
       "moduleNumber": 5,
@@ -286,9 +403,18 @@
         "summary": "The invisible 98% — temperature and quality shape every cup.",
         "fact": "Brewed coffee is about 98% water; filtered and just off the boil is the easy target.",
         "meta": [
-          ["COFFEE IS", "~98% water"],
-          ["TARGET", "~90–96°C"],
-          ["USE", "Clean, filtered"]
+          [
+            "COFFEE IS",
+            "~98% water"
+          ],
+          [
+            "TARGET",
+            "~90–96°C"
+          ],
+          [
+            "USE",
+            "Clean, filtered"
+          ]
         ]
       },
       "moduleNumber": 5,
@@ -304,9 +430,18 @@
         "summary": "Two words that diagnose almost any bad cup.",
         "fact": "Sour and thin means too little extraction; bitter and dry means too much. Everything else is a nudge back to the middle.",
         "meta": [
-          ["SOUR + THIN", "Extract more"],
-          ["BITTER + DRY", "Extract less"],
-          ["GOLDEN RULE", "One change at a time"]
+          [
+            "SOUR + THIN",
+            "Extract more"
+          ],
+          [
+            "BITTER + DRY",
+            "Extract less"
+          ],
+          [
+            "GOLDEN RULE",
+            "One change at a time"
+          ]
         ]
       },
       "moduleNumber": 5,
@@ -370,8 +505,14 @@
         "summary": "Why the number in metres on a bag predicts the cup.",
         "fact": "Most specialty coffee grows between 1,200 and 2,200 metres — high enough to ripen slowly, low enough to avoid frost.",
         "meta": [
-          ["SPECIALTY BAND", "1,200–2,200 m"],
-          ["MECHANISM", "Cooler · slower"]
+          [
+            "SPECIALTY BAND",
+            "1,200–2,200 m"
+          ],
+          [
+            "MECHANISM",
+            "Cooler · slower"
+          ]
         ]
       },
       "moduleNumber": 1,
@@ -387,8 +528,14 @@
         "summary": "What the words on a bag promise, and who they promise it to.",
         "fact": "Specialty is a score, not a vibe — 80 or more out of 100, cupped.",
         "meta": [
-          ["CERTIFIES", "Price floor"],
-          ["DOES NOT", "Guarantee quality"]
+          [
+            "CERTIFIES",
+            "Price floor"
+          ],
+          [
+            "DOES NOT",
+            "Guarantee quality"
+          ]
         ]
       },
       "moduleNumber": 1,
@@ -404,9 +551,18 @@
         "summary": "Skin, pulp, mucilage, parchment, silverskin, seed.",
         "fact": "Around 80% of a picked cherry never leaves the farm — you brew the small hard bit in the middle.",
         "meta": [
-          ["LAYERS", "6"],
-          ["THE STICKY ONE", "Mucilage"],
-          ["BECOMES CHAFF", "Silverskin"]
+          [
+            "LAYERS",
+            "6"
+          ],
+          [
+            "THE STICKY ONE",
+            "Mucilage"
+          ],
+          [
+            "BECOMES CHAFF",
+            "Silverskin"
+          ]
         ]
       },
       "moduleNumber": 1,
@@ -422,8 +578,14 @@
         "summary": "Typica, Bourbon, Geisha — the names behind the cup.",
         "fact": "Almost every Arabica grown today traces back to Typica or Bourbon.",
         "meta": [
-          ["ANCESTORS", "Typica · Bourbon"],
-          ["PRIZED", "Geisha"]
+          [
+            "ANCESTORS",
+            "Typica · Bourbon"
+          ],
+          [
+            "PRIZED",
+            "Geisha"
+          ]
         ]
       },
       "moduleNumber": 1,
@@ -439,8 +601,14 @@
         "summary": "The slow step that decides whether a lot survives the journey.",
         "fact": "Sun drying takes 10–25 days, and naturals run longest because the fruit is still on.",
         "meta": [
-          ["TARGET", "~11% moisture"],
-          ["TURNED", "By hand, daily"]
+          [
+            "TARGET",
+            "~11% moisture"
+          ],
+          [
+            "TURNED",
+            "By hand, daily"
+          ]
         ]
       },
       "moduleNumber": 2,
@@ -456,8 +624,14 @@
         "summary": "The stage where much of the flavour is actually made.",
         "fact": "Seal the tank and starve it of oxygen, and the same cherry tastes like a different fruit.",
         "meta": [
-          ["DRIVEN BY", "Microbes"],
-          ["DIALS", "Time · oxygen"]
+          [
+            "DRIVEN BY",
+            "Microbes"
+          ],
+          [
+            "DIALS",
+            "Time · oxygen"
+          ]
         ]
       },
       "moduleNumber": 2,
@@ -473,8 +647,14 @@
         "summary": "How the caffeine comes out, and what stays behind.",
         "fact": "Roughly 97% removed is the bar — a decaf cup still carries a few milligrams.",
         "meta": [
-          ["METHODS", "Solvent · water · CO₂"],
-          ["REMOVED", "~97%"]
+          [
+            "METHODS",
+            "Solvent · water · CO₂"
+          ],
+          [
+            "REMOVED",
+            "~97%"
+          ]
         ]
       },
       "moduleNumber": 2,
@@ -490,8 +670,14 @@
         "summary": "What heat actually does to a green bean.",
         "fact": "First crack arrives around 195–205 °C, when steam pressure pops the bean open.",
         "meta": [
-          ["BUILDS", "Aroma · colour"],
-          ["TRADES", "Acidity for body"]
+          [
+            "BUILDS",
+            "Aroma · colour"
+          ],
+          [
+            "TRADES",
+            "Acidity for body"
+          ]
         ]
       },
       "moduleNumber": 3,
@@ -507,8 +693,14 @@
         "summary": "Two ends of the spectrum, and how to choose between them.",
         "fact": "Caffeine survives roasting — light roasts only win by the scoop because dark beans are less dense.",
         "meta": [
-          ["LIGHT", "Origin forward"],
-          ["DARK", "Roast forward"]
+          [
+            "LIGHT",
+            "Origin forward"
+          ],
+          [
+            "DARK",
+            "Roast forward"
+          ]
         ]
       },
       "moduleNumber": 3,
@@ -524,8 +716,14 @@
         "summary": "How much is really in the cup in front of you.",
         "fact": "A single espresso carries less caffeine than a mug of drip — concentration is not dose.",
         "meta": [
-          ["ESPRESSO", "~63 mg"],
-          ["DRIP CUP", "~95 mg"]
+          [
+            "ESPRESSO",
+            "~63 mg"
+          ],
+          [
+            "DRIP CUP",
+            "~95 mg"
+          ]
         ]
       },
       "moduleNumber": 3,
@@ -541,8 +739,14 @@
         "summary": "Which grind belongs to which brewer, and why.",
         "fact": "The longer the water sits with the coffee, the coarser the grind has to be.",
         "meta": [
-          ["RULE", "Contact time"],
-          ["COARSEST", "French press"]
+          [
+            "RULE",
+            "Contact time"
+          ],
+          [
+            "COARSEST",
+            "French press"
+          ]
         ]
       },
       "moduleNumber": 4,
@@ -558,8 +762,14 @@
         "summary": "Aroma escaping is what you smell — and flavour you will never taste. Peak flavour holds:",
         "fact": "Grinding multiplies the exposed surface enormously — staling starts immediately.",
         "meta": [
-          ["WHOLE BEAN", "Weeks"],
-          ["GROUND", "Minutes"]
+          [
+            "WHOLE BEAN",
+            "Weeks"
+          ],
+          [
+            "GROUND",
+            "Minutes"
+          ]
         ]
       },
       "moduleNumber": 4,
@@ -575,8 +785,14 @@
         "summary": "What the money actually buys in a grinder.",
         "fact": "A hand burr grinder usually out-grinds an electric at the same price.",
         "meta": [
-          ["PAY FOR", "Burrs · alignment"],
-          ["IGNORE", "Wattage"]
+          [
+            "PAY FOR",
+            "Burrs · alignment"
+          ],
+          [
+            "IGNORE",
+            "Wattage"
+          ]
         ]
       },
       "moduleNumber": 4,
@@ -592,9 +808,18 @@
         "summary": "How much of the coffee actually made it into the water.",
         "fact": "Only about 30% of a bean can dissolve at all — and you want 18–22% of the bean’s weight in the cup.",
         "meta": [
-          ["CEILING", "~30% soluble"],
-          ["TARGET", "18–22%"],
-          ["FIRST OUT", "Acids"]
+          [
+            "CEILING",
+            "~30% soluble"
+          ],
+          [
+            "TARGET",
+            "18–22%"
+          ],
+          [
+            "FIRST OUT",
+            "Acids"
+          ]
         ]
       },
       "moduleNumber": 5,
@@ -610,8 +835,14 @@
         "summary": "Paper, metal or cloth — and what each one keeps out of the cup.",
         "fact": "Paper traps the oils that carry body; metal lets them straight through.",
         "meta": [
-          ["PAPER", "Clean · light"],
-          ["METAL", "Heavy · oily"]
+          [
+            "PAPER",
+            "Clean · light"
+          ],
+          [
+            "METAL",
+            "Heavy · oily"
+          ]
         ]
       },
       "moduleNumber": 5,
@@ -627,9 +858,18 @@
         "summary": "Why nine bars makes a different drink out of the same coffee.",
         "fact": "Espresso is a method, not a roast: ~9 bars for ~28 seconds, 18 g in and about 36 g out, with crema on top.",
         "meta": [
-          ["PRESSURE", "~9 bar"],
-          ["TIME", "~28 sec"],
-          ["FAULT TO KNOW", "Channeling"]
+          [
+            "PRESSURE",
+            "~9 bar"
+          ],
+          [
+            "TIME",
+            "~28 sec"
+          ],
+          [
+            "FAULT TO KNOW",
+            "Channeling"
+          ]
         ]
       },
       "moduleNumber": 5,
@@ -645,8 +885,14 @@
         "summary": "Every decision in the course, assembled into one brew.",
         "fact": "Weighing the water matters as much as weighing the coffee — most people only do half.",
         "meta": [
-          ["RATIO", "1:16 — 1:17"],
-          ["TOTAL TIME", "2:30 — 3:30"]
+          [
+            "RATIO",
+            "1:16 — 1:17"
+          ],
+          [
+            "TOTAL TIME",
+            "2:30 — 3:30"
+          ]
         ]
       },
       "moduleNumber": 5,
