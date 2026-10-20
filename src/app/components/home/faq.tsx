@@ -3,6 +3,7 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { Disclosure } from '@components/brewpath/disclosure/disclosure';
 import { Section, sectionTitleClass } from '@components/section/section';
 import { PAGE_ROUTES } from '@domains/site/routes';
+import { SELLING_MODEL } from '@domains/site/site';
 import { Link } from '@i18n/navigation';
 
 export async function Faq() {
@@ -19,10 +20,16 @@ export async function Faq() {
           </p>
         </div>
         <div data-reveal data-delay="1" className="border-t border-rule">
-          {Object.values(faq.items).map((item) => (
-            <Disclosure key={item.q} label={item.q} glyph="plus" divider headerPad="20px 0">
+          {(Object.keys(faq.items) as (keyof typeof faq.items)[]).map((key) => (
+            <Disclosure
+              key={key}
+              label={t(`items.${key}.q`)}
+              glyph="plus"
+              divider
+              headerPad="20px 0"
+            >
               <p className="ff-ui mt-0 mb-[18px] max-w-[60ch] text-[15px] leading-[1.65] text-pretty text-ink-mute">
-                {item.a}
+                {t(`items.${key}.a`, { model: SELLING_MODEL })}
               </p>
             </Disclosure>
           ))}

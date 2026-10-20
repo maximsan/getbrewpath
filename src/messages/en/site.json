@@ -20,7 +20,7 @@
     "body": "Three-minute lessons in the craft of coffee — beans, roast, grind, brew. Every one you finish feeds a living tree and earns a card worth keeping.",
     "download": "Download on the App Store",
     "tryFirst": "Try a lesson first",
-    "note": "Free to start. Foundations is one purchase, no subscription",
+    "note": "{model, select, oneTime {Free to start. Foundations is one purchase, no subscription} subscription {Free to start. Foundations is a subscription, cancel anytime} other {Free to start. Subscribe to Foundations, or buy it once}}",
     "shotToday": "The BrewPath Today screen",
     "shotLesson": "A BrewPath lesson asking for a first guess"
   },
@@ -159,12 +159,13 @@
     }
   },
   "pricing": {
-    "title": "The first module is free. The course is one purchase.",
+    "title": "{model, select, oneTime {The first module is free. The course is one purchase.} subscription {The first module is free. The course is one subscription.} other {The first module is free. Subscribe to the course, or buy it once.}}",
     "free": "Free",
     "forever": "forever",
     "freeCta": "Download free",
-    "pro": "Foundations, one-time purchase",
-    "once": "once, no subscription",
+    "pro": "{model, select, oneTime {Foundations, one-time purchase} subscription {Foundations, subscription} other {Foundations, subscribe or own it}}",
+    "per": "{term, select, lifetime {once, no subscription} monthly {a month, cancel anytime} other {a year, cancel anytime}}",
+    "planPrice": "{price} {term, select, lifetime {once} monthly {a month} other {a year}}",
     "proCta": "Start free, unlock in the app",
     "freeList": {
       "item1": "Module 1: Beans, all 7 lessons",
@@ -179,14 +180,14 @@
       "item4": "Unlimited saved terms and cards",
       "item5": "The Studio — dress Roasty, choose your plant"
     },
-    "note": "Prices in USD. The App Store sets the final price in your region. Fixes and improvements are included; nothing renews."
+    "note": "{model, select, oneTime {Prices in USD. The App Store sets the final price in your region. Fixes and improvements are included; nothing renews.} subscription {Prices in USD. The App Store sets the final price in your region. Cancel anytime; access runs to the end of the paid period.} other {Prices in USD. The App Store sets the final price in your region. Cancel a subscription anytime; a one-time purchase never renews.}}"
   },
   "faq": {
     "title": "Things people ask before downloading.",
     "items": {
       "q1": {
         "q": "Is BrewPath free?",
-        "a": "The first module — Beans, seven lessons — and the daily practice games are free, forever. Foundations unlocks the other four modules for a single payment. Nothing renews."
+        "a": "The first module — Beans, seven lessons — and the daily practice games are free, forever. Foundations unlocks the other four modules. {model, select, oneTime {Buy it once and it’s yours for good; there’s no subscription and nothing renews.} subscription {It’s a subscription — monthly or yearly, your pick — and stays open while you’re subscribed. Cancel anytime; access runs to the end of the paid period.} other {Your choice — subscribe monthly or yearly, or make a single one-time purchase and keep it forever.}}"
       },
       "q2": {
         "q": "Do I need any equipment?",
@@ -257,7 +258,7 @@
         "s2": {
           "h": "The app, and what’s free",
           "ps": {
-            "p1": "BrewPath is a learning app. The first module and the daily practice games are free. “Foundations” unlocks the rest of the course and is sold as a one-time in-app purchase through Apple’s App Store.",
+            "p1": "BrewPath is a learning app. The first module and the daily practice games are free. “Foundations” unlocks the rest of the course. {model, select, oneTime {It is sold as a one-time in-app purchase through Apple’s App Store.} subscription {It is sold as a monthly or yearly subscription through Apple’s App Store. A subscription renews automatically unless you cancel it at least 24 hours before the current period ends; manage or cancel it in your Apple Account settings.} other {It is sold through Apple’s App Store as a monthly or yearly subscription, or as a one-time in-app purchase. A subscription renews automatically unless you cancel it at least 24 hours before the current period ends; manage or cancel it in your Apple Account settings.}}",
             "p2": "There is no account. Your progress lives on your device. If you delete the app, your progress goes with it unless you have a device backup."
           }
         },
@@ -367,7 +368,7 @@
       "refund": {
         "title": "Unlock or refund",
         "steps": {
-          "step1": "Foundations is a one-time purchase, sold by Apple.",
+          "step1": "{model, select, oneTime {Foundations is a one-time purchase, sold by Apple.} subscription {Foundations is a subscription, sold by Apple. Cancel it in your Apple Account settings.} other {Foundations is sold by Apple, as a subscription or a one-time purchase. Cancel a subscription in your Apple Account settings.}}",
           "step2": "Refunds are handled at reportaproblem.apple.com.",
           "step3": "Not sure what you bought? Ask us — we can check what the store says."
         }
@@ -411,7 +412,7 @@
       "platform": "Platform",
       "platformV": "iPhone, iOS 16 and later",
       "price": "Price",
-      "priceV": "Free download, Foundations {price} once",
+      "priceV": "Free download, Foundations {prices}",
       "course": "Course",
       "courseV": "{modules} modules, {lessons} lessons, {cards} cards",
       "mascot": "Mascot",

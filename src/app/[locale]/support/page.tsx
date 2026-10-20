@@ -6,7 +6,7 @@ import { LeafIcon, LockIcon, RematchIcon } from '@components/icons/icons';
 import { pageTitleClass } from '@components/section/section';
 import { pageMetadata } from '@domains/site/page-metadata';
 import { PAGE_ROUTES } from '@domains/site/routes';
-import { EMAIL_HELLO } from '@domains/site/site';
+import { EMAIL_HELLO, SELLING_MODEL } from '@domains/site/site';
 import type { Messages } from '@i18n/messages';
 import { type LocaleParams, pageLocale } from '@i18n/page-locale';
 
@@ -36,6 +36,7 @@ export default async function SupportPage({ params }: LocaleParams) {
   await pageLocale(params);
   const t = await getTranslations('support');
   const { support } = await getMessages();
+  type StepKey = Parameters<typeof t>[0];
 
   return (
     <section className="page-width px-6 pt-[clamp(40px,6vw,72px)]">
@@ -60,9 +61,10 @@ export default async function SupportPage({ params }: LocaleParams) {
                 {topic.title}
               </h2>
               <ol className="mt-1 mb-0 flex flex-col gap-2 ps-[18px]">
-                {Object.values(topic.steps).map((step) => (
+                {Object.keys(topic.steps).map((step) => (
                   <li key={step} className="ff-ui text-sm leading-[1.55] text-ink-mute">
-                    {step}
+                    {/* The step is read from this topic's own steps, which TypeScript cannot follow. */}
+                    {t(`topics.${key}.steps.${step}` as StepKey, { model: SELLING_MODEL })}
                   </li>
                 ))}
               </ol>

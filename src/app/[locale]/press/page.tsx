@@ -15,7 +15,8 @@ import { pageMetadata } from '@domains/site/page-metadata';
 import { formatPrice } from '@domains/site/price';
 import { PAGE_ROUTES } from '@domains/site/routes';
 import { screenDownloadName, SCREENS, screenSrc } from '@domains/site/screens';
-import { EMAIL_PRESS, PRICE_FOUNDATIONS, SITE_HOST } from '@domains/site/site';
+import { PLANS } from '@domains/selling/selling';
+import { EMAIL_PRESS, PLAN_PRICES, SELLING_MODEL, SITE_HOST } from '@domains/site/site';
 import { type LocaleParams, pageLocale } from '@i18n/page-locale';
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
@@ -34,14 +35,21 @@ const labelClass = 'ff-mono text-[11px] tracking-[.08em] text-ink-mute uppercase
 export default async function PressPage({ params }: LocaleParams) {
   const counts = courseCounts(await getCourse(await pageLocale(params)));
   const t = await getTranslations('press');
+  const tPricing = await getTranslations('pricing');
   const format = await getFormatter();
+  const prices = format.list(
+    PLANS[SELLING_MODEL].map((term) =>
+      tPricing('planPrice', { price: formatPrice(format, PLAN_PRICES[term]), term }),
+    ),
+    { type: 'disjunction' },
+  );
 
   const facts = [
     { label: t('facts.name'), value: t('facts.nameV') },
     { label: t('facts.platform'), value: t('facts.platformV') },
     {
       label: t('facts.price'),
-      value: t('facts.priceV', { price: formatPrice(format, PRICE_FOUNDATIONS) }),
+      value: t('facts.priceV', { prices }),
     },
     {
       label: t('facts.course'),

@@ -1,7 +1,7 @@
 import { getFormatter, getMessages, getTranslations } from 'next-intl/server';
 
 import { pageTitleClass } from '@components/section/section';
-import { EMAIL_HELLO, LEGAL_DOCS_UPDATED } from '@domains/site/site';
+import { EMAIL_HELLO, LEGAL_DOCS_UPDATED, SELLING_MODEL } from '@domains/site/site';
 import { TWO_DIGITS } from '@shared/format/number';
 
 export type LegalDocId = 'terms' | 'privacy';
@@ -70,6 +70,7 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
                   {/* The key is read from this doc's own sections, which TypeScript cannot follow. */}
                   {t(`${doc}.sections.${key}.ps.${paragraph}` as ParagraphKey, {
                     email: EMAIL_HELLO,
+                    model: SELLING_MODEL,
                   })}
                 </p>
               ))}

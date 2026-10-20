@@ -3,8 +3,9 @@ import { getFormatter, getMessages, getTranslations } from 'next-intl/server';
 import { CheckIcon } from '@components/icons/icons';
 import { LinkButton } from '@components/link-button/link-button';
 import { Section, SectionHeading } from '@components/section/section';
+import { PLANS } from '@domains/selling/selling';
 import { formatPrice } from '@domains/site/price';
-import { APP_STORE_URL, PRICE_FOUNDATIONS, PRICE_FREE } from '@domains/site/site';
+import { APP_STORE_URL, PLAN_PRICES, PRICE_FREE, SELLING_MODEL } from '@domains/site/site';
 import { cn } from '@shared/styles/cn';
 
 export async function Pricing() {
@@ -14,7 +15,7 @@ export async function Pricing() {
 
   return (
     <Section id="pricing">
-      <SectionHeading>{t('title')}</SectionHeading>
+      <SectionHeading>{t('title', { model: SELLING_MODEL })}</SectionHeading>
       <div className="mx-auto mt-12 grid max-w-[900px] grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-5">
         <div
           data-reveal
@@ -38,8 +39,18 @@ export async function Pricing() {
         >
           <div className="pointer-events-none absolute -right-[20%] -bottom-1/2 aspect-square w-[70%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_24%,transparent),transparent)]" />
           <div className="relative">
-            <div className="smallcaps mb-2.5 text-accent!">{t('pro')}</div>
-            <Price amount={formatPrice(format, PRICE_FOUNDATIONS)} note={t('once')} />
+            <div className="smallcaps mb-2.5 text-accent!">
+              {t('pro', { model: SELLING_MODEL })}
+            </div>
+            <div className="flex flex-col gap-3">
+              {PLANS[SELLING_MODEL].map((term) => (
+                <Price
+                  key={term}
+                  amount={formatPrice(format, PLAN_PRICES[term])}
+                  note={t('per', { term })}
+                />
+              ))}
+            </div>
           </div>
           <Checklist items={Object.values(pricing.proList)} tone="accent" />
           <LinkButton href={APP_STORE_URL} tone="accent" size="lg" className="relative mt-auto">
@@ -48,7 +59,7 @@ export async function Pricing() {
         </div>
       </div>
       <p className="ff-ui mx-auto mt-5 mb-0 max-w-[62ch] text-center text-[13px] leading-normal text-ink-mute">
-        {t('note')}
+        {t('note', { model: SELLING_MODEL })}
       </p>
     </Section>
   );
