@@ -3,16 +3,21 @@
 import { ThemeProvider } from 'next-themes';
 import type { ReactNode } from 'react';
 
-import { DEFAULT_MOOD, MOOD_STORAGE_KEY, MOODS } from './mood';
+import { COLOR_SCHEMES, MOOD_OF_SCHEME, MOOD_STORAGE_KEY } from '@domains/site/mood';
 
-/** Puts the visitor's mood on `<html data-mood>` before paint and remembers it. */
+/**
+ * Puts the mood on `<html data-mood>` before paint. A first visit follows the
+ * phone's light or dark setting, as the app does; a pick from the mood switch
+ * is remembered and wins from then on.
+ */
 export function MoodProvider({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider
       attribute="data-mood"
-      themes={[...MOODS]}
-      defaultTheme={DEFAULT_MOOD}
-      enableSystem={false}
+      themes={COLOR_SCHEMES}
+      value={MOOD_OF_SCHEME}
+      defaultTheme="system"
+      enableSystem
       storageKey={MOOD_STORAGE_KEY}
       disableTransitionOnChange={false}
     >

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getFormatter, getTranslations } from 'next-intl/server';
 
 import { linkButtonClass } from '@components/link-button/link-button';
+import { MOOD_ONLY } from '@components/mood/mood-only';
 import { PhoneShot } from '@components/phone-shot/phone-shot';
 import { pageTitleClass } from '@components/section/section';
 import { courseCounts, getCourse } from '@domains/course/course';
@@ -14,7 +15,8 @@ import {
 import { pageMetadata } from '@domains/site/page-metadata';
 import { formatPrice } from '@domains/site/price';
 import { PAGE_ROUTES } from '@domains/site/routes';
-import { screenDownloadName, SCREENS, screenSrc } from '@domains/site/screens';
+import { screenDownloadName, SCREENS, screenShots } from '@domains/site/screens';
+import { cn } from '@shared/styles/cn';
 import { PLANS } from '@domains/selling/selling';
 import { EMAIL_PRESS, PLAN_PRICES, SELLING_MODEL, SITE_HOST } from '@domains/site/site';
 import { type LocaleParams, pageLocale } from '@i18n/page-locale';
@@ -105,15 +107,23 @@ export default async function PressPage({ params }: LocaleParams) {
         <h2 className="smallcaps m-0 mb-[18px]">{t('screens')}</h2>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-[18px]">
           {SCREENS.map((screen) => (
-            <a
-              key={screen}
-              href={screenSrc(screen)}
-              download={screenDownloadName(screen)}
-              className="flex flex-col gap-2.5 text-ink hover:no-underline"
-            >
-              <PhoneShot screen={screen} alt="" sizes="200px" />
-              <span className={labelClass}>{t(`shots.${screen}`)}</span>
-            </a>
+            <div key={screen}>
+              {/* One download per mood; the page's mood picks which one shows. */}
+              {screenShots(screen).map(({ src, mood }) => (
+                <a
+                  key={src}
+                  href={src}
+                  download={screenDownloadName(screen, mood)}
+                  className={cn(
+                    'flex flex-col gap-2.5 text-ink hover:no-underline',
+                    mood && MOOD_ONLY[mood],
+                  )}
+                >
+                  <PhoneShot screen={screen} mood={mood} alt="" sizes="200px" />
+                  <span className={labelClass}>{t(`shots.${screen}`)}</span>
+                </a>
+              ))}
+            </div>
           ))}
         </div>
       </div>
