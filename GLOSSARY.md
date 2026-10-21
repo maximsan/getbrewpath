@@ -26,3 +26,7 @@ _Avoid_: theme, in copy
 **Selling model** — how Foundations is sold: once for good (one-time), as a
 monthly or yearly subscription, or both, the learner's choice (hybrid).
 _Avoid_: pricing arm, monetization model (the app's code names)
+
+**Share image** — the picture a link to the site shows when it is shared in a
+chat or social app. A Coffee Card page has its own, showing that card.
+_Avoid_: share preview, OG image
