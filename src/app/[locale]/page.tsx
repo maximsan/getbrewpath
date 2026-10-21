@@ -22,7 +22,6 @@ export default async function HomePage({ params }: LocaleParams) {
       <Features />
       <Section id="demo">
         <div
-          data-mood="dark-roast"
           data-reveal
           className="overflow-hidden rounded-[28px] border border-rule bg-surface px-[clamp(24px,5vw,64px)] py-[clamp(32px,5vw,64px)]"
         >

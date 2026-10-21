@@ -2,8 +2,7 @@ import Image from 'next/image';
 import type { CSSProperties } from 'react';
 
 import { MOOD_ONLY } from '@components/mood/mood-only';
-import type { Mood } from '@domains/site/mood';
-import { SCREEN_ASPECT, type ScreenId, screenShots, screenSrc } from '@domains/site/screens';
+import { SCREEN_ASPECT, type ScreenId, screenShots } from '@domains/site/screens';
 import { cn } from '@shared/styles/cn';
 
 interface PhoneShotProps {
@@ -11,8 +10,6 @@ interface PhoneShotProps {
   alt: string;
   /** Rendered width hint for the image optimiser, e.g. "270px". */
   sizes: string;
-  /** Always show this mood's screenshot; by default it follows the page's mood. */
-  mood?: Mood;
   className?: string;
   style?: CSSProperties;
   priority?: boolean;
@@ -25,14 +22,11 @@ export function PhoneShot({
   screen,
   alt,
   sizes,
-  mood,
   className,
   style,
   priority,
   riseOffset,
 }: PhoneShotProps) {
-  const shots = mood ? [{ src: screenSrc(screen, mood) }] : screenShots(screen);
-
   return (
     <div
       className={cn('relative overflow-hidden rounded-[10.5%/5%] bg-phone-frame', className)}
@@ -43,7 +37,7 @@ export function PhoneShot({
       }}
       data-rise={riseOffset ? '' : undefined}
     >
-      {shots.map((shot) => (
+      {screenShots(screen).map((shot) => (
         // The screenshots carry a thin device edge; scaling past it hides the edge inside the frame.
         <Image
           key={shot.src}
@@ -52,7 +46,7 @@ export function PhoneShot({
           fill
           sizes={sizes}
           priority={priority}
-          className={cn('scale-[1.06] object-cover', shot.mood && MOOD_ONLY[shot.mood])}
+          className={cn('scale-[1.06] object-cover', MOOD_ONLY[shot.mood])}
         />
       ))}
     </div>

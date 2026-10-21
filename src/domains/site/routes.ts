@@ -4,7 +4,6 @@ export const PAGE_ROUTES = {
   terms: '/terms',
   privacy: '/privacy',
   support: '/support',
-  press: '/press',
 } as const;
 
 export type PageName = keyof typeof PAGE_ROUTES;

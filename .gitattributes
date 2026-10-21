@@ -1,0 +1,2 @@
+# Keep the legal documents byte for byte: git must never convert their line endings.
+*.pdf binary

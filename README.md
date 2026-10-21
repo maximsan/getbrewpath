@@ -1,7 +1,7 @@
 # getbrewpath.com
 
 The website for BrewPath, the coffee-learning iPhone app: the landing page,
-shared Coffee Card pages, support, press kit and the legal documents.
+shared Coffee Card pages, support and the legal documents.
 
 Next.js (App Router) with TypeScript, Tailwind CSS and next-intl.
 
@@ -21,7 +21,7 @@ pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpat
 
 - `src/app/` — routes and their components. `components/brewpath/` holds the
   app's design-system components, ported from the app prototype.
-- `src/domains/` — product facts: the course and its cards, links, prices,
+- `src/domains/` — product facts: the course and its cards, links,
   support-message rules.
 - `src/app/[locale]/` — the pages, once per language.
 - `src/i18n/` — the language list, routing and string loading.
@@ -30,6 +30,11 @@ pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpat
   app repo's content; do not edit by hand.
 - `public/images/screens/<mood>/` — app screenshots, one folder per
   [mood](GLOSSARY.md).
+- `public/legal/` — the app's Terms of Use and Privacy Policy, as PDF files.
+  The `/terms` and `/privacy` pages show the same text word for word. The text
+  lives under the `docs` key of `src/messages/en/site.json`. Each file's date,
+  contact address and path are in `src/domains/site/legal-docs.ts`. When a PDF
+  changes, update both; `pnpm test` fails until the pages match the files.
 
 Terms such as Foundations and Module Reward are defined in [GLOSSARY.md](GLOSSARY.md).
 
@@ -50,18 +55,20 @@ its code (`/be/terms`).
 The type check fails until steps 1–4 are all done. `pnpm test` fails if the new
 strings have a key English lacks, or lack one English has.
 
+The `docs` strings are the legal documents. `pnpm test` compares only the
+English pages with the PDF files in `public/legal/`.
+
 ## Selling model
 
 `SELLING_MODEL` in `src/domains/site/site.ts` sets how Foundations is sold:
-`oneTime`, `subscription` or `hybrid`. The pricing section, FAQ, terms, support
-steps and press facts all follow it. Plan prices are in `PLAN_PRICES` next to it.
+`oneTime`, `subscription` or `hybrid`. The pricing section, the FAQ and the support
+steps all follow it. The site shows no prices: the app shows them.
 
-## Light screenshots
+## Screenshots
 
-The screenshots are Dark Roast only, so both moods show them. To add the
-Cupping set, put every screen in `public/images/screens/cupping/` under the
-same file names, then add `'cupping'` to `SCREENSHOT_MOODS` in
-`src/domains/site/screens.ts`.
+Each mood shows its own screenshots. Both folders in `public/images/screens/`
+hold every screen in `SCREENS` (`src/domains/site/screens.ts`) under the same
+file names. `pnpm test` fails if a folder misses one.
 
 ## Environment
 

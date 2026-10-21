@@ -1,7 +1,14 @@
 import { getTranslations } from 'next-intl/server';
 import type { ComponentType, ReactNode } from 'react';
 
-import { BeanIcon, CupIcon, LeafIcon, RouteIcon } from '@components/icons/icons';
+import {
+  BeanIcon,
+  BookIcon,
+  CupIcon,
+  LeafIcon,
+  MoodIcon,
+  RouteIcon,
+} from '@components/icons/icons';
 import { MOOD_ONLY } from '@components/mood/mood-only';
 import { PhoneShot } from '@components/phone-shot/phone-shot';
 import { Section, SectionHeading } from '@components/section/section';
@@ -10,10 +17,15 @@ import type { ScreenId } from '@domains/site/screens';
 import { WelcomePhone } from './welcome-phone';
 
 const SHOT_FEATURES = [
-  { key: 'path', screen: 'path', Icon: RouteIcon },
-  { key: 'today', screen: 'today', Icon: CupIcon },
-  { key: 'roasty', screen: 'roasty', Icon: LeafIcon },
-] as const satisfies readonly { key: string; screen: ScreenId; Icon: ComponentType }[];
+  { screen: 'path', Icon: RouteIcon },
+  { screen: 'today', Icon: CupIcon },
+  { screen: 'tree', Icon: LeafIcon },
+  { screen: 'term', Icon: BookIcon },
+  { screen: 'roasty', Icon: BeanIcon },
+] as const satisfies readonly { screen: ScreenId; Icon: ComponentType }[];
+
+/** The cards sit two to a row; each row reveals left card first, then right. */
+const revealDelay = (index: number) => (index % 2) + 1;
 
 export async function Features() {
   const t = await getTranslations('features');
@@ -22,17 +34,17 @@ export async function Features() {
     <Section>
       <SectionHeading>{t('title')}</SectionHeading>
       <div className="mt-12 grid grid-cols-[repeat(auto-fit,minmax(min(100%,400px),1fr))] gap-[clamp(16px,2.4vw,28px)]">
-        {SHOT_FEATURES.map(({ key, screen, Icon }, index) => (
+        {SHOT_FEATURES.map(({ screen, Icon }, index) => (
           <FeatureCard
-            key={key}
-            delay={index + 1}
+            key={screen}
+            delay={revealDelay(index)}
             icon={<Icon />}
-            title={t(`items.${key}.title`)}
-            body={t(`items.${key}.body`)}
+            title={t(`items.${screen}.title`)}
+            body={t(`items.${screen}.body`)}
           >
             <PhoneShot
               screen={screen}
-              alt={t(`items.${key}.alt`)}
+              alt={t(`items.${screen}.alt`)}
               sizes="200px"
               riseOffset="30%"
               className="w-[min(100%,200px)] shadow-[0_30px_60px_-20px_rgba(27,22,20,.5)]"
@@ -40,8 +52,8 @@ export async function Features() {
           </FeatureCard>
         ))}
         <FeatureCard
-          delay={SHOT_FEATURES.length + 1}
-          icon={<BeanIcon />}
+          delay={revealDelay(SHOT_FEATURES.length)}
+          icon={<MoodIcon />}
           title={
             <>
               {/* The title names the mood on screen; CSS picks it so it matches before hydration. */}

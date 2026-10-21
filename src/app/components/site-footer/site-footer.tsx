@@ -2,17 +2,15 @@ import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 
 import { PAGE_ROUTES, type PageName } from '@domains/site/routes';
-import { COPYRIGHT_YEAR } from '@domains/site/site';
+import { COPYRIGHT_YEAR, EMAIL_PRESS } from '@domains/site/site';
 import { Link } from '@i18n/navigation';
 
 import { LanguageLinks } from './language-links';
 
-const FOOTER_PAGES = [
-  'terms',
-  'privacy',
-  'support',
-  'press',
-] as const satisfies readonly PageName[];
+const FOOTER_PAGES = ['terms', 'privacy', 'support'] as const satisfies readonly PageName[];
+
+const footerLinkClass =
+  'ff-ui text-sm leading-[1.2] text-ink-mute transition-colors hover:text-ink hover:no-underline';
 
 export async function SiteFooter() {
   const t = await getTranslations('footer');
@@ -43,14 +41,13 @@ export async function SiteFooter() {
           className="flex flex-wrap items-center gap-x-6 gap-y-3"
         >
           {FOOTER_PAGES.map((page) => (
-            <Link
-              key={page}
-              href={PAGE_ROUTES[page]}
-              className="ff-ui text-sm leading-[1.2] text-ink-mute transition-colors hover:text-ink hover:no-underline"
-            >
+            <Link key={page} href={PAGE_ROUTES[page]} className={footerLinkClass}>
               {t(page)}
             </Link>
           ))}
+          <a href={`mailto:${EMAIL_PRESS}`} className={footerLinkClass}>
+            {t('press', { email: EMAIL_PRESS })}
+          </a>
         </nav>
         <LanguageLinks />
       </div>
