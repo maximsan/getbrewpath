@@ -1,16 +1,13 @@
-import { getFormatter, getMessages, getTranslations } from 'next-intl/server';
+import { getMessages, getTranslations } from 'next-intl/server';
 
 import { CheckIcon } from '@components/icons/icons';
 import { LinkButton } from '@components/link-button/link-button';
 import { Section, SectionHeading } from '@components/section/section';
-import { PLANS_ON_SALE } from '@domains/selling/selling';
-import { formatPrice } from '@domains/site/price';
-import { APP_STORE_URL, PRICE_FREE, SELLING_MODEL } from '@domains/site/site';
+import { APP_STORE_URL, SELLING_MODEL } from '@domains/site/site';
 import { cn } from '@shared/styles/cn';
 
 export async function Pricing() {
   const t = await getTranslations('pricing');
-  const format = await getFormatter();
   const { pricing } = await getMessages();
 
   return (
@@ -22,10 +19,7 @@ export async function Pricing() {
           data-delay="1"
           className="flex flex-col gap-[22px] rounded-3xl border border-rule bg-surface p-8"
         >
-          <div>
-            <div className="smallcaps mb-2.5">{t('free')}</div>
-            <Price amount={formatPrice(format, PRICE_FREE)} note={t('freeNote')} />
-          </div>
+          <PlanName name={t('free')} note={t('freeNote')} />
           <Checklist items={Object.values(pricing.freeList)} tone="sage" />
           <LinkButton href={APP_STORE_URL} tone="outline" size="lg" className="mt-auto">
             {t('freeCta')}
@@ -38,16 +32,11 @@ export async function Pricing() {
           className="relative flex flex-col gap-[22px] overflow-hidden rounded-3xl border border-rule bg-surface p-8"
         >
           <div className="pointer-events-none absolute -right-[20%] -bottom-1/2 aspect-square w-[70%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_24%,transparent),transparent)]" />
-          <div className="relative">
-            <div className="smallcaps mb-2.5 text-accent!">
-              {t('pro', { model: SELLING_MODEL })}
-            </div>
-            <div className="flex flex-col gap-3">
-              {PLANS_ON_SALE.map(({ term, price }) => (
-                <Price key={term} amount={formatPrice(format, price)} note={t('per', { term })} />
-              ))}
-            </div>
-          </div>
+          <PlanName
+            name={t('pro')}
+            note={t('proNote', { model: SELLING_MODEL })}
+            className="relative"
+          />
           <Checklist items={Object.values(pricing.proList)} tone="accent" />
           <LinkButton href={APP_STORE_URL} tone="accent" size="lg" className="relative mt-auto">
             {t('proCta')}
@@ -61,13 +50,13 @@ export async function Pricing() {
   );
 }
 
-function Price({ amount, note }: { amount: string; note: string }) {
+function PlanName({ name, note, className }: { name: string; note: string; className?: string }) {
   return (
-    <div className="flex flex-wrap items-baseline gap-2">
-      <span className="ff-mono text-[40px] leading-none font-medium tracking-[-0.02em]">
-        {amount}
-      </span>
-      <span className="ff-ui text-sm text-ink-mute">{note}</span>
+    <div className={cn('flex flex-col gap-2', className)}>
+      <h3 className="ff-display m-0 text-[40px] leading-none font-normal tracking-[-0.02em]">
+        {name}
+      </h3>
+      <p className="ff-ui m-0 text-sm text-ink-mute">{note}</p>
     </div>
   );
 }

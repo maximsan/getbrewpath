@@ -21,7 +21,7 @@ pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpat
 
 - `src/app/` — routes and their components. `components/brewpath/` holds the
   app's design-system components, ported from the app prototype.
-- `src/domains/` — product facts: the course and its cards, links, prices,
+- `src/domains/` — product facts: the course and its cards, links,
   support-message rules.
 - `src/app/[locale]/` — the pages, once per language.
 - `src/i18n/` — the language list, routing and string loading.
@@ -62,7 +62,7 @@ English pages with the PDF files in `public/legal/`.
 
 `SELLING_MODEL` in `src/domains/site/site.ts` sets how Foundations is sold:
 `oneTime`, `subscription` or `hybrid`. The pricing section, FAQ, support steps
-and press facts all follow it. Plan prices are in `PLAN_PRICES` next to it.
+and press facts all follow it. The site shows no prices: the app shows them.
 
 ## Screenshots
 

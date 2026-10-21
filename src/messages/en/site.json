@@ -163,9 +163,8 @@
     "free": "Free",
     "freeNote": "no purchase needed",
     "freeCta": "Download free",
-    "pro": "{model, select, oneTime {Foundations, one-time purchase} subscription {Foundations, subscription} other {Foundations, subscribe or own it}}",
-    "per": "{term, select, lifetime {once, no subscription} monthly {a month, cancel anytime} other {a year, cancel anytime}}",
-    "planPrice": "{price} {term, select, lifetime {once} monthly {a month} other {a year}}",
+    "pro": "Foundations",
+    "proNote": "{model, select, oneTime {one-time purchase} subscription {monthly or yearly subscription} other {subscribe, or buy it once}}",
     "proCta": "Start free, unlock in the app",
     "freeList": {
       "item1": "Module 1: Beans, all 7 lessons",
@@ -180,7 +179,7 @@
       "item4": "Unlimited saved terms and cards",
       "item5": "The Studio — dress Roasty, choose your plant"
     },
-    "note": "{model, select, oneTime {Prices in USD. The App Store sets the final price in your region. Fixes and improvements are included; nothing renews.} subscription {Prices in USD. The App Store sets the final price in your region. Cancel anytime; access runs to the end of the paid period.} other {Prices in USD. The App Store sets the final price in your region. Cancel a subscription anytime; a one-time purchase never renews.}}"
+    "note": "{model, select, oneTime {The app shows the price for your country before you buy. Fixes and improvements are included; nothing renews.} subscription {The app shows the price for your country before you subscribe. Cancel anytime; access runs to the end of the paid period.} other {The app shows the prices for your country before you buy. Cancel a subscription anytime; a one-time purchase never renews.}}"
   },
   "faq": {
     "title": "Things people ask before downloading.",
@@ -944,7 +943,7 @@
       "platform": "Platform",
       "platformV": "iPhone, iOS 16 and later",
       "price": "Price",
-      "priceV": "Free download, Foundations {prices}",
+      "priceV": "{model, select, oneTime {Free download, Foundations is a one-time purchase} subscription {Free download, Foundations is a subscription} other {Free download, Foundations by subscription or one-time purchase}}",
       "course": "Course",
       "courseV": "{modules} modules, {lessons} lessons, {cards} cards",
       "mascot": "Mascot",

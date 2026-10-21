@@ -1,6 +1,6 @@
-/** Facts about the product that are not translated: links, mailboxes, prices, dates. */
+/** Facts about the product that are not translated: links, mailboxes, dates. */
 
-import type { PlanTerm, SellingModel } from '@domains/selling/selling';
+import type { SellingModel } from '@domains/selling/selling';
 
 export const SITE_URL = 'https://getbrewpath.com';
 export const SITE_HOST = 'getbrewpath.com';
@@ -16,21 +16,8 @@ export const EMAIL_SUPPORT_SENDER = `BrewPath Support <${EMAIL_SUPPORT}>`;
 /** BrewPath's phone number, as the Terms of Use give it. */
 export const PHONE = '+48 571 033 267';
 
-export const PRICE_CURRENCY = 'USD';
-export const PRICE_FREE = 0;
-
-/** How Foundations is sold right now. Every price line on the site follows it. */
+/** How Foundations is sold right now. Every line on the site about buying it follows it. */
 export const SELLING_MODEL: SellingModel = 'oneTime';
-
-/**
- * Each plan's price in `PRICE_CURRENCY`. The two subscription prices are
- * placeholders: the store has not priced them yet (brewpath ADR-0024).
- */
-export const PLAN_PRICES: Record<PlanTerm, number> = {
-  lifetime: 49.99,
-  monthly: 4.99,
-  yearly: 29.99,
-};
 
 export const MINUTES_PER_LESSON = 3;
 

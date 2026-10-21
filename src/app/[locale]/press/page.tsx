@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { getFormatter, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 
 import { linkButtonClass } from '@components/link-button/link-button';
 import { MOOD_ONLY } from '@components/mood/mood-only';
@@ -13,11 +13,9 @@ import {
   type BrandColor,
 } from '@domains/site/brand';
 import { pageMetadata } from '@domains/site/page-metadata';
-import { formatPrice } from '@domains/site/price';
 import { PAGE_ROUTES } from '@domains/site/routes';
 import { screenDownloadName, SCREENS, screenShots } from '@domains/site/screens';
 import { cn } from '@shared/styles/cn';
-import { PLANS_ON_SALE } from '@domains/selling/selling';
 import { EMAIL_PRESS, SELLING_MODEL, SITE_HOST } from '@domains/site/site';
 import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 
@@ -37,21 +35,13 @@ const labelClass = 'ff-mono text-[11px] tracking-[.08em] text-ink-mute uppercase
 export default async function PressPage({ params }: LocaleParams) {
   const counts = courseCounts(await getCourse(await setPageLocale(params)));
   const t = await getTranslations('press');
-  const tPricing = await getTranslations('pricing');
-  const format = await getFormatter();
-  const prices = format.list(
-    PLANS_ON_SALE.map(({ term, price }) =>
-      tPricing('planPrice', { price: formatPrice(format, price), term }),
-    ),
-    { type: 'disjunction' },
-  );
 
   const facts = [
     { label: t('facts.name'), value: t('facts.nameV') },
     { label: t('facts.platform'), value: t('facts.platformV') },
     {
       label: t('facts.price'),
-      value: t('facts.priceV', { prices }),
+      value: t('facts.priceV', { model: SELLING_MODEL }),
     },
     {
       label: t('facts.course'),
