@@ -1,16 +1,7 @@
 import { type Mood, MOODS } from './mood';
 
 /** App screenshots in `public/images/screens/<mood>/`, as shown on the home and press pages. */
-export const SCREENS = [
-  'today',
-  'path',
-  'lesson',
-  'fill',
-  'roasty',
-  'complete',
-  'paywall',
-  'intro',
-] as const;
+export const SCREENS = ['today', 'path', 'lesson', 'fill', 'roasty', 'complete', 'intro'] as const;
 export type ScreenId = (typeof SCREENS)[number];
 
 /** Width over height of the phone silhouette the screenshots sit in. */
