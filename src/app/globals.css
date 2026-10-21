@@ -80,7 +80,7 @@
   --color-scrim-ink: var(--scrim-ink);
   --color-phone-frame: var(--phone-frame);
 
-  --font-display: var(--font-fraunces), serif;
+  --font-display: var(--font-serif), serif;
   --font-ui: var(--font-plex-sans), sans-serif;
   --font-mono: var(--font-plex-mono), monospace;
 

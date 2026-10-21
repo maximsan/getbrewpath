@@ -1,9 +1,11 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
 import { PAGE_ROUTES, type PageName } from '@domains/site/routes';
 import { COPYRIGHT_YEAR } from '@domains/site/site';
+import { Link } from '@i18n/navigation';
+
+import { LanguageLinks } from './language-links';
 
 const FOOTER_PAGES = [
   'terms',
@@ -50,6 +52,7 @@ export async function SiteFooter() {
             </Link>
           ))}
         </nav>
+        <LanguageLinks />
       </div>
     </footer>
   );

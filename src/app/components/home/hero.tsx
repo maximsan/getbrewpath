@@ -3,7 +3,8 @@ import { getTranslations } from 'next-intl/server';
 import { LinkButton } from '@components/link-button/link-button';
 import { PhoneShot } from '@components/phone-shot/phone-shot';
 import { monoNoteClass } from '@components/section/section';
-import { APP_STORE_URL } from '@domains/site/site';
+import { sectionHref } from '@components/site-header/nav-items';
+import { APP_STORE_URL, SELLING_MODEL } from '@domains/site/site';
 
 export async function Hero() {
   const t = await getTranslations('hero');
@@ -21,12 +22,12 @@ export async function Hero() {
           <LinkButton href={APP_STORE_URL} tone="ink" size="xl">
             {t('download')}
           </LinkButton>
-          <LinkButton href="/#demo" tone="outline" size="xl">
+          <LinkButton href={sectionHref('demo')} tone="outline" size="xl">
             {t('tryFirst')}
           </LinkButton>
         </div>
         <div className={`${monoNoteClass} mt-[18px] animate-rise-in [animation-delay:.24s]`}>
-          {t('note')}
+          {t('note', { model: SELLING_MODEL })}
         </div>
       </div>
       <div className="-mx-6 flex animate-[rise-in_1s_var(--ease-out-soft)_.2s_both] items-center justify-center overflow-hidden px-6 py-8">

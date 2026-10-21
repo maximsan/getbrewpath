@@ -1,14 +1,18 @@
 import Image from 'next/image';
 import type { CSSProperties } from 'react';
 
+import { MOOD_ONLY } from '@components/mood/mood-only';
+import type { Mood } from '@domains/site/mood';
+import { SCREEN_ASPECT, type ScreenId, screenShots, screenSrc } from '@domains/site/screens';
 import { cn } from '@shared/styles/cn';
-import { SCREEN_ASPECT, type ScreenId, screenSrc } from '@domains/site/screens';
 
 interface PhoneShotProps {
   screen: ScreenId;
   alt: string;
   /** Rendered width hint for the image optimiser, e.g. "270px". */
   sizes: string;
+  /** Always show this mood's screenshot; by default it follows the page's mood. */
+  mood?: Mood;
   className?: string;
   style?: CSSProperties;
   priority?: boolean;
@@ -16,16 +20,19 @@ interface PhoneShotProps {
   riseOffset?: string;
 }
 
-/** An app screenshot in a rounded phone silhouette. */
+/** An app screenshot in a rounded phone silhouette, in the page's mood. */
 export function PhoneShot({
   screen,
   alt,
   sizes,
+  mood,
   className,
   style,
   priority,
   riseOffset,
 }: PhoneShotProps) {
+  const shots = mood ? [{ src: screenSrc(screen, mood) }] : screenShots(screen);
+
   return (
     <div
       className={cn('relative overflow-hidden rounded-[10.5%/5%] bg-phone-frame', className)}
@@ -36,15 +43,18 @@ export function PhoneShot({
       }}
       data-rise={riseOffset ? '' : undefined}
     >
-      {/* The screenshots carry a thin device edge; scaling past it hides the edge inside the frame. */}
-      <Image
-        src={screenSrc(screen)}
-        alt={alt}
-        fill
-        sizes={sizes}
-        priority={priority}
-        className="scale-[1.06] object-cover"
-      />
+      {shots.map((shot) => (
+        // The screenshots carry a thin device edge; scaling past it hides the edge inside the frame.
+        <Image
+          key={shot.src}
+          src={shot.src}
+          alt={alt}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className={cn('scale-[1.06] object-cover', shot.mood && MOOD_ONLY[shot.mood])}
+        />
+      ))}
     </div>
   );
 }

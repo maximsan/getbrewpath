@@ -7,4 +7,4 @@ export const NAV_SECTIONS = [
   { id: 'faq', label: 'faq' },
 ] as const;
 
-export const sectionHref = (id: string) => `/#${id}`;
+export const sectionHref = (id: string) => ({ pathname: '/', hash: id });

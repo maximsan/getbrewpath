@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import type { ComponentProps } from 'react';
 
+import { Link } from '@i18n/navigation';
 import { cn } from '@shared/styles/cn';
 
 const TONES = {

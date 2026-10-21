@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import type { ComponentType, ReactNode } from 'react';
 
 import { BeanIcon, CupIcon, LeafIcon, RouteIcon } from '@components/icons/icons';
+import { MOOD_ONLY } from '@components/mood/mood-only';
 import { PhoneShot } from '@components/phone-shot/phone-shot';
 import { Section, SectionHeading } from '@components/section/section';
 import type { ScreenId } from '@domains/site/screens';
@@ -44,8 +45,8 @@ export async function Features() {
           title={
             <>
               {/* The title names the mood on screen; CSS picks it so it matches before hydration. */}
-              <span className="in-data-[mood=dark-roast]:hidden">{t('moodTitleLight')}</span>
-              <span className="hidden in-data-[mood=dark-roast]:inline">{t('moodTitleDark')}</span>
+              <span className={MOOD_ONLY.cupping}>{t('moodTitleLight')}</span>
+              <span className={MOOD_ONLY['dark-roast']}>{t('moodTitleDark')}</span>
             </>
           }
           body={t('items.mood.body')}

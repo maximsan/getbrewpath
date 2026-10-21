@@ -1,41 +1,19 @@
-import type { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
+'use client';
 
-import { Roasty } from '@components/brewpath/roasty/roasty';
-import { LinkButton } from '@components/link-button/link-button';
-import { pageTitleClass } from '@components/section/section';
-import { APP_STORE_URL } from '@domains/site/site';
+import NextError from 'next/error';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('metadata');
-  return { title: t('notFound') };
-}
+import { routing } from '@i18n/routing';
 
-const ROASTY_SIZE = 170;
-
-export default async function NotFound() {
-  const t = await getTranslations('notfound');
-
+/**
+ * The 404 for addresses `src/proxy.ts` leaves alone, such as a missing image.
+ * Every other unknown address shows the designed page in `[locale]/not-found.tsx`.
+ */
+export default function RootNotFound() {
   return (
-    <section className="page-width flex flex-col items-center px-6 pt-[clamp(48px,8vw,96px)] text-center">
-      <div className="flex min-h-60 items-center justify-center">
-        <Roasty state="sleep" size={ROASTY_SIZE} hat="beanie" gear="none" sprout="sprig" />
-      </div>
-      <div className="ff-mono mt-3 text-[11px] tracking-[.24em] text-ink-mute uppercase">
-        {t('label')}
-      </div>
-      <h1 className={`${pageTitleClass} mt-4`}>{t('title')}</h1>
-      <p className="ff-ui mt-[18px] mb-0 max-w-[40ch] text-[17px] leading-[1.6] text-pretty text-ink-mute">
-        {t('body')}
-      </p>
-      <div className="mt-[30px] flex flex-wrap justify-center gap-3">
-        <LinkButton href="/" tone="ink" size="lg">
-          {t('back')}
-        </LinkButton>
-        <LinkButton href={APP_STORE_URL} tone="outline" size="lg">
-          {t('get')}
-        </LinkButton>
-      </div>
-    </section>
+    <html lang={routing.defaultLocale}>
+      <body>
+        <NextError statusCode={404} />
+      </body>
+    </html>
   );
 }

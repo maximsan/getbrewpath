@@ -9,7 +9,8 @@ import {
   RoastingIcon,
 } from '@components/icons/icons';
 import { Section, SectionHeading } from '@components/section/section';
-import { course, courseCounts } from '@domains/course/course';
+import type { Course } from '@domains/course/build-course';
+import { courseCounts } from '@domains/course/course';
 import { MINUTES_PER_LESSON } from '@domains/site/site';
 import type { Messages } from '@i18n/messages';
 import { TWO_DIGITS } from '@shared/format/number';
@@ -28,16 +29,17 @@ const MAX_DELAY = 4;
 /** Module 1 is the free one. */
 const FREE_MODULE_NUMBER = 1;
 
-export async function ModulesStrip() {
+export async function ModulesStrip({ course }: { course: Course }) {
   const t = await getTranslations('modules');
+  const counts = courseCounts(course);
   const format = await getFormatter();
 
   return (
     <Section id="why" className="pt-[clamp(56px,8vw,104px)]">
       <SectionHeading
         meta={t('meta', {
-          lessons: courseCounts.lessons,
-          cards: courseCounts.cards,
+          lessons: counts.lessons,
+          cards: counts.cards,
           minutes: MINUTES_PER_LESSON,
         })}
       >

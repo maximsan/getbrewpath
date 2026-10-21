@@ -3,7 +3,7 @@
 The website for BrewPath, the coffee-learning iPhone app: the landing page,
 shared Coffee Card pages, support, press kit and the legal documents.
 
-Next.js (App Router) with TypeScript, Tailwind CSS and next-intl. Hosted on Vercel.
+Next.js (App Router) with TypeScript, Tailwind CSS and next-intl.
 
 ## Commands
 
@@ -14,7 +14,7 @@ pnpm lint
 pnpm type-check
 pnpm test
 pnpm build
-pnpm sync-cards     # refresh src/content/course.json from ../brewpath
+pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpath
 ```
 
 ## Where things live
@@ -23,10 +23,45 @@ pnpm sync-cards     # refresh src/content/course.json from ../brewpath
   app's design-system components, ported from the app prototype.
 - `src/domains/` — product facts: the course and its cards, links, prices,
   support-message rules.
-- `src/messages/en/` — every English string.
-- `src/content/course.json` — written by `pnpm sync-cards` from the app repo's
-  generated content; do not edit by hand.
-- `prototype/` — the design this site was built from.
+- `src/app/[locale]/` — the pages, once per language.
+- `src/i18n/` — the language list, routing and string loading.
+- `src/messages/<language>/` — every string, one folder per language.
+- `src/content/<language>/course.json` — written by `pnpm sync-cards` from the
+  app repo's content; do not edit by hand.
+- `public/images/screens/<mood>/` — app screenshots, one folder per
+  [mood](GLOSSARY.md).
+
+Terms such as Foundations and Module Reward are defined in [GLOSSARY.md](GLOSSARY.md).
+
+## Adding a language
+
+English keeps the bare addresses (`/terms`); another language is served under
+its code (`/be/terms`).
+
+1. Add the code to `locales` and its name to `LOCALE_NAMES` in `src/i18n/routing.ts`.
+2. Copy `src/messages/en/` to `src/messages/<code>/` and translate it. Add the
+   folder to `MESSAGES` in `src/i18n/messages.ts`.
+3. Run `pnpm sync-cards`. It writes the course in that language from the app's
+   `assets/content/l10n/<code>/`. Add the file to `COURSE_FILES` in
+   `src/domains/course/course.ts`.
+4. Pick a headline serif that covers the language's script and add it to
+   `DISPLAY_FONT` in `src/app/fonts.ts`. Fraunces has Latin letters only.
+
+The type check fails until steps 1–4 are all done. `pnpm test` fails if the new
+strings have a key English lacks, or lack one English has.
+
+## Selling model
+
+`SELLING_MODEL` in `src/domains/site/site.ts` sets how Foundations is sold:
+`oneTime`, `subscription` or `hybrid`. The pricing section, FAQ, terms, support
+steps and press facts all follow it. Plan prices are in `PLAN_PRICES` next to it.
+
+## Light screenshots
+
+The screenshots are Dark Roast only, so both moods show them. To add the
+Cupping set, put every screen in `public/images/screens/cupping/` under the
+same file names, then add `'cupping'` to `SCREENSHOT_MOODS` in
+`src/domains/site/screens.ts`.
 
 ## Environment
 

@@ -12,14 +12,15 @@
     "moodDark": "Dark roast",
     "skip": "Skip to content",
     "primary": "Main",
-    "footer": "Footer"
+    "footer": "Footer",
+    "languages": "Languages"
   },
   "hero": {
     "title": "Learn coffee.\nGrow a tree.",
     "body": "Three-minute lessons in the craft of coffee — beans, roast, grind, brew. Every one you finish feeds a living tree and earns a card worth keeping.",
     "download": "Download on the App Store",
     "tryFirst": "Try a lesson first",
-    "note": "Free to start. Foundations is one purchase, no subscription",
+    "note": "{model, select, oneTime {Free to start. Foundations is one purchase, no subscription} subscription {Free to start. Foundations is a subscription, cancel anytime} other {Free to start. Subscribe to Foundations, or buy it once}}",
     "shotToday": "The BrewPath Today screen",
     "shotLesson": "A BrewPath lesson asking for a first guess"
   },
@@ -67,7 +68,7 @@
       },
       "step3": {
         "title": "Keep the card",
-        "body": "A perfect lesson earns a Coffee Card. Finish a module and its Field Guide joins your deck. Your tree grows either way.",
+        "body": "A perfect lesson earns a Coffee Card. Finish a module and its Module Reward joins your deck. Your tree grows either way.",
         "alt": "Foundations complete screen"
       }
     }
@@ -158,12 +159,13 @@
     }
   },
   "pricing": {
-    "title": "The first module is free. The course is one purchase.",
+    "title": "{model, select, oneTime {The first module is free. The course is one purchase.} subscription {The first module is free. The course is one subscription.} other {The first module is free. Subscribe to the course, or buy it once.}}",
     "free": "Free",
     "forever": "forever",
     "freeCta": "Download free",
-    "pro": "Foundations, one-time purchase",
-    "once": "once, no subscription",
+    "pro": "{model, select, oneTime {Foundations, one-time purchase} subscription {Foundations, subscription} other {Foundations, subscribe or own it}}",
+    "per": "{term, select, lifetime {once, no subscription} monthly {a month, cancel anytime} other {a year, cancel anytime}}",
+    "planPrice": "{price} {term, select, lifetime {once} monthly {a month} other {a year}}",
     "proCta": "Start free, unlock in the app",
     "freeList": {
       "item1": "Module 1: Beans, all 7 lessons",
@@ -178,14 +180,14 @@
       "item4": "Unlimited saved terms and cards",
       "item5": "The Studio — dress Roasty, choose your plant"
     },
-    "note": "Prices in USD. The App Store sets the final price in your region. Fixes and improvements are included; nothing renews."
+    "note": "{model, select, oneTime {Prices in USD. The App Store sets the final price in your region. Fixes and improvements are included; nothing renews.} subscription {Prices in USD. The App Store sets the final price in your region. Cancel anytime; access runs to the end of the paid period.} other {Prices in USD. The App Store sets the final price in your region. Cancel a subscription anytime; a one-time purchase never renews.}}"
   },
   "faq": {
     "title": "Things people ask before downloading.",
     "items": {
       "q1": {
         "q": "Is BrewPath free?",
-        "a": "The first module — Beans, seven lessons — and the daily practice games are free, forever. Foundations unlocks the other four modules for a single payment. Nothing renews."
+        "a": "The first module — Beans, seven lessons — and the daily practice games are free, forever. Foundations unlocks the other four modules. {model, select, oneTime {Buy it once and it’s yours for good; there’s no subscription and nothing renews.} subscription {It’s a subscription — monthly or yearly, your pick — and stays open while you’re subscribed. Cancel anytime; access runs to the end of the paid period.} other {Your choice — subscribe monthly or yearly, or make a single one-time purchase and keep it forever.}}"
       },
       "q2": {
         "q": "Do I need any equipment?",
@@ -201,7 +203,7 @@
       },
       "q5": {
         "q": "What exactly is a Coffee Card?",
-        "a": "A collectible you earn by finishing a lesson with a perfect score. Each one holds a fact, a specimen drawing and the spec of what you learned. There are 37, including five Field Guides for finished modules. You can share any card with a link."
+        "a": "A collectible you earn by finishing a lesson with a perfect score. Each one holds a fact, a specimen drawing and the spec of what you learned. There are 37, including a Module Reward for each of the five modules. You can share any card with a link."
       }
     },
     "more": "Something else? <link>Write to us</link> — a human answers, usually the same day."
@@ -215,13 +217,13 @@
     "shared": "Shared from BrewPath",
     "earned": "A friend earned <em>{card}</em>.",
     "lessonBody": "A perfect score on <strong>{lesson}</strong>, lesson {lessonNumber} of the {module} module. In BrewPath, every lesson you ace becomes a Coffee Card — a fact worth keeping, in a deck worth finishing.",
-    "guideBody": "Earned by finishing every lesson of the <strong>{module}</strong> module. Each module you finish adds its Field Guide to your deck, next to the cards from its lessons.",
+    "moduleRewardBody": "This is a Module Reward, earned by finishing every lesson of the <strong>{module}</strong> module. Each module you finish adds its Module Reward to your deck, next to the cards from its lessons.",
     "defaultBadge": "Coffee card",
     "get": "Get BrewPath — it’s free",
     "open": "Open in the app",
     "avail": "Available on iPhone",
     "curious": "Curious what the whole thing is? <link>See BrewPath</link>",
-    "count": "{cards} cards and {guides} field guides",
+    "count": "{cards} cards, {moduleRewards} of them Module Rewards",
     "pitch": {
       "lessons": {
         "title": "{lessons} short lessons",
@@ -229,7 +231,7 @@
       },
       "cards": {
         "title": "{cards} cards to keep",
-        "body": "A perfect lesson earns its card. Finish a module for its Field Guide."
+        "body": "A perfect lesson earns its card. Finish a module for its Module Reward."
       },
       "tree": {
         "title": "A tree that grows",
@@ -256,7 +258,7 @@
         "s2": {
           "h": "The app, and what’s free",
           "ps": {
-            "p1": "BrewPath is a learning app. The first module and the daily practice games are free. “Foundations” unlocks the rest of the course and is sold as a one-time in-app purchase through Apple’s App Store.",
+            "p1": "BrewPath is a learning app. The first module and the daily practice games are free. “Foundations” unlocks the rest of the course. {model, select, oneTime {It is sold as a one-time in-app purchase through Apple’s App Store.} subscription {It is sold as a monthly or yearly subscription through Apple’s App Store. A subscription renews automatically unless you cancel it at least 24 hours before the current period ends; manage or cancel it in your Apple Account settings.} other {It is sold through Apple’s App Store as a monthly or yearly subscription, or as a one-time in-app purchase. A subscription renews automatically unless you cancel it at least 24 hours before the current period ends; manage or cancel it in your Apple Account settings.}}",
             "p2": "There is no account. Your progress lives on your device. If you delete the app, your progress goes with it unless you have a device backup."
           }
         },
@@ -366,7 +368,7 @@
       "refund": {
         "title": "Unlock or refund",
         "steps": {
-          "step1": "Foundations is a one-time purchase, sold by Apple.",
+          "step1": "{model, select, oneTime {Foundations is a one-time purchase, sold by Apple.} subscription {Foundations is a subscription, sold by Apple. Cancel it in your Apple Account settings.} other {Foundations is sold by Apple, as a subscription or a one-time purchase. Cancel a subscription in your Apple Account settings.}}",
           "step2": "Refunds are handled at reportaproblem.apple.com.",
           "step3": "Not sure what you bought? Ask us — we can check what the store says."
         }
@@ -402,7 +404,7 @@
   },
   "press": {
     "title": "BrewPath, in one paragraph and a few files.",
-    "body": "BrewPath is a coffee-learning app for iPhone. Short lessons and mini-games teach the craft of coffee — beans, processing, roasting, grind and brew — while a living tree and a collectible deck mark your progress. Roasty, a coffee bean with a beanie, comes along. The first module is free; the full course is a single purchase.",
+    "body": "BrewPath is a coffee-learning app for iPhone. Short lessons and mini-games teach the craft of coffee — beans, processing, roasting, grind and brew — while a living tree and a collectible deck mark your progress. Roasty, a coffee bean with a beanie, comes along. The first module is free; {model, select, oneTime {the full course is a single purchase.} subscription {the full course is a monthly or yearly subscription.} other {the full course is a subscription or a single purchase.}}",
     "downloadIcon": "Download icon",
     "facts": {
       "name": "Name",
@@ -410,7 +412,7 @@
       "platform": "Platform",
       "platformV": "iPhone, iOS 16 and later",
       "price": "Price",
-      "priceV": "Free download, Foundations {price} once",
+      "priceV": "Free download, Foundations {prices}",
       "course": "Course",
       "courseV": "{modules} modules, {lessons} lessons, {cards} cards",
       "mascot": "Mascot",
