@@ -30,10 +30,11 @@ pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpat
   app repo's content; do not edit by hand.
 - `public/images/screens/<mood>/` — app screenshots, one folder per
   [mood](GLOSSARY.md).
-- `public/legal/` — the signed-off Terms of Use and Privacy Policy files. The
-  `/terms` and `/privacy` pages copy their text word for word, into `docs` in
-  `src/messages/en/site.json`; their dates and contact addresses are in
-  `src/domains/site/legal-docs.ts`. Update both together.
+- `public/legal/` — the app's Terms of Use and Privacy Policy, as PDF files.
+  The `/terms` and `/privacy` pages show the same text word for word. The text
+  lives under the `docs` key of `src/messages/en/site.json`. Each file's date,
+  contact address and path are in `src/domains/site/legal-docs.ts`. When a PDF
+  changes, update both; `pnpm test` fails until the pages match the files.
 
 Terms such as Foundations and Module Reward are defined in [GLOSSARY.md](GLOSSARY.md).
 
@@ -54,11 +55,14 @@ its code (`/be/terms`).
 The type check fails until steps 1–4 are all done. `pnpm test` fails if the new
 strings have a key English lacks, or lack one English has.
 
+The `docs` strings are the legal documents. `pnpm test` compares only the
+English pages with the PDF files in `public/legal/`.
+
 ## Selling model
 
 `SELLING_MODEL` in `src/domains/site/site.ts` sets how Foundations is sold:
-`oneTime`, `subscription` or `hybrid`. The pricing section, FAQ, terms, support
-steps and press facts all follow it. Plan prices are in `PLAN_PRICES` next to it.
+`oneTime`, `subscription` or `hybrid`. The pricing section, FAQ, support steps
+and press facts all follow it. Plan prices are in `PLAN_PRICES` next to it.
 
 ## Screenshots
 

@@ -1,72 +1,72 @@
 import { readFile } from 'node:fs/promises';
 
+import { LEGAL_DOC_DATE_FORMAT, LEGAL_DOCS, type LegalDocId } from '@domains/site/legal-docs';
+import { PHONE } from '@domains/site/site';
 import site from '@messages/en/site.json';
-import { createTranslator } from 'next-intl';
+import { createFormatter, createTranslator } from 'next-intl';
 import { extractText, getDocumentProxy } from 'unpdf';
 import { describe, expect, it } from 'vitest';
 
-import { LEGAL_DOCS, type LegalDocId } from './legal-docs';
-import { PHONE } from './site';
+import { legalDocOutline } from './legal-doc-outline';
 
-/** The page headers and footers each file repeats, e.g. "Terms of Use | Effective October 20, 2026 | 1". */
-const PAGE_FURNITURE = [
+/** The header and footer printed on every page of the files, e.g. "Terms of Use | Effective October 20, 2026 | 1". */
+const FILE_HEADERS_AND_FOOTERS = [
   /^BrewPath$/,
   /^Terms of Use \| Effective .* \| \d+$/,
   /^BrewPath \| Privacy Policy\s+Page \d+$/,
 ];
-/** The page draws list bullets itself. */
 const BULLET = '•';
 
-/** The file's words, without page headers, footers and bullets. A hyphen that ends a line joins its word to the next. */
+/** The file's words, without its headers and footers. A hyphen that ends a line joins its word to the next. */
 async function fileWords(doc: LegalDocId) {
   const bytes = await readFile(`public${LEGAL_DOCS[doc].file}`);
   const { text } = await extractText(await getDocumentProxy(new Uint8Array(bytes)), {
     mergePages: true,
   });
-  const lines = text
+  return text
     .split('\n')
     .map((line) => line.trim())
-    .filter((line) => !PAGE_FURNITURE.some((pattern) => pattern.test(line)));
-  return lines
+    .filter((line) => !FILE_HEADERS_AND_FOOTERS.some((pattern) => pattern.test(line)))
     .join(' ')
     .replace(/(\w-) (\w)/g, '$1$2')
     .split(/\s+/)
-    .filter((word) => word && word !== BULLET);
+    .filter(Boolean);
 }
 
-/** The page's words in reading order, as `LegalDoc` renders them. */
-function pageWords(doc: LegalDocId) {
+/**
+ * The page's words in the file's layout: the title and date, then each text the page shows.
+ * The file numbers its sections "1." where the page shows "01", and marks list items with a bullet.
+ */
+function pageWords(doc: LegalDocId, titleInFile: string) {
   const t = createTranslator({ locale: 'en', messages: site, namespace: `docs.${doc}` });
+  const format = createFormatter({ locale: 'en' });
   const text = (key: string) =>
-    // Keys are read from the messages themselves, which TypeScript cannot follow.
+    // The key is built at run time, so TypeScript cannot check it.
     t(key as Parameters<typeof t>[0], { email: LEGAL_DOCS[doc].email, phone: PHONE });
-  const { intro, sections } = site.docs[doc];
-  const leaves = (value: object, prefix: string): string[] =>
-    Object.entries(value).flatMap(([key, child]) =>
-      typeof child === 'string' ? [text(`${prefix}.${key}`)] : leaves(child, `${prefix}.${key}`),
-    );
-  const parts = [
-    ...leaves(intro, 'intro'),
-    ...Object.entries(sections).flatMap(([key, section], index) => [
-      `${index + 1}. ${section.h}`,
-      ...leaves(section.blocks, `sections.${key}.blocks`),
-    ]),
-  ];
-  return parts.join(' ').split(/\s+/);
-}
+  const { introKeys, sections } = legalDocOutline(site.docs[doc]);
+  const date = format.dateTime(new Date(LEGAL_DOCS[doc].date), LEGAL_DOC_DATE_FORMAT);
 
-const longDate = (date: string) =>
-  new Date(date).toLocaleDateString('en-US', { dateStyle: 'long', timeZone: 'UTC' });
+  return [
+    titleInFile.replace('{title}', t('title')),
+    t('dated', { date }),
+    ...introKeys.map(text),
+    ...sections.flatMap((section, index) => [
+      `${index + 1}. ${text(section.headingKey)}`,
+      ...section.blocks.flatMap((block) =>
+        block.textKeys.map((key) => (block.kind === 'list' ? `${BULLET} ${text(key)}` : text(key))),
+      ),
+    ]),
+  ]
+    .join(' ')
+    .split(/\s+/);
+}
 
 describe.each([
-  ['terms', 'BrewPath Terms of Use Effective date:'],
-  ['privacy', 'Privacy Policy Last updated:'],
-] as const)('the %s page', (doc, heading) => {
+  // The Terms file puts the brand before the page's title.
+  ['terms', 'BrewPath {title}'],
+  ['privacy', '{title}'],
+] as const)('the %s page', (doc, titleInFile) => {
   it('shows the file’s text word for word', async () => {
-    const words = await fileWords(doc);
-    const headingWords = `${heading} ${longDate(LEGAL_DOCS[doc].date)}`.split(' ');
-
-    expect(words.slice(0, headingWords.length).join(' ')).toBe(headingWords.join(' '));
-    expect(pageWords(doc)).toEqual(words.slice(headingWords.length));
+    expect(pageWords(doc, titleInFile)).toEqual(await fileWords(doc));
   });
 });

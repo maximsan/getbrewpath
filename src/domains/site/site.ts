@@ -13,7 +13,7 @@ export const EMAIL_PRESS = 'press@getbrewpath.com';
 export const EMAIL_SUPPORT = 'support@getbrewpath.com';
 /** The From line of support emails; its domain must be verified in Resend. */
 export const EMAIL_SUPPORT_SENDER = `BrewPath Support <${EMAIL_SUPPORT}>`;
-/** The provider's telephone, as the Terms of Use give it. */
+/** BrewPath's phone number, as the Terms of Use give it. */
 export const PHONE = '+48 571 033 267';
 
 export const PRICE_CURRENCY = 'USD';

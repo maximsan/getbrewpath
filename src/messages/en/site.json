@@ -245,7 +245,7 @@
     "questions": "Questions about this document?",
     "terms": {
       "title": "Terms of Use",
-      "dated": "Effective {date}",
+      "dated": "Effective date: {date}",
       "intro": {
         "p1": "These Terms of Use (\"Terms\") govern your use of the BrewPath mobile application (\"BrewPath\" or the \"App\") and the educational content and functionality made available through it.",
         "p2": "BrewPath is provided by Maksim Shchutski, a sole proprietor registered in the Central Register and Information on Economic Activity (CEIDG) in Poland.",
@@ -631,7 +631,7 @@
     },
     "privacy": {
       "title": "Privacy Policy",
-      "dated": "Last updated {date}",
+      "dated": "Last updated: {date}",
       "intro": {
         "p1": "This Privacy Policy explains how information is handled when you use BrewPath.",
         "p2": "BrewPath is operated by Maksim Shchutski, a sole proprietor registered in Poland (\"we\", \"us\", or \"our\").",
