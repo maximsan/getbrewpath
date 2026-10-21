@@ -30,3 +30,7 @@ _Avoid_: pricing arm, monetization model (the app's code names)
 **Share image** — the picture a link to the site shows when it is shared in a
 chat or social app. A Coffee Card page has its own, showing that card.
 _Avoid_: share preview, OG image
+
+**Website privacy page** — the site's own privacy notice, covering visit
+counting and the support form. The app's notice is the Privacy Policy.
+_Avoid_: privacy policy, when the website page is meant
