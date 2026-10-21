@@ -17,7 +17,7 @@ export default async function NotFound() {
   const t = await getTranslations('notfound');
 
   return (
-    <section className="mx-auto flex max-w-[1160px] flex-col items-center px-6 pt-[clamp(48px,8vw,96px)] text-center">
+    <section className="page-width flex flex-col items-center px-6 pt-[clamp(48px,8vw,96px)] text-center">
       <div className="flex min-h-60 items-center justify-center">
         <Roasty state="sleep" size={ROASTY_SIZE} hat="beanie" gear="none" sprout="sprig" />
       </div>

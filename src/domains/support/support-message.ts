@@ -4,13 +4,17 @@ export const MAX_MESSAGE_LENGTH = 5000;
 const MAX_EMAIL_LENGTH = 254;
 
 /** Why a field was refused; the form maps each to a sentence. */
-export type FieldError = 'email' | 'message' | 'messageTooLong';
+const FIELD_ERRORS = ['email', 'message', 'messageTooLong'] as const;
+export type FieldError = (typeof FIELD_ERRORS)[number];
+
+const isFieldError = (code: string): code is FieldError =>
+  (FIELD_ERRORS as readonly string[]).includes(code);
 
 const supportMessageSchema = z.object({
   email: z
     .string()
     .trim()
-    .max(MAX_EMAIL_LENGTH)
+    .max(MAX_EMAIL_LENGTH, { error: 'email' })
     .pipe(z.email({ error: 'email' })),
   message: z
     .string()
@@ -21,20 +25,24 @@ const supportMessageSchema = z.object({
   website: z.string().optional(),
 });
 
-export type SupportMessage = Omit<z.infer<typeof supportMessageSchema>, 'website'>;
+type SupportField = Exclude<keyof z.infer<typeof supportMessageSchema>, 'website'>;
+const SUPPORT_FIELDS = supportMessageSchema.keyof().exclude(['website']);
+
+export type SupportMessage = Pick<z.infer<typeof supportMessageSchema>, SupportField>;
+export type SupportFieldErrors = Partial<Record<SupportField, FieldError>>;
 
 export type ParsedSupportMessage =
   | { kind: 'valid'; message: SupportMessage }
   | { kind: 'spam' }
-  | { kind: 'invalid'; errors: Partial<Record<'email' | 'message', FieldError>> };
+  | { kind: 'invalid'; errors: SupportFieldErrors };
 
 export function parseSupportMessage(input: Record<string, unknown>): ParsedSupportMessage {
   const result = supportMessageSchema.safeParse(input);
   if (!result.success) {
-    const errors: Partial<Record<'email' | 'message', FieldError>> = {};
+    const errors: SupportFieldErrors = {};
     for (const issue of result.error.issues) {
-      const field = issue.path[0];
-      if (field === 'email' || field === 'message') errors[field] ??= issue.message as FieldError;
+      const field = SUPPORT_FIELDS.safeParse(issue.path[0]);
+      if (field.success && isFieldError(issue.message)) errors[field.data] ??= issue.message;
     }
     return { kind: 'invalid', errors };
   }

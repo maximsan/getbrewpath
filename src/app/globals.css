@@ -1,10 +1,11 @@
 @import 'tailwindcss';
 
 /*
- * BrewPath design tokens, copied from the app's design system
- * (prototype/_ds/.../tokens/brewpath-tokens.css). The cupping mood is the
- * default; [data-mood='dark-roast'] swaps the palette on <html> or on any
- * section that is always dark.
+ * BrewPath design tokens, copied from the app's design system.
+ * The site has two colour themes, called moods: cupping (light) and dark roast.
+ * Cupping is the default. [data-mood='dark-roast'] on <html> switches the whole
+ * page; on a section, it keeps that section dark in both moods.
+ * Source: prototype/_ds/brewpath-4b93ed84-d738-40ba-84a6-59af9b9bb79d/tokens/brewpath-tokens.css.
  */
 :root {
   --bg: #f4efe6;
@@ -102,13 +103,23 @@
   --animate-dot-pulse: dot-pulse 1.6s ease-in-out infinite;
   --animate-hero-float: hero-float 6s ease-in-out infinite;
   --animate-hero-float-2: hero-float-2 7s ease-in-out infinite;
-  --animate-save-note-in: rise-in 0.5s var(--ease-out-soft) both;
+  --animate-save-note-in: note-rise 260ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
 }
 
 @keyframes rise-in {
   from {
     opacity: 0;
     transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes note-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
   }
   to {
     opacity: 1;
@@ -323,4 +334,10 @@
     opacity: 1;
     transform: none;
   }
+}
+
+/* The width every page band, the header and the footer line up to. */
+@utility page-width {
+  margin-inline: auto;
+  max-width: 1160px;
 }

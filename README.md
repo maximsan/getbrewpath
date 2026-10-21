@@ -35,6 +35,7 @@ without it the form shows that sending failed.
 
 ## Universal links
 
-`/.well-known/apple-app-site-association` vouches for the app on this domain.
-The app currently claims `brewpath.maximsan.dev`, so "Open in the app" on a
-card page links there (see `src/domains/site/site.ts`).
+`/.well-known/apple-app-site-association` tells iOS that the BrewPath app may
+open links to this domain. The app is set up to open links from
+`brewpath.maximsan.dev` only, so "Open in the app" on a card page links there.
+See `src/domains/site/site.ts`.

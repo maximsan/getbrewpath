@@ -5,18 +5,25 @@ import { linkButtonClass } from '@components/link-button/link-button';
 import { PhoneShot } from '@components/phone-shot/phone-shot';
 import { pageTitleClass } from '@components/section/section';
 import { courseCounts } from '@domains/course/course';
-import { BRAND_ICON_DOWNLOAD_NAME, BRAND_ICON_PATH, BRAND_SWATCHES } from '@domains/site/brand';
+import {
+  BRAND_COLORS,
+  BRAND_ICON_DOWNLOAD_NAME,
+  BRAND_ICON_PATH,
+  type BrandColor,
+} from '@domains/site/brand';
+import { pageMetadata } from '@domains/site/page-metadata';
 import { formatPrice } from '@domains/site/price';
+import { PAGE_ROUTES } from '@domains/site/routes';
 import { screenDownloadName, SCREENS, screenSrc } from '@domains/site/screens';
 import { EMAIL_PRESS, PRICE_FOUNDATIONS, SITE_HOST } from '@domains/site/site';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations();
-  return {
+  return pageMetadata({
     title: t('metadata.press'),
     description: t('press.body'),
-    alternates: { canonical: '/press' },
-  };
+    path: PAGE_ROUTES.press,
+  });
 }
 
 const labelClass = 'ff-mono text-[11px] tracking-[.08em] text-ink-mute uppercase';
@@ -45,7 +52,7 @@ export default async function PressPage() {
   ];
 
   return (
-    <section className="mx-auto max-w-[1160px] px-6 pt-[clamp(40px,6vw,72px)]">
+    <section className="page-width px-6 pt-[clamp(40px,6vw,72px)]">
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] items-end gap-10">
         <div>
           <h1 className={pageTitleClass}>{t('title')}</h1>
@@ -103,15 +110,12 @@ export default async function PressPage() {
         <div>
           <h2 className="smallcaps m-0 mb-[18px]">{t('colour')}</h2>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(110px,1fr))] gap-3">
-            {BRAND_SWATCHES.map((swatch) => (
-              <div key={swatch.key} className="flex flex-col gap-2">
-                <div
-                  className="h-16 rounded-xl border border-rule"
-                  style={{ background: swatch.hex }}
-                />
-                <span className="ff-ui text-[13px] font-medium">{t(`swatches.${swatch.key}`)}</span>
+            {(Object.entries(BRAND_COLORS) as [BrandColor, string][]).map(([key, hex]) => (
+              <div key={key} className="flex flex-col gap-2">
+                <div className="h-16 rounded-xl border border-rule" style={{ background: hex }} />
+                <span className="ff-ui text-[13px] font-medium">{t(`swatches.${key}`)}</span>
                 <span translate="no" className="ff-mono text-[11px] tracking-[.06em] text-ink-mute">
-                  {swatch.hex}
+                  {hex}
                 </span>
               </div>
             ))}

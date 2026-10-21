@@ -4,28 +4,37 @@ import type { ComponentType } from 'react';
 
 import { LeafIcon, LockIcon, RematchIcon } from '@components/icons/icons';
 import { pageTitleClass } from '@components/section/section';
+import { pageMetadata } from '@domains/site/page-metadata';
+import { PAGE_ROUTES } from '@domains/site/routes';
 import { EMAIL_HELLO } from '@domains/site/site';
+import type { Messages } from '@i18n/messages';
 
 import { SupportForm } from './support-form';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations();
-  return {
+  return pageMetadata({
     title: t('metadata.support'),
     description: t('support.body'),
-    alternates: { canonical: '/support' },
-  };
+    path: PAGE_ROUTES.support,
+  });
 }
 
-const TOPIC_ICONS: ComponentType<{ size?: number }>[] = [RematchIcon, LockIcon, LeafIcon];
+const TOPICS = [
+  { key: 'restore', Icon: RematchIcon },
+  { key: 'refund', Icon: LockIcon },
+  { key: 'progress', Icon: LeafIcon },
+] as const satisfies readonly {
+  key: keyof Messages['support']['topics'];
+  Icon: ComponentType<{ size?: number }>;
+}[];
 
 export default async function SupportPage() {
   const t = await getTranslations('support');
   const { support } = await getMessages();
-  const topics = Object.values(support.topics);
 
   return (
-    <section className="mx-auto max-w-[1160px] px-6 pt-[clamp(40px,6vw,72px)]">
+    <section className="page-width px-6 pt-[clamp(40px,6vw,72px)]">
       <div className="max-w-[720px]">
         <h1 className={pageTitleClass}>{t('title')}</h1>
         <p className="ff-ui mt-5 mb-0 text-[17px] leading-[1.6] text-pretty text-ink-mute">
@@ -33,11 +42,11 @@ export default async function SupportPage() {
         </p>
       </div>
       <div className="mt-11 grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-5">
-        {topics.map((topic, index) => {
-          const Icon = TOPIC_ICONS[index] ?? LeafIcon;
+        {TOPICS.map(({ key, Icon }) => {
+          const topic = support.topics[key];
           return (
             <div
-              key={topic.title}
+              key={key}
               className="flex flex-col gap-3 rounded-3xl border border-rule bg-surface p-7"
             >
               <span className="inline-flex text-accent">

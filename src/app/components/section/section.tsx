@@ -5,10 +5,7 @@ import { cn } from '@shared/styles/cn';
 /** A page band: centred, 1160px wide, with the prototype's fluid top spacing. */
 export function Section({ className, ...props }: ComponentProps<'section'>) {
   return (
-    <section
-      className={cn('mx-auto max-w-[1160px] px-6 pt-[clamp(64px,9vw,120px)]', className)}
-      {...props}
-    />
+    <section className={cn('page-width px-6 pt-[clamp(64px,9vw,120px)]', className)} {...props} />
   );
 }
 

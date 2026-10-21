@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 
 import styles from './progress-topbar.module.css';
 
-/** Bean colours from green to dark roast; the bean fills along this ramp as the run progresses. */
+/** Bean colours from green to dark roast. The bean darkens along this ramp as the learner moves through the cards. */
 const ROAST_RAMP = ['#9FB088', '#C79A63', '#A2703C', '#7A4526', '#54301C'] as const;
 /** The bean's highlight stroke, the same in both moods. */
 const BEAN_CREASE = '#FBF7EE';
@@ -87,13 +87,13 @@ export interface ProgressTopbarProps {
   pos: number;
   /** Number of steps. */
   total: number;
-  /** The run is finished: the meter and counter show total of total. */
+  /** Every card is answered: the meter and counter show total of total. */
   done?: boolean;
   /** Spoken name of the close cross; defaults to "Close". */
   closeLabel?: string;
 }
 
-/** The top bar of a run-through: close on the left, the roast-bean meter and a step counter centred. */
+/** The top bar while playing a lesson's cards: close on the left, the roast-bean meter and a step counter centred. */
 export function ProgressTopbar({
   onClose,
   pos,

@@ -1,12 +1,15 @@
 import courseJson from '@content/course.json';
 
-import type { Course, CourseCard } from './build-course';
+import { type CourseCard, courseSchema } from './build-course';
 
-/** Written by `pnpm sync-cards` from the app's own content, so its shape is `Course`. */
-export const course = courseJson as Course;
+/** The course summary written by `pnpm sync-cards`, checked once when the site loads it. */
+export const course = courseSchema.parse(courseJson);
 
 export const findCard = (id: string): CourseCard | undefined =>
   course.cards.find((card) => card.id === id);
+
+/** Route params for every card page, which are all built ahead of time. */
+export const cardRouteParams = () => course.cards.map((card) => ({ id: card.id }));
 
 export const courseCounts = {
   modules: course.modules.length,

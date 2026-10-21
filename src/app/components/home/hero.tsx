@@ -9,7 +9,7 @@ export async function Hero() {
   const t = await getTranslations('hero');
 
   return (
-    <section className="mx-auto grid max-w-[1160px] grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-10 px-6 pt-[clamp(48px,8vw,96px)] pb-[clamp(40px,6vw,72px)]">
+    <section className="page-width grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-10 px-6 pt-[clamp(48px,8vw,96px)] pb-[clamp(40px,6vw,72px)]">
       <div>
         <h1 className="ff-display m-0 animate-rise-in text-[clamp(42px,6.2vw,76px)] leading-none font-normal tracking-[-0.025em] text-balance whitespace-pre-line">
           {t('title')}

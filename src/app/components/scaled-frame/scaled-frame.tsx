@@ -14,10 +14,10 @@ interface ScaledFrameProps {
 }
 
 /**
- * Shows fixed-size content shrunk to fit its container. The box takes its
- * final size from CSS on first paint, so the page never shifts when the
- * scale is measured; only the drawing inside is scaled, and it stays hidden
- * until then.
+ * Shows fixed-size content shrunk to fit its container.
+ * The box gets its final size from CSS on first paint, so the page never
+ * shifts when the scale is measured. Only the drawing inside is scaled.
+ * It stays hidden until the scale is known.
  */
 export function ScaledFrame({ width, height, maxWidth = width, children }: ScaledFrameProps) {
   const box = useRef<HTMLDivElement>(null);

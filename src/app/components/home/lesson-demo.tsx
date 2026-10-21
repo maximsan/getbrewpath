@@ -36,7 +36,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
   const t = useTranslations('demo');
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
-  /** Changing it remounts the cards, so a replay starts with fresh, unanswered cards. */
+  /** A new run number remounts the cards, so a replay starts with unanswered cards. */
   const [run, setRun] = useState(0);
 
   const done = step >= CARD_COUNT;
@@ -53,10 +53,10 @@ export function LessonDemo({ reward }: LessonDemoProps) {
     {
       prompt: t('card0.prompt'),
       choices: [
-        { t: t('card0.choices.c1') },
-        { t: t('card0.choices.c2'), correct: true },
-        { t: t('card0.choices.c3') },
-        { t: t('card0.choices.c4') },
+        { text: t('card0.choices.c1') },
+        { text: t('card0.choices.c2'), correct: true },
+        { text: t('card0.choices.c3') },
+        { text: t('card0.choices.c4') },
       ],
       explain: t('card0.explain'),
     },
@@ -64,10 +64,10 @@ export function LessonDemo({ reward }: LessonDemoProps) {
     {
       prompt: t('card2.prompt'),
       choices: [
-        { t: t('card2.choices.c1') },
-        { t: t('card2.choices.c2'), correct: true },
-        { t: t('card2.choices.c3') },
-        { t: t('card2.choices.c4') },
+        { text: t('card2.choices.c1') },
+        { text: t('card2.choices.c2'), correct: true },
+        { text: t('card2.choices.c3') },
+        { text: t('card2.choices.c4') },
       ],
       explain: t('card2.explain'),
     },

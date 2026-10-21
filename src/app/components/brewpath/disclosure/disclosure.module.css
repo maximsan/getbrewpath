@@ -9,8 +9,8 @@
 }
 
 /*
- * A 0fr row still lets its content take focus, so collapsed content is hidden
- * from the tab order; the switch waits until the collapse has finished.
+ * A collapsed 0fr row still lets its content take focus. So collapsed content
+ * is also hidden from the tab order, once the collapse animation has finished.
  */
 .content {
   overflow: hidden;

@@ -13,7 +13,7 @@ export interface RoastyProps {
   state?: RoastyState;
   /** Width in px; the drawing is 1.4 times as tall. Defaults to 160. */
   size?: number;
-  /** Change it to replay the state's animation. */
+  /** Changing this value replays the state's animation. */
   replayKey?: number | string;
   style?: CSSProperties;
   /** Bean colour. Defaults to "medium". */
