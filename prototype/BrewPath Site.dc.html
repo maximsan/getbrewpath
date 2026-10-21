@@ -30,7 +30,8 @@
     a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:999px}
     [data-rise]{transform:translateY(calc(var(--y) + 16%));transition:transform 1.1s cubic-bezier(.2,.8,.2,1) .15s}
     [data-reveal].in [data-rise]{transform:translateY(var(--y))}
-    @keyframes menuIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+    @keyframes menuFade{from{opacity:0}to{opacity:1}}
+    @keyframes menuLink{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
     @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0ms!important;transition-duration:1ms!important;transition-delay:0ms!important}html{scroll-behavior:auto}}
     .bp-phone img{display:block}
     input,textarea{font-family:inherit}
@@ -65,17 +66,27 @@
         <span style="display:block;width:14px;height:1.5px;border-radius:2px;background:currentColor;transition:transform .28s cubic-bezier(.2,.8,.2,1);transform:{{ menuLine2 }}"></span>
       </button>
     </div>
-    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
-      <nav style="border-top:1px solid var(--rule);padding:8px {{ headerPad }} 20px;display:flex;flex-direction:column;animation:menuIn .28s cubic-bezier(.2,.8,.2,1) both">
-        <a class="ff-ui" href="#/" data-target="why" onClick="{{ jump }}" style="display:flex;align-items:center;min-height:48px;padding:10px 0;box-sizing:border-box;border-bottom:1px solid var(--rule);font-size:16px;font-weight:500;color:var(--ink)">{{ t.nav.course }}</a>
-        <a class="ff-ui" href="#/" data-target="how" onClick="{{ jump }}" style="display:flex;align-items:center;min-height:48px;padding:10px 0;box-sizing:border-box;border-bottom:1px solid var(--rule);font-size:16px;font-weight:500;color:var(--ink)">{{ t.nav.how }}</a>
-        <a class="ff-ui" href="#/" data-target="demo" onClick="{{ jump }}" style="display:flex;align-items:center;min-height:48px;padding:10px 0;box-sizing:border-box;border-bottom:1px solid var(--rule);font-size:16px;font-weight:500;color:var(--ink)">{{ t.nav.demo }}</a>
-        <a class="ff-ui" href="#/" data-target="pricing" onClick="{{ jump }}" style="display:flex;align-items:center;min-height:48px;padding:10px 0;box-sizing:border-box;border-bottom:1px solid var(--rule);font-size:16px;font-weight:500;color:var(--ink)">{{ t.nav.pricing }}</a>
-        <a class="ff-ui" href="#/" data-target="faq" onClick="{{ jump }}" style="display:flex;align-items:center;min-height:48px;padding:10px 0;box-sizing:border-box;font-size:16px;font-weight:500;color:var(--ink)">{{ t.nav.faq }}</a>
-        <a class="bp-cta ff-ui" href="{{ storeUrl }}" style="margin-top:12px;display:flex;align-items:center;justify-content:center;text-align:center;background:var(--accent);color:var(--accent-ink);font-size:15px;font-weight:500;line-height:1.15;min-height:48px;padding:10px 18px;box-sizing:border-box;border-radius:999px">{{ t.nav.getApp }}</a>
-      </nav>
-    </sc-if>
   </header>
+
+  <!-- MOBILE MENU -->
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-label="{{ t.nav.menu }}" style="position:fixed;top:64px;left:0;right:0;bottom:0;z-index:40;background:var(--bg);overflow:auto;animation:menuFade .3s ease both">
+      <nav style="min-height:100%;box-sizing:border-box;max-width:1160px;margin:0 auto;padding:20px {{ headerPad }} 32px;display:flex;flex-direction:column">
+        <sc-for list="{{ menuLinks }}" as="ml" hint-placeholder-count="5">
+          <a class="ff-display" href="#/" data-target="{{ ml.id }}" onClick="{{ jump }}" style="display:flex;align-items:baseline;gap:18px;min-height:68px;padding:18px 0;box-sizing:border-box;border-bottom:1px solid var(--rule);font-size:clamp(30px,8vw,44px);letter-spacing:-0.02em;line-height:1.05;color:var(--ink);animation:menuLink .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:{{ ml.delay }}"><span class="ff-mono" style="font-size:11px;letter-spacing:.14em;color:var(--ink-mute);flex:none">{{ ml.num }}</span>{{ ml.label }}</a>
+        </sc-for>
+        <div style="flex:1"></div>
+        <div style="display:flex;flex-direction:column;gap:22px;margin-top:40px;animation:menuLink .5s cubic-bezier(.2,.8,.2,1) .36s both">
+          <a class="bp-cta ff-ui" href="{{ storeUrl }}" style="display:flex;align-items:center;justify-content:center;text-align:center;background:var(--accent);color:var(--accent-ink);font-size:16px;font-weight:500;line-height:1.15;min-height:54px;padding:12px 20px;box-sizing:border-box;border-radius:999px">{{ t.nav.getApp }}</a>
+          <div style="display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center">
+            <a class="ff-ui" href="{{ mailtoHello }}" style="font-size:14px;color:var(--ink-mute)">{{ t.footer.support }}</a>
+            <a class="ff-ui" href="#/terms" style="font-size:14px;color:var(--ink-mute)">{{ t.footer.terms }}</a>
+            <a class="ff-ui" href="#/privacy" style="font-size:14px;color:var(--ink-mute)">{{ t.footer.privacy }}</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </sc-if>
 
   <!-- PAGE -->
   <main style="flex:1;opacity:{{ pageOpacity }};transform:{{ pageY }};transition:opacity .26s ease, transform .3s cubic-bezier(.2,.8,.2,1)">
@@ -85,10 +96,10 @@
 
       <!-- HERO -->
         <section data-screen-label="Hero" style="max-width:1160px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px clamp(40px,6vw,72px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:40px;align-items:center">
-          <div>
+          <div style="text-align:{{ heroAlign }}">
             <h1 class="ff-display" style="animation:riseIn .8s cubic-bezier(.2,.8,.2,1) both;font-size:clamp(42px,6.2vw,76px);font-weight:400;line-height:1.0;letter-spacing:-0.025em;margin:0;text-wrap:balance;white-space:pre-line">{{ t.hero.title }}</h1>
-            <p class="ff-ui" style="animation:riseIn .8s cubic-bezier(.2,.8,.2,1) .08s both;font-size:clamp(17px,1.6vw,20px);line-height:1.55;color:var(--ink-mute);margin:26px 0 0;max-width:46ch;text-wrap:pretty">{{ t.hero.body }}</p>
-            <div style="animation:riseIn .8s cubic-bezier(.2,.8,.2,1) .16s both;display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;align-items:center">
+            <p class="ff-ui" style="animation:riseIn .8s cubic-bezier(.2,.8,.2,1) .08s both;font-size:clamp(17px,1.6vw,20px);line-height:1.55;color:var(--ink-mute);margin:26px {{ heroMx }} 0;max-width:46ch;text-wrap:pretty">{{ t.hero.body }}</p>
+            <div style="animation:riseIn .8s cubic-bezier(.2,.8,.2,1) .16s both;display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;align-items:center;justify-content:{{ heroJustify }}">
               <a class="bp-cta ff-ui" href="{{ storeUrl }}" style="display:inline-flex;align-items:center;justify-content:center;text-align:center;background:var(--ink);color:var(--bg);min-height:50px;padding:12px 22px;box-sizing:border-box;border-radius:999px;font-size:15px;font-weight:500;line-height:1.15;transition:transform .15s">{{ t.hero.download }}</a>
               <a class="bp-cta ff-ui" href="#/" data-target="demo" onClick="{{ jump }}" style="display:inline-flex;align-items:center;justify-content:center;text-align:center;border:1px solid var(--rule);color:var(--ink);padding:12px 22px;min-height:50px;box-sizing:border-box;border-radius:999px;font-size:15px;font-weight:500;line-height:1.15;transition:transform .15s">{{ t.hero.tryFirst }}</a>
             </div>
@@ -110,9 +121,9 @@
           <h2 class="ff-display" style="font-size:clamp(28px,3.6vw,44px);font-weight:400;line-height:1.05;letter-spacing:-0.02em;margin:0;text-wrap:balance">{{ t.modules.title }}</h2>
           <div class="ff-mono" style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);margin-top:16px;line-height:1.5">{{ modulesMeta }}</div>
         </div>
-        <div style="display:grid;grid-template-columns:{{ modCols }};gap:32px 24px;margin-top:48px">
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:32px 24px;margin-top:48px">
           <sc-for list="{{ modules }}" as="m" hint-placeholder-count="5">
-            <div data-reveal data-delay="{{ m.delay }}" style="min-width:0;padding:22px 0 0;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:14px">
+            <div data-reveal data-delay="{{ m.delay }}" style="flex:0 0 auto;width:{{ modCardW }};min-width:0;padding:22px 0 0;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:14px">
               <div style="display:flex;align-items:center;justify-content:space-between">
                 <span style="color:var(--accent);display:inline-flex">{{ m.icon }}</span>
                 <span class="ff-mono" style="font-size:11px;letter-spacing:.14em;color:var(--ink-mute)">{{ m.num }}</span>
@@ -132,9 +143,9 @@
         <div data-reveal style="max-width:720px;margin:0 auto;text-align:center">
           <h2 class="ff-display" style="font-size:clamp(28px,3.6vw,44px);font-weight:400;line-height:1.05;letter-spacing:-0.02em;margin:0;text-wrap:balance">{{ t.how.title }}</h2>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(24px,3vw,40px);margin-top:48px">
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(24px,3vw,40px);margin-top:48px">
           <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
-            <div data-reveal data-delay="{{ s.delay }}" style="display:flex;flex-direction:column;gap:22px">
+            <div data-reveal data-delay="{{ s.delay }}" style="flex:1 1 300px;max-width:420px;min-width:0;display:flex;flex-direction:column;gap:22px">
               <div style="background:var(--surface-2);border-radius:24px;padding:clamp(20px,3vw,36px) clamp(20px,3vw,36px) 0;overflow:hidden;display:flex;justify-content:center;aspect-ratio:4/4.2;align-items:flex-end">
                 <div class="bp-phone" style="width:min(78%,250px);aspect-ratio:826/1750;border-radius:10.5%/5%;overflow:hidden;background:#1b1614;box-shadow:0 30px 60px -20px rgba(27,22,20,.5);--y:34%" data-rise=""><img src="{{ s.img }}" alt="{{ s.alt }}" style="width:106%;height:106%;margin:-3%;object-fit:cover"></div>
               </div>
@@ -201,21 +212,21 @@
       <!-- DEMO -->
       <section id="demo" data-screen-label="Try a lesson" style="max-width:1160px;margin:0 auto;padding:clamp(64px,9vw,120px) 24px 0">
         <div data-mood="dark-roast" data-reveal style="color:var(--ink);background:var(--surface);border:1px solid var(--rule);border-radius:28px;padding:clamp(32px,5vw,64px) clamp(24px,5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:40px;align-items:center;overflow:hidden">
-          <div>
+          <div style="text-align:{{ demoAlign }}">
             <h2 class="ff-display" style="font-size:clamp(28px,3.6vw,44px);font-weight:400;line-height:1.05;letter-spacing:-0.02em;margin:0;text-wrap:balance">{{ t.demo.title }}</h2>
-            <p class="ff-ui" style="font-size:16px;line-height:1.6;color:var(--ink-mute);margin:18px 0 0;max-width:46ch;text-wrap:pretty">{{ t.demo.body }}</p>
+            <p class="ff-ui" style="font-size:16px;line-height:1.6;color:var(--ink-mute);margin:18px {{ demoMx }} 0;max-width:46ch;text-wrap:pretty">{{ t.demo.body }}</p>
             <sc-if value="{{ demoDone }}" hint-placeholder-val="{{ false }}">
               <div class="save-note-in" style="margin-top:28px;padding:20px 22px;border:1px solid color-mix(in oklab, var(--sage) 50%, var(--rule));border-radius:var(--r);background:color-mix(in oklab, var(--sage) 10%, transparent);display:flex;flex-direction:column;gap:12px">
                 <div class="ff-display" style="font-size:22px;line-height:1.15">{{ demoScoreTitle }}</div>
                 <div class="ff-ui" style="font-size:14px;color:var(--ink-mute);line-height:1.5">{{ demoScoreBody }}</div>
-                <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px">
+                <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;justify-content:{{ demoJustify }}">
                   <a class="bp-cta ff-ui" href="{{ storeUrl }}" style="display:inline-flex;align-items:center;text-align:center;background:var(--accent);color:var(--accent-ink);font-size:14px;font-weight:500;line-height:1.15;min-height:42px;padding:8px 18px;box-sizing:border-box;border-radius:999px;transition:transform .15s">{{ t.demo.get }}</a>
                   <button type="button" onClick="{{ demoReset }}" class="ff-ui" style="appearance:none;border:1px solid var(--rule);background:transparent;color:var(--ink);font-size:14px;font-weight:500;line-height:1.15;min-height:42px;padding:8px 18px;box-sizing:border-box;border-radius:999px;cursor:pointer">{{ t.demo.again }}</button>
                 </div>
               </div>
             </sc-if>
             <sc-if value="{{ demoNotDone }}" hint-placeholder-val="{{ true }}">
-              <div class="ff-mono" style="margin-top:28px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);display:flex;align-items:center;gap:10px;line-height:1.5"><span style="width:6px;height:6px;border-radius:999px;background:var(--accent);flex:none;animation:dotPulse 1.6s ease-in-out infinite"></span>{{ demoProgress }}</div>
+              <div class="ff-mono" style="margin-top:28px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);display:flex;align-items:center;gap:10px;line-height:1.5;justify-content:{{ demoJustify }}"><span style="width:6px;height:6px;border-radius:999px;background:var(--accent);flex:none;animation:dotPulse 1.6s ease-in-out infinite"></span>{{ demoProgress }}</div>
             </sc-if>
           </div>
           <div style="display:flex;justify-content:center">
@@ -315,11 +326,11 @@
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:40px">
           <div data-reveal>
             <h2 class="ff-display" style="font-size:clamp(28px,3.6vw,44px);font-weight:400;line-height:1.05;letter-spacing:-0.02em;margin:0;text-wrap:balance">{{ t.faq.title }}</h2>
-            <p class="ff-ui" style="font-size:15px;line-height:1.6;color:var(--ink-mute);margin:18px 0 0;max-width:40ch">{{ t.faq.morePre }}<a href="#/support">{{ t.faq.moreLink }}</a>{{ t.faq.morePost }}</p>
+            <p class="ff-ui" style="font-size:15px;line-height:1.6;color:var(--ink-mute);margin:18px 0 0;max-width:40ch">{{ t.faq.morePre }}<a href="{{ mailtoHello }}" translate="no">{{ emailHello }}</a>{{ t.faq.morePost }}</p>
           </div>
-          <div data-reveal data-delay="1" style="border-top:1px solid var(--rule)">
+          <div data-reveal data-delay="1" style="display:flex;flex-direction:column;gap:4px">
             <sc-for list="{{ t.faq.items }}" as="f" hint-placeholder-count="5">
-              <x-import from="_ds/brewpath-4b93ed84-d738-40ba-84a6-59af9b9bb79d/_ds_bundle.js" component-from-global-scope="BrewPath.Disclosure" label="{{ f.q }}" glyph="plus" divider="{{ true }}" header-pad="20px 0" hint-size="100%,60px">
+              <x-import from="_ds/brewpath-4b93ed84-d738-40ba-84a6-59af9b9bb79d/_ds_bundle.js" component-from-global-scope="BrewPath.Disclosure" label="{{ f.q }}" glyph="plus" divider="{{ false }}" header-pad="20px 0" hint-size="100%,60px">
                 <p class="ff-ui" style="margin:0 0 18px;font-size:15px;line-height:1.65;color:var(--ink-mute);max-width:60ch;text-wrap:pretty">{{ f.a }}</p>
               </x-import>
             </sc-for>
@@ -382,21 +393,25 @@
 
     <!-- ============ LEGAL DOCS ============ -->
     <sc-if value="{{ isDoc }}" hint-placeholder-val="{{ false }}">
-      <section data-screen-label="Legal document" style="max-width:1000px;margin:0 auto;padding:clamp(40px,6vw,72px) 24px 0">
+      <section data-screen-label="Legal document" style="max-width:{{ docMax }};margin:0 auto;padding:clamp(40px,6vw,72px) 24px 0">
         <div style="max-width:720px">
             <h1 class="ff-display" style="font-size:clamp(36px,5vw,60px);font-weight:400;line-height:1.02;letter-spacing:-0.025em;margin:0">{{ doc.title }}</h1>
           <div style="display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:20px;align-items:center">
             <span class="ff-mono" style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute)">{{ docUpdated }}</span>
-            <span class="ff-mono" style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--warn);border:1px dashed color-mix(in oklab, var(--warn) 50%, var(--rule));border-radius:999px;padding:5px 10px">{{ t.docs.draft }}</span>
           </div>
           <p class="ff-ui" style="font-size:17px;line-height:1.6;color:var(--ink-mute);margin:22px 0 0;text-wrap:pretty">{{ doc.intro }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:26px">
+            <button type="button" class="bp-cta ff-ui" onClick="{{ downloadDocPdf }}" style="appearance:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--rule);background:transparent;color:var(--ink);font-size:15px;font-weight:500;line-height:1.15;min-height:46px;padding:10px 20px;box-sizing:border-box;border-radius:999px;transition:transform .15s"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M3 13h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{ t.docs.downloadPdf }}</button>
+          </div>
         </div>
         <div style="display:grid;grid-template-columns:{{ docCols }};gap:48px;margin-top:56px;align-items:start">
-          <nav style="position:sticky;top:88px;display:{{ docTocDisplay }};flex-direction:column;gap:2px">
+          <nav style="position:{{ docTocPos }};top:88px;display:flex;flex-direction:column;gap:2px">
             <div class="smallcaps" style="margin-bottom:10px">{{ t.docs.contents }}</div>
-            <sc-for list="{{ docToc }}" as="tc" hint-placeholder-count="6">
-              <a href="#/" data-target="{{ tc.id }}" onClick="{{ jump }}" class="ff-ui" style="font-size:14px;color:var(--ink-mute);padding:7px 0;border-inline-start:1px solid var(--rule);padding-inline-start:14px;display:block;line-height:1.3">{{ tc.label }}</a>
-            </sc-for>
+            <div style="display:flex;flex-direction:{{ docTocDir }};flex-wrap:wrap;gap:{{ docTocGap }}">
+              <sc-for list="{{ docToc }}" as="tc" hint-placeholder-count="6">
+                <a href="#/" data-target="{{ tc.id }}" onClick="{{ jump }}" class="ff-ui" style="font-size:14px;color:var(--ink-mute);padding:{{ docTocLinkPad }};border:{{ docTocLinkBorder }};border-inline-start:1px solid var(--rule);border-radius:{{ docTocLinkRadius }};display:block;line-height:1.3">{{ tc.label }}</a>
+              </sc-for>
+            </div>
           </nav>
           <div style="max-width:68ch;min-width:0">
             <sc-for list="{{ docSections }}" as="sec" hint-placeholder-count="6">
@@ -417,112 +432,6 @@
       </section>
     </sc-if>
 
-    <!-- ============ SUPPORT ============ -->
-    <sc-if value="{{ isSupport }}" hint-placeholder-val="{{ false }}">
-      <section data-screen-label="Support" style="max-width:1160px;margin:0 auto;padding:clamp(40px,6vw,72px) 24px 0">
-        <div style="max-width:720px">
-            <h1 class="ff-display" style="font-size:clamp(36px,5vw,60px);font-weight:400;line-height:1.02;letter-spacing:-0.025em;margin:0;text-wrap:balance">{{ t.support.title }}</h1>
-          <p class="ff-ui" style="font-size:17px;line-height:1.6;color:var(--ink-mute);margin:20px 0 0;text-wrap:pretty">{{ t.support.body }}</p>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;margin-top:44px">
-          <sc-for list="{{ supportTopics }}" as="tp" hint-placeholder-count="3">
-            <div style="background:var(--surface);border:1px solid var(--rule);border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:12px">
-              <span style="color:var(--accent);display:inline-flex">{{ tp.icon }}</span>
-              <div class="ff-display" style="font-size:24px;line-height:1.1;letter-spacing:-0.015em">{{ tp.title }}</div>
-              <ol style="margin:4px 0 0;padding:0;padding-inline-start:18px;display:flex;flex-direction:column;gap:8px">
-                <sc-for list="{{ tp.steps }}" as="st" hint-placeholder-count="3">
-                  <li class="ff-ui" style="font-size:14px;line-height:1.55;color:var(--ink-mute)">{{ st }}</li>
-                </sc-for>
-              </ol>
-            </div>
-          </sc-for>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:40px;margin-top:clamp(56px,8vw,96px);align-items:start">
-          <div>
-            <h2 class="ff-display" style="font-size:clamp(28px,3.4vw,40px);font-weight:400;line-height:1.05;letter-spacing:-0.02em;margin:0">{{ t.support.heading }}</h2>
-            <div style="margin-top:24px;display:flex;flex-direction:column;gap:14px">
-              <a class="ff-ui" href="{{ mailtoHello }}" translate="no" style="font-size:17px;font-weight:500;display:inline-flex;align-items:center;gap:10px;overflow-wrap:anywhere">{{ emailHello }}</a>
-              <div class="ff-ui" style="font-size:14px;color:var(--ink-mute);line-height:1.55">{{ t.support.include }}</div>
-            </div>
-          </div>
-          <sc-if value="{{ formNotSent }}" hint-placeholder-val="{{ true }}">
-            <div style="background:var(--surface);border:1px solid var(--rule);border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:16px">
-              <div class="smallcaps">{{ t.support.yourEmail }}</div>
-              <x-import from="_ds/brewpath-4b93ed84-d738-40ba-84a6-59af9b9bb79d/_ds_bundle.js" component-from-global-scope="BrewPath.TextField" value="{{ formEmail }}" on-change="{{ setFormEmail }}" placeholder="{{ t.support.emailPlaceholder }}" hint-size="100%,52px"></x-import>
-              <div class="smallcaps" style="margin-top:6px">{{ t.support.what }}</div>
-              <textarea value="{{ formMsg }}" onChange="{{ setFormMsg }}" placeholder="{{ t.support.messagePlaceholder }}" rows="5" class="ff-ui" style="width:100%;box-sizing:border-box;resize:vertical;background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:14px 16px;font-size:15px;color:var(--ink);line-height:1.5;outline:none"></textarea>
-              <button type="button" class="btn btn-primary" onClick="{{ sendForm }}" style="margin-top:4px">{{ t.support.send }}</button>
-              <div class="ff-ui" style="font-size:12px;color:var(--ink-mute);line-height:1.5">{{ t.support.consentPre }}<a href="#/privacy">{{ t.support.consentLink }}</a>{{ t.support.consentPost }}</div>
-            </div>
-          </sc-if>
-          <sc-if value="{{ formSent }}" hint-placeholder-val="{{ false }}">
-            <div class="save-note-in" style="background:var(--surface);border:1px solid color-mix(in oklab, var(--sage) 50%, var(--rule));border-radius:24px;padding:36px 28px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px">
-              <span style="color:var(--sage);display:inline-flex"><svg width="28" height="28" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9.5l3.5 3.5L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-              <div class="ff-display" style="font-size:26px;line-height:1.1">{{ t.support.sentTitle }}</div>
-              <div class="ff-ui" style="font-size:14px;color:var(--ink-mute);line-height:1.55;max-width:34ch;overflow-wrap:anywhere">{{ sentBody }}</div>
-              <button type="button" onClick="{{ resetForm }}" class="ff-ui" style="appearance:none;border:1px solid var(--rule);background:transparent;color:var(--ink);font-size:14px;font-weight:500;line-height:1.15;min-height:40px;padding:8px 18px;box-sizing:border-box;border-radius:999px;cursor:pointer;margin-top:8px">{{ t.support.another }}</button>
-            </div>
-          </sc-if>
-        </div>
-      </section>
-    </sc-if>
-
-    <!-- ============ PRESS ============ -->
-    <sc-if value="{{ isPress }}" hint-placeholder-val="{{ false }}">
-      <section data-screen-label="Press kit" style="max-width:1160px;margin:0 auto;padding:clamp(40px,6vw,72px) 24px 0">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:40px;align-items:end">
-          <div>
-            <h1 class="ff-display" style="font-size:clamp(36px,5vw,60px);font-weight:400;line-height:1.02;letter-spacing:-0.025em;margin:0;text-wrap:balance">{{ t.press.title }}</h1>
-            <p class="ff-ui" style="font-size:17px;line-height:1.6;color:var(--ink-mute);margin:20px 0 0;text-wrap:pretty">{{ t.press.body }}</p>
-            <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:26px">
-              <a class="bp-cta ff-ui" href="{{ mailtoPress }}" translate="no" style="display:inline-flex;align-items:center;background:var(--ink);color:var(--bg);font-size:15px;font-weight:500;line-height:1.15;min-height:46px;padding:10px 20px;box-sizing:border-box;border-radius:999px;transition:transform .15s;overflow-wrap:anywhere">{{ emailPress }}</a>
-              <a class="bp-cta ff-ui" href="assets/app-icon.png" download="brewpath-app-icon.png" style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--rule);color:var(--ink);font-size:15px;font-weight:500;line-height:1.15;min-height:46px;padding:10px 20px;box-sizing:border-box;border-radius:999px;transition:transform .15s">{{ t.press.downloadIcon }}</a>
-            </div>
-          </div>
-          <div style="display:flex;flex-direction:column">
-            <sc-for list="{{ pressFacts }}" as="pf" hint-placeholder-count="6">
-              <div class="form-row" style="padding:14px 0;gap:16px"><span class="lbl">{{ pf.k }}</span><span class="val" style="white-space:normal;text-align:end">{{ pf.v }}</span></div>
-            </sc-for>
-          </div>
-        </div>
-
-        <div style="margin-top:clamp(48px,7vw,80px)">
-          <div class="smallcaps" style="margin-bottom:18px">{{ t.press.screens }}</div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px">
-            <sc-for list="{{ pressShots }}" as="sh" hint-placeholder-count="8">
-              <a href="{{ sh.src }}" download="{{ sh.file }}" style="display:flex;flex-direction:column;gap:10px;color:var(--ink);text-decoration:none">
-                <div class="bp-phone" style="aspect-ratio:826/1750;border-radius:10.5%/5%;overflow:hidden;background:#1b1614"><img src="{{ sh.src }}" alt="{{ sh.label }}" style="width:106%;height:106%;margin:-3%;object-fit:cover"></div>
-                <span class="ff-mono" style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);line-height:1.4">{{ sh.label }}</span>
-              </a>
-            </sc-for>
-          </div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:40px;margin-top:clamp(48px,7vw,80px)">
-          <div>
-            <div class="smallcaps" style="margin-bottom:18px">{{ t.press.colour }}</div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px">
-              <sc-for list="{{ swatches }}" as="sw" hint-placeholder-count="6">
-                <div style="display:flex;flex-direction:column;gap:8px">
-                  <div style="height:64px;border-radius:12px;background:{{ sw.hex }};border:1px solid var(--rule)"></div>
-                  <span class="ff-ui" style="font-size:13px;font-weight:500">{{ sw.name }}</span>
-                  <span class="ff-mono" translate="no" style="font-size:11px;color:var(--ink-mute);letter-spacing:.06em">{{ sw.hex }}</span>
-                </div>
-              </sc-for>
-            </div>
-          </div>
-          <div>
-            <div class="smallcaps" style="margin-bottom:18px">{{ t.press.type }}</div>
-            <div style="display:flex;flex-direction:column;gap:18px">
-              <div><div class="ff-display" translate="no" style="font-size:34px;line-height:1.05;letter-spacing:-0.02em">Fraunces</div><div class="ff-mono" style="font-size:11px;color:var(--ink-mute);letter-spacing:.08em;margin-top:6px;text-transform:uppercase">{{ t.press.typeTitles }}</div></div>
-              <div><div class="ff-ui" translate="no" style="font-size:24px;line-height:1.1">IBM Plex Sans</div><div class="ff-mono" style="font-size:11px;color:var(--ink-mute);letter-spacing:.08em;margin-top:6px;text-transform:uppercase">{{ t.press.typeBody }}</div></div>
-              <div><div class="ff-mono" translate="no" style="font-size:22px;line-height:1.1">IBM Plex Mono</div><div class="ff-mono" style="font-size:11px;color:var(--ink-mute);letter-spacing:.08em;margin-top:6px;text-transform:uppercase">{{ t.press.typeMono }}</div></div>
-              <div class="ff-ui" style="font-size:13px;color:var(--ink-mute);line-height:1.55;margin-top:6px">{{ t.press.note }}</div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </sc-if>
 
     <!-- ============ 404 ============ -->
     <sc-if value="{{ isNotFound }}" hint-placeholder-val="{{ false }}">
@@ -554,8 +463,7 @@
       <nav style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px">
         <a class="bp-nav-link ff-ui" href="#/terms" style="font-size:14px;line-height:1.2;color:var(--ink-mute);transition:color .15s">{{ t.footer.terms }}</a>
         <a class="bp-nav-link ff-ui" href="#/privacy" style="font-size:14px;line-height:1.2;color:var(--ink-mute);transition:color .15s">{{ t.footer.privacy }}</a>
-        <a class="bp-nav-link ff-ui" href="#/support" style="font-size:14px;line-height:1.2;color:var(--ink-mute);transition:color .15s">{{ t.footer.support }}</a>
-        <a class="bp-nav-link ff-ui" href="#/press" style="font-size:14px;line-height:1.2;color:var(--ink-mute);transition:color .15s">{{ t.footer.press }}</a>
+        <a class="bp-nav-link ff-ui" href="{{ mailtoHello }}" style="font-size:14px;line-height:1.2;color:var(--ink-mute);transition:color .15s">{{ t.footer.support }}</a>
       </nav>
     </div>
   </footer>
@@ -567,7 +475,7 @@ class Component extends DCLogic {
   state = {
     route: 'home', param: null, mood: 'cupping', pageOpacity: 1, pageY: 'none', narrow: false,
     roastyState: 'idle', roastyKey: 0, demoStep: 0, demoScore: 0, demoMounted: true,
-    formEmail: '', formMsg: '', formSent: false, menuOpen: false, phone: false, vw: 1200,
+    menuOpen: false, phone: false, vw: 1200,
     t: null, i18n: null, localeCode: null
   };
 
@@ -575,7 +483,7 @@ class Component extends DCLogic {
   componentDidMount() {
     this._onHash = () => this.go(this.readHash());
     window.addEventListener('hashchange', this._onHash);
-    this._onResize = () => { const w = window.innerWidth, n = w < 980, p = w < 600; if (n !== this.state.narrow || p !== this.state.phone || (p && w !== this.state.vw)) this.setState({ narrow: n, phone: p, vw: w, menuOpen: n ? this.state.menuOpen : false }); };
+    this._onResize = () => { const w = window.innerWidth, n = w < 980, p = w < 600; if (n !== this.state.narrow || p !== this.state.phone || w !== this.state.vw) this.setState({ narrow: n, phone: p, vw: w, menuOpen: n ? this.state.menuOpen : false }); };
     window.addEventListener('resize', this._onResize); this._onResize();
     let saved = null; try { saved = localStorage.getItem('bp-site-mood'); } catch (e) {}
     this.applyMood(saved || this.props.mood || 'cupping', false);
@@ -589,12 +497,14 @@ class Component extends DCLogic {
     const key = this.state.route;
     if (key !== this._prevKey) { this._prevKey = key; this.observe(); }
     if (this.props.mood && this.props.mood !== this._prevMoodProp) { const first = this._prevMoodProp === undefined; this._prevMoodProp = this.props.mood; if (!first) this.applyMood(this.props.mood, false); }
+    const lock = !!(this.state.menuOpen && this.state.narrow); if (lock !== this._lock) { this._lock = lock; document.body.style.overflow = lock ? 'hidden' : ''; }
     if (!!this.props.reduceMotion !== this._prevReduce) { this._prevReduce = !!this.props.reduceMotion; this.applyReduce(); }
     if (this.wantedLocale() !== this.state.localeCode && this.wantedLocale() !== this._loading) this.loadLocale();
   }
   componentWillUnmount() {
     window.removeEventListener('hashchange', this._onHash);
     window.removeEventListener('resize', this._onResize);
+    document.body.style.overflow = '';
     if (this._io) this._io.disconnect();
     if (this._onScroll) { window.removeEventListener('scroll', this._onScroll); window.removeEventListener('resize', this._onScroll); }
     clearTimeout(this._t);
@@ -620,7 +530,7 @@ class Component extends DCLogic {
     const h = (location.hash || '').replace(/^#\/?/, '');
     if (!h) return { route: 'home', param: null };
     const [seg, param] = h.split('/');
-    const known = ['home', 'card', 'terms', 'privacy', 'support', 'press'];
+    const known = ['home', 'card', 'terms', 'privacy'];
     if (known.includes(seg)) return { route: seg, param: param || null };
     return { route: 'notfound', param: null };
   }
@@ -629,7 +539,7 @@ class Component extends DCLogic {
     clearTimeout(this._t);
     this.setState({ pageOpacity: 0, pageY: 'translateY(12px)' });
     this._t = setTimeout(() => {
-      this.setState({ route: target.route, param: target.param, pageY: 'translateY(-10px)', formSent: false, menuOpen: false }, () => {
+      this.setState({ route: target.route, param: target.param, pageY: 'translateY(-10px)', menuOpen: false }, () => {
         window.scrollTo(0, 0);
         setTimeout(() => this.setState({ pageOpacity: 1, pageY: 'none' }), 30);
       });
@@ -712,23 +622,35 @@ class Component extends DCLogic {
   demoContinue = () => this.setState(s => ({ demoStep: Math.min(s.demoStep + 1, 3) }));
   demoCorrect = () => this.setState(s => ({ demoScore: s.demoScore + 1 }));
   demoReset = () => { this.setState({ demoStep: 0, demoScore: 0, demoMounted: false }); setTimeout(() => this.setState({ demoMounted: true }), 30); };
-  setFormEmail = (v) => this.setState({ formEmail: v });
-  setFormMsg = (e) => this.setState({ formMsg: e.target.value });
-  sendForm = () => this.setState({ formSent: true });
-  resetForm = () => this.setState({ formSent: false, formMsg: '' });
+  downloadDocPdf = () => {
+    const v = this._docPrint; if (!v) return;
+    const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+    const secs = v.sections.map(s => `<section><div class="n">${esc(s.num)}</div><h2>${esc(s.h)}</h2>${s.ps.map(p => `<p>${esc(p)}</p>`).join('')}</section>`).join('');
+    const base = location.href.replace(/[#?].*$/, '').replace(/[^/]*$/, '');
+    const html = `<!doctype html><html lang="${v.lang}" dir="${v.dir}"><head><meta charset="utf-8"><title>${esc(v.brand)} — ${esc(v.title)}</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>@page{margin:22mm 20mm}body{margin:0;color:#1B1614;background:#fff;font:16px/1.65 "IBM Plex Sans",system-ui,sans-serif}main{max-width:68ch;margin:0 auto;padding:40px 24px}header{display:flex;align-items:center;gap:10px;margin-bottom:36px}header img{width:28px;height:28px;border-radius:7px}header span{font-family:Fraunces,serif;font-size:20px;letter-spacing:-.02em}h1{font:400 40px/1.05 Fraunces,serif;letter-spacing:-.025em;margin:0 0 12px}.meta{font:500 11px "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#6b625c;margin-bottom:24px}.intro{color:#6b625c;margin:0 0 36px}section{break-inside:avoid;margin-bottom:28px}.n{font:500 11px "IBM Plex Mono",monospace;letter-spacing:.14em;color:#A6462F;margin-bottom:6px}h2{font:400 24px/1.15 Fraunces,serif;letter-spacing:-.015em;margin:0 0 10px}p{margin:0 0 12px}footer{border-top:1px solid #e6dfd3;padding-top:16px;margin-top:40px;font-size:14px;color:#6b625c}</style></head>
+<body><main><header><img src="${base}assets/app-icon.png" alt=""><span>${esc(v.brand)}</span></header>
+<h1>${esc(v.title)}</h1><div class="meta">${esc(v.updated)}</div><p class="intro">${esc(v.intro)}</p>${secs}
+<footer>${esc(v.questions)} ${esc(v.email)} · ${esc(v.url)}</footer></main></body></html>`;
+    const w = window.open('', '_blank'); if (!w) return;
+    w.document.open(); w.document.write(html); w.document.close();
+    const fire = () => setTimeout(() => { try { w.focus(); w.print(); } catch (e) {} }, 200);
+    if (w.document.fonts && w.document.fonts.ready) w.document.fonts.ready.then(fire); else fire();
+  };
 
   renderVals() {
     const { route, param, mood, narrow, t, i18n } = this.state;
     const ic = this.icons();
     const storeUrl = 'https://apps.apple.com/app/brewpath/id0000000000';
     const isDark = mood === 'dark-roast';
-    const emailHello = 'hello@getbrewpath.com', emailPress = 'press@getbrewpath.com';
+    const emailHello = 'support@getbrewpath.com';
 
     // Non-translatable facts (counts, prices, dates) live here; strings live in i18n/*.js.
     const FACTS = { modules: 5, lessons: 32, cards: 37, guides: 5, minutes: 3, priceFree: 0, pricePro: 49.99, currency: 'USD', docUpdated: '2026-10-14', lessonCounts: [7, 6, 6, 6, 7], moduleIcons: ['beans', 'processing', 'roasting', 'grind', 'brewing'] };
 
     if (!t || !i18n) {
-      return { t: {}, lang: 'en', dir: 'ltr', storeUrl, isHome: route === 'home', pageOpacity: 0, pageY: 'none', modules: [], steps: [], features: [], cardPitch: [], supportTopics: [], pressFacts: [], pressShots: [], swatches: [], docToc: [], docSections: [], roastyChips: [], doc: {}, sharedReward: {}, demoMounted: false, navLinksDisplay: narrow ? 'none' : 'flex', navCtaDisplay: 'none', menuBtnDisplay: 'none', headerPad: '24px', headerGap: '20px', moodPad: '12px', moodKnobX: '0', demoZoom: 1, jump: this.jump, goHomeTop: this.goHomeTop, toggleMood: this.toggleMood, toggleMenu: this.toggleMenu };
+      return { t: {}, lang: 'en', dir: 'ltr', storeUrl, isHome: route === 'home', pageOpacity: 0, pageY: 'none', modules: [], modCardW: '180px', steps: [], features: [], cardPitch: [], menuLinks: [], docToc: [], docSections: [], roastyChips: [], doc: {}, sharedReward: {}, demoMounted: false, navLinksDisplay: narrow ? 'none' : 'flex', navCtaDisplay: 'none', menuBtnDisplay: 'none', heroAlign: 'start', heroMx: '0', heroJustify: 'flex-start', demoAlign: 'start', demoMx: '0', demoJustify: 'flex-start', headerPad: '24px', headerGap: '20px', moodPad: '12px', moodKnobX: '0', demoZoom: 1, jump: this.jump, goHomeTop: this.goHomeTop, toggleMood: this.toggleMood, toggleMenu: this.toggleMenu };
     }
     const lang = t.meta.lang;
     const { fmt, plural, num, money, date } = i18n;
@@ -763,20 +685,13 @@ class Component extends DCLogic {
     const doc = route === 'privacy' ? t.docs.privacy : t.docs.terms;
     const docSections = doc.sections.map((s, i) => ({ ...s, id: 'doc-' + (i + 1), num: n(i + 1, { minimumIntegerDigits: 2 }), ps: s.ps.map(p => fmt(p, { email: emailHello })) }));
     const docToc = docSections.map(s => ({ id: s.id, label: s.h }));
+    const docUpdated = fmt(t.docs.updated, { date: date(lang, FACTS.docUpdated) });
+    const docSlug = route === 'privacy' ? 'privacy-policy' : 'terms-of-use';
+    this._docPrint = { lang, dir: t.meta.dir || 'ltr', brand: t.brand, title: doc.title, updated: docUpdated, intro: doc.intro, sections: docSections, questions: t.docs.questions, email: emailHello, url: 'getbrewpath.com/#/' + route };
 
-    const topicIcons = [ic.rematch, ic.lock, ic.leaf];
-    const supportTopics = t.support.topics.map((tp, i) => ({ ...tp, icon: topicIcons[i] }));
-
-    const pf = t.press.facts;
+    const vw = this.state.vw, heroStack = vw < 848, demoStack = (vw - 48 - 2 * Math.min(64, Math.max(24, vw * 0.05))) < 800;
+    const menuLinks = [['why', t.nav.course], ['how', t.nav.how], ['demo', t.nav.demo], ['pricing', t.nav.pricing], ['faq', t.nav.faq]].map(([id, label], i) => ({ id, label, num: n(i + 1, { minimumIntegerDigits: 2 }), delay: (0.08 + i * 0.06).toFixed(2) + 's' }));
     const pricePro = money(lang, FACTS.pricePro, FACTS.currency);
-    const pressFacts = [
-      { k: pf.name, v: pf.nameV }, { k: pf.platform, v: pf.platformV }, { k: pf.price, v: fmt(pf.priceV, { price: pricePro }) },
-      { k: pf.course, v: fmt(pf.courseV, { modules: n(FACTS.modules), lessons: n(FACTS.lessons), cards: n(FACTS.cards) }) }, { k: pf.mascot, v: pf.mascotV }, { k: pf.website, v: 'getbrewpath.com' },
-    ];
-    const shotSrcs = ['assets/shot-today.png', 'assets/shot-path.png', 'assets/shot-lesson.png', 'assets/shot-fill.png', 'assets/shot-roasty.png', 'assets/shot-complete.png', 'assets/shot-paywall.png', 'assets/shot-intro.png'];
-    const pressShots = shotSrcs.map((src, i) => ({ src, label: t.press.shots[i], file: src.replace('assets/shot-', 'brewpath-') }));
-    const swatchHex = ['#F4EFE6', '#1B1614', '#A6462F', '#1A130E', '#5F6E55', '#C8843A'];
-    const swatches = swatchHex.map((hex, i) => ({ hex, name: t.press.swatches[i] }));
 
     const st = this.state.demoStep || 0, sc = this.state.demoScore || 0, done = st >= 3;
     const choices = (arr, correct) => arr.map((c, i) => ({ t: c, correct: i === correct }));
@@ -784,14 +699,17 @@ class Component extends DCLogic {
     return {
       t, lang, dir: t.meta.dir || 'ltr',
       storeUrl, openInAppUrl: 'https://getbrewpath.com/card/' + cardId,
-      emailHello, emailPress, mailtoHello: 'mailto:' + emailHello, mailtoPress: 'mailto:' + emailPress,
+      emailHello, mailtoHello: 'mailto:' + emailHello,
       isHome: route === 'home', isCard: route === 'card', isDoc: route === 'terms' || route === 'privacy',
-      isSupport: route === 'support', isPress: route === 'press', isNotFound: route === 'notfound',
+      isNotFound: route === 'notfound',
       pageOpacity: this.state.pageOpacity, pageY: this.state.pageY,
-      navLinksDisplay: narrow ? 'none' : 'flex', navCtaDisplay: this.state.phone ? 'none' : 'inline-flex',
-      docCols: narrow ? '1fr' : '220px minmax(0,1fr)', docTocDisplay: narrow ? 'none' : 'flex',
+      navLinksDisplay: narrow ? 'none' : 'flex', navCtaDisplay: narrow ? 'none' : 'inline-flex',
+      docCols: narrow ? '1fr' : '220px minmax(0,1fr)', docMax: narrow ? '768px' : '1000px',
+      docTocPos: narrow ? 'static' : 'sticky', docTocDir: narrow ? 'row' : 'column', docTocGap: narrow ? '8px' : '2px',
+      docTocLinkPad: narrow ? '8px 14px' : '7px 0 7px 14px', docTocLinkBorder: narrow ? '1px solid var(--rule)' : 'none', docTocLinkRadius: narrow ? '999px' : '0',
       moodKnobX: isDark ? '100%' : '0', moodLabelLight: isDark ? 'var(--ink-mute)' : 'var(--bg)', moodLabelDark: isDark ? 'var(--bg)' : 'var(--ink-mute)',
       modules: mods, modulesMeta, steps, features,
+      modCardW: this.state.phone ? '100%' : 'clamp(180px, calc((100% - 96px) / 5), 320px)',
       priceFree: money(lang, FACTS.priceFree, FACTS.currency), pricePro,
       roastyChips, roastyState: this.state.roastyState, roastyKey: this.state.roastyKey, roastySize: 200, roastyPoints: 10, roastySize404: 170,
       roastyLine: t.roasty.lines[this.state.roastyState],
@@ -807,17 +725,14 @@ class Component extends DCLogic {
       demoContinue: this.demoContinue, demoCorrect: this.demoCorrect, demoReset: this.demoReset,
       cardId, sharedReward, earnedPre, earnedPost, cardBodyPre, cardBodyPost, cardPitch,
       cardCount: fmt(t.card.count, { cards: n(FACTS.cards), guides: n(FACTS.guides) }),
-      doc, docSections, docToc, docUpdated: fmt(t.docs.updated, { date: date(lang, FACTS.docUpdated) }),
-      supportTopics, formEmail: this.state.formEmail, formMsg: this.state.formMsg, formSent: this.state.formSent, formNotSent: !this.state.formSent,
-      sentBody: fmt(t.support.sentBody, { email: this.state.formEmail || t.support.sentFallback }),
-      setFormEmail: this.setFormEmail, setFormMsg: this.setFormMsg, sendForm: this.sendForm, resetForm: this.resetForm,
-      pressFacts, pressShots, swatches,
+      doc, docSections, docToc, docUpdated, downloadDocPdf: this.downloadDocPdf,
       copyright: fmt(t.footer.copyright, { year: n(2026, { useGrouping: false }) }),
       jump: this.jump, goHomeTop: this.goHomeTop, toggleMood: this.toggleMood,
       toggleMenu: this.toggleMenu, menuOpen: this.state.menuOpen && narrow, menuBtnDisplay: narrow ? 'inline-flex' : 'none',
       menuLine1: this.state.menuOpen ? 'translateY(3.25px) rotate(45deg)' : 'none', menuLine2: this.state.menuOpen ? 'translateY(-3.25px) rotate(-45deg)' : 'none',
       headerPad: this.state.phone ? '16px' : '24px', headerGap: this.state.phone ? '10px' : '20px', moodPad: this.state.phone ? '9px' : '12px',
-      modCols: narrow ? 'repeat(auto-fit,minmax(min(100%,220px),1fr))' : 'repeat(5,minmax(0,1fr))',
+      menuLinks, heroAlign: heroStack ? 'center' : 'start', heroMx: heroStack ? 'auto' : '0', heroJustify: heroStack ? 'center' : 'flex-start',
+      demoAlign: demoStack ? 'center' : 'start', demoMx: demoStack ? 'auto' : '0', demoJustify: demoStack ? 'center' : 'flex-start',
       featPad: this.state.phone ? '24px 4px 24px 22px' : '30px 8px 30px 30px', featMinH: this.state.phone ? '300px' : '340px',
       ...(() => { const w = this.state.phone ? Math.max(110, Math.min(200, (this.state.vw - 48) * 0.45 - 40)) : 200; return { introPhoneW: w + 'px', introZoom: (w - 10) / 393 }; })(),
       demoZoom: this.state.phone ? Math.min(1, (this.state.vw - 96) / 316) : 1,
