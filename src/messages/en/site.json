@@ -161,7 +161,7 @@
   "pricing": {
     "title": "{model, select, oneTime {The first module is free. The course is one purchase.} subscription {The first module is free. The course is one subscription.} other {The first module is free. Subscribe to the course, or buy it once.}}",
     "free": "Free",
-    "forever": "forever",
+    "freeNote": "no purchase needed",
     "freeCta": "Download free",
     "pro": "{model, select, oneTime {Foundations, one-time purchase} subscription {Foundations, subscription} other {Foundations, subscribe or own it}}",
     "per": "{term, select, lifetime {once, no subscription} monthly {a month, cancel anytime} other {a year, cancel anytime}}",
@@ -187,7 +187,7 @@
     "items": {
       "q1": {
         "q": "Is BrewPath free?",
-        "a": "The first module — Beans, seven lessons — and the daily practice games are free, forever. Foundations unlocks the other four modules. {model, select, oneTime {Buy it once and it’s yours for good; there’s no subscription and nothing renews.} subscription {It’s a subscription — monthly or yearly, your pick — and stays open while you’re subscribed. Cancel anytime; access runs to the end of the paid period.} other {Your choice — subscribe monthly or yearly, or make a single one-time purchase and keep it forever.}}"
+        "a": "The first module — Beans, seven lessons — and the daily practice games are free. Foundations unlocks the other four modules. {model, select, oneTime {Buy it once and it’s yours for good; there’s no subscription and nothing renews.} subscription {It’s a subscription — monthly or yearly, your pick — and stays open while you’re subscribed. Cancel anytime; access runs to the end of the paid period.} other {Your choice — subscribe monthly or yearly, or make a single one-time purchase and keep it forever.}}"
       },
       "q2": {
         "q": "Do I need any equipment?",

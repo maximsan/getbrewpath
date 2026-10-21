@@ -24,7 +24,7 @@ export async function Pricing() {
         >
           <div>
             <div className="smallcaps mb-2.5">{t('free')}</div>
-            <Price amount={formatPrice(format, PRICE_FREE)} note={t('forever')} />
+            <Price amount={formatPrice(format, PRICE_FREE)} note={t('freeNote')} />
           </div>
           <Checklist items={Object.values(pricing.freeList)} tone="sage" />
           <LinkButton href={APP_STORE_URL} tone="outline" size="lg" className="mt-auto">
