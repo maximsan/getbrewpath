@@ -18,13 +18,13 @@ export async function HowItWorks() {
   return (
     <Section id="how">
       <SectionHeading>{t('title')}</SectionHeading>
-      <div className="mt-12 grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-[clamp(24px,3vw,40px)]">
+      <div className="mt-12 flex flex-wrap justify-center gap-[clamp(24px,3vw,40px)]">
         {STEPS.map((step, index) => (
           <div
             key={step.key}
             data-reveal
             data-delay={index + 1}
-            className="flex flex-col gap-[22px]"
+            className="flex max-w-[420px] min-w-0 flex-[1_1_300px] flex-col gap-[22px]"
           >
             <div className="flex aspect-[4/4.2] items-end justify-center overflow-hidden rounded-3xl bg-surface-2 px-[clamp(20px,3vw,36px)] pt-[clamp(20px,3vw,36px)]">
               <PhoneShot

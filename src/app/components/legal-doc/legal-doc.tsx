@@ -1,5 +1,7 @@
 import { getFormatter, getMessages, getTranslations } from 'next-intl/server';
 
+import { DownloadIcon } from '@components/icons/icons';
+import { linkButtonClass } from '@components/link-button/link-button';
 import { pageTitleClass } from '@components/section/section';
 import { pageMetadata } from '@domains/site/page-metadata';
 import { PAGE_ROUTES } from '@domains/site/routes';
@@ -7,6 +9,7 @@ import { LEGAL_DOC_DATE_FORMAT, LEGAL_DOCS, type LegalDocId } from '@domains/sit
 import { PHONE } from '@domains/site/site';
 import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 import { TWO_DIGITS } from '@shared/format/number';
+import { cn } from '@shared/styles/cn';
 
 import { legalDocOutline, type OutlineBlock } from './legal-doc-outline';
 
@@ -14,7 +17,8 @@ const paragraphClass = 'ff-ui mt-0 mb-3.5 text-base leading-[1.7] text-pretty te
 
 /**
  * The Terms of Use or Privacy Policy, word for word from its file in `public/legal/`:
- * title, date, a table of contents that stays on screen while scrolling, and numbered sections.
+ * title, date, a download button for the file, a table of contents and numbered sections.
+ * On wide screens the table of contents stays on screen while scrolling.
  */
 export async function LegalDoc({ doc }: { doc: LegalDocId }) {
   const t = await getTranslations('docs');
@@ -30,16 +34,11 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
   const date = format.dateTime(new Date(source.date), LEGAL_DOC_DATE_FORMAT);
 
   return (
-    <section className="mx-auto max-w-[1000px] px-6 pt-[clamp(40px,6vw,72px)]">
+    <section className="mx-auto max-w-[768px] px-6 pt-[clamp(40px,6vw,72px)] min-[980px]:max-w-[1000px]">
       <div className="max-w-[720px]">
         <h1 className={pageTitleClass}>{t(`${doc}.title`)}</h1>
-        <div className="mt-5 flex flex-wrap items-center gap-x-[18px] gap-y-2.5">
-          <span className="ff-mono text-[11px] tracking-[.1em] text-ink-mute uppercase">
-            {t(`${doc}.dated`, { date })}
-          </span>
-          <a href={source.file} download className="ff-ui text-sm font-medium">
-            {t('download')}
-          </a>
+        <div className="ff-mono mt-5 text-[11px] tracking-[.1em] text-ink-mute uppercase">
+          {t(`${doc}.dated`, { date })}
         </div>
         <div className="mt-[22px] space-y-3.5">
           {introKeys.map((key) => (
@@ -48,24 +47,34 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
             </p>
           ))}
         </div>
+        <a
+          href={source.file}
+          download
+          className={cn(linkButtonClass('outline', 'lg'), 'mt-[26px] gap-2')}
+        >
+          <DownloadIcon size={16} />
+          {t('download')}
+        </a>
       </div>
       <div className="mt-14 grid items-start gap-12 min-[980px]:grid-cols-[220px_minmax(0,1fr)]">
         <nav
           aria-labelledby="doc-contents"
-          className="sticky top-[88px] hidden flex-col gap-0.5 min-[980px]:flex"
+          className="flex flex-col gap-0.5 min-[980px]:sticky min-[980px]:top-[88px]"
         >
           <div id="doc-contents" className="smallcaps mb-2.5">
             {t('contents')}
           </div>
-          {sections.map((section) => (
-            <a
-              key={section.id}
-              href={`#${anchor(section.id)}`}
-              className="ff-ui block border-s border-rule py-[7px] ps-3.5 text-sm leading-[1.3] text-ink-mute"
-            >
-              {text(section.headingKey)}
-            </a>
-          ))}
+          <div className="flex flex-wrap gap-2 min-[980px]:flex-col min-[980px]:gap-0.5">
+            {sections.map((section) => (
+              <a
+                key={section.id}
+                href={`#${anchor(section.id)}`}
+                className="ff-ui block rounded-full border border-rule px-3.5 py-2 text-sm leading-[1.3] text-ink-mute min-[980px]:rounded-none min-[980px]:border-0 min-[980px]:border-s min-[980px]:py-[7px] min-[980px]:pe-0"
+              >
+                {text(section.headingKey)}
+              </a>
+            ))}
+          </div>
         </nav>
         <div className="max-w-[68ch] min-w-0">
           {sections.map((section, index) => (

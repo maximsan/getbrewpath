@@ -32,4 +32,3 @@ Single-context: one `GLOSSARY.md` and `docs/adr/` at the repo root. See `docs/ag
 - Run one test file with `pnpm test <path>`, one test with `pnpm test -t "<test name>"`.
 - Import aliases live in `tsconfig.json`. `vitest.config.ts` maps only some of them; add an alias there when a tested module imports it.
 - Product facts come from the app repo, checked out next to this one as `../brewpath`. The course content arrives through `pnpm sync-cards`; the design components were ported from `prototype/`, a design export kept as reference and skipped by lint.
-- Server secrets are read only through `src/config/env.ts`, which validates them with zod.

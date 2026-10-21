@@ -76,12 +76,13 @@ export function LessonDemo({ reward }: LessonDemoProps) {
   const progress = { n: Math.min(step, CARD_COUNT - 1) + 1, total: CARD_COUNT };
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-10">
-      <div>
+    // The two 380px columns and their 40px gap stack below 800px; the text then centers.
+    <div className="@container grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-10">
+      <div className="@max-[800px]:text-center">
         <h2 className="ff-display m-0 text-[clamp(28px,3.6vw,44px)] leading-[1.05] font-normal tracking-[-0.02em] text-balance">
           {t('title')}
         </h2>
-        <p className="ff-ui mt-[18px] mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute">
+        <p className="ff-ui mt-[18px] mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute @max-[800px]:mx-auto">
           {t('body')}
         </p>
         <div aria-live="polite">
@@ -93,7 +94,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
               <div className="ff-ui text-sm leading-normal text-ink-mute">
                 {t(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')}
               </div>
-              <div className="mt-1 flex flex-wrap gap-2.5">
+              <div className="mt-1 flex flex-wrap gap-2.5 @max-[800px]:justify-center">
                 <a href={APP_STORE_URL} className={linkButtonClass('accent', 'md')}>
                   {t('get')}
                 </a>
@@ -107,7 +108,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
               </div>
             </div>
           ) : (
-            <div className="ff-mono mt-7 flex items-center gap-2.5 text-[11px] leading-normal tracking-[.1em] text-ink-mute uppercase">
+            <div className="ff-mono mt-7 flex items-center gap-2.5 text-[11px] leading-normal tracking-[.1em] text-ink-mute uppercase @max-[800px]:justify-center">
               <span className="size-1.5 flex-none animate-dot-pulse rounded-full bg-accent" />
               {t('progress', progress)}
             </div>

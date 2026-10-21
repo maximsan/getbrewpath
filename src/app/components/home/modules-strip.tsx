@@ -45,7 +45,7 @@ export async function ModulesStrip({ course }: { course: Course }) {
       >
         {t('title')}
       </SectionHeading>
-      <div className="mt-12 grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-x-6 gap-y-8 min-[980px]:grid-cols-5">
+      <div className="mt-12 flex flex-wrap justify-center gap-x-6 gap-y-8">
         {course.modules.map((module, index) => {
           const Icon = MODULE_ICONS[module.id] ?? BeansIcon;
           const free = module.number === FREE_MODULE_NUMBER;
@@ -55,7 +55,8 @@ export async function ModulesStrip({ course }: { course: Course }) {
               key={module.id}
               data-reveal
               data-delay={Math.min(index, MAX_DELAY)}
-              className="flex min-w-0 flex-col gap-3.5 border-t border-rule pt-[22px]"
+              // Five to a row when they fit: the row minus its four 24px gaps, split five ways.
+              className="flex w-full min-w-0 flex-none flex-col gap-3.5 border-t border-rule pt-[22px] min-[600px]:w-[clamp(180px,calc((100%_-_96px)/5),320px)]"
             >
               <div className="flex items-center justify-between">
                 <span className="inline-flex text-accent">

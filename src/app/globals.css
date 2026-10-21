@@ -99,7 +99,8 @@
   --text-micro: var(--t-micro);
 
   --animate-rise-in: rise-in 0.8s var(--ease-out-soft) both;
-  --animate-menu-in: menu-in 0.28s var(--ease-out-soft) both;
+  --animate-menu-fade: menu-fade 0.3s ease both;
+  --animate-menu-link: menu-link 0.5s var(--ease-out-soft) both;
   --animate-dot-pulse: dot-pulse 1.6s ease-in-out infinite;
   --animate-hero-float: hero-float 6s ease-in-out infinite;
   --animate-hero-float-2: hero-float-2 7s ease-in-out infinite;
@@ -126,10 +127,18 @@
     transform: none;
   }
 }
-@keyframes menu-in {
+@keyframes menu-fade {
   from {
     opacity: 0;
-    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes menu-link {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
   }
   to {
     opacity: 1;
