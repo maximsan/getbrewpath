@@ -8,7 +8,7 @@ import { TWO_DIGITS } from '@shared/format/number';
 const STEPS = [
   { key: 'step1', screen: 'lesson' },
   { key: 'step2', screen: 'fill' },
-  { key: 'step3', screen: 'complete' },
+  { key: 'step3', screen: 'deck' },
 ] as const satisfies readonly { key: string; screen: ScreenId }[];
 
 export async function HowItWorks() {

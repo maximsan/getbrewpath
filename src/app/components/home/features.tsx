@@ -1,7 +1,14 @@
 import { getTranslations } from 'next-intl/server';
 import type { ComponentType, ReactNode } from 'react';
 
-import { BeanIcon, CupIcon, LeafIcon, RouteIcon } from '@components/icons/icons';
+import {
+  BeanIcon,
+  BookIcon,
+  CupIcon,
+  LeafIcon,
+  MoodIcon,
+  RouteIcon,
+} from '@components/icons/icons';
 import { MOOD_ONLY } from '@components/mood/mood-only';
 import { PhoneShot } from '@components/phone-shot/phone-shot';
 import { Section, SectionHeading } from '@components/section/section';
@@ -12,7 +19,9 @@ import { WelcomePhone } from './welcome-phone';
 const SHOT_FEATURES = [
   { key: 'path', screen: 'path', Icon: RouteIcon },
   { key: 'today', screen: 'today', Icon: CupIcon },
-  { key: 'roasty', screen: 'roasty', Icon: LeafIcon },
+  { key: 'tree', screen: 'tree', Icon: LeafIcon },
+  { key: 'term', screen: 'term', Icon: BookIcon },
+  { key: 'roasty', screen: 'roasty', Icon: BeanIcon },
 ] as const satisfies readonly { key: string; screen: ScreenId; Icon: ComponentType }[];
 
 export async function Features() {
@@ -41,7 +50,7 @@ export async function Features() {
         ))}
         <FeatureCard
           delay={SHOT_FEATURES.length + 1}
-          icon={<BeanIcon />}
+          icon={<MoodIcon />}
           title={
             <>
               {/* The title names the mood on screen; CSS picks it so it matches before hydration. */}

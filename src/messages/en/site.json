@@ -69,7 +69,7 @@
       "step3": {
         "title": "Keep the card",
         "body": "A perfect lesson earns a Coffee Card. Finish a module and its Module Reward joins your deck. Your tree grows either way.",
-        "alt": "Foundations complete screen"
+        "alt": "Card collection screen"
       }
     }
   },
@@ -89,6 +89,16 @@
         "title": "Today, in one glance",
         "body": "Pick up where you left off, or play one of 15 two-minute practice games.",
         "alt": "Today screen"
+      },
+      "tree": {
+        "title": "A tree that grows with you",
+        "body": "Every new lesson you finish feeds your coffee tree. It grows in ten stages, from seed to harvest.",
+        "alt": "Coffee tree screen"
+      },
+      "term": {
+        "title": "A dictionary that shows its sources",
+        "body": "Each term is explained in plain words, with sources and related terms, then one quick question to check it stuck.",
+        "alt": "Dictionary term screen"
       },
       "roasty": {
         "title": "Roasty comes along",
@@ -933,48 +943,6 @@
       "rateLimited": "That’s a lot of messages in a short time. Please wait a minute and try again."
     }
   },
-  "press": {
-    "title": "BrewPath, in one paragraph and a few files.",
-    "body": "BrewPath is a coffee-learning app for iPhone. Short lessons and mini-games teach the craft of coffee — beans, processing, roasting, grind and brew — while a living tree and a collectible deck mark your progress. Roasty, a coffee bean with a beanie, comes along. The first module is free; {model, select, oneTime {the full course is a single purchase.} subscription {the full course is a monthly or yearly subscription.} other {the full course is a subscription or a single purchase.}}",
-    "downloadIcon": "Download icon",
-    "facts": {
-      "name": "Name",
-      "nameV": "BrewPath (one word)",
-      "platform": "Platform",
-      "platformV": "iPhone, iOS 16 and later",
-      "price": "Price",
-      "priceV": "{model, select, oneTime {Free download, Foundations is a one-time purchase} subscription {Free download, Foundations is a subscription} other {Free download, Foundations by subscription or one-time purchase}}",
-      "course": "Course",
-      "courseV": "{modules} modules, {lessons} lessons, {cards} cards",
-      "mascot": "Mascot",
-      "mascotV": "Roasty, a coffee bean",
-      "website": "Website"
-    },
-    "screens": "Screens",
-    "colour": "Colour",
-    "type": "Type",
-    "shots": {
-      "today": "Today",
-      "path": "Path",
-      "lesson": "First guess",
-      "fill": "Complete the sentence",
-      "roasty": "Meet Roasty",
-      "complete": "Module complete",
-      "intro": "Intro"
-    },
-    "swatches": {
-      "paper": "Paper",
-      "ink": "Ink",
-      "crema": "Crema",
-      "darkRoast": "Dark roast",
-      "sage": "Sage",
-      "ripeCherry": "Ripe cherry"
-    },
-    "typeTitles": "Titles, weight 400",
-    "typeBody": "Body & controls, 400 / 500",
-    "typeMono": "Numbers & labels, 500",
-    "note": "Please don’t recolour Roasty, stretch the icon, or set the name as “Brew Path”. It’s one word."
-  },
   "notfound": {
     "label": "Error 404",
     "title": "This cup’s empty.",
@@ -986,8 +954,7 @@
     "copyright": "© {year}",
     "terms": "Terms of Use",
     "privacy": "Privacy",
-    "support": "Support",
-    "press": "Press"
+    "support": "Support"
   },
   "metadata": {
     "title": "BrewPath — learn coffee, grow a tree",
@@ -996,7 +963,6 @@
     "cardTitle": "{card} — a BrewPath Coffee Card",
     "cardDescription": "A friend shared a Coffee Card from BrewPath: {summary}",
     "support": "Support",
-    "press": "Press kit",
     "notFound": "Page not found"
   },
   "brand": "BrewPath"

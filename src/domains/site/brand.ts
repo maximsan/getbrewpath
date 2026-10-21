@@ -14,7 +14,4 @@ export const BRAND_COLORS = {
 /** Secondary text on paper, for drawings made outside the page's CSS. */
 export const BRAND_INK_MUTE = '#6B5F54';
 
-export type BrandColor = keyof typeof BRAND_COLORS;
-
 export const BRAND_ICON_PATH = '/images/app-icon.png';
-export const BRAND_ICON_DOWNLOAD_NAME = 'brewpath-app-icon.png';

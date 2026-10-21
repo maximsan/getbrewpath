@@ -126,6 +126,25 @@ export const LeafIcon = icon(
   </>,
 );
 
+export const BookIcon = icon(
+  <>
+    <path
+      d="M12 6.5 Q8.5 4.5 4 5 V18.5 Q8.5 18 12 20 Q15.5 18 20 18.5 V5 Q15.5 4.5 12 6.5 Z"
+      {...line}
+      strokeLinejoin="round"
+    />
+    <path d="M12 6.5 V20" {...line} strokeWidth={1.3} />
+  </>,
+);
+
+/** Light and dark halves, for the two moods. */
+export const MoodIcon = icon(
+  <>
+    <circle cx="12" cy="12" r="8" {...line} />
+    <path d="M12 4 A8 8 0 0 1 12 20 Z" fill="currentColor" />
+  </>,
+);
+
 export const BeanIcon = icon(
   <>
     <ellipse cx="12" cy="12" rx="6.5" ry="9.4" transform="rotate(32 12 12)" {...line} />

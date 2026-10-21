@@ -1,7 +1,7 @@
 # getbrewpath.com
 
 The website for BrewPath, the coffee-learning iPhone app: the landing page,
-shared Coffee Card pages, support, press kit and the legal documents.
+shared Coffee Card pages, support and the legal documents.
 
 Next.js (App Router) with TypeScript, Tailwind CSS and next-intl.
 
@@ -62,7 +62,7 @@ English pages with the PDF files in `public/legal/`.
 
 `SELLING_MODEL` in `src/domains/site/site.ts` sets how Foundations is sold:
 `oneTime`, `subscription` or `hybrid`. The pricing section, FAQ, support steps
-and press facts all follow it. The site shows no prices: the app shows them.
+all follow it. The site shows no prices: the app shows them.
 
 ## Screenshots
 
