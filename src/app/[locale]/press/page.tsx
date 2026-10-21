@@ -116,7 +116,7 @@ export default async function PressPage({ params }: LocaleParams) {
                   download={screenDownloadName(screen, mood)}
                   className={cn(
                     'flex flex-col gap-2.5 text-ink hover:no-underline',
-                    mood && MOOD_ONLY[mood],
+                    MOOD_ONLY[mood],
                   )}
                 >
                   <PhoneShot screen={screen} mood={mood} alt="" sizes="200px" />

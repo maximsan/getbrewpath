@@ -13,29 +13,15 @@ export const SCREENS = [
 ] as const;
 export type ScreenId = (typeof SCREENS)[number];
 
-/**
- * The moods whose folder holds every screenshot. A mood left out shows
- * another mood's screenshots. Add `'cupping'` once `cupping/` has them all;
- * `screens.test.ts` checks each listed folder is complete.
- */
-export const SCREENSHOT_MOODS: readonly [Mood, ...Mood[]] = ['dark-roast'];
-
 /** Width over height of the phone silhouette the screenshots sit in. */
 export const SCREEN_ASPECT = '826 / 1750';
 
-/** The folder `mood` reads its screenshots from: its own, or the first complete one. */
-const shotMood = (mood: Mood): Mood =>
-  SCREENSHOT_MOODS.includes(mood) ? mood : SCREENSHOT_MOODS[0];
+export const screenSrc = (screen: ScreenId, mood: Mood) => `/images/screens/${mood}/${screen}.png`;
 
-export const screenSrc = (screen: ScreenId, mood: Mood) =>
-  `/images/screens/${shotMood(mood)}/${screen}.png`;
-
-/** A phone's image of `screen`: one per mood, or a single shared one while only one folder is complete. */
-export function screenShots(screen: ScreenId): { src: string; mood?: Mood }[] {
-  if (SCREENSHOT_MOODS.length < MOODS.length) return [{ src: screenSrc(screen, MOODS[0]) }];
-  return MOODS.map((mood) => ({ mood, src: screenSrc(screen, mood) }));
-}
+/** A phone's image of `screen`, one per mood. */
+export const screenShots = (screen: ScreenId): { src: string; mood: Mood }[] =>
+  MOODS.map((mood) => ({ mood, src: screenSrc(screen, mood) }));
 
 /** The file name a press download is saved as. */
-export const screenDownloadName = (screen: ScreenId, mood?: Mood) =>
-  mood ? `brewpath-${screen}-${mood}.png` : `brewpath-${screen}.png`;
+export const screenDownloadName = (screen: ScreenId, mood: Mood) =>
+  `brewpath-${screen}-${mood}.png`;

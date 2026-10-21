@@ -60,12 +60,11 @@ strings have a key English lacks, or lack one English has.
 `oneTime`, `subscription` or `hybrid`. The pricing section, FAQ, terms, support
 steps and press facts all follow it. Plan prices are in `PLAN_PRICES` next to it.
 
-## Light screenshots
+## Screenshots
 
-The screenshots are Dark Roast only, so both moods show them. To add the
-Cupping set, put every screen in `public/images/screens/cupping/` under the
-same file names, then add `'cupping'` to `SCREENSHOT_MOODS` in
-`src/domains/site/screens.ts`.
+Each mood shows its own screenshots. Both folders in `public/images/screens/`
+hold every screen in `SCREENS` (`src/domains/site/screens.ts`) under the same
+file names. `pnpm test` fails if a folder misses one.
 
 ## Environment
 

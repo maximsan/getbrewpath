@@ -31,7 +31,7 @@ export function PhoneShot({
   priority,
   riseOffset,
 }: PhoneShotProps) {
-  const shots = mood ? [{ src: screenSrc(screen, mood) }] : screenShots(screen);
+  const shots = mood ? [{ mood, src: screenSrc(screen, mood) }] : screenShots(screen);
 
   return (
     <div
@@ -52,7 +52,7 @@ export function PhoneShot({
           fill
           sizes={sizes}
           priority={priority}
-          className={cn('scale-[1.06] object-cover', shot.mood && MOOD_ONLY[shot.mood])}
+          className={cn('scale-[1.06] object-cover', !mood && MOOD_ONLY[shot.mood])}
         />
       ))}
     </div>
