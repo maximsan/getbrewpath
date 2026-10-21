@@ -148,7 +148,7 @@ export const MoodIcon = icon(
 export const BeanIcon = icon(
   <>
     <ellipse cx="12" cy="12" rx="6.5" ry="9.4" transform="rotate(32 12 12)" {...line} />
-    <path d="M8.4 5.6 C 12.4 9, 11.6 15, 15.6 18.4" {...line} />
+    <path d="M15.6 6.3 C 11.7 9.1, 12.3 14.9, 8.4 17.7" {...line} />
   </>,
 );
 
