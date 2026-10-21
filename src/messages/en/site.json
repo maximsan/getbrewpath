@@ -97,7 +97,7 @@
       },
       "term": {
         "title": "A dictionary that shows its sources",
-        "body": "Each term is explained in plain words, with sources and related terms, then one quick question to check it stuck.",
+        "body": "Each term is explained in plain words, with sources and related terms, then one quick question to check you remember it.",
         "alt": "Dictionary term screen"
       },
       "roasty": {
@@ -173,16 +173,16 @@
     "free": "Free",
     "freeNote": "no purchase needed",
     "freeCta": "Download free",
-    "pro": "Foundations",
-    "proNote": "{model, select, oneTime {one-time purchase} subscription {monthly or yearly subscription} other {subscribe, or buy it once}}",
-    "proCta": "Start free, unlock in the app",
+    "foundations": "Foundations",
+    "foundationsNote": "{model, select, oneTime {one-time purchase} subscription {monthly or yearly subscription} other {subscribe, or buy it once}}",
+    "foundationsCta": "Start free, unlock in the app",
     "freeList": {
       "item1": "Module 1: Beans, all 7 lessons",
       "item2": "15 daily practice games",
       "item3": "Dictionary essentials",
       "item4": "Roasty, your tree and your streak"
     },
-    "proList": {
+    "foundationsList": {
       "item1": "Modules 2–5 — every lesson",
       "item2": "The five premium card formats",
       "item3": "The complete Dictionary",
@@ -954,7 +954,8 @@
     "copyright": "© {year}",
     "terms": "Terms of Use",
     "privacy": "Privacy",
-    "support": "Support"
+    "support": "Support",
+    "press": "Press: {email}"
   },
   "metadata": {
     "title": "BrewPath — learn coffee, grow a tree",

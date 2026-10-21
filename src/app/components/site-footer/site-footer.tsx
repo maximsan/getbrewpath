@@ -45,8 +45,8 @@ export async function SiteFooter() {
               {t(page)}
             </Link>
           ))}
-          <a href={`mailto:${EMAIL_PRESS}`} translate="no" className={footerLinkClass}>
-            {EMAIL_PRESS}
+          <a href={`mailto:${EMAIL_PRESS}`} className={footerLinkClass}>
+            {t('press', { email: EMAIL_PRESS })}
           </a>
         </nav>
         <LanguageLinks />

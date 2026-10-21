@@ -61,8 +61,8 @@ English pages with the PDF files in `public/legal/`.
 ## Selling model
 
 `SELLING_MODEL` in `src/domains/site/site.ts` sets how Foundations is sold:
-`oneTime`, `subscription` or `hybrid`. The pricing section, FAQ, support steps
-all follow it. The site shows no prices: the app shows them.
+`oneTime`, `subscription` or `hybrid`. The pricing section, the FAQ and the support
+steps all follow it. The site shows no prices: the app shows them.
 
 ## Screenshots
 

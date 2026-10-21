@@ -16,7 +16,7 @@ export const EMAIL_SUPPORT_SENDER = `BrewPath Support <${EMAIL_SUPPORT}>`;
 /** BrewPath's phone number, as the Terms of Use give it. */
 export const PHONE = '+48 571 033 267';
 
-/** How Foundations is sold right now. Every line on the site about buying it follows it. */
+/** How Foundations is sold right now. Every line on the site about buying Foundations follows this setting. */
 export const SELLING_MODEL: SellingModel = 'oneTime';
 
 export const MINUTES_PER_LESSON = 3;

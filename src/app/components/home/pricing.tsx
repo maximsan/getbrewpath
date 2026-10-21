@@ -19,7 +19,7 @@ export async function Pricing() {
           data-delay="1"
           className="flex flex-col gap-[22px] rounded-3xl border border-rule bg-surface p-8"
         >
-          <PlanName name={t('free')} note={t('freeNote')} />
+          <PlanHeading name={t('free')} note={t('freeNote')} />
           <Checklist items={Object.values(pricing.freeList)} tone="sage" />
           <LinkButton href={APP_STORE_URL} tone="outline" size="lg" className="mt-auto">
             {t('freeCta')}
@@ -32,14 +32,13 @@ export async function Pricing() {
           className="relative flex flex-col gap-[22px] overflow-hidden rounded-3xl border border-rule bg-surface p-8"
         >
           <div className="pointer-events-none absolute -right-[20%] -bottom-1/2 aspect-square w-[70%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_24%,transparent),transparent)]" />
-          <PlanName
-            name={t('pro')}
-            note={t('proNote', { model: SELLING_MODEL })}
-            className="relative"
+          <PlanHeading
+            name={t('foundations')}
+            note={t('foundationsNote', { model: SELLING_MODEL })}
           />
-          <Checklist items={Object.values(pricing.proList)} tone="accent" />
+          <Checklist items={Object.values(pricing.foundationsList)} tone="accent" />
           <LinkButton href={APP_STORE_URL} tone="accent" size="lg" className="relative mt-auto">
-            {t('proCta')}
+            {t('foundationsCta')}
           </LinkButton>
         </div>
       </div>
@@ -50,9 +49,9 @@ export async function Pricing() {
   );
 }
 
-function PlanName({ name, note, className }: { name: string; note: string; className?: string }) {
+function PlanHeading({ name, note }: { name: string; note: string }) {
   return (
-    <div className={cn('flex flex-col gap-2', className)}>
+    <div className="relative flex flex-col gap-2">
       <h3 className="ff-display m-0 text-[40px] leading-none font-normal tracking-[-0.02em]">
         {name}
       </h3>
