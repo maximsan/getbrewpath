@@ -2,6 +2,7 @@ import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 import { SECURITY_HEADERS } from './src/config/security-headers';
+import { APP_LINKS_HOST, APP_STORE_ID, APP_STORE_URL, SITE_URL } from './src/domains/site/site';
 import { routing } from './src/i18n/routing';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
@@ -19,6 +20,29 @@ const { defaultLocale, locales } = routing;
  */
 const defaultLocaleAddress = `/:path((?!(?-i:${locales.join('|')})(?:/|$))(?!_next(?:/|$))[^.]*)`;
 
+const onAppLinksHost = [{ type: 'host' as const, value: APP_LINKS_HOST }];
+
+/**
+ * Redirects for `APP_LINKS_HOST`, the domain "Open in the app" links to. A
+ * request reaches it only when the app is not installed:
+ * - a card link goes to the App Store, once `APP_STORE_ID` is set;
+ * - every other address goes to the same path on the site, card links included
+ *   until then.
+ * The Apple link file is left out, because iOS rejects it behind a redirect.
+ * Files in `public/` are left out too: Cloudflare serves them before these rules.
+ */
+const appLinksHostRedirects = [
+  ...(APP_STORE_ID === null
+    ? []
+    : [{ source: '/card/:id', has: onAppLinksHost, destination: APP_STORE_URL, permanent: false }]),
+  {
+    source: '/:path((?!\\.well-known/apple-app-site-association$).*)',
+    has: onAppLinksHost,
+    destination: `${SITE_URL}/:path`,
+    permanent: false,
+  },
+];
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
@@ -28,7 +52,10 @@ const nextConfig: NextConfig = {
   // These rules serve them. A proxy file could do the same, but OpenNext's
   // support for one on Cloudflare is still experimental.
   async redirects() {
-    return [{ source: `/${defaultLocale}/:path*`, destination: '/:path*', permanent: false }];
+    return [
+      ...appLinksHostRedirects,
+      { source: `/${defaultLocale}/:path*`, destination: '/:path*', permanent: false },
+    ];
   },
   async rewrites() {
     return {
