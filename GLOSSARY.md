@@ -8,6 +8,11 @@ the app's meaning; the app's own glossary is `GLOSSARY.md` in the
 full dictionary, unlimited saved terms and the Studio.
 _Avoid_: Plus, BrewPath Plus, Premium
 
+**Free lessons** — the lessons at the start of Beans that anyone can take
+without Foundations, and replay forever. The app sets which ones (ADR-0007 in
+the app repo).
+_Avoid_: free module, preview lessons (the app's internal name), in site copy
+
 **Coffee Card** — a collectible card. A lesson's card is earned by finishing
 that lesson with a perfect score. Each module also awards one card, its
 Module Reward. Example: _The Coffee Cherry_.
@@ -24,7 +29,8 @@ _Avoid_: theme, in copy
 **Roasty** — the coffee-bean mascot.
 
 **Selling model** — how Foundations is sold: once for good (one-time), as a
-monthly or yearly subscription, or both, the learner's choice (hybrid).
+monthly or yearly subscription, or both, the learner's choice (hybrid). The
+app picks it per learner, so the site never names one.
 _Avoid_: pricing arm, monetization model (the app's code names)
 
 **Share image** — the picture a link to the site shows when it is shared in a
