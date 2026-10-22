@@ -17,6 +17,7 @@
     "sync-cards": "tsx scripts/sync-cards.ts",
     "prepare": "husky",
     "preview": "pnpm write-static-headers && opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "pnpm write-static-headers && opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "write-static-headers": "tsx scripts/write-static-headers.ts",
     "test:smoke": "tsx scripts/check-preview-stopped.ts && playwright test"
   },
