@@ -102,7 +102,7 @@ test(`${APP_LINKS_HOST} redirects to the site, or a card link to the App Store`,
   const cardDestination = APP_STORE_ID === null ? `${SITE_URL}${CARD_PATH}` : APP_STORE_URL;
   const destinations = {
     '/': `${SITE_URL}/`,
-    '/terms': `${SITE_URL}/terms`,
+    [PAGE_ROUTES.terms]: `${SITE_URL}${PAGE_ROUTES.terms}`,
     [CARD_PATH]: cardDestination,
   };
   for (const [path, destination] of Object.entries(destinations)) {

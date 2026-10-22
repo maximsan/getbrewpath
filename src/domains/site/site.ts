@@ -34,10 +34,11 @@ export const APP_LINKS_URL = `https://${APP_LINKS_HOST}`;
 export const appCardLink = (cardId: string) => `${APP_LINKS_URL}/card/${cardId}`;
 
 /**
- * The app's Apple team and bundle id, which the universal-link file names.
- * Source: brewpath repo, docs/universal-links-setup.md.
+ * The app's Apple team and bundle id, which the Apple link file names.
+ * Source: the owner's ruling of 22 Oct 2026, recorded in the brewpath repo's
+ * issue #171.
  */
-export const APPLE_APP_ID = '597GQ84U66.dev.maximsan.brewPath';
+export const APPLE_APP_ID = '7FXR6TDMDM.dev.maximsan.brewPath';
 
 /** The year the site was first published, for the footer. */
 export const COPYRIGHT_YEAR = 2026;

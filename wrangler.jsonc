@@ -12,4 +12,26 @@
   "images": {
     "binding": "IMAGES",
   },
+  // No request log: the website privacy page says the site keeps none.
+  "observability": {
+    "enabled": false,
+  },
+  // The domains this Worker serves. A deploy attaches them and creates their
+  // DNS records: https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
+  "routes": [
+    { "pattern": "getbrewpath.com", "custom_domain": true },
+    { "pattern": "open.getbrewpath.com", "custom_domain": true },
+  ],
+  "env": {
+    // `pnpm preview` and the smoke tests use this environment, which lists no
+    // domains. When domains are listed, the local preview sends every request
+    // to the first one, and the redirects for each domain can't be tested.
+    "local": {
+      "routes": [],
+      // An environment inherits no bindings, so this one names `IMAGES` again.
+      "images": {
+        "binding": "IMAGES",
+      },
+    },
+  },
 }
