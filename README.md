@@ -62,12 +62,6 @@ strings have a key English lacks, or lack one English has.
 The `docs` strings are the legal documents. `pnpm test` compares only the
 English pages with the PDF files in `public/legal/`.
 
-## Selling model
-
-`SELLING_MODEL` in `src/domains/site/site.ts` sets how Foundations is sold:
-`oneTime`, `subscription` or `hybrid`. The pricing section and the FAQ follow
-it. The site shows no prices: the app shows them.
-
 ## Screenshots
 
 Each mood shows its own screenshots. Both folders in `public/images/screens/`

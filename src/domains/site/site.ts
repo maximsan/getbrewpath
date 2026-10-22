@@ -1,7 +1,5 @@
 /** Facts about the product that are not translated: links, mailboxes, dates. */
 
-import type { SellingModel } from '@domains/selling/selling';
-
 export const SITE_HOST = 'getbrewpath.com';
 export const SITE_URL = `https://${SITE_HOST}`;
 
@@ -16,9 +14,6 @@ export const mailtoHref = (email: string) => `mailto:${email}`;
 export const SUPPORT_MAILTO = mailtoHref(EMAIL_HI);
 /** BrewPath's phone number, as the Terms of Use give it. */
 export const PHONE = '+48 571 033 267';
-
-/** How Foundations is sold right now. Every line on the site about buying Foundations follows this setting. */
-export const SELLING_MODEL: SellingModel = 'oneTime';
 
 export const MINUTES_PER_LESSON = 3;
 
