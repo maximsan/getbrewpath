@@ -18,7 +18,7 @@ interface OgImageProps {
   body: string;
 }
 
-/** The share preview for the site and for each card: icon, a small line, a title and a sentence. */
+/** The share image for the site and for each card: icon, a short label, a title and a sentence. */
 export async function renderOgImage({ kicker, title, body }: OgImageProps) {
   const icon = await iconDataUrl();
   return new ImageResponse(

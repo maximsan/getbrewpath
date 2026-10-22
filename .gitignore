@@ -10,7 +10,9 @@ npm-debug.log*
 pnpm-debug.log*
 .env*.local
 .env
-.vercel
+/.open-next/
+/.wrangler/
+/public/_headers
 *.tsbuildinfo
 next-env.d.ts
 

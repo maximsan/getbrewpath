@@ -5,7 +5,8 @@ import NextError from 'next/error';
 import { routing } from '@i18n/routing';
 
 /**
- * The 404 for addresses `src/proxy.ts` leaves alone, such as a missing image.
+ * The 404 for addresses that `next.config.ts` never gives a language, such as
+ * a missing image.
  * Every other unknown address shows the designed page in `[locale]/not-found.tsx`.
  */
 export default function RootNotFound() {

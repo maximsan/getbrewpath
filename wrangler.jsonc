@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "getbrewpath",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-15",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+  // Resizes the pictures shown with Next.js's <Image>: https://opennext.js.org/cloudflare/howtos/image
+  "images": {
+    "binding": "IMAGES",
+  },
+}

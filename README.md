@@ -15,6 +15,7 @@ pnpm lint
 pnpm type-check
 pnpm test
 pnpm build
+pnpm preview        # build for Cloudflare and serve it locally, http://localhost:8787
 pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpath
 ```
 
