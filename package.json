@@ -18,7 +18,7 @@
     "prepare": "husky",
     "preview": "pnpm write-static-headers && opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "write-static-headers": "tsx scripts/write-static-headers.ts",
-    "test:smoke": "playwright test"
+    "test:smoke": "tsx scripts/check-preview-stopped.ts && playwright test"
   },
   "engines": {
     "node": "24.x"
