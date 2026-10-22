@@ -4,9 +4,9 @@ import course from '@content/en/course.json' with { type: 'json' };
 import site from '@messages/en/site.json' with { type: 'json' };
 import { LEGAL_DOCS, type LegalDocId } from '@domains/site/legal-docs';
 import { PAGE_ROUTES } from '@domains/site/routes';
-import { APP_STORE_URL, EMAIL_HI, EMAIL_PRESS, EMAIL_SUPPORT } from '@domains/site/site';
+import { APP_STORE_URL, EMAIL_HI, EMAIL_SUPPORT } from '@domains/site/site';
 
-const SITE_EMAIL_LINKS = [EMAIL_HI, EMAIL_PRESS, EMAIL_SUPPORT].map((email) => `mailto:${email}`);
+const SITE_EMAIL_LINKS = [EMAIL_HI, EMAIL_SUPPORT].map((email) => `mailto:${email}`);
 
 const firstCard = course.cards[0];
 if (!firstCard) throw new Error('The course has no cards; run pnpm sync-cards');
