@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
-import { COPYRIGHT_YEAR, SUPPORT_MAILTO } from '@domains/site/site';
+import { COPYRIGHT_YEAR, MAILTO_HI } from '@domains/site/site';
 import { Link } from '@i18n/navigation';
 
 import { LanguageLinks } from './language-links';
@@ -43,7 +43,7 @@ export async function SiteFooter() {
               {t(page)}
             </Link>
           ))}
-          <a href={SUPPORT_MAILTO} className={footerLinkClass}>
+          <a href={MAILTO_HI} className={footerLinkClass}>
             {t('support')}
           </a>
         </nav>

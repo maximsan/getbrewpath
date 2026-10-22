@@ -2,7 +2,7 @@ import { getMessages, getTranslations } from 'next-intl/server';
 
 import { Disclosure } from '@components/brewpath/disclosure/disclosure';
 import { Section, sectionTitleClass } from '@components/section/section';
-import { EMAIL_HI, SUPPORT_MAILTO } from '@domains/site/site';
+import { EMAIL_HI, MAILTO_HI } from '@domains/site/site';
 
 export async function Faq() {
   const t = await getTranslations('faq');
@@ -17,7 +17,7 @@ export async function Faq() {
             {t.rich('more', {
               email: EMAIL_HI,
               link: (chunks) => (
-                <a href={SUPPORT_MAILTO} translate="no">
+                <a href={MAILTO_HI} translate="no">
                   {chunks}
                 </a>
               ),

@@ -7,7 +7,7 @@ import { type MouseEvent, useEffect, useId, useRef, useState } from 'react';
 import { LinkButton } from '@components/link-button/link-button';
 import { MoodSwitch } from '@components/mood/mood-switch';
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
-import { APP_STORE_URL, SUPPORT_MAILTO } from '@domains/site/site';
+import { APP_STORE_URL, MAILTO_HI } from '@domains/site/site';
 import { Link, usePathname } from '@i18n/navigation';
 import { TWO_DIGITS } from '@shared/format/number';
 import { cn } from '@shared/styles/cn';
@@ -183,7 +183,7 @@ export function SiteHeader() {
                 {t('getApp')}
               </LinkButton>
               <div className="flex flex-wrap justify-center gap-x-[22px] gap-y-2.5">
-                <a href={SUPPORT_MAILTO} className={menuSmallLinkClass}>
+                <a href={MAILTO_HI} className={menuSmallLinkClass}>
                   {tFooter('support')}
                 </a>
                 {LEGAL_PAGES.map((page) => (

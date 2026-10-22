@@ -11,7 +11,7 @@ export const APP_STORE_URL = `https://apps.apple.com/app/brewpath/id${APP_STORE_
 export const EMAIL_HI = 'hi@getbrewpath.com';
 /** The link address that opens a new email to `email`. */
 export const mailtoHref = (email: string) => `mailto:${email}`;
-export const SUPPORT_MAILTO = mailtoHref(EMAIL_HI);
+export const MAILTO_HI = mailtoHref(EMAIL_HI);
 /** BrewPath's phone number, as the Terms of Use give it. */
 export const PHONE = '+48 571 033 267';
 
