@@ -1,16 +1,10 @@
-import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
-
 import { ImageResponse } from 'next/og';
 
-import { BRAND_COLORS, BRAND_ICON_PATH, BRAND_INK_MUTE } from '@domains/site/brand';
+import { BRAND_COLORS, BRAND_INK_MUTE, SHARE_ICON_SIZE } from '@domains/site/brand';
+
+import { SHARE_ICON_DATA_URL } from './share-icon';
 
 export const OG_SIZE = { width: 1200, height: 630 };
-
-const iconDataUrl = async () => {
-  const icon = await readFile(join(process.cwd(), 'public', BRAND_ICON_PATH));
-  return `data:image/png;base64,${icon.toString('base64')}`;
-};
 
 interface OgImageProps {
   kicker: string;
@@ -18,9 +12,8 @@ interface OgImageProps {
   body: string;
 }
 
-/** The share preview for the site and for each card: icon, a small line, a title and a sentence. */
-export async function renderOgImage({ kicker, title, body }: OgImageProps) {
-  const icon = await iconDataUrl();
+/** The share image for the site and for each card: icon, a small line, a title and a sentence. */
+export function renderOgImage({ kicker, title, body }: OgImageProps) {
   return new ImageResponse(
     <div
       style={{
@@ -36,7 +29,13 @@ export async function renderOgImage({ kicker, title, body }: OgImageProps) {
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
         {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse renders plain <img> only */}
-        <img src={icon} width={72} height={72} alt="" style={{ borderRadius: 18 }} />
+        <img
+          src={SHARE_ICON_DATA_URL}
+          width={SHARE_ICON_SIZE}
+          height={SHARE_ICON_SIZE}
+          alt=""
+          style={{ borderRadius: 18 }}
+        />
         <span style={{ fontSize: 40, color: BRAND_COLORS.crema }}>{kicker}</span>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>

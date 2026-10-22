@@ -1,7 +1,5 @@
 import '../globals.css';
 
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
@@ -75,8 +73,6 @@ export default async function LocaleLayout({
             <RevealOnScroll />
           </MoodProvider>
         </NextIntlClientProvider>
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

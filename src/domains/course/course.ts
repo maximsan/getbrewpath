@@ -23,6 +23,16 @@ export async function cardRouteParams() {
   return course.cards.map((card) => ({ id: card.id }));
 }
 
+/**
+ * Route params for every card share image. Unlike a page, the share image
+ * route gets no `locale` from the layout, so without it none is built ahead
+ * of time (seen in the `next build` output).
+ */
+export async function cardShareImageParams() {
+  const cards = await cardRouteParams();
+  return routing.locales.flatMap((locale) => cards.map((card) => ({ locale, ...card })));
+}
+
 export const courseCounts = (course: Course) => ({
   modules: course.modules.length,
   lessons: course.modules.reduce((sum, module) => sum + module.lessonCount, 0),
