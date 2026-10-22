@@ -12,4 +12,10 @@
   "images": {
     "binding": "IMAGES",
   },
+  // The site's two domains. A deploy attaches them to this Worker and creates
+  // their DNS records: https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
+  "routes": [
+    { "pattern": "getbrewpath.com", "custom_domain": true },
+    { "pattern": "open.getbrewpath.com", "custom_domain": true },
+  ],
 }
