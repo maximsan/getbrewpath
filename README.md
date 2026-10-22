@@ -17,7 +17,7 @@ pnpm type-check
 pnpm test
 pnpm build
 pnpm preview        # build for Cloudflare and serve it locally, http://localhost:8787
-pnpm test:smoke     # build the site, open its main pages in Chromium and check them; runs before every git push
+pnpm test:smoke     # build the site, open its main pages in Chromium and check them; runs before a push that changes more than Markdown, docs/, .github/ or prototype/
                     # stops while pnpm preview is running, because the rebuild crashes it
 pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpath
 ```
