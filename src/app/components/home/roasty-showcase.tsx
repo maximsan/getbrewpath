@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { Roasty, type RoastyState } from '@components/brewpath/roasty/roasty';
-import { sectionTitleClass } from '@components/section/section';
+import { sectionTitleClass, twoColumnClass } from '@components/section/section';
 import { cn } from '@shared/styles/cn';
 
 /** The moments a visitor can tap, in chip order. */
@@ -32,7 +32,7 @@ export function RoastyShowcase() {
   };
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-10">
+    <div className={twoColumnClass}>
       <div
         data-reveal
         className="relative order-2 flex min-h-[420px] flex-col items-center justify-center overflow-hidden rounded-[28px] border border-rule bg-surface px-6 py-10"

@@ -21,7 +21,6 @@
       "@shared/*": ["./src/shared/*"],
       "@i18n/*": ["./src/i18n/*"],
       "@messages/*": ["./src/messages/*"],
-      "@config/*": ["./src/config/*"],
       "@content/*": ["./src/content/*"]
     }
   },

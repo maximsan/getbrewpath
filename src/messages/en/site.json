@@ -192,7 +192,7 @@
     "note": "{model, select, oneTime {The app shows the price for your country before you buy. Fixes and improvements are included; nothing renews.} subscription {The app shows the price for your country before you subscribe. Cancel anytime; access runs to the end of the paid period.} other {The app shows the prices for your country before you buy. Cancel a subscription anytime; a one-time purchase never renews.}}"
   },
   "faq": {
-    "title": "Things people ask before downloading.",
+    "title": "FAQ",
     "items": {
       "q1": {
         "q": "Is BrewPath free?",
@@ -204,7 +204,7 @@
       },
       "q3": {
         "q": "Is there an Android version?",
-        "a": "Not yet. BrewPath is iPhone-only for now; Android is on the plan. Write to us from the support page and we’ll tell you when."
+        "a": "Not yet. BrewPath is iPhone-only for now; Android is on the plan. Write to us and we’ll tell you when."
       },
       "q4": {
         "q": "Does it work offline?",
@@ -215,7 +215,7 @@
         "a": "A collectible you earn by finishing a lesson with a perfect score. Each one holds a fact, a specimen drawing and the spec of what you learned. There are 37, including a Module Reward for each of the five modules. You can share any card with a link."
       }
     },
-    "more": "Something else? <link>Write to us</link> — a human answers, usually the same day."
+    "more": "Something else? Write to <link>{email}</link>."
   },
   "cta": {
     "title": "Your first lesson takes three minutes.",
@@ -894,55 +894,6 @@
       }
     }
   },
-  "support": {
-    "title": "How can we help?",
-    "body": "BrewPath is made by a very small team. Write to us and a person — not a bot — replies, usually within a day.",
-    "topics": {
-      "restore": {
-        "title": "Restore a purchase",
-        "steps": {
-          "step1": "Open BrewPath on the device signed in to the same Apple Account.",
-          "step2": "Go to Profile → Restore purchases.",
-          "step3": "Still locked? Email us with the receipt date."
-        }
-      },
-      "refund": {
-        "title": "Unlock or refund",
-        "steps": {
-          "step1": "{model, select, oneTime {Foundations is a one-time purchase, sold by Apple.} subscription {Foundations is a subscription, sold by Apple. Cancel it in your Apple Account settings.} other {Foundations is sold by Apple, as a subscription or a one-time purchase. Cancel a subscription in your Apple Account settings.}}",
-          "step2": "Refunds are handled at reportaproblem.apple.com.",
-          "step3": "Not sure what you bought? Ask us — we can check what the store says."
-        }
-      },
-      "progress": {
-        "title": "Progress and the tree",
-        "steps": {
-          "step1": "Progress lives on your phone; an iCloud backup keeps it across devices.",
-          "step2": "Reset everything from Profile → Reset progress.",
-          "step3": "Lost progress after reinstalling? Restore from a backup, then relaunch."
-        }
-      }
-    },
-    "heading": "Report a bug, ask a question, tell us a coffee fact we got wrong.",
-    "include": "Include your iPhone model and iOS version if it’s a bug — it saves a round-trip.",
-    "yourEmail": "Your email",
-    "emailPlaceholder": "you@example.com",
-    "what": "What happened",
-    "messagePlaceholder": "Tell us as much as you can",
-    "send": "Send message",
-    "sentTitle": "Got it. Thank you.",
-    "sentBody": "We’ll reply to {email} — usually within a day.",
-    "another": "Send another",
-    "consent": "We only use your address to reply. See the <link>privacy policy</link>.",
-    "sending": "Sending…",
-    "errors": {
-      "email": "Enter an email address we can reply to.",
-      "message": "Tell us what happened. A sentence or two is plenty.",
-      "messageTooLong": "That is longer than we can take in one message. Please trim it to {max} characters.",
-      "failed": "We couldn’t send that. Please try again, or write to {email}.",
-      "rateLimited": "That’s a lot of messages in a short time. Please wait a minute and try again."
-    }
-  },
   "notfound": {
     "label": "Error 404",
     "title": "This cup’s empty.",
@@ -954,8 +905,7 @@
     "copyright": "© {year}",
     "terms": "Terms of Use",
     "privacy": "Privacy",
-    "support": "Support",
-    "press": "Press: {email}"
+    "support": "Support"
   },
   "metadata": {
     "title": "BrewPath — learn coffee, grow a tree",
@@ -963,7 +913,6 @@
     "description": "Three-minute lessons in the craft of coffee — beans, roast, grind, brew. Every one you finish feeds a living tree and earns a card worth keeping.",
     "cardTitle": "{card} — a BrewPath Coffee Card",
     "cardDescription": "A friend shared a Coffee Card from BrewPath: {summary}",
-    "support": "Support",
     "notFound": "Page not found"
   },
   "brand": "BrewPath"
