@@ -26,3 +26,7 @@ _Avoid_: theme, in copy
 **Selling model** — how Foundations is sold: once for good (one-time), as a
 monthly or yearly subscription, or both, the learner's choice (hybrid).
 _Avoid_: pricing arm, monetization model (the app's code names)
+
+**Website privacy page** — the site's own privacy notice, covering visit
+counting. The app's notice is the Privacy Policy.
+_Avoid_: privacy policy, when the website page is meant
