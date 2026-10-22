@@ -1,11 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 
-/** The smoke tests serve the site on this port. A `pnpm preview` left running on 8787 stays out of the tests. */
+/** The smoke tests' own port, so a `pnpm preview` left running on port 8787 never answers them. */
 const PORT = 8799;
 
 /**
  * Smoke tests: open the site's main pages in Chromium and check they work.
- * They run against the local Cloudflare preview. Every run builds it again.
+ * They run against `pnpm preview`, which builds the site the way Cloudflare runs it.
+ * Every test run builds the site again.
  */
 export default defineConfig({
   testDir: 'e2e',
