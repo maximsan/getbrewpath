@@ -15,6 +15,3 @@ export const BRAND_COLORS = {
 export const BRAND_INK_MUTE = '#6B5F54';
 
 export const BRAND_ICON_PATH = '/images/app-icon.png';
-
-/** The app icon's width and height on a share image, in pixels. */
-export const SHARE_ICON_SIZE = 72;

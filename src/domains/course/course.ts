@@ -24,11 +24,11 @@ export async function cardRouteParams() {
 }
 
 /**
- * Route params for every card share image. Unlike a page, the share image
- * route gets no `locale` from the layout, so without it none is built ahead
- * of time (seen in the `next build` output).
+ * Route params for every card in every language. A card share image needs
+ * these, because the layout passes its `locale` to pages only. With card ids
+ * alone, `next build` builds no card share image ahead of time.
  */
-export async function cardShareImageParams() {
+export async function localeCardRouteParams() {
   const cards = await cardRouteParams();
   return routing.locales.flatMap((locale) => cards.map((card) => ({ locale, ...card })));
 }

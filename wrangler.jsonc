@@ -8,7 +8,7 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS",
   },
-  // Resizes next/image pictures: https://opennext.js.org/cloudflare/howtos/image
+  // Resizes the pictures shown with Next.js's <Image>: https://opennext.js.org/cloudflare/howtos/image
   "images": {
     "binding": "IMAGES",
   },

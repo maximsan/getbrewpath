@@ -12,6 +12,7 @@ pnpm-debug.log*
 .env
 /.open-next/
 /.wrangler/
+/public/_headers
 *.tsbuildinfo
 next-env.d.ts
 

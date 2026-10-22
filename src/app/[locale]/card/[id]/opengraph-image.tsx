@@ -2,14 +2,17 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { OG_SIZE, renderOgImage } from '@components/og/og-image';
-import { cardShareImageParams, findCard, getCourse } from '@domains/course/course';
+import { findCard, getCourse, localeCardRouteParams } from '@domains/course/course';
 import { setPageLocale } from '@i18n/page-locale';
 
 export const size = OG_SIZE;
 export const contentType = 'image/png';
 export const alt = 'A BrewPath Coffee Card';
 
-export const generateStaticParams = cardShareImageParams;
+/** Every card's share image is built ahead of time; any other one is a 404, never drawn on a visit. */
+export const dynamicParams = false;
+
+export const generateStaticParams = localeCardRouteParams;
 
 export default async function CardOpenGraphImage({
   params,
