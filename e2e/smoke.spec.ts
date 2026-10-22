@@ -11,22 +11,27 @@ const SITE_EMAILS = Object.values(siteFacts)
   .filter((value) => typeof value === 'string' && value.endsWith(`@${SITE_HOST}`))
   .map((email) => `mailto:${email}`);
 
-/** Every email link points at one of the site's addresses, and the page has at least one. */
-async function expectSiteEmailLinks(page: Page) {
+/** The targets of the page's links that `selector` matches, failing if there are none. */
+async function linkTargets(page: Page, selector: string) {
   const hrefs = await page
-    .locator('a[href^="mailto:"]')
+    .locator(selector)
     .evaluateAll((links) => links.map((link) => link.getAttribute('href')));
-  expect(hrefs.length).toBeGreaterThan(0);
-  for (const href of hrefs) expect(SITE_EMAILS).toContain(href);
+  expect(hrefs.length, `links matching ${selector}`).toBeGreaterThan(0);
+  return hrefs;
 }
 
-/** Every App Store link is the app's listing, and the page has at least one. */
+/** Every email link points at one of the site's addresses. */
+async function expectSiteEmailLinks(page: Page) {
+  for (const href of await linkTargets(page, 'a[href^="mailto:"]')) {
+    expect(SITE_EMAILS).toContain(href);
+  }
+}
+
+/** Every App Store link is the app's listing. */
 async function expectAppStoreLinks(page: Page) {
-  const hrefs = await page
-    .locator('a[href*="apps.apple.com"]')
-    .evaluateAll((links) => links.map((link) => link.getAttribute('href')));
-  expect(hrefs.length).toBeGreaterThan(0);
-  for (const href of hrefs) expect(href).toBe(APP_STORE_URL);
+  for (const href of await linkTargets(page, 'a[href*="apps.apple.com"]')) {
+    expect(href).toBe(APP_STORE_URL);
+  }
 }
 
 test('home page shows both phone mock-ups', async ({ page }) => {
