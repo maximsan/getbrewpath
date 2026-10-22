@@ -1,1 +1,19 @@
-pnpm test:smoke
+# Runs the smoke tests only when the push can change the site. Skipped: a push
+# that deletes a branch, and commits that change only docs (Markdown, docs/,
+# .github/, prototype/). When the changed files can't be listed, the tests run.
+# Git passes one line per pushed branch: local ref, local commit, remote ref, remote commit.
+NO_COMMIT=0000000000000000000000000000000000000000
+DOCS_ONLY='\.md$|^docs/|^\.github/|^prototype/'
+
+while read -r _local_ref local_commit _remote_ref remote_commit; do
+  [ "$local_commit" = "$NO_COMMIT" ] && continue
+  if [ "$remote_commit" = "$NO_COMMIT" ]; then
+    base=$(git merge-base origin/main "$local_commit") || exec pnpm test:smoke
+  else
+    base=$remote_commit
+  fi
+  changed=$(git diff --name-only "$base" "$local_commit" 2>/dev/null) || exec pnpm test:smoke
+  if printf '%s\n' "$changed" | grep -vE "$DOCS_ONLY" | grep -q .; then
+    exec pnpm test:smoke
+  fi
+done
