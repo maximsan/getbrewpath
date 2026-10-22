@@ -2,13 +2,7 @@ import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 import { SECURITY_HEADERS } from './src/config/security-headers';
-import {
-  APP_LINKS_HOST,
-  APP_STORE_ID,
-  APP_STORE_URL,
-  SITE_URL,
-  WWW_HOST,
-} from './src/domains/site/site';
+import { APP_LINKS_HOST, APP_STORE_ID, APP_STORE_URL, SITE_URL } from './src/domains/site/site';
 import { routing } from './src/i18n/routing';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
@@ -49,14 +43,6 @@ const appLinksHostRedirects = [
   },
 ];
 
-/** Every `WWW_HOST` address goes to the same path on the site, for good. */
-const wwwHostRedirect = {
-  source: '/:path*',
-  has: [{ type: 'host' as const, value: WWW_HOST }],
-  destination: `${SITE_URL}/:path*`,
-  permanent: true,
-};
-
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
@@ -67,7 +53,6 @@ const nextConfig: NextConfig = {
   // support for one on Cloudflare is still experimental.
   async redirects() {
     return [
-      wwwHostRedirect,
       ...appLinksHostRedirects,
       { source: `/${defaultLocale}/:path*`, destination: '/:path*', permanent: false },
     ];

@@ -12,19 +12,23 @@
   "images": {
     "binding": "IMAGES",
   },
-  // The site's domains. A deploy attaches them to this Worker and creates
-  // their DNS records: https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
+  // No request log: the website privacy page says the site keeps none.
+  "observability": {
+    "enabled": false,
+  },
+  // The domains this Worker serves. A deploy attaches them and creates their
+  // DNS records: https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
   "routes": [
     { "pattern": "getbrewpath.com", "custom_domain": true },
     { "pattern": "open.getbrewpath.com", "custom_domain": true },
-    { "pattern": "www.getbrewpath.com", "custom_domain": true },
   ],
   "env": {
-    // `pnpm preview` and the smoke tests run this, with no domains. With them,
-    // the local preview rewrites every request to the first domain, so the
-    // redirects per domain in `next.config.ts` could not be tested.
-    "preview": {
+    // `pnpm preview` and the smoke tests use this environment, which lists no
+    // domains. When domains are listed, the local preview sends every request
+    // to the first one, and the redirects for each domain can't be tested.
+    "local": {
       "routes": [],
+      // An environment inherits no bindings, so this one names `IMAGES` again.
       "images": {
         "binding": "IMAGES",
       },

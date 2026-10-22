@@ -16,8 +16,9 @@
     "test:watch": "vitest",
     "sync-cards": "tsx scripts/sync-cards.ts",
     "prepare": "husky",
-    "preview": "pnpm write-static-headers && opennextjs-cloudflare build && opennextjs-cloudflare preview --env preview",
-    "deploy": "pnpm write-static-headers && opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "build:cloudflare": "pnpm write-static-headers && opennextjs-cloudflare build",
+    "preview": "pnpm build:cloudflare && opennextjs-cloudflare preview --env local",
+    "deploy": "pnpm build:cloudflare && opennextjs-cloudflare deploy",
     "write-static-headers": "tsx scripts/write-static-headers.ts",
     "test:smoke": "tsx scripts/check-preview-stopped.ts && playwright test"
   },

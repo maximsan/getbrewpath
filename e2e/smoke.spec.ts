@@ -13,7 +13,6 @@ import {
   mailtoHref,
   SITE_HOST,
   SITE_URL,
-  WWW_HOST,
 } from '@domains/site/site';
 
 const SITE_EMAIL_LINKS = [EMAIL_HI, EMAIL_SUPPORT].map(mailtoHref);
@@ -103,20 +102,12 @@ test(`${APP_LINKS_HOST} redirects to the site, or a card link to the App Store`,
   const cardDestination = APP_STORE_ID === null ? `${SITE_URL}${CARD_PATH}` : APP_STORE_URL;
   const destinations = {
     '/': `${SITE_URL}/`,
-    '/terms': `${SITE_URL}/terms`,
+    [PAGE_ROUTES.terms]: `${SITE_URL}${PAGE_ROUTES.terms}`,
     [CARD_PATH]: cardDestination,
   };
   for (const [path, destination] of Object.entries(destinations)) {
     const response = await requestOnHost(request, APP_LINKS_HOST, path);
     expect(response.status(), path).toBe(307);
     expect(response.headers().location, path).toBe(destination);
-  }
-});
-
-test(`${WWW_HOST} redirects to the same path on the site`, async ({ request }) => {
-  for (const path of ['/', '/terms', CARD_PATH]) {
-    const response = await requestOnHost(request, WWW_HOST, path);
-    expect(response.status(), path).toBe(308);
-    expect(response.headers().location, path).toBe(`${SITE_URL}${path}`);
   }
 });

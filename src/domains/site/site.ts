@@ -4,8 +4,6 @@ import type { SellingModel } from '@domains/selling/selling';
 
 export const SITE_HOST = 'getbrewpath.com';
 export const SITE_URL = `https://${SITE_HOST}`;
-/** Served by the site only to send visitors on to `SITE_HOST`. */
-export const WWW_HOST = `www.${SITE_HOST}`;
 
 /** The App Store listing's id. Null until the listing exists. Set it at launch. */
 export const APP_STORE_ID: string | null = null;
@@ -36,8 +34,9 @@ export const APP_LINKS_URL = `https://${APP_LINKS_HOST}`;
 export const appCardLink = (cardId: string) => `${APP_LINKS_URL}/card/${cardId}`;
 
 /**
- * The app's Apple team and bundle id, which the universal-link file names.
- * Source: brewpath repo, `DEVELOPMENT_TEAM` and the bundle id in the iOS project.
+ * The app's Apple team and bundle id, which the Apple link file names.
+ * Source: the owner's ruling of 22 Oct 2026, recorded in the brewpath repo's
+ * issue #171.
  */
 export const APPLE_APP_ID = '7FXR6TDMDM.dev.maximsan.brewPath';
 
