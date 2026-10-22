@@ -12,10 +12,22 @@
   "images": {
     "binding": "IMAGES",
   },
-  // The site's two domains. A deploy attaches them to this Worker and creates
+  // The site's domains. A deploy attaches them to this Worker and creates
   // their DNS records: https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
   "routes": [
     { "pattern": "getbrewpath.com", "custom_domain": true },
     { "pattern": "open.getbrewpath.com", "custom_domain": true },
+    { "pattern": "www.getbrewpath.com", "custom_domain": true },
   ],
+  "env": {
+    // `pnpm preview` and the smoke tests run this, with no domains. With them,
+    // the local preview rewrites every request to the first domain, so the
+    // redirects per domain in `next.config.ts` could not be tested.
+    "preview": {
+      "routes": [],
+      "images": {
+        "binding": "IMAGES",
+      },
+    },
+  },
 }

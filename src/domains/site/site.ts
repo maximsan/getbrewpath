@@ -4,6 +4,8 @@ import type { SellingModel } from '@domains/selling/selling';
 
 export const SITE_HOST = 'getbrewpath.com';
 export const SITE_URL = `https://${SITE_HOST}`;
+/** Served by the site only to send visitors on to `SITE_HOST`. */
+export const WWW_HOST = `www.${SITE_HOST}`;
 
 /** The App Store listing's id. Null until the listing exists. Set it at launch. */
 export const APP_STORE_ID: string | null = null;

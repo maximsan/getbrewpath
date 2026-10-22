@@ -13,6 +13,7 @@ import {
   mailtoHref,
   SITE_HOST,
   SITE_URL,
+  WWW_HOST,
 } from '@domains/site/site';
 
 const SITE_EMAIL_LINKS = [EMAIL_HI, EMAIL_SUPPORT].map(mailtoHref);
@@ -109,5 +110,13 @@ test(`${APP_LINKS_HOST} redirects to the site, or a card link to the App Store`,
     const response = await requestOnHost(request, APP_LINKS_HOST, path);
     expect(response.status(), path).toBe(307);
     expect(response.headers().location, path).toBe(destination);
+  }
+});
+
+test(`${WWW_HOST} redirects to the same path on the site`, async ({ request }) => {
+  for (const path of ['/', '/terms', CARD_PATH]) {
+    const response = await requestOnHost(request, WWW_HOST, path);
+    expect(response.status(), path).toBe(308);
+    expect(response.headers().location, path).toBe(`${SITE_URL}${path}`);
   }
 });
