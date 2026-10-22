@@ -5,8 +5,10 @@ import type { SellingModel } from '@domains/selling/selling';
 export const SITE_URL = 'https://getbrewpath.com';
 export const SITE_HOST = 'getbrewpath.com';
 
-/** Placeholder listing until the App Store record exists; swap in the real id at launch. */
-export const APP_STORE_URL = 'https://apps.apple.com/app/brewpath/id0000000000';
+/** The App Store listing's id. Null until the App Store record exists; set it at launch. */
+export const APP_STORE_ID: string | null = null;
+/** The App Store listing. While there is no id, a placeholder address that leads nowhere. */
+export const APP_STORE_URL = `https://apps.apple.com/app/brewpath/id${APP_STORE_ID ?? '0000000000'}`;
 
 export const EMAIL_HI = 'hi@getbrewpath.com';
 export const EMAIL_SUPPORT = 'support@getbrewpath.com';
@@ -22,12 +24,13 @@ export const SELLING_MODEL: SellingModel = 'oneTime';
 export const MINUTES_PER_LESSON = 3;
 
 /**
- * The domain whose links the app opens (universal links).
- * iOS opens such a link in the app only when it is tapped on another domain's
- * page. So "Open in the app" points there rather than at this site.
- * Source: brewpath repo, lib/core/config/app_links.dart.
+ * The second domain whose links the app opens (universal links), served by this
+ * site too. iOS opens such a link in the app only when it is tapped on another
+ * domain's page, so "Open in the app" points here rather than at `SITE_HOST`.
+ * Source: https://github.com/maximsan/getbrewpath/issues/10
  */
-export const APP_LINKS_ORIGIN = 'https://brewpath.maximsan.dev';
+export const APP_LINKS_HOST = 'open.getbrewpath.com';
+export const APP_LINKS_ORIGIN = `https://${APP_LINKS_HOST}`;
 export const appCardLink = (cardId: string) => `${APP_LINKS_ORIGIN}/card/${cardId}`;
 
 /**
