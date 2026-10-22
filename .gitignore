@@ -13,6 +13,8 @@ pnpm-debug.log*
 /.open-next/
 /.wrangler/
 /public/_headers
+/test-results/
+/playwright-report/
 *.tsbuildinfo
 next-env.d.ts
 
