@@ -6,7 +6,7 @@ import { pageTitleClass } from '@components/section/section';
 import { pageMetadata } from '@domains/site/page-metadata';
 import { PAGE_ROUTES } from '@domains/site/routes';
 import { LEGAL_DOC_DATE_FORMAT, LEGAL_DOCS, type LegalDocId } from '@domains/site/legal-docs';
-import { PHONE } from '@domains/site/site';
+import { mailtoHref, PHONE } from '@domains/site/site';
 import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 import { TWO_DIGITS } from '@shared/format/number';
 import { cn } from '@shared/styles/cn';
@@ -92,7 +92,7 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
           ))}
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-rule pt-6">
             <span className="ff-ui text-sm text-ink-mute">{t('questions')}</span>
-            <a href={`mailto:${source.email}`} translate="no" className="ff-ui text-sm font-medium">
+            <a href={mailtoHref(source.email)} translate="no" className="ff-ui text-sm font-medium">
               {source.email}
             </a>
           </div>
