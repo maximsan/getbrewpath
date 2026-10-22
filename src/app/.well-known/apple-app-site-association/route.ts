@@ -3,11 +3,11 @@ import { APPLE_APP_ID } from '@domains/site/site';
 export const dynamic = 'force-static';
 
 /**
- * The file iOS fetches before it lets the app open links to this site's two
- * domains. It must be served as JSON, without a redirect. Only card links open
- * the app; every other address, the home page included, stays on the site.
+ * The file iOS reads to learn which links to getbrewpath.com and
+ * open.getbrewpath.com open the app. It must be served as JSON, without a
+ * redirect. Only card links open the app. Every other address stays on the
+ * site, including the home page.
  * Source: brewpath repo, docs/universal-links-setup.md.
- * See https://github.com/maximsan/getbrewpath/issues/10
  */
 export function GET() {
   return Response.json({

@@ -76,7 +76,11 @@ file names. `pnpm test` fails if a folder misses one.
 
 ## Universal links
 
-`/.well-known/apple-app-site-association` tells iOS that the BrewPath app may
-open links to this domain. The app is set up to open links from
-`brewpath.maximsan.dev` only, so "Open in the app" on a card page links there.
-See `src/domains/site/site.ts`.
+`/.well-known/apple-app-site-association` tells iOS which links open the
+BrewPath app: card links, `/card/<id>`, on `getbrewpath.com` and on
+`open.getbrewpath.com`. Every other address stays on the site.
+
+"Open in the app" on a card page links to `open.getbrewpath.com`, because iOS
+ignores a link tapped on a page of the same domain. That domain serves only
+the Apple link file and redirects everything else, as `next.config.ts`
+describes. See `src/domains/site/site.ts`.

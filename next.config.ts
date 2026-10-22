@@ -23,20 +23,20 @@ const defaultLocaleAddress = `/:path((?!(?-i:${locales.join('|')})(?:/|$))(?!_ne
 const onAppLinksHost = [{ type: 'host' as const, value: APP_LINKS_HOST }];
 
 /**
- * The app links domain serves only the Apple link file. A card link reaches it
- * only when the app is missing, so it goes to the App Store, or to the card's
- * page while there is no listing. Every other address goes to the same path on
- * the site.
+ * Redirects for `APP_LINKS_HOST`, the domain "Open in the app" links to. A
+ * request reaches it only when the app is not installed:
+ * - a card link goes to the App Store, once `APP_STORE_ID` is set;
+ * - every other address goes to the same path on the site, card links included
+ *   until then.
+ * The Apple link file is left out, because iOS rejects it behind a redirect.
+ * Files in `public/` are left out too: Cloudflare serves them before these rules.
  */
 const appLinksHostRedirects = [
+  ...(APP_STORE_ID === null
+    ? []
+    : [{ source: '/card/:id', has: onAppLinksHost, destination: APP_STORE_URL, permanent: false }]),
   {
-    source: '/card/:id',
-    has: onAppLinksHost,
-    destination: APP_STORE_ID === null ? `${SITE_URL}/card/:id` : APP_STORE_URL,
-    permanent: false,
-  },
-  {
-    source: '/:path((?!\\.well-known/).*)',
+    source: '/:path((?!\\.well-known/apple-app-site-association$).*)',
     has: onAppLinksHost,
     destination: `${SITE_URL}/:path`,
     permanent: false,
