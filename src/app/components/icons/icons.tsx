@@ -152,23 +152,6 @@ export const BeanIcon = icon(
   </>,
 );
 
-export const RematchIcon = icon(
-  <>
-    <path d="M4 10a6 6 0 0 1 10.5-4" {...line} />
-    <path d="M16 10a6 6 0 0 1-10.5 4" {...line} />
-    <path d="M14.5 3v3h-3M5.5 17v-3h3" {...line} strokeLinejoin="round" />
-  </>,
-  '0 0 20 20',
-);
-
-export const LockIcon = icon(
-  <>
-    <rect x="4.5" y="8.5" width="11" height="8" rx="1.6" {...line} strokeWidth={1.5} />
-    <path d="M7 8.5 V6.5 a3 3 0 0 1 6 0 V8.5" {...line} strokeWidth={1.5} />
-  </>,
-  '0 0 20 20',
-);
-
 export const CheckIcon = icon(
   <path d="M3 9.5l3.5 3.5L15 5" {...line} strokeWidth={2} strokeLinejoin="round" />,
   '0 0 18 18',
@@ -185,4 +168,9 @@ export const ShareIcon = icon(
     <path d="M5 11v4a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4" {...line} strokeWidth={1.7} />
   </>,
   '0 0 20 20',
+);
+
+export const DownloadIcon = icon(
+  <path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M3 13h10" {...line} strokeLinejoin="round" />,
+  '0 0 16 16',
 );

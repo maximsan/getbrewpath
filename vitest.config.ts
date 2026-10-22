@@ -8,7 +8,6 @@ export default defineConfig({
     alias: {
       '@domains': fromRoot('./src/domains'),
       '@shared': fromRoot('./src/shared'),
-      '@config': fromRoot('./src/config'),
       '@content': fromRoot('./src/content'),
       '@messages': fromRoot('./src/messages'),
     },

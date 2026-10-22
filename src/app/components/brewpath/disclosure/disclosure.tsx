@@ -14,8 +14,6 @@ export interface DisclosureProps {
   label: ReactNode;
   /** Defaults to "caret". */
   glyph?: DisclosureGlyph;
-  /** Draws a rule under the whole section. */
-  divider?: boolean;
   /** CSS padding of the header button. Defaults to "16px 0". */
   headerPad?: string;
   /** Starts open. Defaults to false. */
@@ -65,7 +63,6 @@ function Glyph({ glyph, open }: { glyph: DisclosureGlyph; open: boolean }) {
 export function Disclosure({
   label,
   glyph = 'caret',
-  divider = false,
   headerPad = '16px 0',
   defaultOpen = false,
   children,
@@ -74,7 +71,7 @@ export function Disclosure({
   const panelId = useId();
 
   return (
-    <div className={cn(styles.root, divider && 'border-b border-rule')}>
+    <div className={styles.root}>
       <button
         type="button"
         aria-expanded={open}

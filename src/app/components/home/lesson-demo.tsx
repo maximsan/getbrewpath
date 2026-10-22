@@ -12,6 +12,7 @@ import { ProgressTopbar } from '@components/brewpath/progress-topbar/progress-to
 import { RewardCard, type RewardCardData } from '@components/brewpath/reward-card/reward-card';
 import { linkButtonClass } from '@components/link-button/link-button';
 import { ScaledFrame } from '@components/scaled-frame/scaled-frame';
+import { twoColumnClass } from '@components/section/section';
 import { APP_STORE_URL } from '@domains/site/site';
 
 /** The three cards of the demo, in order. */
@@ -76,12 +77,12 @@ export function LessonDemo({ reward }: LessonDemoProps) {
   const progress = { n: Math.min(step, CARD_COUNT - 1) + 1, total: CARD_COUNT };
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-10">
-      <div>
+    <div className={twoColumnClass}>
+      <div className="stacked:text-center">
         <h2 className="ff-display m-0 text-[clamp(28px,3.6vw,44px)] leading-[1.05] font-normal tracking-[-0.02em] text-balance">
           {t('title')}
         </h2>
-        <p className="ff-ui mt-[18px] mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute">
+        <p className="ff-ui mt-[18px] mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute stacked:mx-auto">
           {t('body')}
         </p>
         <div aria-live="polite">
@@ -93,7 +94,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
               <div className="ff-ui text-sm leading-normal text-ink-mute">
                 {t(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')}
               </div>
-              <div className="mt-1 flex flex-wrap gap-2.5">
+              <div className="mt-1 flex flex-wrap gap-2.5 stacked:justify-center">
                 <a href={APP_STORE_URL} className={linkButtonClass('accent', 'md')}>
                   {t('get')}
                 </a>
@@ -107,7 +108,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
               </div>
             </div>
           ) : (
-            <div className="ff-mono mt-7 flex items-center gap-2.5 text-[11px] leading-normal tracking-[.1em] text-ink-mute uppercase">
+            <div className="ff-mono mt-7 flex items-center gap-2.5 text-[11px] leading-normal tracking-[.1em] text-ink-mute uppercase stacked:justify-center">
               <span className="size-1.5 flex-none animate-dot-pulse rounded-full bg-accent" />
               {t('progress', progress)}
             </div>

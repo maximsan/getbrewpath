@@ -3,7 +3,9 @@ export const PAGE_ROUTES = {
   home: '/',
   terms: '/terms',
   privacy: '/privacy',
-  support: '/support',
 } as const;
 
 export type PageName = keyof typeof PAGE_ROUTES;
+
+/** The legal pages, in the order the footer and the phone menu list them. */
+export const LEGAL_PAGES = ['terms', 'privacy'] as const satisfies readonly PageName[];
