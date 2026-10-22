@@ -2,7 +2,7 @@
 
 The website for BrewPath, the coffee-learning iPhone app: the landing page,
 shared Coffee Card pages and the legal documents. Support is by email; the
-address is `EMAIL_SUPPORT` in `src/domains/site/site.ts`.
+address is `EMAIL_HI` in `src/domains/site/site.ts`.
 
 Next.js (App Router) with TypeScript, Tailwind CSS and next-intl.
 

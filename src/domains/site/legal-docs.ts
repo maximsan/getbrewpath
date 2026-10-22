@@ -1,4 +1,4 @@
-import { EMAIL_HI, EMAIL_SUPPORT } from './site';
+import { EMAIL_HI } from './site';
 
 export type LegalDocId = 'terms' | 'privacy';
 
@@ -13,7 +13,7 @@ interface LegalDocSource {
 
 export const LEGAL_DOCS: Record<LegalDocId, LegalDocSource> = {
   terms: { file: '/legal/BrewPath_Terms_of_Use.pdf', date: '2026-10-20', email: EMAIL_HI },
-  privacy: { file: '/legal/BrewPath_Privacy_Policy.pdf', date: '2026-10-20', email: EMAIL_SUPPORT },
+  privacy: { file: '/legal/BrewPath_Privacy_Policy.pdf', date: '2026-10-20', email: EMAIL_HI },
 };
 
 /** How the page writes a document's date, e.g. "October 20, 2026". */
