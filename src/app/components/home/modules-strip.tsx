@@ -55,8 +55,8 @@ export async function ModulesStrip({ course }: { course: Course }) {
               key={module.id}
               data-reveal
               data-delay={Math.min(index, MAX_DELAY)}
-              // Five to a row when they fit: the row minus its four 24px gaps, split five ways.
-              className="flex w-full min-w-0 flex-none flex-col gap-3.5 border-t border-rule pt-[22px] min-[600px]:w-[clamp(180px,calc((100%_-_96px)/5),320px)]"
+              // Five to a row when they fit: the row minus its four `gap-x-6` gaps, split five ways.
+              className="flex w-full min-w-0 flex-none flex-col gap-3.5 border-t border-rule pt-[22px] min-[600px]:w-[clamp(180px,calc((100%_-_4*var(--spacing)*6)/5),320px)]"
             >
               <div className="flex items-center justify-between">
                 <span className="inline-flex text-accent">

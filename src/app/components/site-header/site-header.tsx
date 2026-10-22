@@ -2,12 +2,12 @@
 
 import Image from 'next/image';
 import { useFormatter, useTranslations } from 'next-intl';
-import { type MouseEvent, useEffect, useId, useState } from 'react';
+import { type MouseEvent, useEffect, useId, useRef, useState } from 'react';
 
 import { LinkButton } from '@components/link-button/link-button';
 import { MoodSwitch } from '@components/mood/mood-switch';
-import { PAGE_ROUTES } from '@domains/site/routes';
-import { APP_STORE_URL, EMAIL_SUPPORT } from '@domains/site/site';
+import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
+import { APP_STORE_URL, SUPPORT_MAILTO } from '@domains/site/site';
 import { Link, usePathname } from '@i18n/navigation';
 import { TWO_DIGITS } from '@shared/format/number';
 import { cn } from '@shared/styles/cn';
@@ -16,16 +16,22 @@ import { NAV_SECTIONS, sectionHref } from './nav-items';
 
 /** From this width the section links sit in the header and the menu closes. Matches `min-[980px]` below. */
 const WIDE_SCREEN = '(min-width: 980px)';
-/** Each menu link rises this many seconds after the one above it. */
-const LINK_STAGGER = 0.06;
+/** Seconds before the first menu link slides in. */
 const FIRST_LINK_DELAY = 0.08;
+/** Seconds between one menu link's slide-in and the next one's. */
+const LINK_STAGGER = 0.06;
+
+/** The slide-in delay of the menu item at `index`, as a CSS `animation-delay`. */
+function menuItemDelay(index: number) {
+  return { animationDelay: `${FIRST_LINK_DELAY + index * LINK_STAGGER}s` };
+}
 
 const menuSmallLinkClass = 'ff-ui text-sm text-ink-mute hover:text-ink hover:no-underline';
 
 /**
  * Sticky top bar: brand, section links, mood switch and the store link.
  * Below 980px the links move into a menu that covers the page under the bar.
- * While it is open the page behind it does not scroll.
+ * While it is open the page behind it does not scroll, and Escape closes it.
  */
 export function SiteHeader() {
   const t = useTranslations('nav');
@@ -36,6 +42,7 @@ export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPathname, setMenuPathname] = useState(pathname);
   const menuId = useId();
+  const menuButton = useRef<HTMLButtonElement>(null);
 
   // Any page change closes the menu, including one from a footer link.
   if (menuPathname !== pathname) {
@@ -49,11 +56,18 @@ export function SiteHeader() {
     const closeWhenWide = () => {
       if (wide.matches) setMenuOpen(false);
     };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setMenuOpen(false);
+      menuButton.current?.focus();
+    };
     document.body.style.overflow = 'hidden';
     wide.addEventListener('change', closeWhenWide);
+    document.addEventListener('keydown', closeOnEscape);
     return () => {
       document.body.style.overflow = '';
       wide.removeEventListener('change', closeWhenWide);
+      document.removeEventListener('keydown', closeOnEscape);
     };
   }, [menuOpen]);
 
@@ -112,6 +126,7 @@ export function SiteHeader() {
             {t('getApp')}
           </LinkButton>
           <button
+            ref={menuButton}
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
             aria-label={t('menu')}
@@ -134,13 +149,11 @@ export function SiteHeader() {
           </button>
         </div>
       </header>
-      {/* Outside the header: its backdrop blur would pin a fixed child to the header instead of the screen. */}
+      {/* Rendered outside the header. The header blurs what is behind it, which makes the browser
+          place a fixed-position child against the header, not the screen. */}
       {menuOpen && (
         <div
           id={menuId}
-          role="dialog"
-          aria-modal="true"
-          aria-label={t('menu')}
           className="fixed inset-x-0 top-16 bottom-0 z-40 animate-menu-fade overflow-auto bg-bg min-[980px]:hidden"
         >
           <nav
@@ -152,7 +165,7 @@ export function SiteHeader() {
                 key={section.id}
                 href={sectionHref(section.id)}
                 onClick={closeMenu}
-                style={{ animationDelay: `${FIRST_LINK_DELAY + index * LINK_STAGGER}s` }}
+                style={menuItemDelay(index)}
                 className="ff-display flex min-h-[68px] animate-menu-link items-baseline gap-[18px] border-b border-rule py-[18px] text-[clamp(30px,8vw,44px)] leading-[1.05] tracking-[-0.02em] text-ink hover:no-underline"
               >
                 <span className="ff-mono flex-none text-[11px] tracking-[.14em] text-ink-mute">
@@ -163,24 +176,26 @@ export function SiteHeader() {
             ))}
             <div className="flex-1" />
             <div
-              style={{
-                animationDelay: `${FIRST_LINK_DELAY + NAV_SECTIONS.length * LINK_STAGGER}s`,
-              }}
+              style={menuItemDelay(NAV_SECTIONS.length)}
               className="mt-10 flex animate-menu-link flex-col gap-[22px]"
             >
               <LinkButton href={APP_STORE_URL} tone="accent" size="hero" className="flex">
                 {t('getApp')}
               </LinkButton>
               <div className="flex flex-wrap justify-center gap-x-[22px] gap-y-2.5">
-                <a href={`mailto:${EMAIL_SUPPORT}`} className={menuSmallLinkClass}>
+                <a href={SUPPORT_MAILTO} className={menuSmallLinkClass}>
                   {tFooter('support')}
                 </a>
-                <Link href={PAGE_ROUTES.terms} onClick={closeMenu} className={menuSmallLinkClass}>
-                  {tFooter('terms')}
-                </Link>
-                <Link href={PAGE_ROUTES.privacy} onClick={closeMenu} className={menuSmallLinkClass}>
-                  {tFooter('privacy')}
-                </Link>
+                {LEGAL_PAGES.map((page) => (
+                  <Link
+                    key={page}
+                    href={PAGE_ROUTES[page]}
+                    onClick={closeMenu}
+                    className={menuSmallLinkClass}
+                  >
+                    {tFooter(page)}
+                  </Link>
+                ))}
               </div>
             </div>
           </nav>

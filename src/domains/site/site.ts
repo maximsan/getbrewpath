@@ -10,6 +10,7 @@ export const APP_STORE_URL = 'https://apps.apple.com/app/brewpath/id0000000000';
 
 export const EMAIL_HI = 'hi@getbrewpath.com';
 export const EMAIL_SUPPORT = 'support@getbrewpath.com';
+export const SUPPORT_MAILTO = `mailto:${EMAIL_SUPPORT}`;
 /** BrewPath's phone number, as the Terms of Use give it. */
 export const PHONE = '+48 571 033 267';
 

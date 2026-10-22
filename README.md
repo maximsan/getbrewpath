@@ -22,7 +22,7 @@ pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpat
 
 - `src/app/` — routes and their components. `components/brewpath/` holds the
   app's design-system components, ported from the app prototype.
-- `src/domains/` — product facts: the course and its cards, links, mailboxes.
+- `src/domains/` — product facts: the course and its cards, links, email addresses.
 - `src/app/[locale]/` — the pages, once per language.
 - `src/i18n/` — the language list, routing and string loading.
 - `src/messages/<language>/` — every string, one folder per language.

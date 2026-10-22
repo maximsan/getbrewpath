@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { LinkButton } from '@components/link-button/link-button';
 import { PhoneShot } from '@components/phone-shot/phone-shot';
-import { monoNoteClass } from '@components/section/section';
+import { monoNoteClass, twoColumnClass } from '@components/section/section';
 import { sectionHref } from '@components/site-header/nav-items';
 import { APP_STORE_URL, SELLING_MODEL } from '@domains/site/site';
 
@@ -10,16 +10,17 @@ export async function Hero() {
   const t = await getTranslations('hero');
 
   return (
-    // The two 380px columns and their 40px gap stack below 800px; the text then centers.
-    <section className="@container page-width grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-10 px-6 pt-[clamp(48px,8vw,96px)] pb-[clamp(40px,6vw,72px)]">
-      <div className="@max-[800px]:text-center">
+    <section
+      className={`${twoColumnClass} page-width px-6 pt-[clamp(48px,8vw,96px)] pb-[clamp(40px,6vw,72px)]`}
+    >
+      <div className="stacked:text-center">
         <h1 className="ff-display m-0 animate-rise-in text-[clamp(42px,6.2vw,76px)] leading-none font-normal tracking-[-0.025em] text-balance whitespace-pre-line">
           {t('title')}
         </h1>
-        <p className="ff-ui mt-[26px] mb-0 max-w-[46ch] animate-rise-in text-[clamp(17px,1.6vw,20px)] leading-[1.55] text-pretty text-ink-mute [animation-delay:.08s] @max-[800px]:mx-auto">
+        <p className="ff-ui mt-[26px] mb-0 max-w-[46ch] animate-rise-in text-[clamp(17px,1.6vw,20px)] leading-[1.55] text-pretty text-ink-mute [animation-delay:.08s] stacked:mx-auto">
           {t('body')}
         </p>
-        <div className="mt-[34px] flex animate-rise-in flex-wrap items-center gap-3 [animation-delay:.16s] @max-[800px]:justify-center">
+        <div className="mt-[34px] flex animate-rise-in flex-wrap items-center gap-3 [animation-delay:.16s] stacked:justify-center">
           <LinkButton href={APP_STORE_URL} tone="ink" size="xl">
             {t('download')}
           </LinkButton>

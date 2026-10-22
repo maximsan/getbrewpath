@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* Below 800px a two-column block's two 380px columns and 40px gap no longer fit, so they stack. */
+@custom-variant stacked (@container (width < 800px));
+
 /*
  * BrewPath design tokens, copied from the app's design system.
  * The site has two colour themes, called moods: cupping (light) and dark roast.
