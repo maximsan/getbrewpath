@@ -1,19 +1,26 @@
-# Runs the smoke tests only when the push can change the site. Skipped: a push
-# that deletes a branch, and commits that change only docs (Markdown, docs/,
-# .github/, prototype/). When the changed files can't be listed, the tests run.
-# Git passes one line per pushed branch: local ref, local commit, remote ref, remote commit.
+# Runs the smoke tests (a site build plus a browser check of the main pages)
+# only when a push can change the site.
+# Skipped: a push that deletes a branch.
+# Skipped: commits that change only Markdown files, docs/, .github/ or prototype/.
+# The tests run whenever Git fails to compare, e.g. for a commit missing here.
+#
+# $1 is the remote's name. Git passes one line per pushed branch:
+# local ref, local commit, remote ref, remote commit.
+# An all-zero commit means none: a zero local commit deletes the branch,
+# and a zero remote commit makes a new branch.
 NO_COMMIT=0000000000000000000000000000000000000000
-DOCS_ONLY='\.md$|^docs/|^\.github/|^prototype/'
 
 while read -r _local_ref local_commit _remote_ref remote_commit; do
   [ "$local_commit" = "$NO_COMMIT" ] && continue
   if [ "$remote_commit" = "$NO_COMMIT" ]; then
-    base=$(git merge-base origin/main "$local_commit") || exec pnpm test:smoke
+    # A new branch is compared with the point where it split from main.
+    base=$(git merge-base "$1/main" "$local_commit") || exec pnpm test:smoke
   else
     base=$remote_commit
   fi
-  changed=$(git diff --name-only "$base" "$local_commit" 2>/dev/null) || exec pnpm test:smoke
-  if printf '%s\n' "$changed" | grep -vE "$DOCS_ONLY" | grep -q .; then
+  # Exits 0 only when every changed file is a docs path. With renames off,
+  # a file moved into docs/ still lists its old path.
+  git diff --quiet --no-renames "$base" "$local_commit" -- . \
+    ':(exclude)*.md' ':(exclude)docs/' ':(exclude).github/' ':(exclude)prototype/' ||
     exec pnpm test:smoke
-  fi
 done
