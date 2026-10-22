@@ -16,7 +16,7 @@ pnpm type-check
 pnpm test
 pnpm build
 pnpm preview        # build for Cloudflare and serve it locally, http://localhost:8787
-pnpm test:smoke     # check the main pages in Chromium on that preview; runs before every push
+pnpm test:smoke     # open the main pages of pnpm preview in Chromium; the pre-push hook runs it
 pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpath
 ```
 
