@@ -166,7 +166,7 @@ export function SiteHeader() {
                 href={sectionHref(section.id)}
                 onClick={closeMenu}
                 style={menuItemDelay(index)}
-                className="ff-display flex min-h-[68px] animate-menu-link items-baseline gap-[18px] border-b border-rule py-[18px] text-[clamp(30px,8vw,44px)] leading-[1.05] tracking-[-0.02em] text-ink hover:no-underline"
+                className="ff-display flex min-h-[68px] animate-menu-link items-baseline gap-[18px] py-[18px] text-[clamp(30px,8vw,44px)] leading-[1.05] tracking-[-0.02em] text-ink hover:no-underline"
               >
                 <span className="ff-mono flex-none text-[11px] tracking-[.14em] text-ink-mute">
                   {format.number(index + 1, TWO_DIGITS)}
