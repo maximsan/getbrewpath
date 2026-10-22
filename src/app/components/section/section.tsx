@@ -29,6 +29,10 @@ export function SectionHeading({ children, meta }: { children: ReactNode; meta?:
   );
 }
 
+/** Two 380px columns that stack on narrow screens. Children can restyle the stacked layout with `stacked:`. */
+export const twoColumnClass =
+  '@container grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-10';
+
 /** A small mono caption: the uppercase notes under buttons and above lists. */
 export const monoNoteClass =
   'ff-mono text-[11px] leading-normal tracking-[.08em] text-ink-mute uppercase';

@@ -1,7 +1,8 @@
 # getbrewpath.com
 
 The website for BrewPath, the coffee-learning iPhone app: the landing page,
-shared Coffee Card pages, support and the legal documents.
+shared Coffee Card pages and the legal documents. Support is by email; the
+address is `EMAIL_SUPPORT` in `src/domains/site/site.ts`.
 
 Next.js (App Router) with TypeScript, Tailwind CSS and next-intl.
 
@@ -21,8 +22,7 @@ pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpat
 
 - `src/app/` — routes and their components. `components/brewpath/` holds the
   app's design-system components, ported from the app prototype.
-- `src/domains/` — product facts: the course and its cards, links,
-  support-message rules.
+- `src/domains/` — product facts: the course and its cards, links, email addresses.
 - `src/app/[locale]/` — the pages, once per language.
 - `src/i18n/` — the language list, routing and string loading.
 - `src/messages/<language>/` — every string, one folder per language.
@@ -61,19 +61,14 @@ English pages with the PDF files in `public/legal/`.
 ## Selling model
 
 `SELLING_MODEL` in `src/domains/site/site.ts` sets how Foundations is sold:
-`oneTime`, `subscription` or `hybrid`. The pricing section, the FAQ and the support
-steps all follow it. The site shows no prices: the app shows them.
+`oneTime`, `subscription` or `hybrid`. The pricing section and the FAQ follow
+it. The site shows no prices: the app shows them.
 
 ## Screenshots
 
 Each mood shows its own screenshots. Both folders in `public/images/screens/`
 hold every screen in `SCREENS` (`src/domains/site/screens.ts`) under the same
 file names. `pnpm test` fails if a folder misses one.
-
-## Environment
-
-Copy `.env.example` to `.env.local`. The support form needs `RESEND_API_KEY`;
-without it the form shows that sending failed.
 
 ## Universal links
 
