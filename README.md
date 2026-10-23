@@ -42,8 +42,8 @@ pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpat
   contact address and path are in `src/domains/site/legal-docs.ts`. When a PDF
   changes, update both; `pnpm test` fails until the pages match the files.
   The owner edits the PDF files. Page wording that changes first goes into
-  `pendingFileEdits` in `legal-docs.ts`, and into
-  [the ticket that collects them](https://github.com/maximsan/getbrewpath/issues/35).
+  `pendingFileEdits` in `legal-docs.ts`, and into a ticket asking the owner to
+  update the file.
 
 Terms such as Foundations and Module Reward are defined in [GLOSSARY.md](GLOSSARY.md).
 
