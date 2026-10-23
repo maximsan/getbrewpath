@@ -73,40 +73,17 @@
     }
   },
   "features": {
-    "title": "Built for a few quiet minutes a day.",
-    "moodTitleDark": "Dark roast, for late nights",
-    "moodTitleLight": "Cupping, for the morning",
-    "introBody": "Short, hands-on lessons in the craft of coffee. Every one you finish feeds a living tree, growing from seed to harvest.",
-    "introCue": "Tap anywhere to continue",
+    "title": "Learn it once. Make it stick.",
     "items": {
-      "path": {
-        "title": "A path, not a feed",
-        "body": "Beans → Processing → Roasting → Grind → Brew. Each module unlocks the next, with a brew challenge along the way.",
-        "alt": "Path screen"
-      },
-      "today": {
-        "title": "Today, in one glance",
-        "body": "Pick up where you left off, or play one of 15 two-minute practice games.",
+      "games": {
+        "title": "Games that check what stuck",
+        "body": "Fix the cup, set the grind, name the origin. Each game practises what a lesson taught.",
         "alt": "Today screen"
       },
-      "tree": {
-        "title": "A tree that grows with you",
-        "body": "Every new lesson you finish feeds your coffee tree. It grows in ten stages, from seed to harvest.",
-        "alt": "Coffee tree screen"
-      },
-      "term": {
+      "dictionary": {
         "title": "A dictionary that shows its sources",
         "body": "Each term is explained in plain words, with sources and related terms, then one quick question to check you remember it.",
         "alt": "Dictionary term screen"
-      },
-      "roasty": {
-        "title": "Roasty comes along",
-        "body": "He reacts to every answer, celebrates every card, and gets a new look in the Studio.",
-        "alt": "Meet Roasty"
-      },
-      "mood": {
-        "body": "Two moods, same warmth. Try the switch in the header — this page follows the app.",
-        "alt": "Intro screen"
       }
     }
   },

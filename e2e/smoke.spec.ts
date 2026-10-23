@@ -43,12 +43,10 @@ async function expectSiteLinks(page: Page) {
   for (const href of appStoreLinks) expect(href).toBe(APP_STORE_URL);
 }
 
-test('home page shows both phone mock-ups', async ({ page }) => {
+test('home page shows the lesson demo phone', async ({ page }) => {
   await openPath(page, PAGE_ROUTES.home);
-  // `useFitScale` shrinks each phone mock-up to fit its box. The phone's
+  // `useFitScale` shrinks the phone mock-up to fit its box. The phone's
   // screen stays hidden until the hook has measured that box.
-  const introPhone = page.getByRole('img', { name: site.features.items.mood.alt });
-  await expect(introPhone.getByText(site.features.introCue)).toBeVisible();
   await expect(page.getByText(site.demo.card0.prompt)).toBeVisible();
   await expectSiteLinks(page);
 });
