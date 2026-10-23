@@ -7,13 +7,28 @@ interface LegalDocSource {
   file: string;
   /** The date the file gives: "Effective" for the Terms of Use, "Last updated" for the Privacy Policy. */
   date: string;
-  /** The contact address the file gives. */
+  /** The contact address the page gives. */
   email: string;
+  /**
+   * Wording the page already changed while the file keeps the old one, until the owner updates the file.
+   * https://github.com/maximsan/getbrewpath/issues/35 lists them.
+   */
+  pendingFileEdits: readonly { inFile: string; onPage: string }[];
 }
 
 export const LEGAL_DOCS: Record<LegalDocId, LegalDocSource> = {
-  terms: { file: '/legal/BrewPath_Terms_of_Use.pdf', date: '2026-10-20', email: EMAIL_HI },
-  privacy: { file: '/legal/BrewPath_Privacy_Policy.pdf', date: '2026-10-20', email: EMAIL_HI },
+  terms: {
+    file: '/legal/BrewPath_Terms_of_Use.pdf',
+    date: '2026-10-20',
+    email: EMAIL_HI,
+    pendingFileEdits: [],
+  },
+  privacy: {
+    file: '/legal/BrewPath_Privacy_Policy.pdf',
+    date: '2026-10-20',
+    email: EMAIL_HI,
+    pendingFileEdits: [{ inFile: 'support@getbrewpath.com', onPage: EMAIL_HI }],
+  },
 };
 
 /** How the page writes a document's date, e.g. "October 20, 2026". */
