@@ -5,7 +5,7 @@ import type { ComponentType, ReactNode } from 'react';
 
 import { RewardCard } from '@components/brewpath/reward-card/reward-card';
 import { CardsIcon, LeafIcon, RouteIcon, ShareIcon } from '@components/icons/icons';
-import { LinkButton } from '@components/link-button/link-button';
+import { fullWidthOnPhoneClass, LinkButton } from '@components/link-button/link-button';
 import { monoNoteClass } from '@components/section/section';
 import { cardRouteParams, courseCounts, findCard, getCourse } from '@domains/course/course';
 import { pageMetadata } from '@domains/site/page-metadata';
@@ -88,10 +88,15 @@ export default async function CardPage({ params }: CardPageProps) {
             {body}
           </p>
           <div className="mt-[30px] flex flex-wrap items-center gap-3">
-            <LinkButton href={APP_STORE_URL} tone="ink" size="xl">
+            <LinkButton href={APP_STORE_URL} tone="ink" size="xl" className={fullWidthOnPhoneClass}>
               {t('get')}
             </LinkButton>
-            <LinkButton href={appCardLink(card.id)} tone="outline" size="xl">
+            <LinkButton
+              href={appCardLink(card.id)}
+              tone="outline"
+              size="xl"
+              className={fullWidthOnPhoneClass}
+            >
               {t('open')}
             </LinkButton>
           </div>

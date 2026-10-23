@@ -10,10 +10,13 @@ import {
 } from '@components/brewpath/lesson-cards/true-false-card';
 import { ProgressTopbar } from '@components/brewpath/progress-topbar/progress-topbar';
 import { RewardCard, type RewardCardData } from '@components/brewpath/reward-card/reward-card';
-import { linkButtonClass } from '@components/link-button/link-button';
+import { fullWidthOnPhoneClass, linkButtonClass } from '@components/link-button/link-button';
 import { ScaledFrame } from '@components/scaled-frame/scaled-frame';
 import { twoColumnClass } from '@components/section/section';
 import { APP_STORE_URL } from '@domains/site/site';
+import { cn } from '@shared/styles/cn';
+
+import { CoffeeBurst } from './coffee-burst';
 
 /** The three cards of the demo, in order. */
 const CARD_COUNT = 3;
@@ -30,10 +33,12 @@ const SCREEN_SCALE = SCREEN_WIDTH / APP_WIDTH;
 interface LessonDemoProps {
   /** The card a perfect run of lesson one earns. */
   reward: RewardCardData;
+  /** How many lessons are free, lesson one among them. */
+  freeLessons: number;
 }
 
 /** Lesson one's first three cards, playable in a phone frame. */
-export function LessonDemo({ reward }: LessonDemoProps) {
+export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
   const t = useTranslations('demo');
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
@@ -92,16 +97,23 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                 {t(perfect ? 'scorePerfect' : 'scorePartial', { n: score, total: CARD_COUNT })}
               </div>
               <div className="ff-ui text-sm leading-normal text-ink-mute">
-                {t(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')}
+                {t(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')}{' '}
+                {t('fullLesson', { freeLessons })}
               </div>
               <div className="mt-1 flex flex-wrap gap-2.5 stacked:justify-center">
-                <a href={APP_STORE_URL} className={linkButtonClass('accent', 'md')}>
+                <a
+                  href={APP_STORE_URL}
+                  className={cn(linkButtonClass('accent', 'md'), fullWidthOnPhoneClass)}
+                >
                   {t('get')}
                 </a>
                 <button
                   type="button"
                   onClick={restart}
-                  className="ff-ui min-h-[42px] appearance-none rounded-full border border-rule bg-transparent px-[18px] py-2 text-sm leading-[1.15] font-medium text-ink"
+                  className={cn(
+                    'ff-ui min-h-[42px] appearance-none rounded-full border border-rule bg-transparent px-[18px] py-2 text-sm leading-[1.15] font-medium text-ink',
+                    fullWidthOnPhoneClass,
+                  )}
                 >
                   {t('again')}
                 </button>
@@ -155,11 +167,14 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                       <MCQCard card={cards[2]} onContinue={next} onCorrect={countCorrect} />
                     )}
                     {done && (
-                      <div className="flex animate-save-note-in justify-center px-6">
-                        <div className="w-full max-w-[345px]">
-                          <RewardCard reward={reward} />
+                      <>
+                        <CoffeeBurst />
+                        <div className="flex animate-save-note-in justify-center px-6">
+                          <div className="flex w-full max-w-[320px] justify-center">
+                            <RewardCard reward={reward} />
+                          </div>
                         </div>
-                      </div>
+                      </>
                     )}
                   </div>
                 </div>

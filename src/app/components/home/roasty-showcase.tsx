@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { Roasty, type RoastyState } from '@components/brewpath/roasty/roasty';
+import { roastyTapClass } from '@components/roasty-tap/roasty-tap';
 import { sectionTitleClass, twoColumnClass } from '@components/section/section';
 import { cn } from '@shared/styles/cn';
 
@@ -31,6 +32,13 @@ export function RoastyShowcase() {
     setReplay((current) => current + 1);
   };
 
+  /** A tap on Roasty plays one of his moments at random, skipping the one now showing and his resting one. */
+  const pickAnotherMoment = () => {
+    const others = MOMENTS.filter((id) => id !== 'idle' && id !== moment);
+    const next = others[Math.floor(Math.random() * others.length)];
+    if (next) pick(next);
+  };
+
   return (
     <div className={twoColumnClass}>
       <div
@@ -38,7 +46,12 @@ export function RoastyShowcase() {
         className="relative order-2 flex min-h-[420px] flex-col items-center justify-center overflow-hidden rounded-[28px] border border-rule bg-surface px-6 py-10"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_70%,color-mix(in_oklab,var(--accent)_10%,transparent),transparent_60%)]" />
-        <div className="relative flex min-h-[290px] items-center justify-center">
+        <button
+          type="button"
+          aria-label={t('playMoment')}
+          onClick={pickAnotherMoment}
+          className={cn('relative flex min-h-[290px] items-center justify-center', roastyTapClass)}
+        >
           <Roasty
             state={moment}
             replayKey={replay}
@@ -48,7 +61,7 @@ export function RoastyShowcase() {
             sprout="sprig"
             roast="medium"
           />
-        </div>
+        </button>
         <p
           aria-live="polite"
           className="ff-display relative mt-2 mb-0 min-h-[26px] text-center text-[19px] text-ink-mute italic"

@@ -27,6 +27,7 @@
   --r: 14px;
 
   /* Illustration colours are literal coffee and the same in both moods. */
+  --art-raw: #9fb088;
   --art-roast-light: #c79a63;
   --art-roast-mid: #a2703c;
   --art-roast-deep: #7a4526;
@@ -35,6 +36,8 @@
   --art-cherry-skin: #a93227;
   --art-hairline: #1b1614;
   --art-cream: #f0dcb8;
+  --art-cherry-parchment: #e3d2ae;
+  --art-cherry-silverskin: #f1e8d6;
 
   --t-hero: 56px;
   --t-display: 30px;
@@ -48,7 +51,7 @@
   --t-micro: 9.5px;
 
   /* The dark frame around every phone screenshot. */
-  --phone-frame: #1b1614;
+  --phone-frame: #0e0b09;
   --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -105,8 +108,6 @@
   --animate-menu-fade: menu-fade 0.3s ease both;
   --animate-menu-link: menu-link 0.5s var(--ease-out-soft) both;
   --animate-dot-pulse: dot-pulse 1.6s ease-in-out infinite;
-  --animate-hero-float: hero-float 6s ease-in-out infinite;
-  --animate-hero-float-2: hero-float-2 7s ease-in-out infinite;
   --animate-save-note-in: note-rise 260ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
 }
 
@@ -157,24 +158,6 @@
   50% {
     opacity: 0.4;
     transform: scale(0.7);
-  }
-}
-@keyframes hero-float {
-  0%,
-  100% {
-    transform: translateY(0) rotate(-5deg);
-  }
-  50% {
-    transform: translateY(-14px) rotate(-5deg);
-  }
-}
-@keyframes hero-float-2 {
-  0%,
-  100% {
-    transform: translateY(0) rotate(7deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(7deg);
   }
 }
 

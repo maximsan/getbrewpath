@@ -15,10 +15,13 @@ export async function Pricing({ course }: { course: Course }) {
   const freeItems = (Object.keys(pricing.freeList) as (keyof typeof pricing.freeList)[]).map(
     (item) => t(`freeList.${item}`, { freeLessons: counts.freeLessons }),
   );
+  const foundationsItems = (
+    Object.keys(pricing.foundationsList) as (keyof typeof pricing.foundationsList)[]
+  ).map((item) => t(`foundationsList.${item}`, { modules: counts.modules }));
 
   return (
     <Section id="pricing">
-      <SectionHeading>{t('title', { freeLessons: counts.freeLessons })}</SectionHeading>
+      <SectionHeading>{t('title')}</SectionHeading>
       <div className="mx-auto mt-12 grid max-w-[900px] grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-5">
         <div
           data-reveal
@@ -27,7 +30,7 @@ export async function Pricing({ course }: { course: Course }) {
         >
           <PlanHeading name={t('free')} note={t('freeNote')} />
           <Checklist items={freeItems} tone="sage" />
-          <LinkButton href={APP_STORE_URL} tone="outline" size="lg" className="mt-auto">
+          <LinkButton href={APP_STORE_URL} tone="outline" size="lg" className="mt-auto w-full">
             {t('freeCta')}
           </LinkButton>
         </div>
@@ -39,14 +42,20 @@ export async function Pricing({ course }: { course: Course }) {
         >
           <div className="pointer-events-none absolute -right-[20%] -bottom-1/2 aspect-square w-[70%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_24%,transparent),transparent)]" />
           <PlanHeading name={t('foundations')} note={t('foundationsNote')} />
-          <Checklist items={Object.values(pricing.foundationsList)} tone="accent" />
-          <LinkButton href={APP_STORE_URL} tone="accent" size="lg" className="relative mt-auto">
+          <Checklist items={foundationsItems} tone="accent" />
+          <LinkButton
+            href={APP_STORE_URL}
+            tone="accent"
+            size="lg"
+            className="relative mt-auto w-full"
+          >
             {t('foundationsCta')}
           </LinkButton>
         </div>
       </div>
-      <p className="ff-ui mx-auto mt-5 mb-0 max-w-[62ch] text-center text-[13px] leading-normal text-ink-mute">
-        {t('note')}
+      <p className="ff-ui mx-auto mt-5 mb-0 flex flex-col gap-0.5 text-center text-[13px] leading-normal text-ink-mute">
+        <span>{t('note')}</span>
+        <span>{t('updatesIncluded')}</span>
       </p>
     </Section>
   );

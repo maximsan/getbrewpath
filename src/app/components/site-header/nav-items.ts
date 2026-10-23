@@ -6,5 +6,7 @@ export const NAV_SECTIONS = [
   { id: 'pricing', label: 'pricing' },
   { id: 'faq', label: 'faq' },
 ] as const;
+export type NavSectionId = (typeof NAV_SECTIONS)[number]['id'];
 
-export const sectionHref = (id: string) => ({ pathname: '/', hash: id });
+/** A link to a home section. A string, because the router drops the `#section` part of a link given as an object. */
+export const sectionHref = (id: string) => `/#${id}`;

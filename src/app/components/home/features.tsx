@@ -1,14 +1,14 @@
 import { getTranslations } from 'next-intl/server';
 import type { ComponentType, ReactNode } from 'react';
 
-import { BookIcon, CupIcon } from '@components/icons/icons';
+import { CardsIcon, CupIcon } from '@components/icons/icons';
 import { PhoneShot } from '@components/phone-shot/phone-shot';
 import { Section, SectionHeading } from '@components/section/section';
 import type { ScreenId } from '@domains/site/screens';
 
 const SHOT_FEATURES = [
-  { key: 'games', screen: 'today', Icon: CupIcon },
-  { key: 'dictionary', screen: 'term', Icon: BookIcon },
+  { key: 'games', screen: 'game', Icon: CupIcon },
+  { key: 'dictionary', screen: 'term', Icon: CardsIcon },
 ] as const satisfies readonly { key: string; screen: ScreenId; Icon: ComponentType }[];
 
 /** The cards sit two to a row; each row reveals left card first, then right. */
