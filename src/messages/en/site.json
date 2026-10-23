@@ -27,7 +27,7 @@
   "modules": {
     "title": "Five modules, bean to cup.",
     "meta": "{lessons} lessons, {cards} cards, about {minutes} min each",
-    "lessons": "{n, plural, one {# lesson} other {# lessons}}",
+    "lessons": "{n, plural, one {# lesson} other {# lessons}}{freeLessons, plural, =0 {} other {, # free}}",
     "items": {
       "m1": {
         "title": "Beans",
@@ -145,7 +145,7 @@
     }
   },
   "pricing": {
-    "title": "The first lessons are free. Foundations unlocks the rest.",
+    "title": "The first {freeLessons, plural, one {lesson is} =2 {two lessons are} =3 {three lessons are} other {# lessons are}} free. Foundations unlocks the rest.",
     "free": "Free",
     "freeNote": "no purchase needed",
     "freeCta": "Download free",
@@ -153,7 +153,7 @@
     "foundationsNote": "unlock in the app",
     "foundationsCta": "Start free, unlock in the app",
     "freeList": {
-      "item1": "The first lessons",
+      "item1": "The first {freeLessons, plural, one {lesson} =2 {two lessons} =3 {three lessons} other {# lessons}}",
       "item2": "Practice games for every free lesson",
       "item3": "Dictionary essentials",
       "item4": "Roasty, your tree and your streak"
@@ -172,7 +172,7 @@
     "items": {
       "q1": {
         "q": "Is BrewPath free?",
-        "a": "The first lessons and the practice games they teach are free. Foundations unlocks the rest of the course. The app shows how it’s sold and what it costs where you are."
+        "a": "The first {freeLessons, plural, one {lesson} =2 {two lessons} =3 {three lessons} other {# lessons}} and the practice games they teach are free, up to {freeDailyActivities, plural, one {one} =2 {two} =3 {three} other {#}} lessons or games a day. Foundations unlocks the rest of the course. The app shows how it’s sold and what it costs where you are."
       },
       "q2": {
         "q": "Do I need any equipment?",

@@ -4,31 +4,36 @@
       "id": "m1",
       "number": 1,
       "title": "Beans",
-      "lessonCount": 7
+      "lessonCount": 7,
+      "freeLessonCount": 3
     },
     {
       "id": "m2",
       "number": 2,
       "title": "Processing",
-      "lessonCount": 6
+      "lessonCount": 6,
+      "freeLessonCount": 0
     },
     {
       "id": "m3",
       "number": 3,
       "title": "Roasting",
-      "lessonCount": 6
+      "lessonCount": 6,
+      "freeLessonCount": 0
     },
     {
       "id": "m4",
       "number": 4,
       "title": "Grind",
-      "lessonCount": 6
+      "lessonCount": 6,
+      "freeLessonCount": 0
     },
     {
       "id": "m5",
       "number": 5,
       "title": "Brew",
-      "lessonCount": 7
+      "lessonCount": 7,
+      "freeLessonCount": 0
     }
   ],
   "cards": [
@@ -900,5 +905,6 @@
       "lessonTitle": "Your first good cup",
       "lessonNumber": 7
     }
-  ]
+  ],
+  "freeDailyActivities": 2
 }

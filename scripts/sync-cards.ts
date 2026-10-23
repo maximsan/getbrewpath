@@ -4,13 +4,14 @@
  *
  *   pnpm sync-cards [path-to-brewpath-repo]   (default: ../brewpath)
  *
- * Rerun it whenever the app's lessons, modules or collectibles change, or a
- * language is added to `src/i18n/routing.ts`.
+ * Rerun it whenever the app's lessons, modules, collectibles or free lessons
+ * change, or a language is added to `src/i18n/routing.ts`.
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
 import { buildCourse, type ContentBanks } from '../src/domains/course/build-course';
+import { courseCounts } from '../src/domains/course/course';
 import { overlayTranslation } from '../src/domains/course/overlay-translation';
 import { type Locale, routing } from '../src/i18n/routing';
 
@@ -22,7 +23,8 @@ const DEFAULT_APP_REPO = '../brewpath';
 const MASTER_DIR = 'assets/content/generated';
 const translationDir = (locale: Locale) => `assets/content/l10n/${locale}`;
 const outputFile = (locale: Locale) => `src/content/${locale}/course.json`;
-type Bank = keyof ContentBanks;
+/** The content files the app has once per language. The free lessons file is one for all. */
+type Bank = Exclude<keyof ContentBanks, 'freeTier'>;
 type Records = Record<string, unknown>[];
 
 const appRepo = resolve(process.argv[2] ?? DEFAULT_APP_REPO);
@@ -36,6 +38,7 @@ const banksBy = (records: (bank: Bank) => Records): ContentBanks => ({
   lessons: { items: records('lessons') },
   modules: { items: records('modules') },
   collectibles: { items: records('collectibles') },
+  freeTier,
 });
 
 const english: Record<Bank, Records> = {
@@ -43,6 +46,10 @@ const english: Record<Bank, Records> = {
   modules: readRecords(MASTER_DIR, 'modules'),
   collectibles: readRecords(MASTER_DIR, 'collectibles'),
 };
+/** The free lessons and the daily limit, read once for every language. */
+const freeTier: unknown = JSON.parse(
+  readFileSync(join(appRepo, MASTER_DIR, 'website', 'free_tier.json'), 'utf8'),
+);
 
 for (const locale of routing.locales) {
   const banks = banksBy((bank) =>
@@ -57,5 +64,8 @@ for (const locale of routing.locales) {
   const course = buildCourse(banks);
   mkdirSync(dirname(outputFile(locale)), { recursive: true });
   writeFileSync(outputFile(locale), `${JSON.stringify(course, null, 2)}\n`);
-  console.log(`${locale}: wrote ${course.modules.length} modules and ${course.cards.length} cards`);
+  const counts = courseCounts(course);
+  console.log(
+    `${locale}: wrote ${counts.modules} modules, ${counts.lessons} lessons of which ${counts.freeLessons} free, ${counts.cards} cards, ${course.freeDailyActivities} activities a day free`,
+  );
 }

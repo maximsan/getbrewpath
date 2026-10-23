@@ -36,6 +36,7 @@ export async function localeCardRouteParams() {
 export const courseCounts = (course: Course) => ({
   modules: course.modules.length,
   lessons: course.modules.reduce((sum, module) => sum + module.lessonCount, 0),
+  freeLessons: course.modules.reduce((sum, module) => sum + module.freeLessonCount, 0),
   cards: course.cards.length,
   moduleRewards: course.cards.filter((card) => card.source === 'module').length,
 });

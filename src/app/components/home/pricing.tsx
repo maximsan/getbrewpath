@@ -3,16 +3,22 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { CheckIcon } from '@components/icons/icons';
 import { LinkButton } from '@components/link-button/link-button';
 import { Section, SectionHeading } from '@components/section/section';
+import type { Course } from '@domains/course/build-course';
+import { courseCounts } from '@domains/course/course';
 import { APP_STORE_URL } from '@domains/site/site';
 import { cn } from '@shared/styles/cn';
 
-export async function Pricing() {
+export async function Pricing({ course }: { course: Course }) {
   const t = await getTranslations('pricing');
   const { pricing } = await getMessages();
+  const counts = courseCounts(course);
+  const freeItems = (Object.keys(pricing.freeList) as (keyof typeof pricing.freeList)[]).map(
+    (item) => t(`freeList.${item}`, { freeLessons: counts.freeLessons }),
+  );
 
   return (
     <Section id="pricing">
-      <SectionHeading>{t('title')}</SectionHeading>
+      <SectionHeading>{t('title', { freeLessons: counts.freeLessons })}</SectionHeading>
       <div className="mx-auto mt-12 grid max-w-[900px] grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-5">
         <div
           data-reveal
@@ -20,7 +26,7 @@ export async function Pricing() {
           className="flex flex-col gap-[22px] rounded-3xl border border-rule bg-surface p-8"
         >
           <PlanHeading name={t('free')} note={t('freeNote')} />
-          <Checklist items={Object.values(pricing.freeList)} tone="sage" />
+          <Checklist items={freeItems} tone="sage" />
           <LinkButton href={APP_STORE_URL} tone="outline" size="lg" className="mt-auto">
             {t('freeCta')}
           </LinkButton>
