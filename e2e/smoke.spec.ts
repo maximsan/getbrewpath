@@ -55,6 +55,14 @@ test('home page shows both phone mock-ups', async ({ page }) => {
   await expectSiteLinks(page);
 });
 
+test('the home page fits a 320px-wide phone without scrolling sideways', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await openPath(page, PAGE_ROUTES.home);
+  await expect(page.getByRole('button', { name: site.nav.menu })).toBeInViewport({ ratio: 1 });
+  const pageWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+  expect(pageWidth).toBe(320);
+});
+
 for (const doc of LEGAL_PAGES) {
   test(`${doc} page shows its heading and contact address`, async ({ page }) => {
     await openPath(page, PAGE_ROUTES[doc]);

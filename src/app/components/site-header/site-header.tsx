@@ -32,6 +32,7 @@ const menuSmallLinkClass = 'ff-ui text-sm text-ink-mute hover:text-ink hover:no-
  * Sticky top bar: brand, section links, mood switch and the store link.
  * Below 980px the links move into a menu that covers the page under the bar.
  * While it is open the page behind it does not scroll, and Escape closes it.
+ * Below 375px the brand shows only its icon, so the bar fits the screen.
  */
 export function SiteHeader() {
   const t = useTranslations('nav');
@@ -99,7 +100,7 @@ export function SiteHeader() {
             />
             <span
               translate="no"
-              className="ff-display text-[22px] leading-none tracking-[-0.02em] max-[359px]:sr-only"
+              className="ff-display text-[22px] leading-none tracking-[-0.02em] max-[375px]:sr-only"
             >
               {brand}
             </span>
