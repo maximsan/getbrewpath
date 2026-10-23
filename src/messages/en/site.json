@@ -669,12 +669,24 @@
               "p": "We do not receive or store your full payment-card information."
             },
             "b12": {
-              "h": "Support communications"
+              "h": "Crash reports"
             },
             "b13": {
-              "p": "If you contact us for support or a privacy-related request, we will receive the information you choose to provide, such as your email address and the contents of your message."
+              "p": "When the App crashes or hits an error, it sends a crash report to Firebase Crashlytics, a service of Google, so that we can find and fix the problem."
             },
             "b14": {
+              "p": "A crash report holds what failed and where in the App, the App version, the device model and operating system version, whether the device is jailbroken, free memory and disk space, screen orientation, whether the App was in the background, and the time."
+            },
+            "b15": {
+              "p": "A crash report carries random installation identifiers that Firebase creates for your installation of BrewPath; they change when you reinstall the App. It carries no name, email address or account, because BrewPath has none. When the App starts, Firebase also receives the App version, the operating system version and the type of network connection, so that crash reports from one session can be told apart."
+            },
+            "b16": {
+              "h": "Support communications"
+            },
+            "b17": {
+              "p": "If you contact us for support or a privacy-related request, we will receive the information you choose to provide, such as your email address and the contents of your message."
+            },
+            "b18": {
               "p": "We use this information only to respond to your request and resolve the relevant issue."
             }
           }
@@ -683,7 +695,7 @@
           "h": "Analytics and Advertising",
           "blocks": {
             "b1": {
-              "p": "At this time, BrewPath does not use third-party product analytics or crash analytics services."
+              "p": "BrewPath does not use third-party product analytics. Crash reports are described above under Information BrewPath Handles."
             },
             "b2": {
               "p": "BrewPath does not display third-party advertising and does not use your information for cross-app advertising tracking."
@@ -720,8 +732,9 @@
                 "i3": "provide access to purchased content;",
                 "i4": "verify and restore purchases;",
                 "i5": "maintain the reliability and security of the App;",
-                "i6": "respond to support and privacy requests;",
-                "i7": "comply with applicable legal obligations."
+                "i6": "find and fix crashes and errors;",
+                "i7": "respond to support and privacy requests;",
+                "i8": "comply with applicable legal obligations."
               }
             }
           }
@@ -752,6 +765,12 @@
             },
             "b8": {
               "p": "We do not provide RevenueCat with your name or email address as a BrewPath account identifier because BrewPath currently does not use user accounts."
+            },
+            "b9": {
+              "h": "Firebase Crashlytics"
+            },
+            "b10": {
+              "p": "Firebase Crashlytics, a service of Google, receives BrewPath's crash reports so that we can find and fix errors. Google processes them on our behalf, which may happen outside your country of residence."
             }
           }
         },
@@ -783,6 +802,9 @@
             },
             "b4": {
               "p": "Support correspondence may be retained for as long as reasonably necessary to resolve the relevant request and maintain appropriate records."
+            },
+            "b5": {
+              "p": "Google keeps crash reports for 90 days, after which they are deleted."
             }
           }
         },
@@ -863,7 +885,7 @@
               }
             },
             "b3": {
-              "p": "This document describes BrewPath's current release-state privacy practices. It should be updated if analytics, crash reporting, advertising, account functionality, server-side push notifications, or other material data-processing features are introduced."
+              "p": "This document describes BrewPath's current release-state privacy practices. It should be updated if analytics, advertising, account functionality, server-side push notifications, or other material data-processing features are introduced."
             }
           }
         }
