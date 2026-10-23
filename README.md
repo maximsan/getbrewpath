@@ -21,7 +21,8 @@ pnpm run deploy     # build for Cloudflare and put it live; CI runs it on every 
                     # `pnpm deploy` without `run` is a different, built-in pnpm command
 pnpm test:smoke     # build the site, open its main pages in Chromium and check them; runs before a push that changes more than Markdown, docs/, .github/ or prototype/
                     # stops while pnpm preview is running, because the rebuild crashes it
-pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpath
+pnpm sync-cards     # refresh src/content/<language>/course.json from the app's main branch on GitHub
+                    # reads it through the brewpath folder next to this repo's main folder, or a path passed after the command
 ```
 
 ## Where things live
