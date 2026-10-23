@@ -31,8 +31,8 @@ export default async function HomePage({ params }: LocaleParams) {
       <Section>
         <RoastyShowcase />
       </Section>
-      <Pricing />
-      <Faq />
+      <Pricing course={course} />
+      <Faq course={course} />
       <FinalCta />
     </>
   );

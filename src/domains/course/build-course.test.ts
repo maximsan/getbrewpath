@@ -47,13 +47,18 @@ const banks = {
       { id: 'cM1', unlock: { module: 'm1' } },
     ],
   },
+  freeTier: { freeLessonIds: ['m1l1', 'm1l2'], freeDailyActivities: 2 },
 };
 
 describe('buildCourse', () => {
-  it('counts the lessons of each module', () => {
+  it('counts the lessons of each module, and the free ones among them', () => {
     expect(buildCourse(banks).modules).toEqual([
-      { id: 'm1', number: 1, title: 'Beans', lessonCount: 3 },
+      { id: 'm1', number: 1, title: 'Beans', lessonCount: 3, freeLessonCount: 2 },
     ]);
+  });
+
+  it('carries the free daily limit', () => {
+    expect(buildCourse(banks).freeDailyActivities).toBe(2);
   });
 
   it('places a lesson card inside its module', () => {
@@ -84,5 +89,13 @@ describe('buildCourse', () => {
       collectibles: { items: [{ id: 'c9', unlock: { lesson: 'm9l9' } }] },
     };
     expect(() => buildCourse(broken)).toThrow('Card c9');
+  });
+
+  it('fails when a free lesson is in no module', () => {
+    const broken = {
+      ...banks,
+      freeTier: { freeLessonIds: ['m9l9'], freeDailyActivities: 2 },
+    };
+    expect(() => buildCourse(broken)).toThrow('Free lesson m9l9');
   });
 });

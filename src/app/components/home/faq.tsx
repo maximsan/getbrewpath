@@ -2,11 +2,17 @@ import { getMessages, getTranslations } from 'next-intl/server';
 
 import { Disclosure } from '@components/brewpath/disclosure/disclosure';
 import { Section, sectionTitleClass } from '@components/section/section';
+import type { Course } from '@domains/course/build-course';
+import { courseCounts } from '@domains/course/course';
 import { EMAIL_HI, MAILTO_HI } from '@domains/site/site';
 
-export async function Faq() {
+export async function Faq({ course }: { course: Course }) {
   const t = await getTranslations('faq');
   const { faq } = await getMessages();
+  const freeCounts = {
+    freeLessons: courseCounts(course).freeLessons,
+    freeDailyActivities: course.freeDailyActivities,
+  };
 
   return (
     <Section id="faq">
@@ -28,7 +34,7 @@ export async function Faq() {
           {(Object.keys(faq.items) as (keyof typeof faq.items)[]).map((key) => (
             <Disclosure key={key} label={t(`items.${key}.q`)} glyph="plus" headerPad="20px 0">
               <p className="ff-ui mt-0 mb-[18px] max-w-[60ch] text-[15px] leading-[1.65] text-pretty text-ink-mute">
-                {t(`items.${key}.a`)}
+                {t(`items.${key}.a`, freeCounts)}
               </p>
             </Disclosure>
           ))}

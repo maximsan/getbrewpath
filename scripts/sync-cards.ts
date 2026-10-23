@@ -4,8 +4,8 @@
  *
  *   pnpm sync-cards [path-to-brewpath-repo]   (default: ../brewpath)
  *
- * Rerun it whenever the app's lessons, modules or collectibles change, or a
- * language is added to `src/i18n/routing.ts`.
+ * Rerun it whenever the app's lessons, modules, collectibles or free tier
+ * change, or a language is added to `src/i18n/routing.ts`.
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
@@ -21,8 +21,11 @@ const DEFAULT_APP_REPO = '../brewpath';
  */
 const MASTER_DIR = 'assets/content/generated';
 const translationDir = (locale: Locale) => `assets/content/l10n/${locale}`;
+/** The free lessons and the daily limit: one file, the same in every language. */
+const FREE_TIER_FILE = 'assets/content/generated/website/free_tier.json';
 const outputFile = (locale: Locale) => `src/content/${locale}/course.json`;
-type Bank = keyof ContentBanks;
+/** The banks with a file per language. */
+type Bank = Exclude<keyof ContentBanks, 'freeTier'>;
 type Records = Record<string, unknown>[];
 
 const appRepo = resolve(process.argv[2] ?? DEFAULT_APP_REPO);
@@ -32,10 +35,13 @@ const readRecords = (dir: string, bank: Bank) =>
   (JSON.parse(readFileSync(join(appRepo, dir, `${bank}.json`), 'utf8')) as { items: Records })
     .items;
 
+const freeTier: unknown = JSON.parse(readFileSync(join(appRepo, FREE_TIER_FILE), 'utf8'));
+
 const banksBy = (records: (bank: Bank) => Records): ContentBanks => ({
   lessons: { items: records('lessons') },
   modules: { items: records('modules') },
   collectibles: { items: records('collectibles') },
+  freeTier,
 });
 
 const english: Record<Bank, Records> = {

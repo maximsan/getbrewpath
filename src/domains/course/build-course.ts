@@ -1,10 +1,12 @@
 import { z } from 'zod';
 
 /**
- * Turns the app's generated lesson, module and collectible files into the
- * course summary this site ships. The summary lists every module with its
- * lesson count, and every card with the text its shared page shows.
- * Source: brewpath repo, assets/content/generated/*.json.
+ * Turns the app's generated lesson, module, collectible and free tier files
+ * into the course summary this site ships. The summary lists every module
+ * with its lesson count and how many of those lessons are free, every card
+ * with the text its shared page shows, and the free daily limit.
+ * Source: brewpath repo, assets/content/generated/*.json and
+ * assets/content/generated/website/free_tier.json.
  */
 
 const specRowSchema = z.tuple([z.string(), z.string()]);
@@ -42,6 +44,12 @@ const collectiblesBankSchema = z.object({
   ),
 });
 
+/** The free lessons and the free daily limit, exported by the app from its own code. */
+const freeTierBankSchema = z.object({
+  freeLessonIds: z.array(z.string()),
+  freeDailyActivities: z.number().int().positive(),
+});
+
 export type Reward = z.infer<typeof rewardSchema>;
 
 const courseModuleSchema = z.object({
@@ -49,6 +57,8 @@ const courseModuleSchema = z.object({
   number: z.number().int().positive(),
   title: z.string(),
   lessonCount: z.number().int().positive(),
+  /** How many of the module's lessons anyone can take without Foundations. */
+  freeLessonCount: z.number().int().nonnegative(),
 });
 
 const cardBase = {
@@ -74,6 +84,8 @@ const moduleRewardCardSchema = z.object({ ...cardBase, source: z.literal('module
 export const courseSchema = z.object({
   modules: z.array(courseModuleSchema),
   cards: z.array(z.discriminatedUnion('source', [lessonCardSchema, moduleRewardCardSchema])),
+  /** How many activities a day the app allows without Foundations. */
+  freeDailyActivities: z.number().int().positive(),
 });
 
 export type CourseModule = z.infer<typeof courseModuleSchema>;
@@ -84,12 +96,14 @@ export interface ContentBanks {
   lessons: unknown;
   modules: unknown;
   collectibles: unknown;
+  freeTier: unknown;
 }
 
 export function buildCourse(banks: ContentBanks): Course {
   const lessons = lessonsBankSchema.parse(banks.lessons).items;
   const modules = modulesBankSchema.parse(banks.modules).items;
   const collectibles = collectiblesBankSchema.parse(banks.collectibles).items;
+  const freeTier = freeTierBankSchema.parse(banks.freeTier);
 
   const lessonById = new Map(lessons.map((lesson) => [lesson.id, lesson]));
   const moduleById = new Map(modules.map((module) => [module.id, module]));
@@ -98,6 +112,11 @@ export function buildCourse(banks: ContentBanks): Course {
       module.lessons.map((lesson, index) => [lesson.id, { module, number: index + 1 }] as const),
     ),
   );
+
+  for (const lessonId of freeTier.freeLessonIds) {
+    if (!placeOfLesson.has(lessonId)) throw new Error(`Free lesson ${lessonId} is in no module`);
+  }
+  const freeLessonIds = new Set(freeTier.freeLessonIds);
 
   const cards = collectibles.map((collectible): CourseCard => {
     if ('module' in collectible.unlock) {
@@ -130,8 +149,10 @@ export function buildCourse(banks: ContentBanks): Course {
       number: module.n,
       title: module.title,
       lessonCount: module.lessons.length,
+      freeLessonCount: module.lessons.filter((lesson) => freeLessonIds.has(lesson.id)).length,
     })),
     cards,
+    freeDailyActivities: freeTier.freeDailyActivities,
   };
 }
 
