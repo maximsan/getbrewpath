@@ -13,6 +13,10 @@ without Foundations, and replay forever. The app sets which ones (ADR-0007 in
 the app repo).
 _Avoid_: free module, preview lessons (the app's internal name), in site copy
 
+**Daily limit** — how many lessons or practice games a day the app allows
+without Foundations. The app sets it.
+_Avoid_: daily activity allowance (the app's name), in site copy
+
 **Coffee Card** — a collectible card. A lesson's card is earned by finishing
 that lesson with a perfect score. Each module also awards one card, its
 Module Reward. Example: _The Coffee Cherry_.
