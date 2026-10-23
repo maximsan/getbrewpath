@@ -1,8 +1,10 @@
 /**
  * Copies the course summary from the BrewPath app's `main` branch on GitHub
- * into this site, once per language the site is published in.
+ * into this site, once per language the site is published in. It reads through
+ * the app's clone: the `brewpath` folder beside this repo's first checkout, or
+ * the path given after the command.
  *
- *   pnpm sync-cards [path-to-brewpath-repo]   (default: brewpath, next to this repo's main folder)
+ *   pnpm sync-cards [path-to-app-clone]
  *
  * Rerun it whenever the app's lessons, modules, collectibles or free lessons
  * change, or a language is added to `src/i18n/routing.ts`.
@@ -15,7 +17,7 @@ import { buildCourse, type ContentBanks } from '../src/domains/course/build-cour
 import { courseCounts } from '../src/domains/course/course';
 import { overlayTranslation } from '../src/domains/course/overlay-translation';
 import { type Locale, routing } from '../src/i18n/routing';
-import { defaultAppRepo, fetchAppMain } from './app-repo';
+import { APP_BRANCH, defaultAppRepo, fetchAppMain } from './app-repo';
 
 /**
  * The app's English content. Each other language has a folder of translated
@@ -28,19 +30,20 @@ const outputFile = (locale: Locale) => `src/content/${locale}/course.json`;
 type Bank = Exclude<keyof ContentBanks, 'freeTier'>;
 type Records = Record<string, unknown>[];
 
-/** The app's `main` branch; when it cannot be read, prints why and stops. */
-function fetchAppMainOrExit(repo: string) {
+/** Fetches the app's `main` branch through its clone. On failure, prints the reason and exits. */
+function fetchAppMainOrExit() {
   try {
-    return fetchAppMain(repo);
+    const appRepo = process.argv[2] ? resolve(process.argv[2]) : defaultAppRepo(process.cwd());
+    const appMain = fetchAppMain(appRepo);
+    console.log(`Reading ${appRepo} at ${APP_BRANCH}, commit ${appMain.commit}`);
+    return appMain;
   } catch (error) {
     console.error(error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }
 
-const appRepo = process.argv[2] ? resolve(process.argv[2]) : defaultAppRepo(process.cwd());
-const appMain = fetchAppMainOrExit(appRepo);
-console.log(`Reading ${appRepo} at main, commit ${appMain.commit}`);
+const appMain = fetchAppMainOrExit();
 
 /** A bank file's records; `buildCourse` checks their shape. */
 const readRecords = (dir: string, bank: Bank) =>
