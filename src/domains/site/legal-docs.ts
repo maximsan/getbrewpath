@@ -9,10 +9,7 @@ interface LegalDocSource {
   date: string;
   /** The contact address the page gives. */
   email: string;
-  /**
-   * Wording the page already changed while the file keeps the old one, until the owner updates the file.
-   * Each one also gets a ticket asking the owner to update the file.
-   */
+  /** Wording the page changed before the owner updated the file: `inFile` is the old wording, `onPage` the new. */
   pendingFileEdits: readonly { inFile: string; onPage: string }[];
 }
 
