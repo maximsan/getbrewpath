@@ -22,6 +22,10 @@ lesson in the module has a perfect score. Its title can contain "Field Guide",
 e.g. _Beans Field Guide_.
 _Avoid_: Field Guide, as the name for the kind of card
 
+**Card collection** — the app screen listing every Coffee Card a learner has
+earned.
+_Avoid_: deck, in copy
+
 **Mood** — one of the two colour themes. Cupping is light; Dark Roast is dark.
 Every colour has a value for each.
 _Avoid_: theme, in copy
