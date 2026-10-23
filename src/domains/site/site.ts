@@ -36,3 +36,9 @@ export const APPLE_APP_ID = '7FXR6TDMDM.dev.maximsan.brewPath';
 
 /** The year the site was first published, for the footer. */
 export const COPYRIGHT_YEAR = 2026;
+
+/**
+ * The site's key in Cloudflare Web Analytics, which counts visits. It is public: every
+ * page's HTML carries it. Source: `cf rum site-info list`, the site for getbrewpath.com.
+ */
+export const WEB_ANALYTICS_TOKEN = '3dae933cda004cb198b689159f1ff8d7';

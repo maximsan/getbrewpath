@@ -12,6 +12,7 @@ import {
   mailtoHref,
   SITE_HOST,
   SITE_URL,
+  WEB_ANALYTICS_TOKEN,
 } from '@domains/site/site';
 
 const APP_STORE_HOST = new URL(APP_STORE_URL).host;
@@ -32,6 +33,22 @@ async function openPath(page: Page, path: string, status = 200) {
   expect(response?.status()).toBe(status);
 }
 
+/** Cloudflare Web Analytics' script, which every page loads to count visits. */
+const WEB_ANALYTICS_SCRIPT = 'https://static.cloudflareinsights.com/beacon.min.js';
+
+// The tests never load the script, so they count no visits.
+test.beforeEach(({ page }) => page.route(WEB_ANALYTICS_SCRIPT, (route) => route.abort()));
+
+/** Checks that the page loads the visit counter with the site's key, and no Vercel script. */
+async function expectVisitCounter(page: Page) {
+  const counter = page.locator(`script[src="${WEB_ANALYTICS_SCRIPT}"]`);
+  await expect(counter).toHaveCount(1);
+  expect(JSON.parse((await counter.getAttribute('data-cf-beacon')) ?? '{}')).toEqual({
+    token: WEB_ANALYTICS_TOKEN,
+  });
+  await expect(page.locator('script[src*="/_vercel/"]')).toHaveCount(0);
+}
+
 /** Checks that the page's email links and App Store links point at the site's addresses. */
 async function expectSiteLinks(page: Page) {
   const emailLinks = await linkTargets(page, 'a[href^="mailto:"]');
@@ -49,6 +66,7 @@ test('home page shows the lesson demo phone', async ({ page }) => {
   // screen stays hidden until the hook has measured that box.
   await expect(page.getByText(site.demo.card0.prompt)).toBeVisible();
   await expectSiteLinks(page);
+  await expectVisitCounter(page);
 });
 
 test('the home page fits a 320px-wide phone without scrolling sideways', async ({ page }) => {
@@ -66,7 +84,11 @@ for (const doc of LEGAL_PAGES) {
     expect(await linkTargets(page, 'a[href^="mailto:"]')).toContain(
       mailtoHref(LEGAL_DOCS[doc].email),
     );
+    await expect(
+      page.getByRole('contentinfo').getByRole('link', { name: site.footer[doc] }),
+    ).toHaveAttribute('href', PAGE_ROUTES[doc]);
     await expectSiteLinks(page);
+    await expectVisitCounter(page);
   });
 }
 
@@ -74,6 +96,7 @@ test('a Coffee Card page shows its card', async ({ page }) => {
   await openPath(page, CARD_PATH);
   await expect(page.getByRole('heading', { level: 1 })).toContainText(firstCard.reward.title);
   await expectSiteLinks(page);
+  await expectVisitCounter(page);
 });
 
 test('an unknown URL shows the not-found page', async ({ page }) => {

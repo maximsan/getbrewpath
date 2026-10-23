@@ -9,6 +9,7 @@ import { MoodProvider } from '@components/mood/mood-provider';
 import { RevealOnScroll } from '@components/reveal/reveal-on-scroll';
 import { SiteFooter } from '@components/site-footer/site-footer';
 import { SiteHeader } from '@components/site-header/site-header';
+import { WebAnalytics } from '@components/web-analytics/web-analytics';
 import { BRAND_COLORS, BRAND_NAME } from '@domains/site/brand';
 import { PAGE_ROUTES } from '@domains/site/routes';
 import { SITE_URL } from '@domains/site/site';
@@ -73,6 +74,7 @@ export default async function LocaleLayout({
             <RevealOnScroll />
           </MoodProvider>
         </NextIntlClientProvider>
+        <WebAnalytics />
       </body>
     </html>
   );

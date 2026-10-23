@@ -1,33 +1,44 @@
 import { EMAIL_HI } from './site';
 
-export type LegalDocId = 'terms' | 'privacy';
+export type LegalDocId = 'terms' | 'privacy' | 'websitePrivacy';
 
-interface LegalDocSource {
-  /** The app's legal document in `public/`, which the page's text is copied from. */
-  file: string;
-  /** The date the file gives: "Effective" for the Terms of Use, "Last updated" for the Privacy Policy. */
-  date: string;
-  /** The contact address the page gives. */
-  email: string;
+/** One of the app's legal documents in `public/`, which a page's text is copied from. */
+interface LegalFile {
+  path: string;
   /**
    * Wording the page already changed while the file keeps the old one, until the owner updates the file.
    * https://github.com/maximsan/getbrewpath/issues/35 lists them.
    */
-  pendingFileEdits: readonly { inFile: string; onPage: string }[];
+  pendingEdits: readonly { inFile: string; onPage: string }[];
+}
+
+interface LegalDocSource {
+  /** The file the page copies, or null for the website's own notice, which exists only as a page. */
+  file: LegalFile | null;
+  /** The document's date: "Effective" for the Terms of Use, "Last updated" for the others. */
+  date: string;
+  /** The contact address the page gives. */
+  email: string;
 }
 
 export const LEGAL_DOCS: Record<LegalDocId, LegalDocSource> = {
   terms: {
-    file: '/legal/BrewPath_Terms_of_Use.pdf',
+    file: { path: '/legal/BrewPath_Terms_of_Use.pdf', pendingEdits: [] },
     date: '2026-10-20',
     email: EMAIL_HI,
-    pendingFileEdits: [],
   },
   privacy: {
-    file: '/legal/BrewPath_Privacy_Policy.pdf',
+    file: {
+      path: '/legal/BrewPath_Privacy_Policy.pdf',
+      pendingEdits: [{ inFile: 'support@getbrewpath.com', onPage: EMAIL_HI }],
+    },
     date: '2026-10-20',
     email: EMAIL_HI,
-    pendingFileEdits: [{ inFile: 'support@getbrewpath.com', onPage: EMAIL_HI }],
+  },
+  websitePrivacy: {
+    file: null,
+    date: '2026-10-23',
+    email: EMAIL_HI,
   },
 };
 

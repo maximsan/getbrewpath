@@ -1,4 +1,5 @@
 import { getFormatter, getMessages, getTranslations } from 'next-intl/server';
+import type { ReactNode } from 'react';
 
 import { DownloadIcon } from '@components/icons/icons';
 import { linkButtonClass } from '@components/link-button/link-button';
@@ -7,6 +8,7 @@ import { pageMetadata } from '@domains/site/page-metadata';
 import { PAGE_ROUTES } from '@domains/site/routes';
 import { LEGAL_DOC_DATE_FORMAT, LEGAL_DOCS, type LegalDocId } from '@domains/site/legal-docs';
 import { mailtoHref, PHONE } from '@domains/site/site';
+import { Link } from '@i18n/navigation';
 import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 import { TWO_DIGITS } from '@shared/format/number';
 import { cn } from '@shared/styles/cn';
@@ -16,8 +18,9 @@ import { legalDocOutline, type OutlineBlock } from './legal-doc-outline';
 const paragraphClass = 'ff-ui mt-0 mb-3.5 text-base leading-[1.7] text-pretty text-ink';
 
 /**
- * The Terms of Use or Privacy Policy, word for word from its file in `public/legal/`:
- * title, date, a download button for the file, a table of contents and numbered sections.
+ * A legal document: title, date, a table of contents and numbered sections. The Terms of Use
+ * and the Privacy Policy copy their file in `public/legal/` word for word and offer it for
+ * download; the Website Privacy Notice exists only as a page.
  * On wide screens the table of contents stays on screen while scrolling.
  */
 export async function LegalDoc({ doc }: { doc: LegalDocId }) {
@@ -28,8 +31,14 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
   const { introKeys, sections } = legalDocOutline(docs[doc]);
   type TextKey = Parameters<typeof t>[0];
   /** The text at `key` inside this document. The key is built at run time, so TypeScript cannot check it. */
-  const text = (key: string) =>
-    t(`${doc}.${key}` as TextKey, { email: source.email, phone: PHONE });
+  const values = { email: source.email, phone: PHONE };
+  const text = (key: string) => t(`${doc}.${key}` as TextKey, values);
+  /** Like `text`, but a `<policy>` tag in the text becomes a link to the app's Privacy Policy. */
+  const richText = (key: string) =>
+    t.rich(`${doc}.${key}` as TextKey, {
+      ...values,
+      policy: (chunks) => <Link href={PAGE_ROUTES.privacy}>{chunks}</Link>,
+    });
   const anchor = (sectionId: string) => `doc-${sectionId}`;
   const date = format.dateTime(new Date(source.date), LEGAL_DOC_DATE_FORMAT);
 
@@ -47,14 +56,16 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
             </p>
           ))}
         </div>
-        <a
-          href={source.file}
-          download
-          className={cn(linkButtonClass('outline', 'lg'), 'mt-[26px] gap-2')}
-        >
-          <DownloadIcon size={16} />
-          {t('download')}
-        </a>
+        {source.file && (
+          <a
+            href={source.file.path}
+            download
+            className={cn(linkButtonClass('outline', 'lg'), 'mt-[26px] gap-2')}
+          >
+            <DownloadIcon size={16} />
+            {t('download')}
+          </a>
+        )}
       </div>
       <div className="mt-14 grid items-start gap-12 min-[980px]:grid-cols-[220px_minmax(0,1fr)]">
         <nav
@@ -86,7 +97,7 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
                 {text(section.headingKey)}
               </h2>
               {section.blocks.map((block) => (
-                <SectionBlock key={block.id} block={block} text={text} />
+                <SectionBlock key={block.id} block={block} text={richText} />
               ))}
             </div>
           ))}
@@ -102,7 +113,7 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
   );
 }
 
-function SectionBlock({ block, text }: { block: OutlineBlock; text: (key: string) => string }) {
+function SectionBlock({ block, text }: { block: OutlineBlock; text: (key: string) => ReactNode }) {
   const texts = block.textKeys.map((key) => ({ key, text: text(key) }));
   switch (block.kind) {
     case 'h':
@@ -132,7 +143,7 @@ function SectionBlock({ block, text }: { block: OutlineBlock; text: (key: string
   }
 }
 
-/** The Terms of Use or Privacy Policy page's title, description and address. */
+/** A legal document page's title, description and address. */
 export async function legalDocMetadata(doc: LegalDocId, params: LocaleParams['params']) {
   const locale = await setPageLocale(params);
   const t = await getTranslations({ locale, namespace: `docs.${doc}` });
