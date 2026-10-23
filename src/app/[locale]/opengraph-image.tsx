@@ -1,7 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
 import { OG_SIZE, renderOgImage } from '@components/og/og-image';
-import { SELLING_MODEL } from '@domains/site/site';
 import { type LocaleParams, localeRouteParams, setPageLocale } from '@i18n/page-locale';
 
 export const size = OG_SIZE;
@@ -15,6 +14,6 @@ export default async function OpenGraphImage({ params }: LocaleParams) {
   return renderOgImage({
     kicker: t('brand'),
     title: t('hero.title'),
-    body: t('hero.note', { model: SELLING_MODEL }),
+    body: t('hero.note'),
   });
 }

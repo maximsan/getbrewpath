@@ -3,7 +3,7 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { CheckIcon } from '@components/icons/icons';
 import { LinkButton } from '@components/link-button/link-button';
 import { Section, SectionHeading } from '@components/section/section';
-import { APP_STORE_URL, SELLING_MODEL } from '@domains/site/site';
+import { APP_STORE_URL } from '@domains/site/site';
 import { cn } from '@shared/styles/cn';
 
 export async function Pricing() {
@@ -12,7 +12,7 @@ export async function Pricing() {
 
   return (
     <Section id="pricing">
-      <SectionHeading>{t('title', { model: SELLING_MODEL })}</SectionHeading>
+      <SectionHeading>{t('title')}</SectionHeading>
       <div className="mx-auto mt-12 grid max-w-[900px] grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-5">
         <div
           data-reveal
@@ -32,10 +32,7 @@ export async function Pricing() {
           className="relative flex flex-col gap-[22px] overflow-hidden rounded-3xl border border-rule bg-surface p-8"
         >
           <div className="pointer-events-none absolute -right-[20%] -bottom-1/2 aspect-square w-[70%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_24%,transparent),transparent)]" />
-          <PlanHeading
-            name={t('foundations')}
-            note={t('foundationsNote', { model: SELLING_MODEL })}
-          />
+          <PlanHeading name={t('foundations')} note={t('foundationsNote')} />
           <Checklist items={Object.values(pricing.foundationsList)} tone="accent" />
           <LinkButton href={APP_STORE_URL} tone="accent" size="lg" className="relative mt-auto">
             {t('foundationsCta')}
@@ -43,7 +40,7 @@ export async function Pricing() {
         </div>
       </div>
       <p className="ff-ui mx-auto mt-5 mb-0 max-w-[62ch] text-center text-[13px] leading-normal text-ink-mute">
-        {t('note', { model: SELLING_MODEL })}
+        {t('note')}
       </p>
     </Section>
   );

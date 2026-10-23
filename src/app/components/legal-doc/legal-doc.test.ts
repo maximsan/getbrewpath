@@ -17,12 +17,23 @@ const FILE_HEADERS_AND_FOOTERS = [
 ];
 const BULLET = '•';
 
-/** The file's words, without its headers and footers. A hyphen that ends a line joins its word to the next. */
-async function fileWords(doc: LegalDocId) {
+async function fileText(doc: LegalDocId) {
   const bytes = await readFile(`public${LEGAL_DOCS[doc].file}`);
   const { text } = await extractText(await getDocumentProxy(new Uint8Array(bytes)), {
     mergePages: true,
   });
+  return text;
+}
+
+/**
+ * The file's words as the page should show them: without its headers and footers, and with each
+ * pending file edit applied. A hyphen that ends a line joins its word to the next.
+ */
+async function fileWords(doc: LegalDocId) {
+  const text = LEGAL_DOCS[doc].pendingFileEdits.reduce(
+    (edited, { inFile, onPage }) => edited.replaceAll(inFile, onPage),
+    await fileText(doc),
+  );
   return text
     .split('\n')
     .map((line) => line.trim())
@@ -68,5 +79,10 @@ describe.each([
 ] as const)('the %s page', (doc, titleInFile) => {
   it('shows the file’s text word for word', async () => {
     expect(pageWords(doc, titleInFile)).toEqual(await fileWords(doc));
+  });
+
+  it('lists only pending file edits the file still needs', async () => {
+    const text = await fileText(doc);
+    for (const { inFile } of LEGAL_DOCS[doc].pendingFileEdits) expect(text).toContain(inFile);
   });
 });

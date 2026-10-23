@@ -20,7 +20,7 @@
     "body": "Three-minute lessons in the craft of coffee — beans, roast, grind, brew. Every one you finish feeds a living tree and earns a card worth keeping.",
     "download": "Download on the App Store",
     "tryFirst": "Try a lesson first",
-    "note": "{model, select, oneTime {Free to start. Foundations is one purchase, no subscription} subscription {Free to start. Foundations is a subscription, cancel anytime} other {Free to start. Subscribe to Foundations, or buy it once}}",
+    "note": "Free to start. Foundations unlocks the rest, in the app.",
     "shotToday": "The BrewPath Today screen",
     "shotLesson": "A BrewPath lesson asking for a first guess"
   },
@@ -28,7 +28,6 @@
     "title": "Five modules, bean to cup.",
     "meta": "{lessons} lessons, {cards} cards, about {minutes} min each",
     "lessons": "{n, plural, one {# lesson} other {# lessons}}",
-    "lessonsFree": "{n, plural, one {# lesson, free} other {# lessons, free}}",
     "items": {
       "m1": {
         "title": "Beans",
@@ -169,16 +168,16 @@
     }
   },
   "pricing": {
-    "title": "{model, select, oneTime {The first module is free. The course is one purchase.} subscription {The first module is free. The course is one subscription.} other {The first module is free. Subscribe to the course, or buy it once.}}",
+    "title": "The first lessons are free. Foundations unlocks the rest.",
     "free": "Free",
     "freeNote": "no purchase needed",
     "freeCta": "Download free",
     "foundations": "Foundations",
-    "foundationsNote": "{model, select, oneTime {one-time purchase} subscription {monthly or yearly subscription} other {subscribe, or buy it once}}",
+    "foundationsNote": "unlock in the app",
     "foundationsCta": "Start free, unlock in the app",
     "freeList": {
-      "item1": "Module 1: Beans, all 7 lessons",
-      "item2": "15 daily practice games",
+      "item1": "The first lessons",
+      "item2": "Practice games for every free lesson",
       "item3": "Dictionary essentials",
       "item4": "Roasty, your tree and your streak"
     },
@@ -189,14 +188,14 @@
       "item4": "Unlimited saved terms and cards",
       "item5": "The Studio — dress Roasty, choose your plant"
     },
-    "note": "{model, select, oneTime {The app shows the price for your country before you buy. Fixes and improvements are included; nothing renews.} subscription {The app shows the price for your country before you subscribe. Cancel anytime; access runs to the end of the paid period.} other {The app shows the prices for your country before you buy. Cancel a subscription anytime; a one-time purchase never renews.}}"
+    "note": "The app shows the plans and the price for your country before you buy."
   },
   "faq": {
     "title": "FAQ",
     "items": {
       "q1": {
         "q": "Is BrewPath free?",
-        "a": "The first module — Beans, seven lessons — and the daily practice games are free. Foundations unlocks the other four modules. {model, select, oneTime {Buy it once and it’s yours for good; there’s no subscription and nothing renews.} subscription {It’s a subscription — monthly or yearly, your pick — and stays open while you’re subscribed. Cancel anytime; access runs to the end of the paid period.} other {Your choice — subscribe monthly or yearly, or make a single one-time purchase and keep it forever.}}"
+        "a": "The first lessons and the practice games they teach are free. Foundations unlocks the rest of the course. The app shows how it’s sold and what it costs where you are."
       },
       "q2": {
         "q": "Do I need any equipment?",
@@ -219,7 +218,7 @@
   },
   "cta": {
     "title": "Your first lesson takes three minutes.",
-    "body": "Free, offline, no account. Roasty is already waiting.",
+    "body": "Free to start, offline, no account. Roasty is already waiting.",
     "download": "Download on the App Store"
   },
   "card": {
@@ -228,7 +227,7 @@
     "lessonBody": "A perfect score on <strong>{lesson}</strong>, lesson {lessonNumber} of the {module} module. In BrewPath, every lesson you ace becomes a Coffee Card — a fact worth keeping, in a deck worth finishing.",
     "moduleRewardBody": "This is a Module Reward, earned by finishing every lesson of the <strong>{module}</strong> module. Each module you finish adds its Module Reward to your deck, next to the cards from its lessons.",
     "defaultBadge": "Coffee card",
-    "get": "Get BrewPath — it’s free",
+    "get": "Get BrewPath — free to start",
     "open": "Open in the app",
     "avail": "Available on iPhone",
     "curious": "Curious what the whole thing is? <link>See BrewPath</link>",

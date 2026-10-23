@@ -2,7 +2,7 @@
 
 The website for BrewPath, the coffee-learning iPhone app: the landing page,
 shared Coffee Card pages and the legal documents. Support is by email; the
-address is `EMAIL_SUPPORT` in `src/domains/site/site.ts`.
+address is `EMAIL_HI` in `src/domains/site/site.ts`.
 
 Next.js (App Router) with TypeScript, Tailwind CSS and next-intl.
 
@@ -41,6 +41,9 @@ pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpat
   lives under the `docs` key of `src/messages/en/site.json`. Each file's date,
   contact address and path are in `src/domains/site/legal-docs.ts`. When a PDF
   changes, update both; `pnpm test` fails until the pages match the files.
+  The owner edits the PDF files. Page wording that changes first goes into
+  `pendingFileEdits` in `legal-docs.ts`, and into
+  [the ticket that collects them](https://github.com/maximsan/getbrewpath/issues/35).
 
 Terms such as Foundations and Module Reward are defined in [GLOSSARY.md](GLOSSARY.md).
 
@@ -63,12 +66,6 @@ strings have a key English lacks, or lack one English has.
 
 The `docs` strings are the legal documents. `pnpm test` compares only the
 English pages with the PDF files in `public/legal/`.
-
-## Selling model
-
-`SELLING_MODEL` in `src/domains/site/site.ts` sets how Foundations is sold:
-`oneTime`, `subscription` or `hybrid`. The pricing section and the FAQ follow
-it. The site shows no prices: the app shows them.
 
 ## Screenshots
 

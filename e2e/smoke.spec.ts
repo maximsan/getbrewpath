@@ -8,14 +8,12 @@ import {
   APP_LINKS_HOST,
   APP_STORE_ID,
   APP_STORE_URL,
-  EMAIL_HI,
-  EMAIL_SUPPORT,
+  MAILTO_HI,
   mailtoHref,
   SITE_HOST,
   SITE_URL,
 } from '@domains/site/site';
 
-const SITE_EMAIL_LINKS = [EMAIL_HI, EMAIL_SUPPORT].map(mailtoHref);
 const APP_STORE_HOST = new URL(APP_STORE_URL).host;
 
 const firstCard = course.cards[0];
@@ -38,7 +36,7 @@ async function openPath(page: Page, path: string, status = 200) {
 async function expectSiteLinks(page: Page) {
   const emailLinks = await linkTargets(page, 'a[href^="mailto:"]');
   expect(emailLinks.length, 'email links').toBeGreaterThan(0);
-  for (const href of emailLinks) expect(SITE_EMAIL_LINKS).toContain(href);
+  for (const href of emailLinks) expect(href).toBe(MAILTO_HI);
 
   const appStoreLinks = await linkTargets(page, `a[href*="${APP_STORE_HOST}"]`);
   expect(appStoreLinks.length, 'App Store links').toBeGreaterThan(0);

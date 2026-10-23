@@ -14,7 +14,6 @@ import { courseCounts } from '@domains/course/course';
 import { MINUTES_PER_LESSON } from '@domains/site/site';
 import type { Messages } from '@i18n/messages';
 import { TWO_DIGITS } from '@shared/format/number';
-import { cn } from '@shared/styles/cn';
 
 const MODULE_ICONS: Record<string, ComponentType> = {
   m1: BeansIcon,
@@ -26,8 +25,6 @@ const MODULE_ICONS: Record<string, ComponentType> = {
 
 /** The reveal stagger goes up to four steps. */
 const MAX_DELAY = 4;
-/** Module 1 is the free one. */
-const FREE_MODULE_NUMBER = 1;
 
 export async function ModulesStrip({ course }: { course: Course }) {
   const t = await getTranslations('modules');
@@ -48,7 +45,6 @@ export async function ModulesStrip({ course }: { course: Course }) {
       <div className="mt-12 flex flex-wrap justify-center gap-x-6 gap-y-8">
         {course.modules.map((module, index) => {
           const Icon = MODULE_ICONS[module.id] ?? BeansIcon;
-          const free = module.number === FREE_MODULE_NUMBER;
           const key = module.id as keyof Messages['modules']['items'];
           return (
             <div
@@ -74,13 +70,8 @@ export async function ModulesStrip({ course }: { course: Course }) {
                   {t(`items.${key}.desc`)}
                 </p>
               </div>
-              <div
-                className={cn(
-                  'ff-mono text-[11px] leading-normal tracking-[.1em] uppercase',
-                  free ? 'text-sage' : 'text-ink-mute',
-                )}
-              >
-                {t(free ? 'lessonsFree' : 'lessons', { n: module.lessonCount })}
+              <div className="ff-mono text-[11px] leading-normal tracking-[.1em] text-ink-mute uppercase">
+                {t('lessons', { n: module.lessonCount })}
               </div>
             </div>
           );
