@@ -137,21 +137,6 @@ export const BookIcon = icon(
   </>,
 );
 
-/** Light and dark halves, for the two moods. */
-export const MoodIcon = icon(
-  <>
-    <circle cx="12" cy="12" r="8" {...line} />
-    <path d="M12 4 A8 8 0 0 1 12 20 Z" fill="currentColor" />
-  </>,
-);
-
-export const BeanIcon = icon(
-  <>
-    <ellipse cx="12" cy="12" rx="6.5" ry="9.4" transform="rotate(32 12 12)" {...line} />
-    <path d="M15.6 6.3 C 11.7 9.1, 12.3 14.9, 8.4 17.7" {...line} />
-  </>,
-);
-
 export const CheckIcon = icon(
   <path d="M3 9.5l3.5 3.5L15 5" {...line} strokeWidth={2} strokeLinejoin="round" />,
   '0 0 18 18',

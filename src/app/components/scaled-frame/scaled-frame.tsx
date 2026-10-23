@@ -8,8 +8,6 @@ interface ScaledFrameProps {
   /** The size the content is drawn at. */
   width: number;
   height: number;
-  /** The widest it is shown; defaults to `width`. */
-  maxWidth?: number;
   children: ReactNode;
 }
 
@@ -19,16 +17,16 @@ interface ScaledFrameProps {
  * shifts when the scale is measured. Only the drawing inside is scaled.
  * It stays hidden until the scale is known.
  */
-export function ScaledFrame({ width, height, maxWidth = width, children }: ScaledFrameProps) {
+export function ScaledFrame({ width, height, children }: ScaledFrameProps) {
   const box = useRef<HTMLDivElement>(null);
-  const shownWidth = useFitScale(box, maxWidth) * maxWidth;
+  const shownWidth = useFitScale(box, width) * width;
   const measured = shownWidth > 0;
 
   return (
     <div
       ref={box}
       className="relative w-full"
-      style={{ maxWidth, aspectRatio: `${width} / ${height}` }}
+      style={{ maxWidth: width, aspectRatio: `${width} / ${height}` }}
     >
       <div
         className="absolute top-0 left-0 origin-top-left"
