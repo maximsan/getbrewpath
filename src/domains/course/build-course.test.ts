@@ -91,11 +91,13 @@ describe('buildCourse', () => {
     expect(() => buildCourse(broken)).toThrow('Card c9');
   });
 
-  it('fails when a free lesson is in no module', () => {
-    const broken = {
+  it('fails when the free lessons are not the first lessons of the course', () => {
+    const skipsOne = {
       ...banks,
-      freeTier: { freeLessonIds: ['m9l9'], freeDailyActivities: 2 },
+      freeTier: { freeLessonIds: ['m1l1', 'm1l3'], freeDailyActivities: 2 },
     };
-    expect(() => buildCourse(broken)).toThrow('Free lesson m9l9');
+    const unknown = { ...banks, freeTier: { freeLessonIds: ['m9l9'], freeDailyActivities: 2 } };
+    expect(() => buildCourse(skipsOne)).toThrow('must be the first lessons');
+    expect(() => buildCourse(unknown)).toThrow('must be the first lessons');
   });
 });

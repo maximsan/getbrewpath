@@ -71,7 +71,7 @@ export async function ModulesStrip({ course }: { course: Course }) {
                 </p>
               </div>
               <div className="ff-mono text-[11px] leading-normal tracking-[.1em] text-ink-mute uppercase">
-                {t('lessons', { n: module.lessonCount, free: module.freeLessonCount })}
+                {t('lessons', { n: module.lessonCount, freeLessons: module.freeLessonCount })}
               </div>
             </div>
           );

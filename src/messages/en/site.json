@@ -27,7 +27,7 @@
   "modules": {
     "title": "Five modules, bean to cup.",
     "meta": "{lessons} lessons, {cards} cards, about {minutes} min each",
-    "lessons": "{n, plural, one {# lesson} other {# lessons}}{free, plural, =0 {} other {, # free}}",
+    "lessons": "{n, plural, one {# lesson} other {# lessons}}{freeLessons, plural, =0 {} other {, # free}}",
     "items": {
       "m1": {
         "title": "Beans",
@@ -195,7 +195,7 @@
     "items": {
       "q1": {
         "q": "Is BrewPath free?",
-        "a": "The first {freeLessons, plural, one {lesson} =2 {two lessons} =3 {three lessons} other {# lessons}} and the practice games they teach are free, up to {freeDailyActivities, plural, one {one} =2 {two} =3 {three} other {#}} a day. Foundations unlocks the rest of the course. The app shows how it’s sold and what it costs where you are."
+        "a": "The first {freeLessons, plural, one {lesson} =2 {two lessons} =3 {three lessons} other {# lessons}} and the practice games they teach are free, up to {freeDailyActivities, plural, one {one} =2 {two} =3 {three} other {#}} lessons or games a day. Foundations unlocks the rest of the course. The app shows how it’s sold and what it costs where you are."
       },
       "q2": {
         "q": "Do I need any equipment?",
