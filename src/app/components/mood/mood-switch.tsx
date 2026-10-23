@@ -18,7 +18,7 @@ export function MoodSwitch() {
   const next: ColorScheme = resolvedTheme === 'dark' ? 'light' : 'dark';
 
   const label =
-    'ff-mono relative z-[1] flex w-min items-center justify-center justify-self-center px-[9px] text-center text-[9.5px] leading-[1.25] tracking-[.14em] uppercase transition-colors duration-300 min-[600px]:px-3';
+    'ff-mono relative z-[1] flex items-center justify-center px-[9px] text-center text-[9.5px] leading-[1.25] tracking-[.14em] uppercase transition-colors duration-300 min-[600px]:px-3';
 
   return (
     <button
@@ -26,7 +26,7 @@ export function MoodSwitch() {
       onClick={() => setTheme(next)}
       aria-label={t('moodSwitch')}
       title={t('moodSwitch')}
-      className="relative grid h-9 flex-none appearance-none grid-cols-2 items-stretch rounded-full border border-rule bg-surface p-[3px] text-ink-mute"
+      className="relative grid h-9 w-min flex-none appearance-none grid-cols-[1fr_1fr] items-stretch rounded-full border border-rule bg-surface p-[3px] text-ink-mute"
     >
       <span
         aria-hidden

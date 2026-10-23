@@ -16,8 +16,8 @@ export async function SiteFooter() {
 
   return (
     <footer className="mt-[clamp(64px,9vw,120px)] border-t border-rule">
-      <div className="page-width flex flex-wrap items-center justify-between gap-x-10 gap-y-6 px-6 pt-9 pb-11">
-        <div className="flex flex-wrap items-center gap-x-[18px] gap-y-3">
+      <div className="page-width flex flex-col items-center gap-x-10 gap-y-6 px-6 pt-9 pb-11 min-[600px]:flex-row min-[600px]:flex-wrap min-[600px]:justify-between">
+        <div className="flex flex-wrap items-center justify-center gap-x-[18px] gap-y-3">
           <div className="flex items-center gap-2.5">
             <Image
               src="/images/app-icon.png"
@@ -36,7 +36,7 @@ export async function SiteFooter() {
         </div>
         <nav
           aria-label={tRoot('nav.footer')}
-          className="flex flex-wrap items-center gap-x-6 gap-y-3"
+          className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3"
         >
           {LEGAL_PAGES.map((page) => (
             <Link key={page} href={PAGE_ROUTES[page]} className={footerLinkClass}>

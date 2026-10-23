@@ -97,7 +97,10 @@ export function SiteHeader() {
               className="block rounded-lg"
               priority
             />
-            <span translate="no" className="ff-display text-[22px] leading-none tracking-[-0.02em]">
+            <span
+              translate="no"
+              className="ff-display text-[22px] leading-none tracking-[-0.02em] max-[359px]:sr-only"
+            >
               {brand}
             </span>
           </Link>

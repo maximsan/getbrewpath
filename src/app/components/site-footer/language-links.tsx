@@ -14,7 +14,10 @@ export function LanguageLinks() {
   if (others.length === 0) return null;
 
   return (
-    <nav aria-label={t('languages')} className="flex flex-wrap items-center gap-x-4 gap-y-2">
+    <nav
+      aria-label={t('languages')}
+      className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2"
+    >
       {others.map((locale) => (
         <Link
           key={locale}
