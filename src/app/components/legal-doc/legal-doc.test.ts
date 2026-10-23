@@ -17,15 +17,8 @@ const FILE_HEADERS_AND_FOOTERS = [
 ];
 const BULLET = '•';
 
-/** The file the page copies. */
-function legalFile(doc: LegalDocId) {
-  const { file } = LEGAL_DOCS[doc];
-  if (!file) throw new Error(`The ${doc} page copies no file`);
-  return file;
-}
-
 async function fileText(doc: LegalDocId) {
-  const bytes = await readFile(`public${legalFile(doc).path}`);
+  const bytes = await readFile(`public${LEGAL_DOCS[doc].file}`);
   const { text } = await extractText(await getDocumentProxy(new Uint8Array(bytes)), {
     mergePages: true,
   });
@@ -37,7 +30,7 @@ async function fileText(doc: LegalDocId) {
  * pending file edit applied. A hyphen that ends a line joins its word to the next.
  */
 async function fileWords(doc: LegalDocId) {
-  const text = legalFile(doc).pendingEdits.reduce(
+  const text = LEGAL_DOCS[doc].pendingFileEdits.reduce(
     (edited, { inFile, onPage }) => edited.replaceAll(inFile, onPage),
     await fileText(doc),
   );
@@ -90,6 +83,6 @@ describe.each([
 
   it('lists only pending file edits the file still needs', async () => {
     const text = await fileText(doc);
-    for (const { inFile } of legalFile(doc).pendingEdits) expect(text).toContain(inFile);
+    for (const { inFile } of LEGAL_DOCS[doc].pendingFileEdits) expect(text).toContain(inFile);
   });
 });

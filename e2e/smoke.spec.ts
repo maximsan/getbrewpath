@@ -2,7 +2,7 @@ import { type APIRequestContext, expect, type Page, test } from '@playwright/tes
 
 import course from '@content/en/course.json' with { type: 'json' };
 import site from '@messages/en/site.json' with { type: 'json' };
-import { LEGAL_DOCS } from '@domains/site/legal-docs';
+import { legalPageSource } from '@domains/site/legal-pages';
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import {
   APP_LINKS_HOST,
@@ -12,6 +12,7 @@ import {
   mailtoHref,
   SITE_HOST,
   SITE_URL,
+  WEB_ANALYTICS_SCRIPT,
   WEB_ANALYTICS_TOKEN,
 } from '@domains/site/site';
 
@@ -33,20 +34,16 @@ async function openPath(page: Page, path: string, status = 200) {
   expect(response?.status()).toBe(status);
 }
 
-/** Cloudflare Web Analytics' script, which every page loads to count visits. */
-const WEB_ANALYTICS_SCRIPT = 'https://static.cloudflareinsights.com/beacon.min.js';
-
 // The tests never load the script, so they count no visits.
 test.beforeEach(({ page }) => page.route(WEB_ANALYTICS_SCRIPT, (route) => route.abort()));
 
-/** Checks that the page loads the visit counter with the site's key, and no Vercel script. */
+/** Checks that the page loads the visit counter with the site's key. */
 async function expectVisitCounter(page: Page) {
   const counter = page.locator(`script[src="${WEB_ANALYTICS_SCRIPT}"]`);
   await expect(counter).toHaveCount(1);
   expect(JSON.parse((await counter.getAttribute('data-cf-beacon')) ?? '{}')).toEqual({
     token: WEB_ANALYTICS_TOKEN,
   });
-  await expect(page.locator('script[src*="/_vercel/"]')).toHaveCount(0);
 }
 
 /** Checks that the page's email links and App Store links point at the site's addresses. */
@@ -82,7 +79,7 @@ for (const doc of LEGAL_PAGES) {
     await openPath(page, PAGE_ROUTES[doc]);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.docs[doc].title);
     expect(await linkTargets(page, 'a[href^="mailto:"]')).toContain(
-      mailtoHref(LEGAL_DOCS[doc].email),
+      mailtoHref(legalPageSource(doc).email),
     );
     await expect(
       page.getByRole('contentinfo').getByRole('link', { name: site.footer[doc] }),

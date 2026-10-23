@@ -896,7 +896,7 @@
           "h": "Cookies and browser storage",
           "blocks": {
             "b1": {
-              "p": "The website sets no cookies. It stores nothing in your browser, and it does not ask for consent because there is nothing to consent to."
+              "p": "The website sets no cookies. If you pick a mood with the Cupping / Dark Roast switch, your browser remembers that choice on your device so the next visit looks the same. It is never sent to us. The website does not ask for consent, because it stores nothing you did not ask for."
             }
           }
         },
