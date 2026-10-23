@@ -26,6 +26,13 @@ _Avoid_: Field Guide, as the name for the kind of card
 earned.
 _Avoid_: deck, in copy
 
+**Practice game** — a short game in the app that quizzes what one lesson
+taught. Example: _Fix the cup_.
+_Avoid_: mini-game (the app's internal name), in site copy
+
+**Lesson demo** — the interactive sample lesson on the home page, shown in a
+phone frame.
+
 **Mood** — one of the two colour themes. Cupping is light; Dark Roast is dark.
 Every colour has a value for each.
 _Avoid_: theme, in copy
