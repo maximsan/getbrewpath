@@ -3,21 +3,22 @@ import type { CSSProperties } from 'react';
 
 import cuppingDeck from '@assets/screens/cupping/deck.png';
 import cuppingFill from '@assets/screens/cupping/fill.png';
+import cuppingGame from '@assets/screens/cupping/game.png';
 import cuppingLesson from '@assets/screens/cupping/lesson.png';
 import cuppingTerm from '@assets/screens/cupping/term.png';
 import cuppingToday from '@assets/screens/cupping/today.png';
 import darkRoastDeck from '@assets/screens/dark-roast/deck.png';
 import darkRoastFill from '@assets/screens/dark-roast/fill.png';
+import darkRoastGame from '@assets/screens/dark-roast/game.png';
 import darkRoastLesson from '@assets/screens/dark-roast/lesson.png';
 import darkRoastTerm from '@assets/screens/dark-roast/term.png';
 import darkRoastToday from '@assets/screens/dark-roast/today.png';
-import { MOOD_ONLY } from '@components/mood/mood-only';
-import { type Mood, MOODS } from '@domains/site/mood';
+import type { Mood } from '@domains/site/mood';
 import type { ScreenId } from '@domains/site/screens';
 import { cn } from '@shared/styles/cn';
 
-/** Width over height of the phone outline, from the design prototype. Each screenshot is cropped to fit it. */
-const PHONE_ASPECT_RATIO = '826 / 1750';
+/** Width over height of the phone frame. The screen inside it matches the screenshots' 786 × 1704. */
+const PHONE_ASPECT_RATIO = '1000 / 2093';
 
 /**
  * App screenshots, one set per mood. They are imported rather than served from
@@ -30,6 +31,7 @@ const SCREEN_SHOTS: Record<Mood, Record<ScreenId, StaticImageData>> = {
     fill: cuppingFill,
     deck: cuppingDeck,
     term: cuppingTerm,
+    game: cuppingGame,
   },
   'dark-roast': {
     today: darkRoastToday,
@@ -37,12 +39,9 @@ const SCREEN_SHOTS: Record<Mood, Record<ScreenId, StaticImageData>> = {
     fill: darkRoastFill,
     deck: darkRoastDeck,
     term: darkRoastTerm,
+    game: darkRoastGame,
   },
 };
-
-/** A phone's image of `screen`, one per mood. */
-const screenShots = (screen: ScreenId): { src: StaticImageData; mood: Mood }[] =>
-  MOODS.map((mood) => ({ mood, src: SCREEN_SHOTS[mood][screen] }));
 
 interface PhoneShotProps {
   screen: ScreenId;
@@ -51,13 +50,16 @@ interface PhoneShotProps {
   sizes: string;
   className?: string;
   style?: CSSProperties;
-  /** Shown on the first screen: loads ahead of other images. */
+  /** Shown on the first screen: the Cupping shot loads ahead of other images. */
   aboveFold?: boolean;
   /** Rises into place when its revealed card scrolls in; the value is how far it sits below the card's edge. */
   riseOffset?: string;
 }
 
-/** An app screenshot in a rounded phone outline, in the page's mood. */
+/**
+ * An app screenshot in a phone frame, in the page's mood. The Dark Roast shot
+ * lies over the Cupping one and fades in with the mood switch.
+ */
 export function PhoneShot({
   screen,
   alt,
@@ -69,7 +71,7 @@ export function PhoneShot({
 }: PhoneShotProps) {
   return (
     <div
-      className={cn('relative overflow-hidden rounded-[10.5%/5%] bg-phone-frame', className)}
+      className={cn('relative overflow-hidden rounded-[16.3%/7.8%] bg-phone-frame', className)}
       style={{
         aspectRatio: PHONE_ASPECT_RATIO,
         ...(riseOffset ? ({ '--y': riseOffset } as CSSProperties) : null),
@@ -77,21 +79,25 @@ export function PhoneShot({
       }}
       data-rise={riseOffset ? '' : undefined}
     >
-      {screenShots(screen).map((shot) => (
-        // The screenshots carry a thin device edge; scaling past it hides the edge inside the frame.
+      <div className="absolute inset-x-[3.2%] inset-y-[1.53%] overflow-hidden rounded-[14%/6.46%] bg-bg">
         <Image
-          key={shot.mood}
-          src={shot.src}
+          src={SCREEN_SHOTS.cupping[screen]}
           alt={alt}
           fill
           sizes={sizes}
-          // Eager loads the hidden mood's copy too, about 15 KB per phone. Lazy loading skips
-          // it, but delays the largest paint: Lighthouse scored the home page 77, not 87.
           loading={aboveFold ? 'eager' : undefined}
           fetchPriority={aboveFold ? 'high' : undefined}
-          className={cn('scale-[1.06] object-cover', MOOD_ONLY[shot.mood])}
+          className="object-cover"
         />
-      ))}
+        {/* Cupping is the default mood, so only its shot is loaded ahead of the page. */}
+        <Image
+          src={SCREEN_SHOTS['dark-roast'][screen]}
+          alt=""
+          fill
+          sizes={sizes}
+          className="object-cover opacity-0 transition-opacity duration-[450ms] dark-roast:opacity-100"
+        />
+      </div>
     </div>
   );
 }

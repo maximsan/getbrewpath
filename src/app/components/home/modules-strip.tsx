@@ -8,7 +8,6 @@ import {
   ProcessingIcon,
   RoastingIcon,
 } from '@components/icons/icons';
-import { Section, SectionHeading } from '@components/section/section';
 import type { Course } from '@domains/course/build-course';
 import { courseCounts } from '@domains/course/course';
 import { MINUTES_PER_LESSON } from '@domains/site/site';
@@ -26,23 +25,25 @@ const MODULE_ICONS: Record<string, ComponentType> = {
 /** The reveal stagger goes up to four steps. */
 const MAX_DELAY = 4;
 
+/** The course's modules in a row of five, under one line with the course's totals. */
 export async function ModulesStrip({ course }: { course: Course }) {
-  const t = await getTranslations('modules');
+  const translate = await getTranslations('modules');
   const counts = courseCounts(course);
   const format = await getFormatter();
 
   return (
-    <Section id="why" className="pt-[clamp(56px,8vw,104px)]">
-      <SectionHeading
-        meta={t('meta', {
+    <>
+      <p
+        data-reveal
+        className="ff-mono mt-[clamp(80px,10vw,128px)] mb-0 text-center text-[13px] leading-normal tracking-[.12em] text-ink-mute uppercase"
+      >
+        {translate('meta', {
+          modules: counts.modules,
           lessons: counts.lessons,
-          cards: counts.cards,
           minutes: MINUTES_PER_LESSON,
         })}
-      >
-        {t('title')}
-      </SectionHeading>
-      <div className="mt-12 flex flex-wrap justify-center gap-x-6 gap-y-8">
+      </p>
+      <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-8">
         {course.modules.map((module, index) => {
           const Icon = MODULE_ICONS[module.id] ?? BeansIcon;
           const key = module.id as keyof Messages['modules']['items'];
@@ -52,7 +53,7 @@ export async function ModulesStrip({ course }: { course: Course }) {
               data-reveal
               data-delay={Math.min(index, MAX_DELAY)}
               // Five to a row when they fit: the row minus its four `gap-x-6` gaps, split five ways.
-              className="flex w-full min-w-0 flex-none flex-col gap-3.5 border-t border-rule pt-[22px] min-[600px]:w-[clamp(180px,calc((100%_-_4*var(--spacing)*6)/5),320px)]"
+              className="flex w-full min-w-0 flex-none flex-col gap-3.5 tablet:w-[clamp(148px,calc((100%_-_4*var(--spacing)*6)/5),320px)]"
             >
               <div className="flex items-center justify-between">
                 <span className="inline-flex text-accent">
@@ -64,19 +65,16 @@ export async function ModulesStrip({ course }: { course: Course }) {
               </div>
               <div>
                 <h3 className="ff-display m-0 text-[26px] leading-[1.05] font-normal tracking-[-0.015em] wrap-anywhere">
-                  {t(`items.${key}.title`)}
+                  {translate(`items.${key}.title`)}
                 </h3>
                 <p className="ff-ui mt-1.5 mb-0 text-[13px] leading-[1.45] text-ink-mute">
-                  {t(`items.${key}.desc`)}
+                  {translate(`items.${key}.desc`)}
                 </p>
-              </div>
-              <div className="ff-mono text-[11px] leading-normal tracking-[.1em] text-ink-mute uppercase">
-                {t('lessons', { n: module.lessonCount, freeLessons: module.freeLessonCount })}
               </div>
             </div>
           );
         })}
       </div>
-    </Section>
+    </>
   );
 }

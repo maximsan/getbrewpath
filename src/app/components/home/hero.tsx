@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
+import { ButtonRow } from '@components/button-row/button-row';
 import { LinkButton } from '@components/link-button/link-button';
 import { PhoneShot } from '@components/phone-shot/phone-shot';
 import { monoNoteClass, twoColumnClass } from '@components/section/section';
@@ -7,7 +8,7 @@ import { sectionHref } from '@components/site-header/nav-items';
 import { APP_STORE_URL } from '@domains/site/site';
 
 export async function Hero() {
-  const t = await getTranslations('hero');
+  const translate = await getTranslations('hero');
 
   return (
     <section
@@ -15,37 +16,37 @@ export async function Hero() {
     >
       <div className="stacked:text-center">
         <h1 className="ff-display m-0 animate-rise-in text-[clamp(42px,6.2vw,76px)] leading-none font-normal tracking-[-0.025em] text-balance whitespace-pre-line">
-          {t('title')}
+          {translate('title')}
         </h1>
         <p className="ff-ui mt-[26px] mb-0 max-w-[46ch] animate-rise-in text-[clamp(17px,1.6vw,20px)] leading-[1.55] text-pretty text-ink-mute [animation-delay:.08s] stacked:mx-auto">
-          {t('body')}
+          {translate('body')}
         </p>
-        <div className="mt-[34px] flex animate-rise-in flex-wrap items-center gap-3 [animation-delay:.16s] stacked:justify-center">
+        <ButtonRow className="mt-[34px] animate-rise-in items-center [animation-delay:.16s] stacked:justify-center">
           <LinkButton href={APP_STORE_URL} tone="ink" size="xl">
-            {t('download')}
+            {translate('download')}
           </LinkButton>
           <LinkButton href={sectionHref('demo')} tone="outline" size="xl">
-            {t('tryFirst')}
+            {translate('tryFirst')}
           </LinkButton>
-        </div>
+        </ButtonRow>
         <div className={`${monoNoteClass} mt-[18px] animate-rise-in [animation-delay:.24s]`}>
-          {t('note')}
+          {translate('note')}
         </div>
       </div>
-      <div className="-mx-6 flex animate-[rise-in_1s_var(--ease-out-soft)_.2s_both] items-center justify-center overflow-hidden px-6 py-8">
+      <div className="-mx-6 flex animate-[rise-in_1s_var(--ease-out-soft)_.2s_both] items-start justify-center px-6 pt-8">
         <PhoneShot
           screen="today"
-          alt={t('shotToday')}
+          alt={translate('shotToday')}
           sizes="(max-width: 800px) 44vw, 270px"
           aboveFold
-          className="z-[2] w-[min(44%,270px)] flex-none rotate-[-5deg] animate-hero-float shadow-[0_40px_70px_-24px_rgba(27,22,20,.55)]"
+          className="z-[2] w-[min(44%,270px)] flex-none shadow-[0_40px_70px_-24px_rgba(27,22,20,.55)]"
         />
         <PhoneShot
           screen="lesson"
-          alt={t('shotLesson')}
+          alt={translate('shotLesson')}
           sizes="(max-width: 800px) 39vw, 240px"
           aboveFold
-          className="z-[1] -ms-[12%] mt-[14%] w-[min(39%,240px)] flex-none rotate-[7deg] animate-hero-float-2 shadow-[0_30px_60px_-20px_rgba(27,22,20,.45)]"
+          className="z-[1] -ms-[12%] mt-[14%] w-[min(39%,240px)] flex-none shadow-[0_30px_60px_-20px_rgba(27,22,20,.45)]"
         />
       </div>
     </section>

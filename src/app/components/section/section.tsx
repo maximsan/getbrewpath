@@ -16,15 +16,10 @@ export const pageTitleClass =
   'ff-display m-0 text-[clamp(36px,5vw,60px)] leading-[1.02] font-normal tracking-[-0.025em] text-balance';
 
 /** A centred section heading that fades in. */
-export function SectionHeading({ children, meta }: { children: ReactNode; meta?: ReactNode }) {
+export function SectionHeading({ children }: { children: ReactNode }) {
   return (
     <div data-reveal className="mx-auto max-w-[720px] text-center">
       <h2 className={sectionTitleClass}>{children}</h2>
-      {meta && (
-        <div className="ff-mono mt-4 text-xs leading-normal tracking-[.08em] text-ink-mute uppercase">
-          {meta}
-        </div>
-      )}
     </div>
   );
 }
