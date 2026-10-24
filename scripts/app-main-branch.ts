@@ -28,35 +28,36 @@ function git(cwd: string, args: string[]) {
 }
 
 /**
- * The app's clone: the `brewpath` folder beside this repo's first checkout.
- * Git lists the first checkout first from every worktree, so each finds the same clone.
+ * The path of the app's clone: the `brewpath` folder next to the folder this repo
+ * was cloned into. From a worktree, git still lists that folder first, so every
+ * worktree finds the same clone.
  */
-export function defaultAppRepo(cwd: string) {
+export function findAppClone(cwd: string) {
   const worktrees = git(cwd, ['worktree', 'list', '--porcelain']);
-  const firstCheckout = /^worktree (?<path>.+)$/m.exec(worktrees)?.groups?.path;
-  if (!firstCheckout) throw new Error(`git listed no checkout for ${cwd}`);
-  return join(dirname(firstCheckout), APP_CLONE_FOLDER);
+  const clonedInto = /^worktree (?<path>.+)$/m.exec(worktrees)?.groups?.path;
+  if (!clonedInto) throw new Error(`git listed no checkout for ${cwd}`);
+  return join(dirname(clonedInto), APP_CLONE_FOLDER);
 }
 
 /** Fetches the app's `main` branch from GitHub and reads its files at that commit. */
-export function fetchAppMain(appRepo: string) {
-  if (!existsSync(join(appRepo, '.git'))) {
+export function fetchAppMainBranch(appClone: string) {
+  if (!existsSync(join(appClone, '.git'))) {
     throw new Error(
-      `No app clone at ${appRepo}. Clone maximsan/brewpath there, or pass the clone's path: pnpm sync-cards <path>`,
+      `No app clone at ${appClone}. Clone maximsan/brewpath there, or pass the clone's path: pnpm sync-cards <path>`,
     );
   }
   // The refspec names the target, so a clone set to fetch other branches still updates origin/main.
-  git(appRepo, [
+  git(appClone, [
     'fetch',
     '--quiet',
     'origin',
     `+refs/heads/${APP_BRANCH}:refs/remotes/origin/${APP_BRANCH}`,
   ]);
-  const commit = git(appRepo, ['rev-parse', `origin/${APP_BRANCH}`]).trim();
+  const commit = git(appClone, ['rev-parse', `origin/${APP_BRANCH}`]).trim();
 
   return {
     /** The id of the commit the files are read at. */
     commit,
-    readFile: (path: string) => git(appRepo, ['cat-file', 'blob', `${commit}:${path}`]),
+    readFile: (path: string) => git(appClone, ['cat-file', 'blob', `${commit}:${path}`]),
   };
 }

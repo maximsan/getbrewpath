@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { defaultAppRepo, fetchAppMain } from './app-repo';
+import { fetchAppMainBranch, findAppClone } from './app-main-branch';
 
 const FREE_TIER_FILE = 'assets/content/generated/website/free_tier.json';
 /** The app's free tier file, in its real shape, with a different daily limit per version. */
@@ -57,7 +57,7 @@ beforeEach(() => {
   }
   vi.stubEnv('GIT_CONFIG_GLOBAL', '/dev/null');
   vi.stubEnv('GIT_CONFIG_NOSYSTEM', '1');
-  root = realpathSync(mkdtempSync(join(tmpdir(), 'app-repo-')));
+  root = realpathSync(mkdtempSync(join(tmpdir(), 'app-main-branch-')));
 });
 
 afterEach(() => {
@@ -65,7 +65,7 @@ afterEach(() => {
   rmSync(root, { recursive: true, force: true });
 });
 
-describe('defaultAppRepo', () => {
+describe('findAppClone', () => {
   let site: string;
 
   beforeEach(() => {
@@ -74,36 +74,36 @@ describe('defaultAppRepo', () => {
     commitFile(site, 'README.md', '# BrewPath site');
   });
 
-  it('finds the app clone beside the site’s first checkout', () => {
-    expect(defaultAppRepo(site)).toBe(join(root, 'brewpath'));
+  it('finds the app clone next to the folder the site was cloned into', () => {
+    expect(findAppClone(site)).toBe(join(root, 'brewpath'));
   });
 
-  it('finds the same app clone from a worktree inside the first checkout', () => {
+  it('finds the same app clone from a worktree inside that folder', () => {
     const worktree = join(site, '.claude', 'worktrees', 'feat');
     git(site, 'worktree', 'add', '--quiet', '-b', 'feat', worktree);
 
-    expect(defaultAppRepo(worktree)).toBe(join(root, 'brewpath'));
+    expect(findAppClone(worktree)).toBe(join(root, 'brewpath'));
   });
 });
 
-describe('fetchAppMain', () => {
+describe('fetchAppMainBranch', () => {
   it('reads main on GitHub and ignores the app clone’s checked-out branch and uncommitted edits', () => {
     const app = cloneApp();
     git(app, 'switch', '--quiet', '-c', 'unreleased');
     commitFile(app, FREE_TIER_FILE, freeTier(5));
     writeFileSync(join(app, FREE_TIER_FILE), freeTier(9));
 
-    expect(fetchAppMain(app).readFile(FREE_TIER_FILE)).toBe(freeTier(2));
+    expect(fetchAppMainBranch(app).readFile(FREE_TIER_FILE)).toBe(freeTier(2));
   });
 
   it('fetches main first, so a change pushed from another clone is read', () => {
     const app = cloneApp();
     const pushedCommit = pushFromAnotherClone(4);
 
-    const appMain = fetchAppMain(app);
+    const appMainBranch = fetchAppMainBranch(app);
 
-    expect(appMain.readFile(FREE_TIER_FILE)).toBe(freeTier(4));
-    expect(appMain.commit).toBe(pushedCommit);
+    expect(appMainBranch.readFile(FREE_TIER_FILE)).toBe(freeTier(4));
+    expect(appMainBranch.commit).toBe(pushedCommit);
   });
 
   it('fetches main even when the clone is set to fetch only another branch', () => {
@@ -111,19 +111,19 @@ describe('fetchAppMain', () => {
     git(app, 'config', 'remote.origin.fetch', '+refs/heads/other:refs/remotes/origin/other');
     pushFromAnotherClone(4);
 
-    expect(fetchAppMain(app).readFile(FREE_TIER_FILE)).toBe(freeTier(4));
+    expect(fetchAppMainBranch(app).readFile(FREE_TIER_FILE)).toBe(freeTier(4));
   });
 
   it('names the folder it looked in when there is no app clone', () => {
     const missing = join(root, 'brewpath');
 
-    expect(() => fetchAppMain(missing)).toThrow(`No app clone at ${missing}`);
+    expect(() => fetchAppMainBranch(missing)).toThrow(`No app clone at ${missing}`);
   });
 
   it('gives git’s reason when GitHub cannot be reached', () => {
     const app = cloneApp();
     git(app, 'remote', 'set-url', 'origin', join(root, 'gone.git'));
 
-    expect(() => fetchAppMain(app)).toThrow(`git fetch failed in ${app}`);
+    expect(() => fetchAppMainBranch(app)).toThrow(`git fetch failed in ${app}`);
   });
 });

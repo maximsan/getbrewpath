@@ -22,7 +22,8 @@ pnpm run deploy     # build for Cloudflare and put it live; CI runs it on every 
 pnpm test:smoke     # build the site, open its main pages in Chromium and check them; runs before a push that changes more than Markdown, docs/, .github/ or prototype/
                     # stops while pnpm preview is running, because the rebuild crashes it
 pnpm sync-cards     # refresh src/content/<language>/course.json from the app's main branch on GitHub
-                    # fetches main into the app's clone: brewpath, beside this repo's first checkout, or a path given after the command
+                    # needs the app repo cloned into a folder named brewpath, next to the folder this repo is cloned into
+                    # `pnpm sync-cards <path>` reads a clone kept somewhere else
 ```
 
 ## Where things live
