@@ -1,8 +1,47 @@
-import Image from 'next/image';
+import Image, { type StaticImageData } from 'next/image';
 import type { CSSProperties } from 'react';
 
-import { PHONE_ASPECT, type ScreenId, screenSrc } from '@domains/site/screens';
+import cuppingDeck from '@assets/screens/cupping/deck.png';
+import cuppingFill from '@assets/screens/cupping/fill.png';
+import cuppingGame from '@assets/screens/cupping/game.png';
+import cuppingLesson from '@assets/screens/cupping/lesson.png';
+import cuppingTerm from '@assets/screens/cupping/term.png';
+import cuppingToday from '@assets/screens/cupping/today.png';
+import darkRoastDeck from '@assets/screens/dark-roast/deck.png';
+import darkRoastFill from '@assets/screens/dark-roast/fill.png';
+import darkRoastGame from '@assets/screens/dark-roast/game.png';
+import darkRoastLesson from '@assets/screens/dark-roast/lesson.png';
+import darkRoastTerm from '@assets/screens/dark-roast/term.png';
+import darkRoastToday from '@assets/screens/dark-roast/today.png';
+import type { Mood } from '@domains/site/mood';
+import type { ScreenId } from '@domains/site/screens';
 import { cn } from '@shared/styles/cn';
+
+/** Width over height of the phone frame. The screen inside it matches the screenshots' 786 × 1704. */
+const PHONE_ASPECT_RATIO = '1000 / 2093';
+
+/**
+ * App screenshots, one set per mood. They are imported rather than served from
+ * `public/`, so each gets a content-hashed address that browsers cache for a year.
+ */
+const SCREEN_SHOTS: Record<Mood, Record<ScreenId, StaticImageData>> = {
+  cupping: {
+    today: cuppingToday,
+    lesson: cuppingLesson,
+    fill: cuppingFill,
+    deck: cuppingDeck,
+    term: cuppingTerm,
+    game: cuppingGame,
+  },
+  'dark-roast': {
+    today: darkRoastToday,
+    lesson: darkRoastLesson,
+    fill: darkRoastFill,
+    deck: darkRoastDeck,
+    term: darkRoastTerm,
+    game: darkRoastGame,
+  },
+};
 
 interface PhoneShotProps {
   screen: ScreenId;
@@ -11,7 +50,8 @@ interface PhoneShotProps {
   sizes: string;
   className?: string;
   style?: CSSProperties;
-  priority?: boolean;
+  /** Shown on the first screen: the Cupping shot loads ahead of other images. */
+  aboveFold?: boolean;
   /** Rises into place when its revealed card scrolls in; the value is how far it sits below the card's edge. */
   riseOffset?: string;
 }
@@ -26,14 +66,14 @@ export function PhoneShot({
   sizes,
   className,
   style,
-  priority,
+  aboveFold,
   riseOffset,
 }: PhoneShotProps) {
   return (
     <div
       className={cn('relative overflow-hidden rounded-[16.3%/7.8%] bg-phone-frame', className)}
       style={{
-        aspectRatio: PHONE_ASPECT,
+        aspectRatio: PHONE_ASPECT_RATIO,
         ...(riseOffset ? ({ '--y': riseOffset } as CSSProperties) : null),
         ...style,
       }}
@@ -41,20 +81,21 @@ export function PhoneShot({
     >
       <div className="absolute inset-x-[3.2%] inset-y-[1.53%] overflow-hidden rounded-[14%/6.46%] bg-bg">
         <Image
-          src={screenSrc(screen, 'cupping')}
+          src={SCREEN_SHOTS.cupping[screen]}
           alt={alt}
           fill
           sizes={sizes}
-          priority={priority}
+          loading={aboveFold ? 'eager' : undefined}
+          fetchPriority={aboveFold ? 'high' : undefined}
           className="object-cover"
         />
         {/* Cupping is the default mood, so only its shot is loaded ahead of the page. */}
         <Image
-          src={screenSrc(screen, 'dark-roast')}
+          src={SCREEN_SHOTS['dark-roast'][screen]}
           alt=""
           fill
           sizes={sizes}
-          className="object-cover opacity-0 transition-opacity duration-[450ms] in-data-[mood=dark-roast]:opacity-100"
+          className="object-cover opacity-0 transition-opacity duration-[450ms] dark-roast:opacity-100"
         />
       </div>
     </div>

@@ -1,61 +1,32 @@
-import { type APIRequestContext, expect, type Page, test } from '@playwright/test';
-
 import course from '@content/en/course.json' with { type: 'json' };
 import site from '@messages/en/site.json' with { type: 'json' };
+import { BRAND_COLORS } from '@domains/site/brand';
 import { legalPageSource } from '@domains/site/legal-pages';
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import {
   APP_LINKS_HOST,
   APP_STORE_ID,
   APP_STORE_URL,
-  MAILTO_HI,
   mailtoHref,
   SITE_HOST,
   SITE_URL,
-  WEB_ANALYTICS_SCRIPT,
-  WEB_ANALYTICS_TOKEN,
 } from '@domains/site/site';
 
-const APP_STORE_HOST = new URL(APP_STORE_URL).host;
+import { expect, test } from './fixtures';
+import {
+  expectSiteLinks,
+  expectVisitCounter,
+  hexToRgb,
+  linkTargets,
+  openPath,
+  requestOnHost,
+} from './helpers';
 
 const firstCard = course.cards[0];
 if (!firstCard) throw new Error('The course has no cards; run pnpm sync-cards');
 const CARD_PATH = `/card/${firstCard.id}`;
 const UNKNOWN_PATH = '/no-such-path';
 const APPLE_LINK_FILE_PATH = '/.well-known/apple-app-site-association';
-
-/** The `href` of each link on the page that `selector` matches. */
-const linkTargets = (page: Page, selector: string) =>
-  page.locator(selector).evaluateAll((links) => links.map((link) => link.getAttribute('href')));
-
-/** Opens `path` and checks the server answered with `status`. */
-async function openPath(page: Page, path: string, status = 200) {
-  const response = await page.goto(path);
-  expect(response?.status()).toBe(status);
-}
-
-// The tests never load the script, so they count no visits.
-test.beforeEach(({ page }) => page.route(WEB_ANALYTICS_SCRIPT, (route) => route.abort()));
-
-/** Checks that the page loads the visit counter with the site's key. */
-async function expectVisitCounter(page: Page) {
-  const counter = page.locator(`script[src="${WEB_ANALYTICS_SCRIPT}"]`);
-  await expect(counter).toHaveCount(1);
-  expect(JSON.parse((await counter.getAttribute('data-cf-beacon')) ?? '{}')).toEqual({
-    token: WEB_ANALYTICS_TOKEN,
-  });
-}
-
-/** Checks that the page's email links and App Store links point at the site's addresses. */
-async function expectSiteLinks(page: Page) {
-  const emailLinks = await linkTargets(page, 'a[href^="mailto:"]');
-  expect(emailLinks.length, 'email links').toBeGreaterThan(0);
-  for (const href of emailLinks) expect(href).toBe(MAILTO_HI);
-
-  const appStoreLinks = await linkTargets(page, `a[href*="${APP_STORE_HOST}"]`);
-  expect(appStoreLinks.length, 'App Store links').toBeGreaterThan(0);
-  for (const href of appStoreLinks) expect(href).toBe(APP_STORE_URL);
-}
 
 test('home page shows the lesson demo phone', async ({ page }) => {
   await openPath(page, PAGE_ROUTES.home);
@@ -72,6 +43,28 @@ test('the home page fits a 320px-wide phone without scrolling sideways', async (
   await expect(page.getByRole('button', { name: site.nav.menu })).toBeInViewport({ ratio: 1 });
   const pageWidth = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(pageWidth).toBe(320);
+});
+
+test('a phone in dark mode shows Dark Roast from the first paint', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'dark' });
+  // Without the scripts the page is never hydrated, so it stays as first painted.
+  await page.route('**/_next/static/chunks/*.js', (route) => route.abort());
+  await openPath(page, PAGE_ROUTES.home);
+  await expect(page.locator('body')).toHaveCSS(
+    'background-color',
+    hexToRgb(BRAND_COLORS.darkRoast),
+  );
+});
+
+test("while the phone menu is open, the page under it can't be reached by keyboard", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openPath(page, PAGE_ROUTES.home);
+  await page.getByRole('button', { name: site.nav.menu }).click();
+  await expect(page.locator('main')).toHaveJSProperty('inert', true);
+  await page.keyboard.press('Escape');
+  await expect(page.locator('main')).toHaveJSProperty('inert', false);
 });
 
 for (const doc of LEGAL_PAGES) {
@@ -101,10 +94,6 @@ test('an unknown URL shows the not-found page', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.notfound.title);
   await expectSiteLinks(page);
 });
-
-/** Requests `path` as the given domain would receive it, without following a redirect. */
-const requestOnHost = (request: APIRequestContext, host: string, path: string) =>
-  request.get(path, { headers: { host }, maxRedirects: 0 });
 
 test('the Apple link file lets the app open only card links, on both domains', async ({
   request,

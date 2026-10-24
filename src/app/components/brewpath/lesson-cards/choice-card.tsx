@@ -65,7 +65,9 @@ export function ChoiceCard({
             key={choice.key}
             type="button"
             className={clsx(styles.choice, choice.verdict && styles[choice.verdict])}
-            disabled={answered}
+            // Not `disabled`: that would drop keyboard focus from the answer just picked.
+            // The cards ignore a second pick.
+            aria-disabled={answered}
             aria-pressed={choice.picked}
             onClick={choice.onSelect}
           >

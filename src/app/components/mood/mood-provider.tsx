@@ -3,24 +3,19 @@
 import { ThemeProvider, useTheme } from 'next-themes';
 import { type ReactNode, useEffect } from 'react';
 
-import {
-  BAR_COLOR_OF_SCHEME,
-  COLOR_SCHEMES,
-  MOOD_OF_SCHEME,
-  MOOD_STORAGE_KEY,
-} from './mood-scheme';
+import { BAR_COLOR_OF_SCHEME, COLOR_SCHEMES, MOOD_STORAGE_KEY } from './mood-scheme';
 
 /**
- * Puts the mood on `<html data-mood>` before paint. A first visit follows the
- * phone's light or dark setting, as the app does. A pick from the mood switch
- * is remembered and wins from then on.
+ * Puts the visitor's setting on `<html data-scheme>` before paint, and the CSS
+ * shows the matching mood. A first visit follows the phone's light or dark
+ * setting, as the app does. A pick from the mood switch is remembered and wins
+ * from then on.
  */
 export function MoodProvider({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider
-      attribute="data-mood"
+      attribute="data-scheme"
       themes={COLOR_SCHEMES}
-      value={MOOD_OF_SCHEME}
       defaultTheme="system"
       enableSystem
       storageKey={MOOD_STORAGE_KEY}

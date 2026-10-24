@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useFormatter, useTranslations } from 'next-intl';
 import { type MouseEvent, useEffect, useId, useRef, useState } from 'react';
 
+import appIcon from '@assets/app-icon.png';
 import { LinkButton } from '@components/link-button/link-button';
 import { MoodSwitch } from '@components/mood/mood-switch';
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
@@ -14,6 +15,7 @@ import { cn } from '@shared/styles/cn';
 
 import { NAV_SECTIONS, type NavSectionId, sectionHref } from './nav-items';
 import { RoastProgress } from './roast-progress';
+import { useModalMenu } from './use-modal-menu';
 
 /** From this width the section links sit in the header and the menu closes. Matches `min-[980px]` below. */
 const WIDE_SCREEN = '(min-width: 980px)';
@@ -35,7 +37,6 @@ const menuSmallLinkClass = 'ff-ui text-sm text-ink-mute hover:text-ink hover:no-
 /**
  * Sticky top bar: brand, section links, mood switch and the store link.
  * Below 980px the links move into a menu that covers the page under the bar.
- * While it is open the page behind it does not scroll, and Escape closes it.
  * Below 375px the brand shows only its icon, so the bar fits the screen.
  */
 export function SiteHeader() {
@@ -50,6 +51,7 @@ export function SiteHeader() {
   const [menuPathname, setMenuPathname] = useState(pathname);
   const menuId = useId();
   const menuButton = useRef<HTMLButtonElement>(null);
+  const bar = useRef<HTMLElement>(null);
   const pressTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   // Any page change closes the menu, including one from a footer link.
@@ -58,24 +60,18 @@ export function SiteHeader() {
     setMenuOpen(false);
   }
 
+  useModalMenu({
+    open: menuOpen,
+    setOpen: setMenuOpen,
+    bar,
+    menuId,
+    menuButton,
+    closesAt: WIDE_SCREEN,
+  });
+
   useEffect(() => {
     if (!menuOpen) return;
-    const wide = window.matchMedia(WIDE_SCREEN);
-    const closeWhenWide = () => {
-      if (wide.matches) setMenuOpen(false);
-    };
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return;
-      setMenuOpen(false);
-      menuButton.current?.focus();
-    };
-    document.body.style.overflow = 'hidden';
-    wide.addEventListener('change', closeWhenWide);
-    document.addEventListener('keydown', closeOnEscape);
     return () => {
-      document.body.style.overflow = '';
-      wide.removeEventListener('change', closeWhenWide);
-      document.removeEventListener('keydown', closeOnEscape);
       // A menu closed some other way mid-press must not still jump to the pressed section.
       clearTimeout(pressTimer.current);
       setPressedSection(null);
@@ -120,7 +116,7 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-rule bg-bg">
+      <header ref={bar} className="sticky top-0 z-50 border-b border-rule bg-bg">
         <div className="page-width flex min-h-16 items-center gap-2.5 px-4 tablet:gap-5 tablet:px-6">
           <Link
             href="/"
@@ -128,12 +124,12 @@ export function SiteHeader() {
             className="flex flex-none items-center gap-2.5 text-ink hover:no-underline"
           >
             <Image
-              src="/images/app-icon.png"
+              src={appIcon}
               alt=""
               width={30}
               height={30}
               className="block rounded-lg"
-              priority
+              loading="eager"
             />
             <span
               translate="no"

@@ -3,12 +3,13 @@ import { join } from 'node:path';
 
 import { ImageResponse } from 'next/og';
 
-import { BRAND_COLORS, BRAND_ICON_PATH, BRAND_INK_MUTE } from '@domains/site/brand';
+import { BRAND_COLORS } from '@domains/site/brand';
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
 const iconDataUrl = async () => {
-  const icon = await readFile(join(process.cwd(), 'public', BRAND_ICON_PATH));
+  // Written out in full: the build copies a file into the server code only when the code names its full path.
+  const icon = await readFile(join(process.cwd(), 'src/assets/app-icon.png'));
   return `data:image/png;base64,${icon.toString('base64')}`;
 };
 
@@ -41,7 +42,7 @@ export async function renderOgImage({ kicker, title, body }: OgImageProps) {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
         <div style={{ fontSize: 76, lineHeight: 1.05, whiteSpace: 'pre-line' }}>{title}</div>
-        <div style={{ fontSize: 32, lineHeight: 1.4, color: BRAND_INK_MUTE, maxWidth: 960 }}>
+        <div style={{ fontSize: 32, lineHeight: 1.4, color: BRAND_COLORS.inkMute, maxWidth: 960 }}>
           {body}
         </div>
       </div>

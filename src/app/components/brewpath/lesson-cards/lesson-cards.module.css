@@ -13,10 +13,10 @@
   cursor: pointer;
   transition: all 150ms ease;
 }
-.choice:not(:disabled):active {
+.choice:not([aria-disabled='true']):active {
   transform: scale(0.985);
 }
-.choice:disabled {
+.choice[aria-disabled='true'] {
   cursor: default;
 }
 .correct {
