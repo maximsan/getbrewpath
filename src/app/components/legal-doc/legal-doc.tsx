@@ -128,7 +128,7 @@ function SectionBlock({ block, text }: { block: OutlineBlock; text: (key: string
       );
     case 'list':
       return (
-        <ul className={`${paragraphClass} list-disc ps-5`}>
+        <ul className={cn(paragraphClass, 'list-disc ps-5')}>
           {texts.map((item) => (
             <li key={item.key}>{item.text}</li>
           ))}

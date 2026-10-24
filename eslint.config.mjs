@@ -11,6 +11,36 @@ import unusedImports from 'eslint-plugin-unused-imports';
  */
 const SHORT_NAMES = ['i', '_', 'id', 'cn', 'fs'];
 
+/**
+ * Tailwind generates CSS only for class names it finds written out in the source. A name
+ * assembled while the page runs, such as `w-[${size}px]`, silently gets no CSS, so class
+ * names are joined whole, with `cn(...)`.
+ */
+const ASSEMBLED_CLASS_NAMES = [
+  "JSXAttribute[name.name='className'] TemplateLiteral[expressions.length>0]",
+  "CallExpression[callee.name='cn'] TemplateLiteral[expressions.length>0]",
+].map((selector) => ({
+  selector,
+  message: 'Join whole class names with cn(...); Tailwind misses a name built with ${…}.',
+}));
+
+/** Styling is Tailwind classes; `style` is only for a value the browser works out (AGENTS.md). */
+const STYLE_ATTRIBUTE = {
+  selector: "JSXAttribute[name.name='style']",
+  message:
+    'Use classes. style is allowed only in the files eslint.config.mjs lists, for values the browser works out.',
+};
+
+/**
+ * The files that may set `style`: each passes a value the browser works out while the page
+ * runs (a measured scale, a random path), or feeds a renderer that reads only `style`.
+ */
+const STYLE_FILES = [
+  'src/app/components/scaled-frame/scaled-frame.tsx',
+  'src/app/components/home/coffee-burst.tsx',
+  'src/app/components/og/og-image.tsx',
+];
+
 const eslintConfig = [
   ...nextVitals,
   ...nextTypescript,
@@ -59,6 +89,7 @@ const eslintConfig = [
       },
     },
     rules: {
+      'no-restricted-syntax': ['error', ...ASSEMBLED_CLASS_NAMES, STYLE_ATTRIBUTE],
       'tailwindcss/enforces-negative-arbitrary-values': 'error',
       'tailwindcss/enforces-shorthand': 'error',
       'tailwindcss/no-contradicting-classname': 'error',
@@ -80,6 +111,10 @@ const eslintConfig = [
       'src/app/components/brewpath/progress-topbar/progress-topbar.tsx',
     ],
     rules: { '@typescript-eslint/no-magic-numbers': 'off' },
+  },
+  {
+    files: STYLE_FILES,
+    rules: { 'no-restricted-syntax': ['error', ...ASSEMBLED_CLASS_NAMES] },
   },
   { ignores: ['.next/**', 'node_modules/**', 'prototype/**', 'next-env.d.ts'] },
   prettier,

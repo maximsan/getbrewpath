@@ -1,7 +1,6 @@
 import { type ReactElement, useId } from 'react';
 
 import { cn } from '@shared/styles/cn';
-import type { CssVariables } from '@shared/styles/css-variables';
 
 /** Each state has its own face and motion; idle, card, module and sleep loop, the rest play once. */
 export type RoastyState =
@@ -9,11 +8,23 @@ export type RoastyState =
 
 export type RoastyRoast = 'light' | 'medium' | 'dark' | 'espresso';
 
+/** His width in each place he appears. */
+const ROASTY_WIDTH = {
+  /** Beside a lesson card's verdict: 72px. */
+  small: 'w-18',
+  /** On the not-found page: 170px. */
+  medium: 'w-[170px]',
+  /** On the home page: 200px. */
+  large: 'w-50',
+} as const;
+
+export type RoastySize = keyof typeof ROASTY_WIDTH;
+
 export interface RoastyProps {
   /** Defaults to "idle". */
   state?: RoastyState;
-  /** Width in px; the drawing is 1.4 times as tall. Defaults to 160. */
-  size?: number;
+  /** How wide he is drawn: see ROASTY_WIDTH. The drawing is 1.4 times as tall. */
+  size: RoastySize;
   /** Changing this value replays the state's animation. */
   replayKey?: number | string;
   /** Bean colour. Defaults to "medium". */
@@ -76,11 +87,6 @@ const AROUND_OWN_CENTRE = 'transform-fill origin-center';
  * group's bounding box.
  */
 const BODY_PIVOT = 'transform-fill origin-[100px_158px]';
-
-/** Sets when one of Roasty's effects starts, for the animation to read. */
-const startingAfter = (delayMs: number): CssVariables => ({
-  '--start-delay': `${delayMs}ms`,
-});
 
 /** Radial gradient stops (highlight, mid, edge) for each roast. */
 const ROAST_STOPS: Record<RoastyRoast, readonly [string, string, string]> = {
@@ -372,34 +378,95 @@ const NOTE_ART = {
 
 interface FlavourNote {
   kind: keyof typeof NOTE_ART;
-  /** Horizontal drift, px. */
-  dx: number;
-  /** Highest point of the arc, px above the launch point. */
-  peak: number;
-  /** Where the fall ends, px below the launch point. */
-  fall: number;
-  /** Total rotation, deg. */
-  spin: number;
-  delayMs: number;
+  /**
+   * Its flight, as CSS variables the animations read: the horizontal drift, the arc's
+   * highest point above the launch point, where the fall ends below it, the total spin,
+   * and when it sets off.
+   */
+  flight: string;
 }
 
 const FLAVOUR_NOTES: readonly FlavourNote[] = [
-  { kind: 'berry', dx: -104, peak: -118, fall: 210, spin: -200, delayMs: 700 },
-  { kind: 'citrus', dx: 96, peak: -126, fall: 220, spin: 237, delayMs: 730 },
-  { kind: 'cocoa', dx: -62, peak: -140, fall: 200, spin: -274, delayMs: 760 },
-  { kind: 'blossom', dx: 60, peak: -134, fall: 205, spin: 311, delayMs: 790 },
-  { kind: 'caramel', dx: -20, peak: -150, fall: 190, spin: -348, delayMs: 740 },
-  { kind: 'berry', dx: 22, peak: -146, fall: 195, spin: 385, delayMs: 820 },
-  { kind: 'citrus', dx: -120, peak: -92, fall: 230, spin: -422, delayMs: 850 },
-  { kind: 'cocoa', dx: 118, peak: -98, fall: 225, spin: 219, delayMs: 870 },
-  { kind: 'blossom', dx: -84, peak: -110, fall: 215, spin: -256, delayMs: 900 },
-  { kind: 'caramel', dx: 82, peak: -114, fall: 212, spin: 293, delayMs: 930 },
-  { kind: 'berry', dx: -40, peak: -128, fall: 198, spin: -330, delayMs: 960 },
-  { kind: 'citrus', dx: 42, peak: -122, fall: 202, spin: 367, delayMs: 980 },
-  { kind: 'cocoa', dx: -8, peak: -136, fall: 206, spin: -404, delayMs: 1010 },
-  { kind: 'blossom', dx: 10, peak: -108, fall: 218, spin: 201, delayMs: 1040 },
-  { kind: 'caramel', dx: -96, peak: -76, fall: 240, spin: -238, delayMs: 1070 },
-  { kind: 'berry', dx: 100, peak: -80, fall: 235, spin: 275, delayMs: 1100 },
+  {
+    kind: 'berry',
+    flight:
+      '[--drift:-104px] [--peak:-118px] [--fall:210px] [--note-spin:-200deg] [--start-delay:700ms]',
+  },
+  {
+    kind: 'citrus',
+    flight:
+      '[--drift:96px] [--peak:-126px] [--fall:220px] [--note-spin:237deg] [--start-delay:730ms]',
+  },
+  {
+    kind: 'cocoa',
+    flight:
+      '[--drift:-62px] [--peak:-140px] [--fall:200px] [--note-spin:-274deg] [--start-delay:760ms]',
+  },
+  {
+    kind: 'blossom',
+    flight:
+      '[--drift:60px] [--peak:-134px] [--fall:205px] [--note-spin:311deg] [--start-delay:790ms]',
+  },
+  {
+    kind: 'caramel',
+    flight:
+      '[--drift:-20px] [--peak:-150px] [--fall:190px] [--note-spin:-348deg] [--start-delay:740ms]',
+  },
+  {
+    kind: 'berry',
+    flight:
+      '[--drift:22px] [--peak:-146px] [--fall:195px] [--note-spin:385deg] [--start-delay:820ms]',
+  },
+  {
+    kind: 'citrus',
+    flight:
+      '[--drift:-120px] [--peak:-92px] [--fall:230px] [--note-spin:-422deg] [--start-delay:850ms]',
+  },
+  {
+    kind: 'cocoa',
+    flight:
+      '[--drift:118px] [--peak:-98px] [--fall:225px] [--note-spin:219deg] [--start-delay:870ms]',
+  },
+  {
+    kind: 'blossom',
+    flight:
+      '[--drift:-84px] [--peak:-110px] [--fall:215px] [--note-spin:-256deg] [--start-delay:900ms]',
+  },
+  {
+    kind: 'caramel',
+    flight:
+      '[--drift:82px] [--peak:-114px] [--fall:212px] [--note-spin:293deg] [--start-delay:930ms]',
+  },
+  {
+    kind: 'berry',
+    flight:
+      '[--drift:-40px] [--peak:-128px] [--fall:198px] [--note-spin:-330deg] [--start-delay:960ms]',
+  },
+  {
+    kind: 'citrus',
+    flight:
+      '[--drift:42px] [--peak:-122px] [--fall:202px] [--note-spin:367deg] [--start-delay:980ms]',
+  },
+  {
+    kind: 'cocoa',
+    flight:
+      '[--drift:-8px] [--peak:-136px] [--fall:206px] [--note-spin:-404deg] [--start-delay:1010ms]',
+  },
+  {
+    kind: 'blossom',
+    flight:
+      '[--drift:10px] [--peak:-108px] [--fall:218px] [--note-spin:201deg] [--start-delay:1040ms]',
+  },
+  {
+    kind: 'caramel',
+    flight:
+      '[--drift:-96px] [--peak:-76px] [--fall:240px] [--note-spin:-238deg] [--start-delay:1070ms]',
+  },
+  {
+    kind: 'berry',
+    flight:
+      '[--drift:100px] [--peak:-80px] [--fall:235px] [--note-spin:275deg] [--start-delay:1100ms]',
+  },
 ];
 
 /** The lesson state's first crack: a heat glow, a ring and lines, then flavour notes thrown out. */
@@ -430,33 +497,22 @@ function BeanBurst() {
           </g>
         ))}
       </g>
-      {FLAVOUR_NOTES.map((note, index) => {
-        const drift: CssVariables = {
-          ...startingAfter(note.delayMs),
-          '--drift': `${note.dx}px`,
-        };
-        const arc: CssVariables = {
-          ...startingAfter(note.delayMs),
-          '--peak': `${note.peak}px`,
-          '--fall': `${note.fall}px`,
-        };
-        const flutter: CssVariables = {
-          ...startingAfter(note.delayMs),
-          '--note-spin': `${note.spin}deg`,
-        };
-
-        return (
-          <g key={index} transform={`translate(${NOTE_ORIGIN.x} ${NOTE_ORIGIN.y})`}>
-            <g className="animate-roasty-fly-x" style={drift}>
-              <g className="animate-roasty-fly-y" style={arc}>
-                <g className={cn(AROUND_OWN_CENTRE, 'animate-roasty-note-flutter')} style={flutter}>
-                  {NOTE_ART[note.kind]}
-                </g>
+      {/* Each note's variables sit on its outer group; the three nested animations inherit them. */}
+      {FLAVOUR_NOTES.map((note, index) => (
+        <g
+          key={index}
+          className={note.flight}
+          transform={`translate(${NOTE_ORIGIN.x} ${NOTE_ORIGIN.y})`}
+        >
+          <g className="animate-roasty-fly-x">
+            <g className="animate-roasty-fly-y">
+              <g className={cn(AROUND_OWN_CENTRE, 'animate-roasty-note-flutter')}>
+                {NOTE_ART[note.kind]}
               </g>
             </g>
           </g>
-        );
-      })}
+        </g>
+      ))}
     </g>
   );
 }
@@ -468,24 +524,54 @@ interface CremaBubble {
   /** The highlight sits up-left of the centre by this much on both axes. */
   highlightOffset: number;
   highlightR: number;
-  /** How far each droplet travels diagonally when the bubble bursts, px. */
-  spread: number;
-  delayMs: number;
+  /**
+   * Its timing, as CSS variables the animations read: how far each droplet travels
+   * diagonally when the bubble bursts, and when the bubble starts.
+   */
+  timing: string;
 }
 
 const CREMA_BUBBLES: readonly CremaBubble[] = [
-  { x: 36, y: 82, r: 6, highlightOffset: 1.9, highlightR: 1.8, spread: 9.3, delayMs: 0 },
-  { x: 168, y: 100, r: 5, highlightOffset: 1.6, highlightR: 1.5, spread: 7.8, delayMs: 140 },
-  { x: 40, y: 198, r: 4.5, highlightOffset: 1.4, highlightR: 1.3, spread: 7, delayMs: 280 },
-  { x: 170, y: 198, r: 6, highlightOffset: 1.9, highlightR: 1.8, spread: 9.3, delayMs: 420 },
+  {
+    x: 36,
+    y: 82,
+    r: 6,
+    highlightOffset: 1.9,
+    highlightR: 1.8,
+    timing: '[--spread:9.3px] [--start-delay:0ms]',
+  },
+  {
+    x: 168,
+    y: 100,
+    r: 5,
+    highlightOffset: 1.6,
+    highlightR: 1.5,
+    timing: '[--spread:7.8px] [--start-delay:140ms]',
+  },
+  {
+    x: 40,
+    y: 198,
+    r: 4.5,
+    highlightOffset: 1.4,
+    highlightR: 1.3,
+    timing: '[--spread:7px] [--start-delay:280ms]',
+  },
+  {
+    x: 170,
+    y: 198,
+    r: 6,
+    highlightOffset: 1.9,
+    highlightR: 1.8,
+    timing: '[--spread:9.3px] [--start-delay:420ms]',
+  },
 ];
 
-/** Droplet directions as (x, y) signs: down-right, down-left, up-left, up-right. */
+/** Droplet directions, as the signs the drop animation multiplies --spread by. */
 const DROP_DIRECTIONS = [
-  [1, 1],
-  [-1, 1],
-  [-1, -1],
-  [1, -1],
+  { name: 'down-right', signs: '[--drop-sign-x:1] [--drop-sign-y:1]' },
+  { name: 'down-left', signs: '[--drop-sign-x:-1] [--drop-sign-y:1]' },
+  { name: 'up-left', signs: '[--drop-sign-x:-1] [--drop-sign-y:-1]' },
+  { name: 'up-right', signs: '[--drop-sign-x:1] [--drop-sign-y:-1]' },
 ] as const;
 
 const CREMA_EDGE = '#E8C08A';
@@ -494,49 +580,40 @@ const CREMA_EDGE = '#E8C08A';
 function Crema() {
   return (
     <g>
-      {CREMA_BUBBLES.map((bubble) => {
-        const delay = startingAfter(bubble.delayMs);
-
-        return (
-          <g key={`${bubble.x},${bubble.y}`} transform={`translate(${bubble.x} ${bubble.y})`}>
-            <g className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crema-swell')} style={delay}>
-              <circle r={bubble.r} fill="#E3B070" opacity="0.85" />
-              <circle
-                cx={-bubble.highlightOffset}
-                cy={-bubble.highlightOffset}
-                r={bubble.highlightR}
-                fill="#FFF3DC"
-                opacity="0.9"
-              />
-            </g>
+      {/* Each bubble's variables sit on its group; the swell, pop and droplets inherit them. */}
+      {CREMA_BUBBLES.map((bubble) => (
+        <g
+          key={`${bubble.x},${bubble.y}`}
+          className={bubble.timing}
+          transform={`translate(${bubble.x} ${bubble.y})`}
+        >
+          <g className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crema-swell')}>
+            <circle r={bubble.r} fill="#E3B070" opacity="0.85" />
             <circle
-              className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crema-pop')}
-              r={bubble.r}
-              fill="none"
-              stroke={CREMA_EDGE}
-              strokeWidth="1.2"
-              style={delay}
+              cx={-bubble.highlightOffset}
+              cy={-bubble.highlightOffset}
+              r={bubble.highlightR}
+              fill="#FFF3DC"
+              opacity="0.9"
             />
-            {DROP_DIRECTIONS.map(([signX, signY]) => {
-              const drop: CssVariables = {
-                ...delay,
-                '--drop-x': `${signX * bubble.spread}px`,
-                '--drop-y': `${signY * bubble.spread}px`,
-              };
-
-              return (
-                <circle
-                  key={`${signX},${signY}`}
-                  className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crema-drop')}
-                  r="1"
-                  fill={CREMA_EDGE}
-                  style={drop}
-                />
-              );
-            })}
           </g>
-        );
-      })}
+          <circle
+            className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crema-pop')}
+            r={bubble.r}
+            fill="none"
+            stroke={CREMA_EDGE}
+            strokeWidth="1.2"
+          />
+          {DROP_DIRECTIONS.map((direction) => (
+            <circle
+              key={direction.name}
+              className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crema-drop', direction.signs)}
+              r="1"
+              fill={CREMA_EDGE}
+            />
+          ))}
+        </g>
+      ))}
     </g>
   );
 }
@@ -546,15 +623,15 @@ const POINTS_UNIT = 'PTS';
 
 /** The sleep state's three z's, rising one after another. */
 const SLEEP_ZS = [
-  { x: 148, y: 80, fontSize: 18, delayMs: 0 },
-  { x: 158, y: 68, fontSize: 14, delayMs: 600 },
-  { x: 166, y: 58, fontSize: 11, delayMs: 1200 },
+  { x: 148, y: 80, fontSize: 18, start: '[--start-delay:0ms]' },
+  { x: 158, y: 68, fontSize: 14, start: '[--start-delay:600ms]' },
+  { x: 166, y: 58, fontSize: 11, start: '[--start-delay:1200ms]' },
 ] as const;
 
 /** Roasty, the coffee-bean mascot. Decorative: hidden from assistive technology. */
 export function Roasty({
   state = 'idle',
-  size = 160,
+  size,
   replayKey = 0,
   roast = 'medium',
   hat = 'beanie',
@@ -569,14 +646,12 @@ export function Roasty({
   const [highlight, mid, edge] = ROAST_STOPS[roast];
   const leafFill = `url(#${leafGradientId})`;
   const showSprout = sprout === 'sprig';
-  const drawingWidth: CssVariables = { '--roasty-width': `${size}px` };
 
   return (
     // A new key remounts the drawing, which restarts its one-shot CSS animations.
     <span
       key={`${state}:${replayKey}`}
-      className="inline-block w-(--roasty-width) leading-0"
-      style={drawingWidth}
+      className={cn('inline-block leading-0', ROASTY_WIDTH[size])}
     >
       {/* With its width set and its height left to the browser, the SVG takes the viewBox's shape. */}
       <svg
@@ -688,9 +763,8 @@ export function Roasty({
           <g className="ff-display" fontStyle="italic" fill="var(--ink-mute)">
             {SLEEP_ZS.map((sleepZ) => (
               <text
-                key={sleepZ.delayMs}
-                className="animate-roasty-zzz-float"
-                style={startingAfter(sleepZ.delayMs)}
+                key={sleepZ.start}
+                className={cn('animate-roasty-zzz-float', sleepZ.start)}
                 x={sleepZ.x}
                 y={sleepZ.y}
                 fontSize={sleepZ.fontSize}

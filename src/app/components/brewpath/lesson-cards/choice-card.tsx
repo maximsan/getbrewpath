@@ -67,7 +67,10 @@ export function ChoiceCard({
         <span className="text-support leading-none">{cue}</span>
       </div>
       <h2
-        className={`ff-display m-0 text-title font-normal tracking-[-0.01em] text-pretty text-ink ${titleLeading}`}
+        className={cn(
+          'ff-display m-0 text-title font-normal tracking-[-0.01em] text-pretty text-ink',
+          titleLeading,
+        )}
       >
         {title}
       </h2>

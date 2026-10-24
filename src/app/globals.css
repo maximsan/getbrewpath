@@ -499,7 +499,11 @@
   }
   100% {
     opacity: 0;
-    transform: translate(var(--drop-x), calc(var(--drop-y) + 4px)) scale(0.4);
+    transform: translate(
+        calc(var(--drop-sign-x) * var(--spread)),
+        calc(var(--drop-sign-y) * var(--spread) + 4px)
+      )
+      scale(0.4);
   }
 }
 @keyframes roasty-heat-glow {

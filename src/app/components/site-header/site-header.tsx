@@ -11,25 +11,28 @@ import { APP_STORE_URL, MAILTO_HI } from '@domains/site/site';
 import { Link, usePathname, useRouter } from '@i18n/navigation';
 import { TWO_DIGITS } from '@shared/format/number';
 import { cn } from '@shared/styles/cn';
-import type { CssVariables } from '@shared/styles/css-variables';
 
 import { NAV_SECTIONS, type NavSectionId, sectionHref } from './nav-items';
 import { RoastProgress } from './roast-progress';
 
 /** From this width the section links sit in the header and the menu closes. Matches `min-[980px]` below. */
 const WIDE_SCREEN = '(min-width: 980px)';
-/** Seconds before the first menu link slides in. */
-const FIRST_LINK_DELAY = 0.08;
-/** Seconds between one menu link's slide-in and the next one's. */
-const LINK_STAGGER = 0.06;
 /** How long a tapped menu link shows as pressed before the menu closes. */
 const PRESSED_MS = 220;
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
-/** The slide-in delay of the menu item at `index`, for its animation to read. */
-function menuItemDelay(index: number): CssVariables {
-  return { '--start-delay': `${FIRST_LINK_DELAY + index * LINK_STAGGER}s` };
-}
+/**
+ * When each menu item slides in, in menu order: the five section links, then the store
+ * button and small links. The first starts after 80ms, each next one 60ms later.
+ */
+const MENU_ENTER_DELAYS = [
+  '[--start-delay:80ms]',
+  '[--start-delay:140ms]',
+  '[--start-delay:200ms]',
+  '[--start-delay:260ms]',
+  '[--start-delay:320ms]',
+  '[--start-delay:380ms]',
+] as const;
 
 const menuSmallLinkClass = 'ff-ui text-sm text-ink-mute hover:text-ink hover:no-underline';
 
@@ -215,7 +218,7 @@ export function SiteHeader() {
             <div className="flex-1" />
             {NAV_SECTIONS.map((section, index) => (
               // The wrapper slides in; the link inside moves on its own when pressed.
-              <div key={section.id} style={menuItemDelay(index)} className="animate-menu-link">
+              <div key={section.id} className={cn('animate-menu-link', MENU_ENTER_DELAYS[index])}>
                 <Link
                   href={sectionHref(section.id)}
                   onClick={(event) => openSection(event, section.id)}
@@ -231,8 +234,10 @@ export function SiteHeader() {
             ))}
             <div className="flex-[1.4]" />
             <div
-              style={menuItemDelay(NAV_SECTIONS.length)}
-              className="mt-10 flex animate-menu-link flex-col gap-[22px]"
+              className={cn(
+                'mt-10 flex animate-menu-link flex-col gap-[22px]',
+                MENU_ENTER_DELAYS[NAV_SECTIONS.length],
+              )}
             >
               <LinkButton
                 href={APP_STORE_URL}

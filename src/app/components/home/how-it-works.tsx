@@ -31,8 +31,8 @@ export async function HowItWorks() {
                 screen={step.screen}
                 alt={translate(`items.${step.key}.alt`)}
                 sizes="250px"
-                riseOffset="34%"
-                className="w-[min(78%,250px)] shadow-[0_30px_60px_-20px_rgba(27,22,20,.5)]"
+                rises
+                className="w-[min(78%,250px)] shadow-[0_30px_60px_-20px_rgba(27,22,20,.5)] [--rise-offset:34%]"
               />
             </div>
             <div>

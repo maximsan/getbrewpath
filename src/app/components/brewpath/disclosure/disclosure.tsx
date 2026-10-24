@@ -3,7 +3,6 @@
 import { type ReactNode, useId, useState } from 'react';
 
 import { cn } from '@shared/styles/cn';
-import type { CssVariables } from '@shared/styles/css-variables';
 
 /** "caret" for lists of things; "plus" for a prose answer such as an FAQ. */
 export type DisclosureGlyph = 'caret' | 'plus';
@@ -25,14 +24,16 @@ export type DisclosureProps = OpenState & {
   glyph?: DisclosureGlyph;
   /** Padding classes for the header button. Defaults to "py-4". */
   headerClassName?: string;
-  /** How long opening and closing take. Defaults to 240. */
-  durationMs?: number;
+  /**
+   * Classes for the whole disclosure. Opening and closing take `--disclosure-ms`, 240ms
+   * unless a class such as `[--disclosure-ms:380ms]` sets it.
+   */
+  className?: string;
   children: ReactNode;
 };
 
 const PLUS_SIZE = 12;
 const CARET_SIZE = 18;
-const DEFAULT_DURATION_MS = 240;
 
 /** How the glyph turns when the panel is open: the caret flips, the plus turns into a cross. */
 const OPEN_TURN: Record<DisclosureGlyph, string> = { caret: 'rotate-180', plus: 'rotate-45' };
@@ -94,17 +95,16 @@ export function Disclosure({
   defaultOpen = false,
   open: openProp,
   onToggle,
-  durationMs = DEFAULT_DURATION_MS,
+  className,
   children,
 }: DisclosureProps) {
   const [openState, setOpenState] = useState(defaultOpen);
   const panelId = useId();
   const open = openProp ?? openState;
   const toggle = onToggle ?? (() => setOpenState((wasOpen) => !wasOpen));
-  const durationVariable: CssVariables = { '--disclosure-ms': `${durationMs}ms` };
 
   return (
-    <div style={durationVariable}>
+    <div className={cn('[--disclosure-ms:240ms]', className)}>
       <button
         type="button"
         aria-expanded={open}

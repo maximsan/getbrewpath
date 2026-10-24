@@ -6,13 +6,17 @@ import { PhoneShot } from '@components/phone-shot/phone-shot';
 import { monoNoteClass, twoColumnClass } from '@components/section/section';
 import { sectionHref } from '@components/site-header/nav-items';
 import { APP_STORE_URL } from '@domains/site/site';
+import { cn } from '@shared/styles/cn';
 
 export async function Hero() {
   const translate = await getTranslations('hero');
 
   return (
     <section
-      className={`${twoColumnClass} page-width px-6 pt-[clamp(48px,8vw,96px)] pb-[clamp(40px,6vw,72px)]`}
+      className={cn(
+        twoColumnClass,
+        'page-width px-6 pt-[clamp(48px,8vw,96px)] pb-[clamp(40px,6vw,72px)]',
+      )}
     >
       <div className="stacked:text-center">
         <h1 className="ff-display m-0 animate-rise-in text-[clamp(42px,6.2vw,76px)] leading-none font-normal tracking-[-0.025em] text-balance whitespace-pre-line">
@@ -29,7 +33,7 @@ export async function Hero() {
             {translate('tryFirst')}
           </LinkButton>
         </ButtonRow>
-        <div className={`${monoNoteClass} mt-[18px] animate-rise-in [animation-delay:.24s]`}>
+        <div className={cn(monoNoteClass, 'mt-[18px] animate-rise-in [animation-delay:.24s]')}>
           {translate('note')}
         </div>
       </div>

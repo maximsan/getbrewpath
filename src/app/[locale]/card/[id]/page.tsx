@@ -14,6 +14,7 @@ import { PAGE_ROUTES } from '@domains/site/routes';
 import { APP_STORE_URL, appCardLink } from '@domains/site/site';
 import { Link } from '@i18n/navigation';
 import { setPageLocale } from '@i18n/page-locale';
+import { cn } from '@shared/styles/cn';
 
 interface CardPageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -106,7 +107,7 @@ export default async function CardPage({ params }: CardPageProps) {
               {translate('open')}
             </LinkButton>
           </ButtonRow>
-          <div className={`${monoNoteClass} mt-[18px]`}>{translate('avail')}</div>
+          <div className={cn(monoNoteClass, 'mt-[18px]')}>{translate('avail')}</div>
         </div>
       </div>
 

@@ -20,8 +20,6 @@ const MOMENTS = [
 
 type Moment = (typeof MOMENTS)[number];
 
-const ROASTY_SIZE = 200;
-
 export function RoastyShowcase() {
   const translate = useTranslations('roasty');
   const [moment, setMoment] = useState<Moment>('idle');
@@ -58,7 +56,7 @@ export function RoastyShowcase() {
           className="relative min-h-[290px]"
           state={moment}
           replayKey={replayCount}
-          size={ROASTY_SIZE}
+          size="large"
         />
         <p
           aria-live="polite"
