@@ -1,5 +1,9 @@
-# The workflow actions are pinned to exact commits, so a moved version tag can't
-# change what runs. Dependabot opens a pull request when one has a new release.
+# The workflows name each GitHub Action by commit ID, not by version label:
+#   actions/checkout@fbc6f39... # v5.1.0   rather than   actions/checkout@v5
+# A label like v5 can later be moved to other code. A commit ID always means
+# the same code.
+# Dependabot, GitHub's update bot, checks the actions once a month. When an
+# action has a new release, it opens a pull request with the new commit ID.
 version: 2
 updates:
   - package-ecosystem: github-actions
