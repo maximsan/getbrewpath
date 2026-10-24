@@ -9,7 +9,7 @@ import { cn } from '@shared/styles/cn';
 export function ButtonRow({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
-      className={cn('flex flex-wrap items-center gap-3 max-[599px]:*:flex-[1_1_100%]', className)}
+      className={cn('flex flex-wrap gap-3 max-tablet:*:flex-[1_1_100%]', className)}
       {...props}
     />
   );

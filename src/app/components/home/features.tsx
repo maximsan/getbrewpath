@@ -15,23 +15,23 @@ const SHOT_FEATURES = [
 const revealDelay = (index: number) => (index % 2) + 1;
 
 export async function Features() {
-  const t = await getTranslations('features');
+  const translate = await getTranslations('features');
 
   return (
     <Section>
-      <SectionHeading>{t('title')}</SectionHeading>
+      <SectionHeading>{translate('title')}</SectionHeading>
       <div className="mt-12 grid grid-cols-[repeat(auto-fit,minmax(min(100%,400px),1fr))] gap-[clamp(16px,2.4vw,28px)]">
         {SHOT_FEATURES.map(({ key, screen, Icon }, index) => (
           <FeatureCard
             key={key}
             delay={revealDelay(index)}
             icon={<Icon />}
-            title={t(`items.${key}.title`)}
-            body={t(`items.${key}.body`)}
+            title={translate(`items.${key}.title`)}
+            body={translate(`items.${key}.body`)}
           >
             <PhoneShot
               screen={screen}
-              alt={t(`items.${key}.alt`)}
+              alt={translate(`items.${key}.alt`)}
               sizes="200px"
               riseOffset="30%"
               className="w-[min(100%,200px)] shadow-[0_30px_60px_-20px_rgba(27,22,20,.5)]"
@@ -56,9 +56,9 @@ function FeatureCard({ delay, icon, title, body, children }: FeatureCardProps) {
     <div
       data-reveal
       data-delay={delay}
-      className="grid min-h-[300px] grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] overflow-hidden rounded-3xl border border-rule bg-surface min-[600px]:min-h-[340px]"
+      className="grid min-h-[300px] grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] overflow-hidden rounded-3xl border border-rule bg-surface tablet:min-h-[340px]"
     >
-      <div className="flex flex-col justify-center py-6 ps-[22px] pe-1 min-[600px]:py-[30px] min-[600px]:ps-[30px] min-[600px]:pe-2">
+      <div className="flex flex-col justify-center py-6 ps-[22px] pe-1 tablet:py-[30px] tablet:ps-[30px] tablet:pe-2">
         <div className="mb-4 inline-flex text-accent">{icon}</div>
         <h3 className="ff-display m-0 text-[clamp(22px,2.2vw,26px)] leading-[1.1] font-normal tracking-[-0.015em] text-balance">
           {title}

@@ -27,7 +27,7 @@ const MAX_DELAY = 4;
 
 /** The course's modules in a row of five, under one line with the course's totals. */
 export async function ModulesStrip({ course }: { course: Course }) {
-  const t = await getTranslations('modules');
+  const translate = await getTranslations('modules');
   const counts = courseCounts(course);
   const format = await getFormatter();
 
@@ -37,7 +37,7 @@ export async function ModulesStrip({ course }: { course: Course }) {
         data-reveal
         className="ff-mono mt-[clamp(80px,10vw,128px)] mb-0 text-center text-[13px] leading-normal tracking-[.12em] text-ink-mute uppercase"
       >
-        {t('meta', {
+        {translate('meta', {
           modules: counts.modules,
           lessons: counts.lessons,
           minutes: MINUTES_PER_LESSON,
@@ -53,7 +53,7 @@ export async function ModulesStrip({ course }: { course: Course }) {
               data-reveal
               data-delay={Math.min(index, MAX_DELAY)}
               // Five to a row when they fit: the row minus its four `gap-x-6` gaps, split five ways.
-              className="flex w-full min-w-0 flex-none flex-col gap-3.5 min-[600px]:w-[clamp(148px,calc((100%_-_4*var(--spacing)*6)/5),320px)]"
+              className="flex w-full min-w-0 flex-none flex-col gap-3.5 tablet:w-[clamp(148px,calc((100%_-_4*var(--spacing)*6)/5),320px)]"
             >
               <div className="flex items-center justify-between">
                 <span className="inline-flex text-accent">
@@ -65,10 +65,10 @@ export async function ModulesStrip({ course }: { course: Course }) {
               </div>
               <div>
                 <h3 className="ff-display m-0 text-[26px] leading-[1.05] font-normal tracking-[-0.015em] wrap-anywhere">
-                  {t(`items.${key}.title`)}
+                  {translate(`items.${key}.title`)}
                 </h3>
                 <p className="ff-ui mt-1.5 mb-0 text-[13px] leading-[1.45] text-ink-mute">
-                  {t(`items.${key}.desc`)}
+                  {translate(`items.${key}.desc`)}
                 </p>
               </div>
             </div>

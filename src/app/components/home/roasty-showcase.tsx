@@ -53,15 +53,11 @@ export function RoastyShowcase() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_70%,color-mix(in_oklab,var(--accent)_10%,transparent),transparent_60%)]" />
         <RoastyButton
           label={translate('playMoment')}
-          onTap={playRandomMoment}
+          onClick={playRandomMoment}
           className="relative min-h-[290px]"
           state={moment}
           replayKey={replayCount}
           size={ROASTY_SIZE}
-          hat="beanie"
-          gear="none"
-          sprout="sprig"
-          roast="medium"
         />
         <p
           aria-live="polite"

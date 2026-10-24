@@ -39,7 +39,7 @@ interface LessonDemoProps {
 
 /** Lesson one's first three cards, playable in a phone frame. */
 export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
-  const t = useTranslations('demo');
+  const translate = useTranslations('demo');
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
   /** A new run number remounts the cards, so a replay starts with unanswered cards. */
@@ -57,25 +57,25 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
 
   const cards: [MCQCardData, TrueFalseCardData, MCQCardData] = [
     {
-      prompt: t('card0.prompt'),
+      prompt: translate('card0.prompt'),
       choices: [
-        { text: t('card0.choices.c1') },
-        { text: t('card0.choices.c2'), correct: true },
-        { text: t('card0.choices.c3') },
-        { text: t('card0.choices.c4') },
+        { text: translate('card0.choices.c1') },
+        { text: translate('card0.choices.c2'), correct: true },
+        { text: translate('card0.choices.c3') },
+        { text: translate('card0.choices.c4') },
       ],
-      explain: t('card0.explain'),
+      explain: translate('card0.explain'),
     },
-    { statement: t('card1.statement'), answer: false, explain: t('card1.explain') },
+    { statement: translate('card1.statement'), answer: false, explain: translate('card1.explain') },
     {
-      prompt: t('card2.prompt'),
+      prompt: translate('card2.prompt'),
       choices: [
-        { text: t('card2.choices.c1') },
-        { text: t('card2.choices.c2'), correct: true },
-        { text: t('card2.choices.c3') },
-        { text: t('card2.choices.c4') },
+        { text: translate('card2.choices.c1') },
+        { text: translate('card2.choices.c2'), correct: true },
+        { text: translate('card2.choices.c3') },
+        { text: translate('card2.choices.c4') },
       ],
-      explain: t('card2.explain'),
+      explain: translate('card2.explain'),
     },
   ];
 
@@ -85,38 +85,41 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
     <div className={twoColumnClass}>
       <div className="stacked:text-center">
         <h2 className="ff-display m-0 text-[clamp(28px,3.6vw,44px)] leading-[1.05] font-normal tracking-[-0.02em] text-balance">
-          {t('title')}
+          {translate('title')}
         </h2>
         <p className="ff-ui mt-[18px] mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute stacked:mx-auto">
-          {t('body')}
+          {translate('body')}
         </p>
         <div aria-live="polite">
           {done ? (
             <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-r border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-[22px] py-5">
               <div className="ff-display text-[22px] leading-[1.15]">
-                {t(perfect ? 'scorePerfect' : 'scorePartial', { n: score, total: CARD_COUNT })}
+                {translate(perfect ? 'scorePerfect' : 'scorePartial', {
+                  n: score,
+                  total: CARD_COUNT,
+                })}
               </div>
               <div className="ff-ui text-sm leading-normal text-ink-mute">
-                {t(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')}{' '}
-                {t('fullLesson', { freeLessons })}
+                {translate(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')}{' '}
+                {translate('fullLesson', { freeLessons })}
               </div>
               <ButtonRow className="mt-1 gap-2.5 stacked:justify-center">
                 <a href={APP_STORE_URL} className={linkButtonClass('accent', 'md')}>
-                  {t('get')}
+                  {translate('get')}
                 </a>
                 <button
                   type="button"
                   onClick={restart}
                   className="ff-ui min-h-[42px] appearance-none rounded-full border border-rule bg-transparent px-[18px] py-2 text-sm leading-[1.15] font-medium text-ink"
                 >
-                  {t('again')}
+                  {translate('again')}
                 </button>
               </ButtonRow>
             </div>
           ) : (
             <div className="ff-mono mt-7 flex items-center gap-2.5 text-[11px] leading-normal tracking-[.1em] text-ink-mute uppercase stacked:justify-center">
               <span className="size-1.5 flex-none animate-dot-pulse rounded-full bg-accent" />
-              {t('progress', progress)}
+              {translate('progress', progress)}
             </div>
           )}
         </div>
@@ -148,7 +151,7 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
                     pos={Math.min(step, CARD_COUNT - 1)}
                     total={CARD_COUNT}
                     done={done}
-                    closeLabel={t('restart')}
+                    closeLabel={translate('restart')}
                   />
                   <div className="absolute inset-0 flex flex-col pt-[134px]">
                     {step === 0 && (

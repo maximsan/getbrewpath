@@ -15,19 +15,19 @@ import type { ColorScheme } from './mood-scheme';
  * its own makes its column, and Safari on iPhone pushed the header off screen.
  */
 export function MoodSwitch() {
-  const t = useTranslations('nav');
+  const translate = useTranslations('nav');
   const { resolvedTheme, setTheme } = useTheme();
   const next: ColorScheme = resolvedTheme === 'dark' ? 'light' : 'dark';
 
   const label =
-    'ff-mono relative z-[1] flex items-center justify-center px-[9px] text-center whitespace-pre-line text-[9.5px] leading-[1.25] tracking-[.14em] uppercase transition-colors duration-300 min-[600px]:px-3';
+    'ff-mono relative z-[1] flex items-center justify-center px-[9px] text-center whitespace-pre-line text-[9.5px] leading-[1.25] tracking-[.14em] uppercase transition-colors duration-300 tablet:px-3';
 
   return (
     <button
       type="button"
       onClick={() => setTheme(next)}
-      aria-label={t('moodSwitch')}
-      title={t('moodSwitch')}
+      aria-label={translate('moodSwitch')}
+      title={translate('moodSwitch')}
       className="relative grid h-9 flex-none appearance-none grid-cols-2 items-stretch rounded-full border border-rule bg-surface p-[3px] text-ink-mute"
     >
       <span
@@ -35,10 +35,10 @@ export function MoodSwitch() {
         className="absolute inset-y-[3px] start-[3px] w-[calc(50%-3px)] rounded-full bg-ink transition-transform duration-300 ease-soft in-data-[mood=dark-roast]:translate-x-full"
       />
       <span className={cn(label, 'text-bg in-data-[mood=dark-roast]:text-ink-mute')}>
-        {t('moodLight')}
+        {translate('moodLight')}
       </span>
       <span className={cn(label, 'text-ink-mute in-data-[mood=dark-roast]:text-bg')}>
-        {t('moodDark')}
+        {translate('moodDark')}
       </span>
     </button>
   );

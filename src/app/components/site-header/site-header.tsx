@@ -39,8 +39,8 @@ const menuSmallLinkClass = 'ff-ui text-sm text-ink-mute hover:text-ink hover:no-
  * Below 375px the brand shows only its icon, so the bar fits the screen.
  */
 export function SiteHeader() {
-  const t = useTranslations('nav');
-  const tFooter = useTranslations('footer');
+  const translate = useTranslations('nav');
+  const translateFooter = useTranslations('footer');
   const brand = useTranslations()('brand');
   const format = useFormatter();
   const pathname = usePathname();
@@ -121,7 +121,7 @@ export function SiteHeader() {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-rule bg-bg">
-        <div className="page-width flex min-h-16 items-center gap-2.5 px-4 min-[600px]:gap-5 min-[600px]:px-6">
+        <div className="page-width flex min-h-16 items-center gap-2.5 px-4 tablet:gap-5 tablet:px-6">
           <Link
             href="/"
             onClick={goHomeTop}
@@ -143,7 +143,7 @@ export function SiteHeader() {
             </span>
           </Link>
           <nav
-            aria-label={t('primary')}
+            aria-label={translate('primary')}
             className="ms-6 hidden flex-wrap items-center gap-x-[26px] gap-y-2 min-[980px]:flex"
           >
             {NAV_SECTIONS.map((section) => (
@@ -152,7 +152,7 @@ export function SiteHeader() {
                 href={sectionHref(section.id)}
                 className="ff-ui text-sm leading-[1.2] font-medium text-ink-mute transition-colors hover:text-ink hover:no-underline"
               >
-                {t(section.label)}
+                {translate(section.label)}
               </Link>
             ))}
           </nav>
@@ -164,13 +164,13 @@ export function SiteHeader() {
             size="sm"
             className="hidden flex-none min-[980px]:inline-flex"
           >
-            {t('getApp')}
+            {translate('getApp')}
           </LinkButton>
           <button
             ref={menuButton}
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
-            aria-label={t('menu')}
+            aria-label={translate('menu')}
             aria-expanded={menuOpen}
             aria-controls={menuId}
             className="inline-flex size-9 flex-none flex-col items-center justify-center gap-[5px] rounded-full border border-rule bg-surface p-0 text-ink min-[980px]:hidden"
@@ -197,8 +197,8 @@ export function SiteHeader() {
           className="fixed inset-x-0 top-16 bottom-0 z-40 animate-menu-fade overflow-auto bg-bg min-[980px]:hidden"
         >
           <nav
-            aria-label={t('primary')}
-            className="page-width box-border flex min-h-full flex-col px-4 pt-5 pb-8 min-[600px]:px-6"
+            aria-label={translate('primary')}
+            className="page-width box-border flex min-h-full flex-col px-4 pt-5 pb-8 tablet:px-6"
           >
             {/* The links sit a little above the middle of the space the store button leaves. */}
             <div className="flex-1" />
@@ -214,7 +214,7 @@ export function SiteHeader() {
                   <span className="ff-mono mt-[.22em] flex-none text-xs leading-none tracking-[.14em] text-ink-mute transition-colors duration-200 group-hover:text-accent group-active:text-accent group-data-pressed:text-accent">
                     {format.number(index + 1, TWO_DIGITS)}
                   </span>
-                  {t(section.label)}
+                  {translate(section.label)}
                 </Link>
               </div>
             ))}
@@ -229,11 +229,11 @@ export function SiteHeader() {
                 size="hero"
                 className="mx-auto flex w-full max-w-[360px]"
               >
-                {t('getApp')}
+                {translate('getApp')}
               </LinkButton>
               <div className="flex flex-wrap justify-center gap-x-[22px] gap-y-2.5">
                 <a href={MAILTO_HI} className={menuSmallLinkClass}>
-                  {tFooter('support')}
+                  {translateFooter('support')}
                 </a>
                 {LEGAL_PAGES.map((page) => (
                   <Link
@@ -242,7 +242,7 @@ export function SiteHeader() {
                     onClick={closeMenu}
                     className={menuSmallLinkClass}
                   >
-                    {tFooter(page)}
+                    {translateFooter(page)}
                   </Link>
                 ))}
               </div>

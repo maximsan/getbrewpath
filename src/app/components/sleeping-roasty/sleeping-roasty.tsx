@@ -33,14 +33,11 @@ export function SleepingRoasty({ size }: { size: number }) {
   return (
     <RoastyButton
       label={translate('wakeRoasty')}
-      onTap={wake}
+      onClick={wake}
       className="min-h-60"
       state={awake ? 'awake' : 'sleep'}
       replayKey={wakeCount}
       size={size}
-      hat="beanie"
-      gear="none"
-      sprout="sprig"
     />
   );
 }

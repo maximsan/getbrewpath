@@ -15,6 +15,7 @@ export function RoastProgress() {
 
     const drawBar = () => {
       pendingFrame = 0;
+
       const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrolledShare =
         scrollableHeight > 0 ? Math.min(1, window.scrollY / scrollableHeight) : 0;

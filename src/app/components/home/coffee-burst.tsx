@@ -32,7 +32,7 @@ const DISTANCE_SPREAD_PX = 120;
 /** Lifts the whole burst, in px, so it reads as rising out of the card. */
 const LIFT_PX = 60;
 /** How far, in radians, a piece may stray from its even place round the circle. */
-const ANGLE_JITTER = 0.6;
+const ANGLE_JITTER_RAD = 0.6;
 /** A piece spins up to half this many degrees, either way. */
 const SPIN_RANGE_DEG = 540;
 /** A flight lasts at least the minimum, plus up to the spread, in seconds. */
@@ -51,7 +51,7 @@ const randomOffset = () => Math.random() - 0.5;
 /** Spreads the pieces evenly round a circle, each with a little random angle, distance, spin and timing. */
 function scatter() {
   return PIECES.map((kind, index) => {
-    const angle = (FULL_TURN * index) / PIECES.length + randomOffset() * ANGLE_JITTER;
+    const angle = (FULL_TURN * index) / PIECES.length + randomOffset() * ANGLE_JITTER_RAD;
     const distance = MIN_DISTANCE_PX + Math.random() * DISTANCE_SPREAD_PX;
     const style: PieceStyle = {
       '--fly-x': `${Math.cos(angle) * distance}px`,
