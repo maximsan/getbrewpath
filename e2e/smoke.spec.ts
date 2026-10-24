@@ -1,5 +1,3 @@
-import { type APIRequestContext, test as base, expect, type Page } from '@playwright/test';
-
 import course from '@content/en/course.json' with { type: 'json' };
 import site from '@messages/en/site.json' with { type: 'json' };
 import { BRAND_COLORS } from '@domains/site/brand';
@@ -9,82 +7,26 @@ import {
   APP_LINKS_HOST,
   APP_STORE_ID,
   APP_STORE_URL,
-  MAILTO_HI,
   mailtoHref,
   SITE_HOST,
   SITE_URL,
-  WEB_ANALYTICS_SCRIPT,
-  WEB_ANALYTICS_TOKEN,
 } from '@domains/site/site';
 
-const APP_STORE_HOST = new URL(APP_STORE_URL).host;
-
-/** Every test fails if the page tries to load anything the Content Security Policy blocks. */
-const test = base.extend<{ blockedByPolicy: void }>({
-  blockedByPolicy: [
-    async ({ page }, use) => {
-      const blocked: string[] = [];
-      await page.exposeFunction('reportBlocked', (address: string) => blocked.push(address));
-      await page.addInitScript(() =>
-        document.addEventListener('securitypolicyviolation', (event) =>
-          (window as unknown as { reportBlocked: (address: string) => void }).reportBlocked(
-            `${event.violatedDirective}: ${event.blockedURI}`,
-          ),
-        ),
-      );
-      await use();
-      expect(blocked).toEqual([]);
-    },
-    { auto: true },
-  ],
-});
+import { expect, test } from './fixtures';
+import {
+  expectSiteLinks,
+  expectVisitCounter,
+  hexToRgb,
+  linkTargets,
+  openPath,
+  requestOnHost,
+} from './helpers';
 
 const firstCard = course.cards[0];
 if (!firstCard) throw new Error('The course has no cards; run pnpm sync-cards');
 const CARD_PATH = `/card/${firstCard.id}`;
 const UNKNOWN_PATH = '/no-such-path';
 const APPLE_LINK_FILE_PATH = '/.well-known/apple-app-site-association';
-
-/** The `href` of each link on the page that `selector` matches. */
-const linkTargets = (page: Page, selector: string) =>
-  page.locator(selector).evaluateAll((links) => links.map((link) => link.getAttribute('href')));
-
-/** `#1A130E` as CSS reports a colour: `rgb(26, 19, 14)`. */
-function hexToRgb(hex: string) {
-  const channels = /^#(?<red>\w{2})(?<green>\w{2})(?<blue>\w{2})$/.exec(hex)?.groups;
-  if (!channels) throw new Error(`Not a #RRGGBB colour: ${hex}`);
-  const { red, green, blue } = channels;
-  return `rgb(${[red, green, blue].map((channel) => parseInt(channel ?? '', 16)).join(', ')})`;
-}
-
-/** Opens `path` and checks the server answered with `status`. */
-async function openPath(page: Page, path: string, status = 200) {
-  const response = await page.goto(path);
-  expect(response?.status()).toBe(status);
-}
-
-// The tests never load the script, so they count no visits.
-test.beforeEach(({ page }) => page.route(WEB_ANALYTICS_SCRIPT, (route) => route.abort()));
-
-/** Checks that the page loads the visit counter with the site's key. */
-async function expectVisitCounter(page: Page) {
-  const counter = page.locator(`script[src="${WEB_ANALYTICS_SCRIPT}"]`);
-  await expect(counter).toHaveCount(1);
-  expect(JSON.parse((await counter.getAttribute('data-cf-beacon')) ?? '{}')).toEqual({
-    token: WEB_ANALYTICS_TOKEN,
-  });
-}
-
-/** Checks that the page's email links and App Store links point at the site's addresses. */
-async function expectSiteLinks(page: Page) {
-  const emailLinks = await linkTargets(page, 'a[href^="mailto:"]');
-  expect(emailLinks.length, 'email links').toBeGreaterThan(0);
-  for (const href of emailLinks) expect(href).toBe(MAILTO_HI);
-
-  const appStoreLinks = await linkTargets(page, `a[href*="${APP_STORE_HOST}"]`);
-  expect(appStoreLinks.length, 'App Store links').toBeGreaterThan(0);
-  for (const href of appStoreLinks) expect(href).toBe(APP_STORE_URL);
-}
 
 test('home page shows the lesson demo phone', async ({ page }) => {
   await openPath(page, PAGE_ROUTES.home);
@@ -150,10 +92,6 @@ test('an unknown URL shows the not-found page', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.notfound.title);
   await expectSiteLinks(page);
 });
-
-/** Requests `path` as the given domain would receive it, without following a redirect. */
-const requestOnHost = (request: APIRequestContext, host: string, path: string) =>
-  request.get(path, { headers: { host }, maxRedirects: 0 });
 
 test('the Apple link file lets the app open only card links, on both domains', async ({
   request,
