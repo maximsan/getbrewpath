@@ -31,4 +31,4 @@ Single-context: one `GLOSSARY.md` and `docs/adr/` at the repo root. See `docs/ag
 - Before opening a PR, run the checks CI runs (`.github/workflows/ci.yml`).
 - Run one test file with `pnpm test <path>`, one test with `pnpm test -t "<test name>"`.
 - Import aliases live in `tsconfig.json`. `vitest.config.ts` maps only some of them; add an alias there when a tested module imports it.
-- Product facts come from the app repo, checked out next to this one as `../brewpath`. The course content arrives through `pnpm sync-cards`; the design components were ported from `prototype/`, a design export kept as reference and skipped by lint.
+- Product facts come from the app repo; the README's `pnpm sync-cards` line shows where its clone goes. The course content arrives through `pnpm sync-cards`; the design components were ported from `prototype/`, a design export kept as reference and skipped by lint.
