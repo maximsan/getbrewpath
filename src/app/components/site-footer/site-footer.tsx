@@ -11,12 +11,12 @@ const footerLinkClass =
   'ff-ui text-sm leading-[1.2] text-ink-mute transition-colors hover:text-ink hover:no-underline';
 
 export async function SiteFooter() {
-  const t = await getTranslations('footer');
+  const translate = await getTranslations('footer');
   const tRoot = await getTranslations();
 
   return (
     <footer className="mt-[clamp(64px,9vw,120px)] border-t border-rule">
-      <div className="page-width flex flex-col items-center gap-y-6 px-6 pt-9 pb-11 min-[600px]:flex-row min-[600px]:flex-wrap min-[600px]:justify-between min-[600px]:gap-x-10">
+      <div className="page-width flex flex-col items-center gap-y-6 px-6 pt-9 pb-11 tablet:flex-row tablet:flex-wrap tablet:justify-between tablet:gap-x-10">
         <div className="flex flex-wrap items-center gap-x-[18px] gap-y-3 max-[600px]:justify-center">
           <div className="flex items-center gap-2.5">
             <Image
@@ -31,7 +31,7 @@ export async function SiteFooter() {
             </span>
           </div>
           <span className="ff-mono text-[11px] leading-none tracking-[.1em] text-ink-mute uppercase">
-            {t('copyright', { year: String(COPYRIGHT_YEAR) })}
+            {translate('copyright', { year: String(COPYRIGHT_YEAR) })}
           </span>
         </div>
         <nav
@@ -40,11 +40,11 @@ export async function SiteFooter() {
         >
           {LEGAL_PAGES.map((page) => (
             <Link key={page} href={PAGE_ROUTES[page]} className={footerLinkClass}>
-              {t(page)}
+              {translate(page)}
             </Link>
           ))}
           <a href={MAILTO_HI} className={footerLinkClass}>
-            {t('support')}
+            {translate('support')}
           </a>
         </nav>
         <LanguageLinks />

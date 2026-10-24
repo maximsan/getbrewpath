@@ -1,6 +1,6 @@
 'use client';
 
-import { type ReactNode, useId, useState } from 'react';
+import { type CSSProperties, type ReactNode, useId, useState } from 'react';
 
 import { cn } from '@shared/styles/cn';
 
@@ -9,17 +9,27 @@ import styles from './disclosure.module.css';
 /** "caret" for lists of things; "plus" for a prose answer such as an FAQ. */
 export type DisclosureGlyph = 'caret' | 'plus';
 
-export interface DisclosureProps {
+/** Either the disclosure keeps its own open state, or the parent decides it, e.g. one answer open at a time. */
+type OpenState =
+  | {
+      /** Starts open. Defaults to false. */
+      defaultOpen?: boolean;
+      open?: never;
+      onToggle?: never;
+    }
+  | { defaultOpen?: never; open: boolean; onToggle: () => void };
+
+export type DisclosureProps = OpenState & {
   /** Header text. */
   label: ReactNode;
   /** Defaults to "caret". */
   glyph?: DisclosureGlyph;
   /** CSS padding of the header button. Defaults to "16px 0". */
   headerPad?: string;
-  /** Starts open. Defaults to false. */
-  defaultOpen?: boolean;
+  /** How long opening and closing take. Defaults to 240. */
+  durationMs?: number;
   children: ReactNode;
-}
+};
 
 const PLUS_SIZE = 12;
 const CARET_SIZE = 18;
@@ -65,18 +75,30 @@ export function Disclosure({
   glyph = 'caret',
   headerPad = '16px 0',
   defaultOpen = false,
+  open: openProp,
+  onToggle,
+  durationMs,
   children,
 }: DisclosureProps) {
-  const [open, setOpen] = useState(defaultOpen);
+  const [openState, setOpenState] = useState(defaultOpen);
   const panelId = useId();
+  const open = openProp ?? openState;
+  const toggle = onToggle ?? (() => setOpenState((wasOpen) => !wasOpen));
 
   return (
-    <div className={styles.root}>
+    <div
+      className={styles.root}
+      style={
+        durationMs === undefined
+          ? undefined
+          : ({ '--disclosure-ms': `${durationMs}ms` } as CSSProperties)
+      }
+    >
       <button
         type="button"
         aria-expanded={open}
         aria-controls={panelId}
-        onClick={() => setOpen((wasOpen) => !wasOpen)}
+        onClick={toggle}
         className="block w-full cursor-pointer appearance-none border-none bg-transparent text-left text-inherit"
         style={{ padding: headerPad }}
       >

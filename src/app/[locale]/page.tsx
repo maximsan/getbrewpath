@@ -8,7 +8,7 @@ import { ModulesStrip } from '@components/home/modules-strip';
 import { Pricing } from '@components/home/pricing';
 import { RoastyShowcase } from '@components/home/roasty-showcase';
 import { Section } from '@components/section/section';
-import { DEMO_REWARD_CARD_ID, getCourse, rewardOf } from '@domains/course/course';
+import { courseCounts, DEMO_REWARD_CARD_ID, getCourse, rewardOf } from '@domains/course/course';
 import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 
 export default async function HomePage({ params }: LocaleParams) {
@@ -17,7 +17,10 @@ export default async function HomePage({ params }: LocaleParams) {
   return (
     <>
       <Hero />
-      <ModulesStrip course={course} />
+      <Section id="why" className="pt-[clamp(56px,8vw,104px)]">
+        <RoastyShowcase />
+        <ModulesStrip course={course} />
+      </Section>
       <HowItWorks />
       <Features />
       <Section id="demo">
@@ -25,11 +28,11 @@ export default async function HomePage({ params }: LocaleParams) {
           data-reveal
           className="overflow-hidden rounded-[28px] border border-rule bg-surface px-[clamp(24px,5vw,64px)] py-[clamp(32px,5vw,64px)]"
         >
-          <LessonDemo reward={rewardOf(course, DEMO_REWARD_CARD_ID)} />
+          <LessonDemo
+            reward={rewardOf(course, DEMO_REWARD_CARD_ID)}
+            freeLessons={courseCounts(course).freeLessons}
+          />
         </div>
-      </Section>
-      <Section>
-        <RoastyShowcase />
       </Section>
       <Pricing course={course} />
       <Faq course={course} />

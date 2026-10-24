@@ -126,17 +126,6 @@ export const LeafIcon = icon(
   </>,
 );
 
-export const BookIcon = icon(
-  <>
-    <path
-      d="M12 6.5 Q8.5 4.5 4 5 V18.5 Q8.5 18 12 20 Q15.5 18 20 18.5 V5 Q15.5 4.5 12 6.5 Z"
-      {...line}
-      strokeLinejoin="round"
-    />
-    <path d="M12 6.5 V20" {...line} strokeWidth={1.3} />
-  </>,
-);
-
 export const CheckIcon = icon(
   <path d="M3 9.5l3.5 3.5L15 5" {...line} strokeWidth={2} strokeLinejoin="round" />,
   '0 0 18 18',

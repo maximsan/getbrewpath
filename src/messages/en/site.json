@@ -1,6 +1,6 @@
 {
   "nav": {
-    "course": "Course",
+    "course": "The path",
     "how": "How it works",
     "demo": "Try a lesson",
     "pricing": "Pricing",
@@ -25,9 +25,7 @@
     "shotLesson": "A BrewPath lesson asking for a first guess"
   },
   "modules": {
-    "title": "Five modules, bean to cup.",
-    "meta": "{lessons} lessons, {cards} cards, about {minutes} min each",
-    "lessons": "{n, plural, one {# lesson} other {# lessons}}{freeLessons, plural, =0 {} other {, # free}}",
+    "meta": "{modules, plural, =5 {Five modules} other {# modules}} — {lessons} lessons, {minutes} min each",
     "items": {
       "m1": {
         "title": "Beans",
@@ -67,8 +65,8 @@
       },
       "step3": {
         "title": "Keep the card",
-        "body": "A perfect lesson earns a Coffee Card. Finish a module and its Module Reward joins your deck. Your tree grows either way.",
-        "alt": "Card collection screen"
+        "body": "A perfect lesson earns a Coffee Card. Finish a module and its Module Reward joins your card collection. Your tree grows either way.",
+        "alt": "Coffee Card collection"
       }
     }
   },
@@ -78,7 +76,7 @@
       "games": {
         "title": "Games that check what stuck",
         "body": "Fix the cup, set the grind, name the origin. Each game practises what a lesson taught.",
-        "alt": "Today screen"
+        "alt": "Practice game screen"
       },
       "dictionary": {
         "title": "A dictionary that shows its sources",
@@ -92,8 +90,9 @@
     "body": "Three real cards from “What coffee actually is”, running the same way they do in the app. Pick an answer, read why, tap Continue.",
     "scorePerfect": "{n} of {total}. That card is yours.",
     "scorePartial": "{n} of {total}. Close — the card wants a perfect run.",
-    "scoreBodyPerfect": "In the app, a perfect lesson keeps the card for good. The full lesson is eight cards and free.",
-    "scoreBodyPartial": "In the app you can replay any lesson until it’s perfect. The full lesson is eight cards and free.",
+    "scoreBodyPerfect": "In the app, a perfect lesson keeps the card for good.",
+    "scoreBodyPartial": "In the app you can replay any lesson until it’s perfect.",
+    "fullLesson": "The full lesson is eight cards — and {freeLessons, plural, =1 {the free one} =2 {one of the two free ones} =3 {one of the three free ones} other {one of the # free ones}}.",
     "get": "Get BrewPath",
     "again": "Play again",
     "restart": "Restart",
@@ -124,9 +123,10 @@
     }
   },
   "roasty": {
-    "title": "Meet Roasty. He takes it personally.",
-    "body": "A coffee bean with a beanie and strong opinions. He cheers a right answer, winces at a wrong one, and dozes off if you leave him too long. Dress him in the Studio — hats, glasses, a sprout.",
+    "title": "Meet Roasty. He’ll walk you bean to cup.",
+    "body": "A coffee bean with a beanie and strong opinions. He cheers a right answer, winces at a wrong one, and dozes off if you leave him too long. The path you take together is five modules — beans, processing, roasting, grind, brew.",
     "tapMoment": "Tap a moment",
+    "playMoment": "Show another Roasty moment",
     "lines": {
       "idle": "Breathing. Mostly.",
       "correct": "Yes! That’s the one.",
@@ -145,12 +145,12 @@
     }
   },
   "pricing": {
-    "title": "The first {freeLessons, plural, one {lesson is} =2 {two lessons are} =3 {three lessons are} other {# lessons are}} free. Foundations unlocks the rest.",
+    "title": "Start free. Foundations unlocks the rest.",
     "free": "Free",
-    "freeNote": "no purchase needed",
+    "freeNote": "Free, forever",
     "freeCta": "Download free",
     "foundations": "Foundations",
-    "foundationsNote": "unlock in the app",
+    "foundationsNote": "The full course",
     "foundationsCta": "Start free, unlock in the app",
     "freeList": {
       "item1": "The first {freeLessons, plural, one {lesson} =2 {two lessons} =3 {three lessons} other {# lessons}}",
@@ -159,13 +159,14 @@
       "item4": "Roasty, your tree and your streak"
     },
     "foundationsList": {
-      "item1": "Modules 2–5 — every lesson",
+      "item1": "All {modules, plural, =5 {five} other {#}} modules — every lesson",
       "item2": "The five premium card formats",
       "item3": "The complete Dictionary",
       "item4": "Unlimited saved terms and cards",
       "item5": "The Studio — dress Roasty, choose your plant"
     },
-    "note": "The app shows the plans and the price for your country before you buy."
+    "note": "The app shows the plans and the price for your country before you buy.",
+    "updatesIncluded": "Fixes and improvements are included."
   },
   "faq": {
     "title": "FAQ",
@@ -180,7 +181,7 @@
       },
       "q3": {
         "q": "Is there an Android version?",
-        "a": "Not yet. BrewPath is iPhone-only for now; Android is on the plan. Write to us and we’ll tell you when."
+        "a": "Not yet. BrewPath is iPhone-only for now; Android is on the plan."
       },
       "q4": {
         "q": "Does it work offline?",
@@ -188,10 +189,11 @@
       },
       "q5": {
         "q": "What exactly is a Coffee Card?",
-        "a": "A collectible you earn by finishing a lesson with a perfect score. Each one holds a fact, a specimen drawing and the spec of what you learned. There are 37, including a Module Reward for each of the five modules. You can share any card with a link."
+        "a": "A collectible you earn by finishing a lesson with a perfect score. Each one holds a fact, a specimen drawing and the spec of what you learned. Finish a module and you earn its Module Reward too. You can share any card with a link."
       }
     },
-    "more": "Something else? Write to <link>{email}</link>."
+    "more": "Something else?",
+    "write": "Write to <link>{email}</link>."
   },
   "cta": {
     "title": "Your first lesson takes three minutes.",
@@ -201,8 +203,8 @@
   "card": {
     "shared": "Shared from BrewPath",
     "earned": "A friend earned <em>{card}</em>.",
-    "lessonBody": "A perfect score on <strong>{lesson}</strong>, lesson {lessonNumber} of the {module} module. In BrewPath, every lesson you ace becomes a Coffee Card — a fact worth keeping, in a deck worth finishing.",
-    "moduleRewardBody": "This is a Module Reward, earned by finishing every lesson of the <strong>{module}</strong> module. Each module you finish adds its Module Reward to your deck, next to the cards from its lessons.",
+    "lessonBody": "A perfect score on <strong>{lesson}</strong>, lesson {lessonNumber} of the {module} module. In BrewPath, every lesson you ace becomes a Coffee Card — a fact worth keeping, in a collection worth finishing.",
+    "moduleRewardBody": "This is a Module Reward, earned by finishing every lesson of the <strong>{module}</strong> module. Each module you finish adds its Module Reward to your card collection, next to the cards from its lessons.",
     "defaultBadge": "Coffee card",
     "get": "Get BrewPath — free to start",
     "open": "Open in the app",
@@ -1010,7 +1012,8 @@
     "title": "This cup’s empty.",
     "body": "The page you’re after isn’t here — maybe it moved, maybe it was never brewed. Roasty slept through it.",
     "back": "Back to the start",
-    "get": "Get the app"
+    "get": "Get the app",
+    "wakeRoasty": "Wake Roasty"
   },
   "footer": {
     "copyright": "© {year}",
