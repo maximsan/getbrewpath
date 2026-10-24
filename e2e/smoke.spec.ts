@@ -1,7 +1,8 @@
-import { type APIRequestContext, expect, type Page, test } from '@playwright/test';
+import { type APIRequestContext, test as base, expect, type Page } from '@playwright/test';
 
 import course from '@content/en/course.json' with { type: 'json' };
 import site from '@messages/en/site.json' with { type: 'json' };
+import { BRAND_COLORS } from '@domains/site/brand';
 import { legalPageSource } from '@domains/site/legal-pages';
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import {
@@ -18,6 +19,21 @@ import {
 
 const APP_STORE_HOST = new URL(APP_STORE_URL).host;
 
+/** Every test fails if the page loads anything the Content Security Policy blocks. */
+const test = base.extend<{ blockedByPolicy: void }>({
+  blockedByPolicy: [
+    async ({ page }, use) => {
+      const blocked: string[] = [];
+      page.on('console', (message) => {
+        if (message.text().includes('Content Security Policy')) blocked.push(message.text());
+      });
+      await use();
+      expect(blocked).toEqual([]);
+    },
+    { auto: true },
+  ],
+});
+
 const firstCard = course.cards[0];
 if (!firstCard) throw new Error('The course has no cards; run pnpm sync-cards');
 const CARD_PATH = `/card/${firstCard.id}`;
@@ -27,6 +43,10 @@ const APPLE_LINK_FILE_PATH = '/.well-known/apple-app-site-association';
 /** The `href` of each link on the page that `selector` matches. */
 const linkTargets = (page: Page, selector: string) =>
   page.locator(selector).evaluateAll((links) => links.map((link) => link.getAttribute('href')));
+
+/** `#1A130E` as CSS reports a colour: `rgb(26, 19, 14)`. */
+const hexToRgb = (hex: string) =>
+  `rgb(${[1, 3, 5].map((start) => parseInt(hex.slice(start, start + 2), 16)).join(', ')})`;
 
 /** Opens `path` and checks the server answered with `status`. */
 async function openPath(page: Page, path: string, status = 200) {
@@ -72,6 +92,26 @@ test('the home page fits a 320px-wide phone without scrolling sideways', async (
   await expect(page.getByRole('button', { name: site.nav.menu })).toBeInViewport({ ratio: 1 });
   const pageWidth = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(pageWidth).toBe(320);
+});
+
+test('a phone in dark mode shows Dark Roast from the first paint', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'dark' });
+  // Without the scripts the page is never hydrated, so it stays as first painted.
+  await page.route('**/_next/static/chunks/*.js', (route) => route.abort());
+  await openPath(page, PAGE_ROUTES.home);
+  await expect(page.locator('body')).toHaveCSS(
+    'background-color',
+    hexToRgb(BRAND_COLORS.darkRoast),
+  );
+});
+
+test('the open menu keeps keyboard focus off the page behind it', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openPath(page, PAGE_ROUTES.home);
+  await page.getByRole('button', { name: site.nav.menu }).click();
+  await expect(page.locator('main')).toHaveJSProperty('inert', true);
+  await page.keyboard.press('Escape');
+  await expect(page.locator('main')).toHaveJSProperty('inert', false);
 });
 
 for (const doc of LEGAL_PAGES) {
