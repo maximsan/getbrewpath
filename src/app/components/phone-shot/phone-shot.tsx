@@ -13,8 +13,11 @@ import darkRoastTerm from '@assets/screens/dark-roast/term.png';
 import darkRoastToday from '@assets/screens/dark-roast/today.png';
 import { MOOD_ONLY } from '@components/mood/mood-only';
 import { type Mood, MOODS } from '@domains/site/mood';
-import { SCREEN_ASPECT, type ScreenId } from '@domains/site/screens';
+import type { ScreenId } from '@domains/site/screens';
 import { cn } from '@shared/styles/cn';
+
+/** Width over height of the phone outline, from the design prototype. Each screenshot is cropped to fit it. */
+const PHONE_ASPECT_RATIO = '826 / 1750';
 
 /**
  * App screenshots, one set per mood. They are imported rather than served from
@@ -54,7 +57,7 @@ interface PhoneShotProps {
   riseOffset?: string;
 }
 
-/** An app screenshot in a rounded phone silhouette, in the page's mood. */
+/** An app screenshot in a rounded phone outline, in the page's mood. */
 export function PhoneShot({
   screen,
   alt,
@@ -68,7 +71,7 @@ export function PhoneShot({
     <div
       className={cn('relative overflow-hidden rounded-[10.5%/5%] bg-phone-frame', className)}
       style={{
-        aspectRatio: SCREEN_ASPECT,
+        aspectRatio: PHONE_ASPECT_RATIO,
         ...(riseOffset ? ({ '--y': riseOffset } as CSSProperties) : null),
         ...style,
       }}
