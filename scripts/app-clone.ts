@@ -1,6 +1,7 @@
 /**
- * Reads the BrewPath app's files as merged to its `main` branch on GitHub,
- * whatever branch or edits the app's clone has checked out.
+ * Finds the BrewPath app's clone on this computer, and reads the app's files
+ * through it as merged to `main` on GitHub: whatever branch the clone is on,
+ * and whatever uncommitted edits it has.
  */
 import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
@@ -11,7 +12,7 @@ const APP_CLONE_FOLDER = 'brewpath';
 /** Node stops reading git's output at 1 MiB by default, and the app's content files grow with each lesson. */
 const MAX_GIT_OUTPUT_BYTES = 64 * 1024 * 1024;
 
-/** Runs git in `cwd`; a failure throws git's own message, without Node's command dump. */
+/** Runs git in `cwd`; a failure throws git's own message, without the full command Node adds to the error. */
 function git(cwd: string, args: string[]) {
   try {
     return execFileSync('git', args, {
@@ -28,25 +29,25 @@ function git(cwd: string, args: string[]) {
 }
 
 /**
- * The path of the app's clone: the `brewpath` folder next to the folder this repo
- * was cloned into. From a worktree, git still lists that folder first, so every
- * worktree finds the same clone.
+ * Where the app's clone should be: the `brewpath` folder beside this repo's folder.
+ * `git worktree list` shows this repo's folder first in every worktree, so every
+ * worktree gets the same path.
  */
-export function findAppClone(cwd: string) {
+export function appClonePath(cwd: string) {
   const worktrees = git(cwd, ['worktree', 'list', '--porcelain']);
-  const clonedInto = /^worktree (?<path>.+)$/m.exec(worktrees)?.groups?.path;
-  if (!clonedInto) throw new Error(`git listed no checkout for ${cwd}`);
-  return join(dirname(clonedInto), APP_CLONE_FOLDER);
+  const repoFolder = /^worktree (?<path>.+)$/m.exec(worktrees)?.groups?.path;
+  if (!repoFolder) throw new Error(`git listed no folder for this repo in ${cwd}`);
+  return join(dirname(repoFolder), APP_CLONE_FOLDER);
 }
 
-/** Fetches the app's `main` branch from GitHub and reads its files at that commit. */
-export function fetchAppMainBranch(appClone: string) {
+/** Fetches the app's `main` branch from GitHub into its clone, and reads the app's files at that commit. */
+export function fetchAppMainFiles(appClone: string) {
   if (!existsSync(join(appClone, '.git'))) {
     throw new Error(
       `No app clone at ${appClone}. Clone maximsan/brewpath there, or pass the clone's path: pnpm sync-cards <path>`,
     );
   }
-  // The refspec names the target, so a clone set to fetch other branches still updates origin/main.
+  // The fetch names origin/main as its destination, so it updates even in a clone set to fetch other branches.
   git(appClone, [
     'fetch',
     '--quiet',

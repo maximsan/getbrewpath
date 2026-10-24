@@ -1,8 +1,8 @@
 /**
  * Copies the course summary from the BrewPath app's `main` branch on GitHub
- * into this site, once per language the site is published in. It reads them
- * through a clone of the app repo: by default the `brewpath` folder next to the
- * folder this repo was cloned into, or the path given after the command.
+ * into this site, once per language the site is published in. It reads the
+ * app's content files through the app's clone: by default the folder that
+ * `appClonePath` in `app-clone.ts` names, or the path given after the command.
  *
  *   pnpm sync-cards [path-to-app-clone]
  *
@@ -17,7 +17,7 @@ import { buildCourse, type ContentBanks } from '../src/domains/course/build-cour
 import { courseCounts } from '../src/domains/course/course';
 import { overlayTranslation } from '../src/domains/course/overlay-translation';
 import { type Locale, routing } from '../src/i18n/routing';
-import { APP_BRANCH, fetchAppMainBranch, findAppClone } from './app-main-branch';
+import { APP_BRANCH, appClonePath, fetchAppMainFiles } from './app-clone';
 
 /**
  * The app's English content. Each other language has a folder of translated
@@ -31,23 +31,23 @@ type Bank = Exclude<keyof ContentBanks, 'freeTier'>;
 type Records = Record<string, unknown>[];
 
 /** Fetches the app's `main` branch through its clone. On failure, prints the reason and exits. */
-function fetchAppMainBranchOrExit() {
+function fetchAppMainFilesOrExit() {
   try {
-    const appClone = process.argv[2] ? resolve(process.argv[2]) : findAppClone(process.cwd());
-    const appMainBranch = fetchAppMainBranch(appClone);
-    console.log(`Reading ${appClone} at ${APP_BRANCH}, commit ${appMainBranch.commit}`);
-    return appMainBranch;
+    const appClone = process.argv[2] ? resolve(process.argv[2]) : appClonePath(process.cwd());
+    const appMainFiles = fetchAppMainFiles(appClone);
+    console.log(`Reading ${appClone} at ${APP_BRANCH}, commit ${appMainFiles.commit}`);
+    return appMainFiles;
   } catch (error) {
     console.error(error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }
 
-const appMainBranch = fetchAppMainBranchOrExit();
+const appMainFiles = fetchAppMainFilesOrExit();
 
 /** A bank file's records; `buildCourse` checks their shape. */
 const readRecords = (dir: string, bank: Bank) =>
-  (JSON.parse(appMainBranch.readFile(`${dir}/${bank}.json`)) as { items: Records }).items;
+  (JSON.parse(appMainFiles.readFile(`${dir}/${bank}.json`)) as { items: Records }).items;
 
 const banksBy = (records: (bank: Bank) => Records): ContentBanks => ({
   lessons: { items: records('lessons') },
@@ -62,9 +62,7 @@ const english: Record<Bank, Records> = {
   collectibles: readRecords(MASTER_DIR, 'collectibles'),
 };
 /** The free lessons and the daily limit, read once for every language. */
-const freeTier: unknown = JSON.parse(
-  appMainBranch.readFile(`${MASTER_DIR}/website/free_tier.json`),
-);
+const freeTier: unknown = JSON.parse(appMainFiles.readFile(`${MASTER_DIR}/website/free_tier.json`));
 
 for (const locale of routing.locales) {
   const banks = banksBy((bank) =>

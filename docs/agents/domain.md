@@ -9,7 +9,7 @@ How the engineering skills should consume this repo's domain documentation when 
 
 If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The `/domain-modeling` skill (reached via `/grill-with-docs` and `/improve-codebase-architecture`) creates them lazily when terms or decisions actually get resolved.
 
-The app's own decisions live in the app repo, cloned into a folder named `brewpath`, next to the folder this repo is cloned into. When the site states a product fact (prices, the free tier, card kinds, moods), check that repo's `GLOSSARY.md` and ADRs too.
+The app's own decisions live in the app repo; the README's `pnpm sync-cards` line shows where its clone goes. When the site states a product fact (prices, the free tier, card kinds, moods), check that repo's `GLOSSARY.md` and ADRs too.
 
 ## File structure
 
