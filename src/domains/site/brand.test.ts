@@ -24,8 +24,12 @@ const CSS_VARIABLE_OF: Record<keyof typeof BRAND_COLORS, [rule: string, variable
 /** The value `rule` gives `variable` in `globals.css`, or undefined if it sets none. */
 function cssValue(rule: string, variable: string) {
   const start = GLOBALS_CSS.indexOf(rule);
-  if (start === -1) throw new Error(`globals.css has no rule ${rule}`);
+
+  if (start === -1) {
+    throw new Error(`globals.css has no rule ${rule}`);
+  }
   const body = GLOBALS_CSS.slice(start, GLOBALS_CSS.indexOf('}', start));
+
   return new RegExp(`${variable}:\\s*(?<value>#[0-9a-f]{6});`, 'i').exec(body)?.groups?.value;
 }
 
@@ -34,6 +38,7 @@ describe('the brand colours', () => {
     '%s matches its CSS variable in globals.css',
     (name, [rule, variable]) => {
       const color = BRAND_COLORS[name as keyof typeof BRAND_COLORS];
+
       expect(cssValue(rule, variable)?.toUpperCase()).toBe(color);
     },
   );

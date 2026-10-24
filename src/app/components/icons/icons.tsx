@@ -13,6 +13,7 @@ function icon(paths: ReactNode, viewBox = '0 0 24 24') {
       </svg>
     );
   }
+
   return Icon;
 }
 

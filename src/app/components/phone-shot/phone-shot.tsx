@@ -1,5 +1,4 @@
 import Image, { type StaticImageData } from 'next/image';
-import type { CSSProperties } from 'react';
 
 import cuppingDeck from '@assets/screens/cupping/deck.png';
 import cuppingFill from '@assets/screens/cupping/fill.png';
@@ -16,9 +15,6 @@ import darkRoastToday from '@assets/screens/dark-roast/today.png';
 import type { Mood } from '@domains/site/mood';
 import type { ScreenId } from '@domains/site/screens';
 import { cn } from '@shared/styles/cn';
-
-/** Width over height of the phone frame. The screen inside it matches the screenshots' 786 × 1704. */
-const PHONE_ASPECT_RATIO = '1000 / 2093';
 
 /**
  * App screenshots, one set per mood. They are imported rather than served from
@@ -48,36 +44,26 @@ interface PhoneShotProps {
   alt: string;
   /** Rendered width hint for the image optimiser, e.g. "270px". */
   sizes: string;
+  /** Classes for the frame. A rising shot sets how low it sits with e.g. `[--rise-offset:30%]`. */
   className?: string;
-  style?: CSSProperties;
   /** Shown on the first screen: the Cupping shot loads ahead of other images. */
   aboveFold?: boolean;
-  /** Rises into place when its revealed card scrolls in; the value is how far it sits below the card's edge. */
-  riseOffset?: string;
+  /** Rises into place, to `--rise-offset` below the card's edge, when its revealed card scrolls in. */
+  rises?: boolean;
 }
 
 /**
  * An app screenshot in a phone frame, in the page's mood. The Dark Roast shot
  * lies over the Cupping one and fades in with the mood switch.
  */
-export function PhoneShot({
-  screen,
-  alt,
-  sizes,
-  className,
-  style,
-  aboveFold,
-  riseOffset,
-}: PhoneShotProps) {
+export function PhoneShot({ screen, alt, sizes, className, aboveFold, rises }: PhoneShotProps) {
   return (
     <div
-      className={cn('relative overflow-hidden rounded-[16.3%/7.8%] bg-phone-frame', className)}
-      style={{
-        aspectRatio: PHONE_ASPECT_RATIO,
-        ...(riseOffset ? ({ '--y': riseOffset } as CSSProperties) : null),
-        ...style,
-      }}
-      data-rise={riseOffset ? '' : undefined}
+      className={cn(
+        'relative aspect-phone overflow-hidden rounded-[16.3%/7.8%] bg-phone-frame',
+        className,
+      )}
+      data-rise={rises ? '' : undefined}
     >
       <div className="absolute inset-x-[3.2%] inset-y-[1.53%] overflow-hidden rounded-[14%/6.46%] bg-bg">
         <Image

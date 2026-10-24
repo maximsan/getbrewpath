@@ -21,10 +21,14 @@ export default async function CardOpenGraphImage({
 }) {
   const locale = await setPageLocale(params);
   const card = findCard(await getCourse(locale), (await params).id);
-  if (!card) notFound();
-  const t = await getTranslations({ locale, namespace: 'card' });
+
+  if (!card) {
+    notFound();
+  }
+  const translate = await getTranslations({ locale, namespace: 'card' });
+
   return renderOgImage({
-    kicker: t('shared'),
+    kicker: translate('shared'),
     title: card.reward.title,
     body: card.reward.summary,
   });

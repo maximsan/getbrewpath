@@ -8,5 +8,6 @@ export const generateMetadata = ({ params }: LocaleParams): Promise<Metadata> =>
 
 export default async function TermsPage({ params }: LocaleParams) {
   await setPageLocale(params);
+
   return <LegalDoc doc="terms" />;
 }

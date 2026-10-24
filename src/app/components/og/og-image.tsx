@@ -10,6 +10,7 @@ export const OG_SIZE = { width: 1200, height: 630 };
 const iconDataUrl = async () => {
   // Written out in full: the build copies a file into the server code only when the code names its full path.
   const icon = await readFile(join(process.cwd(), 'src/assets/app-icon.png'));
+
   return `data:image/png;base64,${icon.toString('base64')}`;
 };
 
@@ -22,6 +23,7 @@ interface OgImageProps {
 /** The share image for the site and for each card: icon, a short label, a title and a sentence. */
 export async function renderOgImage({ kicker, title, body }: OgImageProps) {
   const icon = await iconDataUrl();
+
   return new ImageResponse(
     <div
       style={{

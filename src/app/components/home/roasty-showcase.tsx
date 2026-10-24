@@ -17,9 +17,8 @@ const MOMENTS = [
   'module',
   'sleep',
 ] as const satisfies readonly RoastyState[];
-type Moment = (typeof MOMENTS)[number];
 
-const ROASTY_SIZE = 200;
+type Moment = (typeof MOMENTS)[number];
 
 export function RoastyShowcase() {
   const translate = useTranslations('roasty');
@@ -57,7 +56,7 @@ export function RoastyShowcase() {
           className="relative min-h-[290px]"
           state={moment}
           replayKey={replayCount}
-          size={ROASTY_SIZE}
+          size="large"
         />
         <p
           aria-live="polite"

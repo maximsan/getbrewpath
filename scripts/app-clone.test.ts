@@ -32,28 +32,35 @@ function commitFile(dir: string, file: string, text: string) {
 /** Creates a stand-in for the app on GitHub, and a clone of it at `<root>/brewpath`. */
 function cloneApp() {
   const github = join(root, 'github.git');
+
   git(root, 'init', '--quiet', '--bare', '--initial-branch=main', github);
   const app = join(root, 'brewpath');
+
   git(root, 'clone', '--quiet', github, app);
   commitFile(app, FREE_TIER_FILE, freeTier(2));
   git(app, 'push', '--quiet', 'origin', 'HEAD:main');
   git(app, 'fetch', '--quiet');
+
   return app;
 }
 
 /** Pushes a new daily limit to the stand-in for GitHub from a second clone. */
 function pushFromAnotherClone(freeDailyActivities: number) {
   const otherClone = join(root, 'other');
+
   git(root, 'clone', '--quiet', join(root, 'github.git'), otherClone);
   commitFile(otherClone, FREE_TIER_FILE, freeTier(freeDailyActivities));
   git(otherClone, 'push', '--quiet', 'origin', 'HEAD:main');
+
   return git(otherClone, 'rev-parse', 'HEAD').trim();
 }
 
 beforeEach(() => {
   // A git hook exports GIT_DIR and other GIT_ variables; left in place, they would point every git call at this repo.
   for (const name of Object.keys(process.env)) {
-    if (name.startsWith('GIT_')) vi.stubEnv(name, undefined);
+    if (name.startsWith('GIT_')) {
+      vi.stubEnv(name, undefined);
+    }
   }
   vi.stubEnv('GIT_CONFIG_GLOBAL', '/dev/null');
   vi.stubEnv('GIT_CONFIG_NOSYSTEM', '1');
@@ -80,6 +87,7 @@ describe('appClonePath', () => {
 
   it('is the same from a worktree inside the site’s folder', () => {
     const worktree = join(site, '.claude', 'worktrees', 'feat');
+
     git(site, 'worktree', 'add', '--quiet', '-b', 'feat', worktree);
 
     expect(appClonePath(worktree)).toBe(join(root, 'brewpath'));
@@ -87,6 +95,7 @@ describe('appClonePath', () => {
 
   it('is the same from a worktree beside the site’s folder', () => {
     const worktree = join(root, 'getbrewpath-feat');
+
     git(site, 'worktree', 'add', '--quiet', '-b', 'feat', worktree);
 
     expect(appClonePath(worktree)).toBe(join(root, 'brewpath'));
@@ -96,6 +105,7 @@ describe('appClonePath', () => {
 describe('fetchAppMainFiles', () => {
   it('reads main on GitHub and ignores the app clone’s checked-out branch and uncommitted edits', () => {
     const app = cloneApp();
+
     git(app, 'switch', '--quiet', '-c', 'unreleased');
     commitFile(app, FREE_TIER_FILE, freeTier(5));
     writeFileSync(join(app, FREE_TIER_FILE), freeTier(9));
@@ -115,6 +125,7 @@ describe('fetchAppMainFiles', () => {
 
   it('fetches main even when the clone is set to fetch only another branch', () => {
     const app = cloneApp();
+
     git(app, 'config', 'remote.origin.fetch', '+refs/heads/other:refs/remotes/origin/other');
     pushFromAnotherClone(4);
 
@@ -129,6 +140,7 @@ describe('fetchAppMainFiles', () => {
 
   it('gives git’s reason when GitHub cannot be reached', () => {
     const app = cloneApp();
+
     git(app, 'remote', 'set-url', 'origin', join(root, 'gone.git'));
 
     expect(() => fetchAppMainFiles(app)).toThrow(`git fetch failed in ${app}`);

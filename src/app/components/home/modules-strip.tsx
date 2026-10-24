@@ -47,6 +47,7 @@ export async function ModulesStrip({ course }: { course: Course }) {
         {course.modules.map((module, index) => {
           const Icon = MODULE_ICONS[module.id] ?? BeansIcon;
           const key = module.id as keyof Messages['modules']['items'];
+
           return (
             <div
               key={module.id}

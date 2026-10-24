@@ -1,10 +1,10 @@
 'use client';
 
-import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
+import { cn } from '@shared/styles/cn';
+
 import { AnswerFeedback } from './answer-feedback';
-import styles from './lesson-cards.module.css';
 
 export interface Choice {
   key: string | number;
@@ -16,10 +16,22 @@ export interface Choice {
   onSelect: () => void;
 }
 
+/** How a choice looks once the learner has picked: the right answer green, a wrong pick red and shaking. */
+const VERDICT_STYLE: Record<NonNullable<Choice['verdict']>, string> = {
+  correct: 'border-sage bg-[color-mix(in_oklab,var(--sage)_12%,var(--surface))]',
+  incorrect:
+    'border-berry bg-[color-mix(in_oklab,var(--berry)_8%,var(--surface))] animate-answer-shake',
+};
+
 /** The colour a choice takes once the learner has picked: the right answer is correct, a wrong pick incorrect. */
 export function choiceVerdict<T>(value: T, answer: T, picked: T | null): Choice['verdict'] {
-  if (picked === null) return undefined;
-  if (value === answer) return 'correct';
+  if (picked === null) {
+    return undefined;
+  }
+  if (value === answer) {
+    return 'correct';
+  }
+
   return value === picked ? 'incorrect' : undefined;
 }
 
@@ -46,25 +58,35 @@ export function ChoiceCard({
   explain,
   onContinue,
 }: ChoiceCardProps) {
-  const t = useTranslations('lesson');
+  const translate = useTranslations('lesson');
   const answered = pickedCorrect !== null;
+
   return (
     <div className="flex min-h-[600px] flex-[1_0_auto] flex-col px-6">
       <div className="smallcaps mb-3 flex items-center gap-2 leading-none text-accent">
         <span className="text-support leading-none">{cue}</span>
       </div>
       <h2
-        className={`ff-display m-0 text-title font-normal tracking-[-0.01em] text-pretty text-ink ${titleLeading}`}
+        className={cn(
+          'ff-display m-0 text-title font-normal tracking-[-0.01em] text-pretty text-ink',
+          titleLeading,
+        )}
       >
         {title}
       </h2>
 
-      <div className={`${styles.choices} mt-6 flex flex-col gap-2.5`}>
+      <div className="mt-6 flex flex-col gap-2.5">
         {choices.map((choice) => (
           <button
             key={choice.key}
             type="button"
-            className={clsx(styles.choice, choice.verdict && styles[choice.verdict])}
+            className={cn(
+              'ff-ui block w-full cursor-pointer rounded-card border border-rule bg-surface px-5 py-[18px] text-left text-body font-medium text-ink transition-all duration-150 ease-[ease] not-aria-disabled:active:scale-[.985] aria-disabled:cursor-default',
+              choice.verdict && VERDICT_STYLE[choice.verdict],
+              // Only the learner's own pick moves: a right pick pops, but the right answer
+              // revealed after a wrong pick stays still.
+              choice.verdict === 'correct' && pickedCorrect && 'animate-answer-pop',
+            )}
             // Not `disabled`: that would drop keyboard focus from the answer just picked.
             // The cards ignore a second pick.
             aria-disabled={answered}
@@ -83,7 +105,7 @@ export function ChoiceCard({
       <div className="flex-1" />
       <div className="pt-8">
         <button type="button" className="btn btn-primary" onClick={onContinue} disabled={!answered}>
-          {t('continue')}
+          {translate('continue')}
         </button>
       </div>
     </div>

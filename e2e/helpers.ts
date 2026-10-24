@@ -18,14 +18,19 @@ export const linkTargets = (page: Page, selector: string) =>
 /** `#1A130E` as CSS reports a colour: `rgb(26, 19, 14)`. */
 export function hexToRgb(hex: string) {
   const channels = /^#(?<red>\w{2})(?<green>\w{2})(?<blue>\w{2})$/.exec(hex)?.groups;
-  if (!channels) throw new Error(`Not a #RRGGBB colour: ${hex}`);
+
+  if (!channels) {
+    throw new Error(`Not a #RRGGBB colour: ${hex}`);
+  }
   const { red, green, blue } = channels;
+
   return `rgb(${[red, green, blue].map((channel) => parseInt(channel ?? '', 16)).join(', ')})`;
 }
 
 /** Opens `path` and checks the server answered with `status`. */
 export async function openPath(page: Page, path: string, status = 200) {
   const response = await page.goto(path);
+
   expect(response?.status()).toBe(status);
 }
 
@@ -36,6 +41,7 @@ export const requestOnHost = (request: APIRequestContext, host: string, path: st
 /** Checks that the page loads the visit counter with the site's key. */
 export async function expectVisitCounter(page: Page) {
   const counter = page.locator(`script[src="${WEB_ANALYTICS_SCRIPT}"]`);
+
   await expect(counter).toHaveCount(1);
   expect(JSON.parse((await counter.getAttribute('data-cf-beacon')) ?? '{}')).toEqual({
     token: WEB_ANALYTICS_TOKEN,
@@ -45,10 +51,16 @@ export async function expectVisitCounter(page: Page) {
 /** Checks that the page's email links and App Store links point at the site's addresses. */
 export async function expectSiteLinks(page: Page) {
   const emailLinks = await linkTargets(page, 'a[href^="mailto:"]');
+
   expect(emailLinks.length, 'email links').toBeGreaterThan(0);
-  for (const href of emailLinks) expect(href).toBe(MAILTO_HI);
+  for (const href of emailLinks) {
+    expect(href).toBe(MAILTO_HI);
+  }
 
   const appStoreLinks = await linkTargets(page, `a[href*="${APP_STORE_HOST}"]`);
+
   expect(appStoreLinks.length, 'App Store links').toBeGreaterThan(0);
-  for (const href of appStoreLinks) expect(href).toBe(APP_STORE_URL);
+  for (const href of appStoreLinks) {
+    expect(href).toBe(APP_STORE_URL);
+  }
 }

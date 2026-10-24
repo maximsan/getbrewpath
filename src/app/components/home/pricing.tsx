@@ -40,7 +40,7 @@ export async function Pricing({ course }: { course: Course }) {
           data-mood="dark-roast"
           className="relative flex flex-col gap-[22px] overflow-hidden rounded-3xl border border-rule bg-surface p-8"
         >
-          <div className="pointer-events-none absolute -right-[20%] -bottom-1/2 aspect-square w-[70%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_24%,transparent),transparent)]" />
+          <div className="pointer-events-none absolute right-[-20%] -bottom-1/2 aspect-square w-[70%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_24%,transparent),transparent)]" />
           <PlanHeading name={translate('foundations')} note={translate('foundationsNote')} />
           <Checklist items={foundationsItems} tone="accent" />
           <LinkButton

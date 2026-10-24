@@ -28,11 +28,12 @@ export const generateStaticParams = localeRouteParams;
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
   const locale = await setPageLocale(params);
-  const t = await getTranslations({ locale, namespace: 'metadata' });
+  const translate = await getTranslations({ locale, namespace: 'metadata' });
+
   return {
-    ...pageMetadata({ locale, description: t('description'), path: PAGE_ROUTES.home }),
+    ...pageMetadata({ locale, description: translate('description'), path: PAGE_ROUTES.home }),
     metadataBase: new URL(SITE_URL),
-    title: { default: t('title'), template: t('titleTemplate') },
+    title: { default: translate('title'), template: translate('titleTemplate') },
     applicationName: BRAND_NAME,
     twitter: { card: 'summary_large_image' },
   };
@@ -50,7 +51,7 @@ export default async function LocaleLayout({
   params,
 }: LocaleParams & { children: ReactNode }) {
   const locale = await setPageLocale(params);
-  const t = await getTranslations('nav');
+  const translate = await getTranslations('nav');
 
   return (
     <html lang={locale} suppressHydrationWarning className={fontClasses(locale)}>
@@ -64,7 +65,7 @@ export default async function LocaleLayout({
               href="#main"
               className="ff-ui sr-only rounded-full bg-ink px-4 py-2 text-bg focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60]"
             >
-              {t('skip')}
+              {translate('skip')}
             </a>
             <SiteHeader />
             <main id="main" className="flex-1">

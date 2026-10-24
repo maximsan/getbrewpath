@@ -33,8 +33,8 @@ export async function Features() {
               screen={screen}
               alt={translate(`items.${key}.alt`)}
               sizes="200px"
-              riseOffset="30%"
-              className="w-[min(100%,200px)] shadow-[0_30px_60px_-20px_rgba(27,22,20,.5)]"
+              rises
+              className="w-[min(100%,200px)] shadow-[0_30px_60px_-20px_rgba(27,22,20,.5)] [--rise-offset:30%]"
             />
           </FeatureCard>
         ))}

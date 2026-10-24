@@ -14,6 +14,7 @@ import { PAGE_ROUTES } from '@domains/site/routes';
 import { APP_STORE_URL, appCardLink } from '@domains/site/site';
 import { Link } from '@i18n/navigation';
 import { setPageLocale } from '@i18n/page-locale';
+import { cn } from '@shared/styles/cn';
 
 interface CardPageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -27,11 +28,15 @@ export const generateStaticParams = cardRouteParams;
 export async function generateMetadata({ params }: CardPageProps): Promise<Metadata> {
   const locale = await setPageLocale(params);
   const card = findCard(await getCourse(locale), (await params).id);
-  if (!card) return {};
+
+  if (!card) {
+    return {};
+  }
   const translate = await getTranslations({ locale, namespace: 'metadata' });
   const title = translate('cardTitle', { card: card.reward.title });
   const description = translate('cardDescription', { summary: card.reward.summary });
   const path = `/card/${card.id}`;
+
   return pageMetadata({
     locale,
     absoluteTitle: title,
@@ -50,7 +55,10 @@ const PITCH = [
 export default async function CardPage({ params }: CardPageProps) {
   const course = await getCourse(await setPageLocale(params));
   const card = findCard(course, (await params).id);
-  if (!card) notFound();
+
+  if (!card) {
+    notFound();
+  }
   const counts = courseCounts(course);
   const translate = await getTranslations('card');
 
@@ -99,7 +107,7 @@ export default async function CardPage({ params }: CardPageProps) {
               {translate('open')}
             </LinkButton>
           </ButtonRow>
-          <div className={`${monoNoteClass} mt-[18px]`}>{translate('avail')}</div>
+          <div className={cn(monoNoteClass, 'mt-[18px]')}>{translate('avail')}</div>
         </div>
       </div>
 

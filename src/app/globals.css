@@ -8,6 +8,20 @@
 /* From 600px the screen is wider than a phone: `tablet:` styles it, `max-tablet:` styles a phone. */
 @theme {
   --breakpoint-tablet: 600px;
+  /* The phone's status bar in the lesson demo: the lesson's top bar sits just under it. */
+  --spacing-status-bar: 54px;
+
+  /* The phone frame around every app screenshot. Its screen matches the screenshots' 786 × 1704. */
+  --aspect-phone: 1000 / 2093;
+
+  /* The lesson demo's phone: a 296 × 600 screen in a 10px bezel. The app inside is drawn at
+     its real 393 × 797 points, then shrunk to fit the screen. */
+  --spacing-demo-phone: 316px;
+  --aspect-demo-phone: 316 / 620;
+  --spacing-demo-screen: 296px;
+  --spacing-demo-screen-height: 600px;
+  --spacing-demo-app: 393px;
+  --spacing-demo-app-height: 797px;
 }
 
 /*
@@ -99,7 +113,7 @@
   --font-ui: var(--font-plex-sans), sans-serif;
   --font-mono: var(--font-plex-mono), monospace;
 
-  --radius-r: var(--r);
+  --radius-card: var(--r);
   --ease-soft: var(--ease-out-soft);
 
   --text-hero: var(--t-hero);
@@ -115,9 +129,50 @@
 
   --animate-rise-in: rise-in 0.8s var(--ease-out-soft) both;
   --animate-menu-fade: menu-fade 0.3s ease both;
-  --animate-menu-link: menu-link 0.5s var(--ease-out-soft) both;
+  /* Each menu item sets its own --start-delay, so the links slide in one after another. */
+  --animate-menu-link: menu-link 0.5s var(--ease-out-soft) var(--start-delay, 0s) both;
   --animate-dot-pulse: dot-pulse 1.6s ease-in-out infinite;
   --animate-save-note-in: note-rise 260ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+
+  /* Lesson cards: a right pick pops, a wrong one shakes, then the verdict rises in. */
+  --animate-answer-pop: answer-pop 320ms cubic-bezier(0.3, 1.4, 0.5, 1);
+  --animate-answer-shake: answer-shake 360ms ease-in-out;
+  --animate-feedback-rise: feedback-rise 300ms cubic-bezier(0.2, 0.9, 0.3, 1) 160ms both;
+
+  /* Reward card: it fades and rises in on two clocks, then an accent ring spreads from its edge. */
+  --animate-reward-card-in:
+    reward-card-fade 480ms ease-out both, reward-card-rise 600ms cubic-bezier(0.2, 1.2, 0.4, 1) both;
+  --animate-reward-card-ring: reward-card-ring 900ms ease-out 250ms both;
+
+  /* The lesson demo's burst: each piece flies to its own --fly-x, --fly-y and --spin. */
+  --animate-burst-piece: burst-piece var(--flight) cubic-bezier(0.2, 0.7, 0.3, 1) var(--start-delay)
+    both;
+
+  /* Roasty's body: one motion per state. Idle, card and sleep loop; the rest play once. */
+  --animate-roasty-breathe: roasty-breathe 3.2s ease-in-out infinite;
+  --animate-roasty-hop: roasty-hop 900ms ease-out;
+  --animate-roasty-shake: roasty-shake 500ms ease-in-out;
+  --animate-roasty-heat-crack: roasty-heat-crack 1600ms ease-out;
+  --animate-roasty-grow: roasty-grow 1300ms cubic-bezier(0.34, 1.1, 0.5, 1) forwards;
+  --animate-roasty-shimmer: roasty-shimmer 1.6s ease-in-out infinite;
+  --animate-roasty-sleep-breathe: roasty-sleep-breathe 3.4s ease-in-out infinite;
+  --animate-roasty-awake-pop: roasty-awake-pop 400ms ease-out;
+  --animate-roasty-leaf-sway: roasty-leaf-sway 2.8s ease-in-out infinite;
+  /* Roasty's effects. Each reads its start from --start-delay, which the drawing sets. */
+  --animate-roasty-crema-swell: roasty-crema-swell 1200ms cubic-bezier(0.3, 1.2, 0.5, 1)
+    var(--start-delay, 0ms) both;
+  --animate-roasty-crema-pop: roasty-crema-pop 1200ms ease-out var(--start-delay, 0ms) both;
+  --animate-roasty-crema-drop: roasty-crema-drop 1200ms cubic-bezier(0.15, 0.8, 0.3, 1)
+    var(--start-delay, 0ms) both;
+  --animate-roasty-heat-glow: roasty-heat-glow 1600ms ease-out both;
+  --animate-roasty-crack-ring: roasty-crack-ring 520ms ease-out 640ms both;
+  --animate-roasty-crack-line: roasty-crack-line 420ms ease-out 660ms both;
+  --animate-roasty-fly-x: roasty-fly-x 2600ms linear var(--start-delay, 0ms) both;
+  --animate-roasty-fly-y: roasty-fly-y 2600ms var(--start-delay, 0ms) both;
+  --animate-roasty-note-flutter: roasty-note-flutter 2600ms ease-out var(--start-delay, 0ms) both;
+  --animate-roasty-ray-radiate: roasty-ray-radiate 1600ms cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  --animate-roasty-points-rise: roasty-points-rise 1.3s ease-out forwards;
+  --animate-roasty-zzz-float: roasty-zzz-float 2.6s ease-in-out var(--start-delay, 0ms) infinite;
 }
 
 @keyframes rise-in {
@@ -167,6 +222,427 @@
   50% {
     opacity: 0.4;
     transform: scale(0.7);
+  }
+}
+
+/* ── Lesson cards ── */
+@keyframes answer-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes answer-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+@keyframes feedback-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Reward card ── */
+@keyframes reward-card-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes reward-card-rise {
+  from {
+    transform: translateY(16px) scale(0.94) rotate(-2deg);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes reward-card-ring {
+  from {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 55%, transparent);
+  }
+  to {
+    box-shadow: 0 0 0 80px transparent;
+  }
+}
+
+/* ── Lesson demo burst ── */
+@keyframes burst-piece {
+  0% {
+    transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--fly-x)), calc(-50% + var(--fly-y))) scale(1)
+      rotate(var(--spin));
+    opacity: 0;
+  }
+}
+
+/* ── Roasty: body ── */
+@keyframes roasty-breathe {
+  0%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.005, 0.995);
+  }
+}
+@keyframes roasty-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-10px) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0);
+  }
+  75% {
+    transform: translateY(-10px) rotate(3deg);
+  }
+}
+@keyframes roasty-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+@keyframes roasty-grow {
+  0% {
+    transform: scale(1);
+  }
+  55% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1.04);
+  }
+}
+@keyframes roasty-shimmer {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 var(--warn));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px var(--warn));
+  }
+}
+@keyframes roasty-sleep-breathe {
+  0%,
+  100% {
+    transform: rotate(6deg) scale(1, 1);
+  }
+  50% {
+    transform: rotate(6deg) scale(1.018, 0.982);
+  }
+}
+@keyframes roasty-awake-pop {
+  0% {
+    transform: scale(0.94);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes roasty-leaf-sway {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+/* The lesson state: the bean heats and trembles (0–36%), cracks and launches (46%), lands. */
+@keyframes roasty-heat-crack {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  10% {
+    transform: translate(0, 3px) scale(1.05, 0.94);
+  }
+  14% {
+    transform: translate(-1.5px, 4px) scale(1.07, 0.92);
+  }
+  18% {
+    transform: translate(1.5px, 4px) scale(1.07, 0.92);
+  }
+  22% {
+    transform: translate(-1.5px, 4px) scale(1.08, 0.91);
+  }
+  26% {
+    transform: translate(1.5px, 5px) scale(1.08, 0.9);
+  }
+  30% {
+    transform: translate(-1px, 5px) scale(1.09, 0.89);
+  }
+  36% {
+    transform: translate(0, 5px) scale(1.09, 0.89);
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+  46% {
+    transform: translate(0, -24px) scale(0.93, 1.09);
+  }
+  58% {
+    transform: translate(0, -20px) scale(1, 1);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.4);
+  }
+  74% {
+    transform: translate(0, 2px) scale(1.06, 0.94);
+  }
+  86% {
+    transform: translate(0, -4px) scale(0.99, 1.01);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+/* ── Roasty: effects ── */
+/* The correct state: crema bubbles swell in, wobble and burst at 62% into droplets. */
+@keyframes roasty-crema-swell {
+  0% {
+    opacity: 0;
+    transform: scale(0.15);
+  }
+  18% {
+    opacity: 1;
+  }
+  35% {
+    transform: scale(1);
+  }
+  44% {
+    transform: scale(1.04, 0.97);
+  }
+  52% {
+    transform: scale(0.97, 1.04);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  64% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+}
+@keyframes roasty-crema-pop {
+  0%,
+  61% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  64% {
+    opacity: 0.7;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+@keyframes roasty-crema-drop {
+  0%,
+  61% {
+    opacity: 0;
+    transform: translate(0, 0) scale(1);
+  }
+  64% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+        calc(var(--drop-sign-x) * var(--spread)),
+        calc(var(--drop-sign-y) * var(--spread) + 4px)
+      )
+      scale(0.4);
+  }
+}
+@keyframes roasty-heat-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  34% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  44% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  60% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+@keyframes roasty-crack-ring {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+@keyframes roasty-crack-line {
+  0% {
+    transform: translateY(6px) scaleY(0.2);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-14px) scaleY(1);
+    opacity: 0;
+  }
+}
+/* Flavour notes fly on three nested groups, so the drift, the arc and the flutter keep their own easing. */
+@keyframes roasty-fly-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--drift));
+  }
+}
+@keyframes roasty-fly-y {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  8% {
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(var(--peak));
+    animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.4);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(var(--fall));
+    opacity: 0;
+  }
+}
+@keyframes roasty-note-flutter {
+  0% {
+    transform: rotate(0) scale(0.3);
+  }
+  12% {
+    transform: rotate(calc(var(--note-spin) * 0.15)) scale(1.15) scaleX(1);
+  }
+  35% {
+    transform: rotate(calc(var(--note-spin) * 0.4)) scale(1) scaleX(0.35);
+  }
+  55% {
+    transform: rotate(calc(var(--note-spin) * 0.6)) scale(1) scaleX(1);
+  }
+  75% {
+    transform: rotate(calc(var(--note-spin) * 0.8)) scale(1) scaleX(0.4);
+  }
+  100% {
+    transform: rotate(var(--note-spin)) scale(0.9) scaleX(1);
+  }
+}
+/* The module state: rays radiate out from the bean. */
+@keyframes roasty-ray-radiate {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  28% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+@keyframes roasty-points-rise {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+}
+@keyframes roasty-zzz-float {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(8px, -12px);
   }
 }
 
@@ -316,16 +792,16 @@
   [data-reveal][data-delay='4'] {
     transition-delay: 0.4s;
   }
-  /* A phone shot inside a revealed card rises a little after the card. */
+  /* A phone shot inside a revealed card rises a little after the card, to sit --rise-offset low. */
   [data-rise] {
-    transform: translateY(var(--y, 0));
+    transform: translateY(var(--rise-offset, 0));
   }
   .js [data-rise] {
-    transform: translateY(calc(var(--y, 0%) + 16%));
+    transform: translateY(calc(var(--rise-offset, 0%) + 16%));
     transition: transform 1.1s var(--ease-out-soft) 0.15s;
   }
   .js [data-reveal].in [data-rise] {
-    transform: translateY(var(--y, 0));
+    transform: translateY(var(--rise-offset, 0));
   }
 }
 
