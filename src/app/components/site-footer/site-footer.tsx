@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 
+import appIcon from '@assets/app-icon.png';
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import { COPYRIGHT_YEAR, MAILTO_HI } from '@domains/site/site';
 import { Link } from '@i18n/navigation';
@@ -19,13 +20,7 @@ export async function SiteFooter() {
       <div className="page-width flex flex-col items-center gap-y-6 px-6 pt-9 pb-11 min-[600px]:flex-row min-[600px]:flex-wrap min-[600px]:justify-between min-[600px]:gap-x-10">
         <div className="flex flex-wrap items-center gap-x-[18px] gap-y-3 max-[600px]:justify-center">
           <div className="flex items-center gap-2.5">
-            <Image
-              src="/images/app-icon.png"
-              alt=""
-              width={28}
-              height={28}
-              className="block rounded-[7px]"
-            />
+            <Image src={appIcon} alt="" width={28} height={28} className="block rounded-[7px]" />
             <span translate="no" className="ff-display text-xl leading-none tracking-[-0.02em]">
               {tRoot('brand')}
             </span>

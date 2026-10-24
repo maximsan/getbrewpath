@@ -12,7 +12,8 @@ interface PhoneShotProps {
   sizes: string;
   className?: string;
   style?: CSSProperties;
-  priority?: boolean;
+  /** Shown on the first screen: loads at once, ahead of other images. */
+  aboveFold?: boolean;
   /** Rises into place when its revealed card scrolls in; the value is how far it sits below the card's edge. */
   riseOffset?: string;
 }
@@ -24,7 +25,7 @@ export function PhoneShot({
   sizes,
   className,
   style,
-  priority,
+  aboveFold,
   riseOffset,
 }: PhoneShotProps) {
   return (
@@ -40,12 +41,13 @@ export function PhoneShot({
       {screenShots(screen).map((shot) => (
         // The screenshots carry a thin device edge; scaling past it hides the edge inside the frame.
         <Image
-          key={shot.src}
+          key={shot.mood}
           src={shot.src}
           alt={alt}
           fill
           sizes={sizes}
-          priority={priority}
+          loading={aboveFold ? 'eager' : 'lazy'}
+          fetchPriority={aboveFold ? 'high' : undefined}
           className={cn('scale-[1.06] object-cover', MOOD_ONLY[shot.mood])}
         />
       ))}

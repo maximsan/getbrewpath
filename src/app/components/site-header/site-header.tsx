@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useFormatter, useTranslations } from 'next-intl';
 import { type MouseEvent, useEffect, useId, useRef, useState } from 'react';
 
+import appIcon from '@assets/app-icon.png';
 import { LinkButton } from '@components/link-button/link-button';
 import { MoodSwitch } from '@components/mood/mood-switch';
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
@@ -31,7 +32,8 @@ const menuSmallLinkClass = 'ff-ui text-sm text-ink-mute hover:text-ink hover:no-
 /**
  * Sticky top bar: brand, section links, mood switch and the store link.
  * Below 980px the links move into a menu that covers the page under the bar.
- * While it is open the page behind it does not scroll, and Escape closes it.
+ * While it is open the page behind it neither scrolls nor takes keyboard focus,
+ * and Escape closes it.
  * Below 375px the brand shows only its icon, so the bar fits the screen.
  */
 export function SiteHeader() {
@@ -62,11 +64,14 @@ export function SiteHeader() {
       setMenuOpen(false);
       menuButton.current?.focus();
     };
+    const pageBehind = document.querySelectorAll<HTMLElement>('main, footer');
     document.body.style.overflow = 'hidden';
+    pageBehind.forEach((element) => (element.inert = true));
     wide.addEventListener('change', closeWhenWide);
     document.addEventListener('keydown', closeOnEscape);
     return () => {
       document.body.style.overflow = '';
+      pageBehind.forEach((element) => (element.inert = false));
       wide.removeEventListener('change', closeWhenWide);
       document.removeEventListener('keydown', closeOnEscape);
     };
@@ -91,12 +96,12 @@ export function SiteHeader() {
             className="flex flex-none items-center gap-2.5 text-ink hover:no-underline"
           >
             <Image
-              src="/images/app-icon.png"
+              src={appIcon}
               alt=""
               width={30}
               height={30}
               className="block rounded-lg"
-              priority
+              loading="eager"
             />
             <span
               translate="no"

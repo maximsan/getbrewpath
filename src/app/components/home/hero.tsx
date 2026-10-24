@@ -36,16 +36,16 @@ export async function Hero() {
         <PhoneShot
           screen="today"
           alt={t('shotToday')}
-          sizes="270px"
-          priority
-          className="z-[2] w-[min(44%,270px)] flex-none animate-hero-float shadow-[0_40px_70px_-24px_rgba(27,22,20,.55)]"
+          sizes="(max-width: 800px) 44vw, 270px"
+          aboveFold
+          className="z-[2] w-[min(44%,270px)] flex-none rotate-[-5deg] animate-hero-float shadow-[0_40px_70px_-24px_rgba(27,22,20,.55)]"
         />
         <PhoneShot
           screen="lesson"
           alt={t('shotLesson')}
-          sizes="240px"
-          priority
-          className="z-[1] -ms-[12%] mt-[14%] w-[min(39%,240px)] flex-none animate-hero-float-2 shadow-[0_30px_60px_-20px_rgba(27,22,20,.45)]"
+          sizes="(max-width: 800px) 39vw, 240px"
+          aboveFold
+          className="z-[1] -ms-[12%] mt-[14%] w-[min(39%,240px)] flex-none rotate-[7deg] animate-hero-float-2 shadow-[0_30px_60px_-20px_rgba(27,22,20,.45)]"
         />
       </div>
     </section>
