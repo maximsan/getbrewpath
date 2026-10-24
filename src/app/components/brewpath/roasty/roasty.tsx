@@ -1,6 +1,6 @@
 import { type CSSProperties, type ReactElement, useId } from 'react';
 
-import styles from './roasty.module.css';
+import { cn } from '@shared/styles/cn';
 
 /** Each state has its own face and motion; idle, card, module and sleep loop, the rest play once. */
 export type RoastyState =
@@ -15,7 +15,6 @@ export interface RoastyProps {
   size?: number;
   /** Changing this value replays the state's animation. */
   replayKey?: number | string;
-  style?: CSSProperties;
   /** Bean colour. Defaults to "medium". */
   roast?: RoastyRoast;
   /** Defaults to "beanie". */
@@ -30,12 +29,56 @@ export interface RoastyProps {
   plate?: boolean | string;
 }
 
-/** Inline style that also sets the custom properties the keyframes read (--dx, --peak, …). */
-type StyleWithVars = CSSProperties & Record<`--${string}`, string>;
+/** The CSS variables an animation in globals.css reads, such as --effect-delay or --peak. */
+type AnimationVariables = CSSProperties & Record<`--${string}`, string>;
 
 const VIEW_WIDTH = 200;
 const VIEW_HEIGHT = 280;
-const HEIGHT_RATIO = VIEW_HEIGHT / VIEW_WIDTH;
+
+/**
+ * The paper disc behind Roasty is always this colour, never --surface: --surface turns dark
+ * in the Dark Roast mood, and the brown bean would disappear against it.
+ */
+const PLATE_PAPER = '#FBF7EE';
+
+/** His body's motion in each state. */
+const BODY_MOTION: Record<RoastyState, string> = {
+  idle: 'animate-roasty-breathe',
+  correct: 'animate-roasty-hop',
+  wrong: 'animate-roasty-shake',
+  lesson: 'animate-roasty-heat-crack',
+  module: 'animate-roasty-grow',
+  points: '',
+  card: 'animate-roasty-shimmer',
+  sleep: 'animate-roasty-sleep-breathe',
+  awake: 'animate-roasty-awake-pop',
+};
+
+/**
+ * The sprout sways while he is awake and cheerful, stays still while he frowns, and is gone
+ * while he sleeps. Scale and opacity both go to 0: at a small scale a stub of stem stays visible.
+ */
+const SPROUT_MOTION: Record<RoastyState, string> = {
+  idle: 'animate-roasty-leaf-sway',
+  correct: 'animate-roasty-leaf-sway',
+  wrong: '',
+  lesson: 'animate-roasty-leaf-sway',
+  module: 'animate-roasty-leaf-sway',
+  points: 'animate-roasty-leaf-sway',
+  card: 'animate-roasty-leaf-sway',
+  sleep: 'scale-0 opacity-0',
+  awake: 'scale-0 opacity-0',
+};
+
+/** Scales and spins an SVG part around its own centre, as an HTML element would. */
+const AROUND_OWN_CENTRE = 'transform-fill origin-center';
+/** The bean's centre, in the drawing's own units; the body and the module rays scale around it. */
+const AROUND_BEAN_CENTRE = 'transform-fill origin-[100px_158px]';
+
+/** Sets when one of Roasty's effects starts, for the animation to read. */
+const startingAfter = (delayMs: number): AnimationVariables => ({
+  '--effect-delay': `${delayMs}ms`,
+});
 
 /** Radial gradient stops (highlight, mid, edge) for each roast. */
 const ROAST_STOPS: Record<RoastyRoast, readonly [string, string, string]> = {
@@ -138,76 +181,94 @@ function InkLine({ d, width }: { d: string; width: number }) {
   return <path d={d} stroke={INK} strokeWidth={width} strokeLinecap="round" fill="none" />;
 }
 
-function Faces() {
-  return (
-    <>
-      <g className={styles.faceDefault}>
-        <Eyes shape={ROUND_EYE} />
-        <Blush cy={172} rx={6} ry={3} opacity={0.45} />
-        <InkLine d="M 90 180 Q 100 188 110 180" width={2.5} />
-      </g>
-
-      <g className={styles.faceCorrect}>
-        <HappyEyes />
-        <Blush cy={170} rx={7} ry={3.5} opacity={0.55} />
-        <InkLine d="M 86 178 Q 100 192 114 178" width={3} />
-      </g>
-
-      <g className={styles.faceWrong}>
-        <Eyes shape={DOWNCAST_EYE} />
-        <InkLine d="M 71 138 L 84 135" width={2} />
-        <InkLine d="M 129 138 L 116 135" width={2} />
-        <InkLine d="M 91 184 Q 100 180 109 184" width={2.5} />
-        <Blush cy={174} rx={5} ry={2.5} opacity={0.3} />
-      </g>
-
-      <g className={styles.faceLesson}>
-        <HappyEyes />
-        <Blush cy={170} rx={7} ry={3.5} opacity={0.55} />
-        <path d="M 84 178 Q 100 198 116 178 Q 100 188 84 178 Z" fill={INK} />
-        <path d="M 92 186 Q 100 192 108 186 Q 100 190 92 186 Z" fill={BLUSH} opacity={0.7} />
-      </g>
-
-      <g className={styles.faceModule}>
-        <path transform={`translate(${EYE_X.left} 148)`} d={STAR_PATH} fill="var(--warn)" />
-        <path transform={`translate(${EYE_X.right} 148)`} d={STAR_PATH} fill="var(--warn)" />
-        <Blush cy={172} rx={7} ry={3.5} opacity={0.55} />
-        <ellipse cx={100} cy={185} rx={8} ry={9} fill={INK} />
-        <ellipse cx={100} cy={188} rx={5} ry={4} fill={BLUSH} opacity={0.7} />
-      </g>
-
-      <g className={styles.facePoints}>
-        <Eye cx={EYE_X.left} shape={ROUND_EYE} />
-        <InkLine d="M 110 148 Q 120 142 130 148" width={3} />
-        <Blush cy={170} rx={6} ry={3} opacity={0.5} />
-        <InkLine d="M 90 180 Q 100 188 113 178" width={2.5} />
-      </g>
-
-      <g className={styles.faceCard}>
-        <Eyes shape={WIDE_EYE} />
-        <Blush cy={172} rx={7} ry={3.5} opacity={0.5} />
-        <ellipse cx={100} cy={184} rx={5} ry={6} fill={INK} />
-      </g>
-
-      <g className={styles.faceSleep}>
-        <InkLine d="M 71 150 L 89 150" width={3} />
-        <InkLine d="M 111 150 L 129 150" width={3} />
-        <Blush cy={172} rx={6} ry={3} opacity={0.35} />
-        <InkLine d="M 95 182 Q 100 184 105 182" width={2.5} />
-      </g>
-
-      <g className={styles.faceAwake}>
-        <Eyes shape={WIDEST_EYE} />
-        <Blush cy={172} rx={6} ry={3} opacity={0.4} />
-        <ellipse cx={100} cy={184} rx={4} ry={5} fill={INK} />
-      </g>
-    </>
-  );
+/** His face in the given state. */
+function Face({ state }: { state: RoastyState }) {
+  switch (state) {
+    case 'idle':
+      return (
+        <g>
+          <Eyes shape={ROUND_EYE} />
+          <Blush cy={172} rx={6} ry={3} opacity={0.45} />
+          <InkLine d="M 90 180 Q 100 188 110 180" width={2.5} />
+        </g>
+      );
+    case 'correct':
+      return (
+        <g>
+          <HappyEyes />
+          <Blush cy={170} rx={7} ry={3.5} opacity={0.55} />
+          <InkLine d="M 86 178 Q 100 192 114 178" width={3} />
+        </g>
+      );
+    case 'wrong':
+      return (
+        <g>
+          <Eyes shape={DOWNCAST_EYE} />
+          <InkLine d="M 71 138 L 84 135" width={2} />
+          <InkLine d="M 129 138 L 116 135" width={2} />
+          <InkLine d="M 91 184 Q 100 180 109 184" width={2.5} />
+          <Blush cy={174} rx={5} ry={2.5} opacity={0.3} />
+        </g>
+      );
+    case 'lesson':
+      return (
+        <g>
+          <HappyEyes />
+          <Blush cy={170} rx={7} ry={3.5} opacity={0.55} />
+          <path d="M 84 178 Q 100 198 116 178 Q 100 188 84 178 Z" fill={INK} />
+          <path d="M 92 186 Q 100 192 108 186 Q 100 190 92 186 Z" fill={BLUSH} opacity={0.7} />
+        </g>
+      );
+    case 'module':
+      return (
+        <g>
+          <path transform={`translate(${EYE_X.left} 148)`} d={STAR_PATH} fill="var(--warn)" />
+          <path transform={`translate(${EYE_X.right} 148)`} d={STAR_PATH} fill="var(--warn)" />
+          <Blush cy={172} rx={7} ry={3.5} opacity={0.55} />
+          <ellipse cx={100} cy={185} rx={8} ry={9} fill={INK} />
+          <ellipse cx={100} cy={188} rx={5} ry={4} fill={BLUSH} opacity={0.7} />
+        </g>
+      );
+    case 'points':
+      return (
+        <g>
+          <Eye cx={EYE_X.left} shape={ROUND_EYE} />
+          <InkLine d="M 110 148 Q 120 142 130 148" width={3} />
+          <Blush cy={170} rx={6} ry={3} opacity={0.5} />
+          <InkLine d="M 90 180 Q 100 188 113 178" width={2.5} />
+        </g>
+      );
+    case 'card':
+      return (
+        <g>
+          <Eyes shape={WIDE_EYE} />
+          <Blush cy={172} rx={7} ry={3.5} opacity={0.5} />
+          <ellipse cx={100} cy={184} rx={5} ry={6} fill={INK} />
+        </g>
+      );
+    case 'sleep':
+      return (
+        <g>
+          <InkLine d="M 71 150 L 89 150" width={3} />
+          <InkLine d="M 111 150 L 129 150" width={3} />
+          <Blush cy={172} rx={6} ry={3} opacity={0.35} />
+          <InkLine d="M 95 182 Q 100 184 105 182" width={2.5} />
+        </g>
+      );
+    case 'awake':
+      return (
+        <g>
+          <Eyes shape={WIDEST_EYE} />
+          <Blush cy={172} rx={6} ry={3} opacity={0.4} />
+          <ellipse cx={100} cy={184} rx={4} ry={5} fill={INK} />
+        </g>
+      );
+  }
 }
 
-function Sprig({ leafFill }: { leafFill: string }) {
+function Sprig({ leafFill, state }: { leafFill: string; state: RoastyState }) {
   return (
-    <g className={styles.sproutGroup}>
+    <g className={cn('origin-bottom transform-fill', SPROUT_MOTION[state])}>
       <path
         d="M100 88 Q100 80 100 72"
         stroke={STEM}
@@ -339,19 +400,26 @@ const FLAVOUR_NOTES: readonly FlavourNote[] = [
   { kind: 'berry', dx: 100, peak: -80, fall: 235, spin: 275, delayMs: 1100 },
 ];
 
+/** The lesson state's first crack: a heat glow, a ring and lines, then flavour notes thrown out. */
 function BeanBurst() {
   return (
-    <g className={styles.beanBurst}>
-      <g className={styles.heatGlow}>
+    <g>
+      <g className={cn(AROUND_OWN_CENTRE, 'animate-roasty-heat-glow')}>
         <circle cx={BEAN_CENTRE.x} cy={BEAN_CENTRE.y} r="74" fill="#E0A866" opacity="0.18" />
         <circle cx={BEAN_CENTRE.x} cy={BEAN_CENTRE.y} r="58" fill="#E8B87A" opacity="0.22" />
       </g>
       <g transform={`translate(${CRACK_ORIGIN.x} ${CRACK_ORIGIN.y})`}>
-        <circle className={styles.crackRing} r="12" fill="none" stroke={CREAM} strokeWidth="3" />
+        <circle
+          className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crack-ring')}
+          r="12"
+          fill="none"
+          stroke={CREAM}
+          strokeWidth="3"
+        />
         {CRACK_LINE_ANGLES.map((angle) => (
           <g key={angle} transform={`rotate(${angle})`}>
             <path
-              className={styles.crackLine}
+              className="origin-bottom animate-roasty-crack-line transform-fill"
               d="M0 -16 L0 -26"
               stroke={CREAM}
               strokeWidth="2.4"
@@ -361,20 +429,25 @@ function BeanBurst() {
         ))}
       </g>
       {FLAVOUR_NOTES.map((note, index) => {
-        const delay = `${note.delayMs}ms`;
-        const flyX: StyleWithVars = { '--dx': `${note.dx}px`, animationDelay: delay };
-        const flyY: StyleWithVars = {
+        const drift: AnimationVariables = {
+          ...startingAfter(note.delayMs),
+          '--drift': `${note.dx}px`,
+        };
+        const arc: AnimationVariables = {
+          ...startingAfter(note.delayMs),
           '--peak': `${note.peak}px`,
           '--fall': `${note.fall}px`,
-          animationDelay: delay,
         };
-        const flutter: StyleWithVars = { '--spin': `${note.spin}deg`, animationDelay: delay };
+        const flutter: AnimationVariables = {
+          ...startingAfter(note.delayMs),
+          '--note-spin': `${note.spin}deg`,
+        };
 
         return (
           <g key={index} transform={`translate(${NOTE_ORIGIN.x} ${NOTE_ORIGIN.y})`}>
-            <g className={styles.flyX} style={flyX}>
-              <g className={styles.flyY} style={flyY}>
-                <g className={styles.noteFlutter} style={flutter}>
+            <g className="animate-roasty-fly-x" style={drift}>
+              <g className="animate-roasty-fly-y" style={arc}>
+                <g className={cn(AROUND_OWN_CENTRE, 'animate-roasty-note-flutter')} style={flutter}>
                   {NOTE_ART[note.kind]}
                 </g>
               </g>
@@ -415,15 +488,16 @@ const DROP_DIRECTIONS = [
 
 const CREMA_EDGE = '#E8C08A';
 
+/** The correct state's crema bubbles: each swells, wobbles and bursts into droplets. */
 function Crema() {
   return (
-    <g className={styles.crema}>
+    <g>
       {CREMA_BUBBLES.map((bubble) => {
-        const delay = { animationDelay: `${bubble.delayMs}ms` };
+        const delay = startingAfter(bubble.delayMs);
 
         return (
           <g key={`${bubble.x},${bubble.y}`} transform={`translate(${bubble.x} ${bubble.y})`}>
-            <g className={styles.cremaBubble} style={delay}>
+            <g className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crema-swell')} style={delay}>
               <circle r={bubble.r} fill="#E3B070" opacity="0.85" />
               <circle
                 cx={-bubble.highlightOffset}
@@ -434,7 +508,7 @@ function Crema() {
               />
             </g>
             <circle
-              className={styles.cremaPop}
+              className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crema-pop')}
               r={bubble.r}
               fill="none"
               stroke={CREMA_EDGE}
@@ -442,16 +516,16 @@ function Crema() {
               style={delay}
             />
             {DROP_DIRECTIONS.map(([signX, signY]) => {
-              const drop: StyleWithVars = {
-                '--dx': `${signX * bubble.spread}px`,
-                '--dy': `${signY * bubble.spread}px`,
+              const drop: AnimationVariables = {
                 ...delay,
+                '--drop-x': `${signX * bubble.spread}px`,
+                '--drop-y': `${signY * bubble.spread}px`,
               };
 
               return (
                 <circle
                   key={`${signX},${signY}`}
-                  className={styles.cremaDrop}
+                  className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crema-drop')}
                   r="1"
                   fill={CREMA_EDGE}
                   style={drop}
@@ -468,12 +542,18 @@ function Crema() {
 /** Unit on the points tag, as the app writes it in English. */
 const POINTS_UNIT = 'PTS';
 
+/** The sleep state's three z's, rising one after another. */
+const SLEEP_ZS = [
+  { x: 148, y: 80, fontSize: 18, delayMs: 0 },
+  { x: 158, y: 68, fontSize: 14, delayMs: 600 },
+  { x: 166, y: 58, fontSize: 11, delayMs: 1200 },
+] as const;
+
 /** Roasty, the coffee-bean mascot. Decorative: hidden from assistive technology. */
 export function Roasty({
   state = 'idle',
   size = 160,
   replayKey = 0,
-  style,
   roast = 'medium',
   hat = 'beanie',
   sprout = 'sprig',
@@ -487,17 +567,17 @@ export function Roasty({
   const [highlight, mid, edge] = ROAST_STOPS[roast];
   const leafFill = `url(#${leafGradientId})`;
   const showSprout = sprout === 'sprig';
+  const width: AnimationVariables = { '--roasty-width': `${size}px` };
 
   return (
     // A new key remounts the drawing, which restarts its one-shot CSS animations.
     <span
       key={`${state}:${replayKey}`}
-      className={styles.wrap}
-      style={{ width: size, height: size * HEIGHT_RATIO, ...style }}
+      className="inline-block aspect-[200/280] w-(--roasty-width) leading-none"
+      style={width}
     >
       <svg
-        className={styles.roasty}
-        data-state={state}
+        className="block size-full overflow-visible"
         viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
         preserveAspectRatio="xMidYMid meet"
         aria-hidden
@@ -520,29 +600,29 @@ export function Roasty({
         </defs>
 
         {/* r clears the contact shadow under the bean. */}
-        {plate && (
-          <circle cx="100" cy="140" r="112" fill={plate === true ? 'var(--roasty-plate)' : plate} />
+        {plate && <circle cx="100" cy="140" r="112" fill={plate === true ? PLATE_PAPER : plate} />}
+
+        {state === 'card' && (
+          <ellipse cx="100" cy="160" rx="120" ry="110" fill={`url(#${glowGradientId})`} />
         )}
 
-        <g className={styles.cardGlow}>
-          <ellipse cx="100" cy="160" rx="120" ry="110" fill={`url(#${glowGradientId})`} />
-        </g>
-
-        <g className={styles.moduleRays} opacity="0.3">
-          <g fill="none" stroke="var(--warn)" strokeWidth="1.2" strokeLinecap="round">
-            {MODULE_RAYS.map(([startX, startY, endX, endY]) => (
-              <line key={`${startX},${startY}`} x1={startX} y1={startY} x2={endX} y2={endY} />
-            ))}
+        {state === 'module' && (
+          <g className={cn(AROUND_BEAN_CENTRE, 'animate-roasty-ray-radiate')} opacity="0.3">
+            <g fill="none" stroke="var(--warn)" strokeWidth="1.2" strokeLinecap="round">
+              {MODULE_RAYS.map(([startX, startY, endX, endY]) => (
+                <line key={`${startX},${startY}`} x1={startX} y1={startY} x2={endX} y2={endY} />
+              ))}
+            </g>
           </g>
-        </g>
+        )}
 
-        <BeanBurst />
+        {state === 'lesson' && <BeanBurst />}
 
-        <g className={styles.bodyGroup}>
+        <g className={cn(AROUND_BEAN_CENTRE, BODY_MOTION[state])}>
           <ellipse cx="100" cy="232" rx="56" ry="6" fill={CREASE} opacity="0.18" />
 
           {/* Bare-headed, the sprout sits behind the bean and moves with every hop. */}
-          {hat === 'none' && showSprout && <Sprig leafFill={leafFill} />}
+          {hat === 'none' && showSprout && <Sprig leafFill={leafFill} state={state} />}
 
           <path d={BEAN_PATH} fill={`url(#${beanGradientId})`} />
           <ellipse cx="78" cy="115" rx="22" ry="14" fill="#A26945" opacity="0.45" />
@@ -555,59 +635,68 @@ export function Roasty({
             opacity="0.55"
           />
 
-          <Faces />
+          <Face state={state} />
 
-          <g className={styles.wrongX} opacity="0.85">
-            <circle
-              cx="148"
-              cy="76"
-              r="13"
-              fill={EYE_WHITE}
-              stroke="var(--berry)"
-              strokeWidth="2"
-            />
-            <rect x="146" y="68" width="4" height="9" rx="1" fill="var(--berry)" />
-            <circle cx="148" cy="82" r="1.6" fill="var(--berry)" />
-          </g>
+          {state === 'wrong' && (
+            <g opacity="0.85">
+              <circle
+                cx="148"
+                cy="76"
+                r="13"
+                fill={EYE_WHITE}
+                stroke="var(--berry)"
+                strokeWidth="2"
+              />
+              <rect x="146" y="68" width="4" height="9" rx="1" fill="var(--berry)" />
+              <circle cx="148" cy="82" r="1.6" fill="var(--berry)" />
+            </g>
+          )}
 
           {hat === 'beanie' && <Beanie />}
           {/* With a hat on, the sprout grows up through it. */}
           {hat !== 'none' && showSprout && (
             <g transform={`translate(0 -${SPROUT_LIFT_UNDER_HAT})`}>
-              <Sprig leafFill={leafFill} />
+              <Sprig leafFill={leafFill} state={state} />
             </g>
           )}
         </g>
 
-        <Crema />
+        {state === 'correct' && <Crema />}
 
-        <g className={styles.pointsBurst}>
-          <rect x="68" y="42" width="64" height="24" rx="2" fill="var(--accent)" />
-          <text
-            className={styles.pointsText}
-            x="100"
-            y="59"
-            textAnchor="middle"
-            fontSize="13"
-            fontWeight="500"
-            fill="var(--accent-ink)"
-            letterSpacing="1"
-          >
-            +{pointsAmount} {POINTS_UNIT}
-          </text>
-        </g>
+        {state === 'points' && (
+          <g className="animate-roasty-points-rise">
+            <rect x="68" y="42" width="64" height="24" rx="2" fill="var(--accent)" />
+            <text
+              className="font-mono"
+              x="100"
+              y="59"
+              textAnchor="middle"
+              fontSize="13"
+              fontWeight="500"
+              fill="var(--accent-ink)"
+              letterSpacing="1"
+            >
+              +{pointsAmount} {POINTS_UNIT}
+            </text>
+          </g>
+        )}
 
-        <g className={styles.sleepZzz} fontStyle="italic" fill="var(--ink-mute)">
-          <text x="148" y="80" fontSize="18">
-            z
-          </text>
-          <text x="158" y="68" fontSize="14">
-            z
-          </text>
-          <text x="166" y="58" fontSize="11">
-            z
-          </text>
-        </g>
+        {state === 'sleep' && (
+          <g className="ff-display" fontStyle="italic" fill="var(--ink-mute)">
+            {SLEEP_ZS.map((sleepZ) => (
+              <text
+                key={sleepZ.delayMs}
+                className="animate-roasty-zzz-float"
+                style={startingAfter(sleepZ.delayMs)}
+                x={sleepZ.x}
+                y={sleepZ.y}
+                fontSize={sleepZ.fontSize}
+              >
+                z
+              </text>
+            ))}
+          </g>
+        )}
       </svg>
     </span>
   );

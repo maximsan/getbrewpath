@@ -1,5 +1,4 @@
 const STAMP_SIZE = 68;
-const STAMP_ROTATION_DEG = -12;
 const OUTER_RING_INSET = 2;
 const RING_GAP = 8;
 const BEAN_TILT_DEG = -18;
@@ -26,8 +25,8 @@ export function FlavorStamp() {
       height={STAMP_SIZE}
       viewBox={`0 0 ${STAMP_SIZE} ${STAMP_SIZE}`}
       aria-hidden="true"
-      className="block"
-      style={{ transform: `rotate(${STAMP_ROTATION_DEG}deg)` }}
+      // Tilted like a stamp pressed by hand.
+      className="block -rotate-12"
     >
       <circle
         cx={radius}

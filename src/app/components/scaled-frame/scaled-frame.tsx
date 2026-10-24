@@ -1,8 +1,9 @@
 'use client';
 
-import { type ReactNode, useRef } from 'react';
+import { type CSSProperties, type ReactNode, useRef } from 'react';
 
 import { useFitScale } from '@shared/hooks/use-fit-scale';
+import { cn } from '@shared/styles/cn';
 
 interface ScaledFrameProps {
   /** The size the content is drawn at. */
@@ -21,21 +22,24 @@ export function ScaledFrame({ width, height, children }: ScaledFrameProps) {
   const box = useRef<HTMLDivElement>(null);
   const shownWidth = useFitScale(box, width) * width;
   const measured = shownWidth > 0;
+  const frameSize = {
+    '--frame-width': `${width}px`,
+    '--frame-height': `${height}px`,
+    '--frame-aspect': `${width} / ${height}`,
+    '--frame-scale': `${shownWidth / width}`,
+  } as CSSProperties;
 
   return (
     <div
       ref={box}
-      className="relative w-full"
-      style={{ maxWidth: width, aspectRatio: `${width} / ${height}` }}
+      className="relative aspect-(--frame-aspect) w-full max-w-(--frame-width)"
+      style={frameSize}
     >
       <div
-        className="absolute top-0 left-0 origin-top-left"
-        style={{
-          width,
-          height,
-          transform: `scale(${shownWidth / width})`,
-          visibility: measured ? undefined : 'hidden',
-        }}
+        className={cn(
+          'absolute top-0 left-0 h-(--frame-height) w-(--frame-width) origin-top-left scale-(--frame-scale)',
+          !measured && 'invisible',
+        )}
       >
         {children}
       </div>

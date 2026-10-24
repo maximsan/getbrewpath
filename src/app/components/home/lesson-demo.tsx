@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 
 import { MCQCard, type MCQCardData } from '@components/brewpath/lesson-cards/mcq-card';
 import {
@@ -29,6 +29,16 @@ const SCREEN_HEIGHT = 600;
 const PHONE_WIDTH = 316;
 const PHONE_HEIGHT = SCREEN_HEIGHT + PHONE_WIDTH - SCREEN_WIDTH;
 const SCREEN_SCALE = SCREEN_WIDTH / APP_WIDTH;
+
+/** The phone's sizes, for its classes to read. */
+const PHONE_SIZES = {
+  '--phone-width': `${PHONE_WIDTH}px`,
+  '--screen-width': `${SCREEN_WIDTH}px`,
+  '--screen-height': `${SCREEN_HEIGHT}px`,
+  '--app-width': `${APP_WIDTH}px`,
+  '--app-height': `${APP_HEIGHT}px`,
+  '--screen-scale': `${SCREEN_SCALE}`,
+} as CSSProperties;
 
 interface LessonDemoProps {
   /** The card a perfect run of lesson one earns. */
@@ -127,24 +137,14 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
       <div className="flex justify-center">
         <ScaledFrame width={PHONE_WIDTH} height={PHONE_HEIGHT}>
           <div
-            className="flex-none rounded-[48px] bg-[#15100c] p-2.5 shadow-[0_40px_80px_-30px_rgba(0,0,0,.7),0_0_0_1px_rgba(255,255,255,.06)]"
-            style={{ width: PHONE_WIDTH }}
+            className="w-(--phone-width) flex-none rounded-[48px] bg-[#15100c] p-2.5 shadow-[0_40px_80px_-30px_rgba(0,0,0,.7),0_0_0_1px_rgba(255,255,255,.06)]"
+            style={PHONE_SIZES}
           >
-            <div
-              className="relative overflow-hidden rounded-[40px] bg-bg"
-              style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}
-            >
+            <div className="relative h-(--screen-height) w-(--screen-width) overflow-hidden rounded-[40px] bg-bg">
               <div className="absolute inset-x-0 top-0 z-[3] flex h-11 items-center justify-center">
                 <div className="h-[26px] w-24 rounded-full bg-[#0b0806]" />
               </div>
-              <div
-                className="absolute top-0 left-0 origin-top-left overflow-hidden"
-                style={{
-                  width: APP_WIDTH,
-                  height: APP_HEIGHT,
-                  transform: `scale(${SCREEN_SCALE})`,
-                }}
-              >
+              <div className="absolute top-0 left-0 h-(--app-height) w-(--app-width) origin-top-left scale-(--screen-scale) overflow-hidden">
                 <div key={run}>
                   <ProgressTopbar
                     onClose={restart}

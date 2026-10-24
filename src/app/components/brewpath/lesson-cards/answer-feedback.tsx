@@ -4,8 +4,6 @@ import { useTranslations } from 'next-intl';
 
 import { Roasty } from '@components/brewpath/roasty/roasty';
 
-import styles from './lesson-cards.module.css';
-
 /** The size of Roasty, the coffee-bean mascot, in lesson cards, in px. */
 const ROASTY_SIZE = 72;
 
@@ -21,7 +19,8 @@ export function AnswerFeedback({ correct, text }: AnswerFeedbackProps) {
   const translate = useTranslations('lesson');
 
   return (
-    <div className={`${styles.feedbackRise} mt-[22px] flex items-center gap-3.5`}>
+    // The verdict rises in after the pick reacts, so the pop or shake reads first.
+    <div className="mt-[22px] flex animate-feedback-rise items-center gap-3.5">
       <div className="shrink-0">
         <Roasty state={correct ? 'correct' : 'wrong'} size={ROASTY_SIZE} />
       </div>

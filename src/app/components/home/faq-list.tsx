@@ -21,7 +21,7 @@ export function FaqList({ entries }: FaqListProps) {
       key={question}
       label={question}
       glyph="plus"
-      headerPad="20px 0"
+      headerClassName="py-5"
       durationMs={ANSWER_MS}
       open={openIndex === index}
       onToggle={() => setOpenIndex((current) => (current === index ? NONE_OPEN : index))}

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import type { CSSProperties } from 'react';
 
-import { PHONE_ASPECT, type ScreenId, screenSrc } from '@domains/site/screens';
+import { type ScreenId, screenSrc } from '@domains/site/screens';
 import { cn } from '@shared/styles/cn';
 
 interface PhoneShotProps {
@@ -10,7 +10,6 @@ interface PhoneShotProps {
   /** Rendered width hint for the image optimiser, e.g. "270px". */
   sizes: string;
   className?: string;
-  style?: CSSProperties;
   priority?: boolean;
   /** Rises into place when its revealed card scrolls in; the value is how far it sits below the card's edge. */
   riseOffset?: string;
@@ -19,24 +18,18 @@ interface PhoneShotProps {
 /**
  * An app screenshot in a phone frame, in the page's mood. The Dark Roast shot
  * lies over the Cupping one and fades in with the mood switch.
+ * The frame is 1000 × 2093; the screen inside it matches the screenshots' 786 × 1704.
  */
-export function PhoneShot({
-  screen,
-  alt,
-  sizes,
-  className,
-  style,
-  priority,
-  riseOffset,
-}: PhoneShotProps) {
+export function PhoneShot({ screen, alt, sizes, className, priority, riseOffset }: PhoneShotProps) {
+  const rise = riseOffset ? ({ '--rise-offset': riseOffset } as CSSProperties) : undefined;
+
   return (
     <div
-      className={cn('relative overflow-hidden rounded-[16.3%/7.8%] bg-phone-frame', className)}
-      style={{
-        aspectRatio: PHONE_ASPECT,
-        ...(riseOffset ? ({ '--y': riseOffset } as CSSProperties) : null),
-        ...style,
-      }}
+      className={cn(
+        'relative aspect-[1000/2093] overflow-hidden rounded-[16.3%/7.8%] bg-phone-frame',
+        className,
+      )}
+      style={rise}
       data-rise={riseOffset ? '' : undefined}
     >
       <div className="absolute inset-x-[3.2%] inset-y-[1.53%] overflow-hidden rounded-[14%/6.46%] bg-bg">

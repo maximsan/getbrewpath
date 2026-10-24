@@ -1,10 +1,10 @@
 'use client';
 
-import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
+import { cn } from '@shared/styles/cn';
+
 import { AnswerFeedback } from './answer-feedback';
-import styles from './lesson-cards.module.css';
 
 export interface Choice {
   key: string | number;
@@ -15,6 +15,13 @@ export interface Choice {
   picked: boolean;
   onSelect: () => void;
 }
+
+/** How a choice looks once the learner has picked: the right answer green, a wrong pick red and shaking. */
+const VERDICT_STYLE: Record<NonNullable<Choice['verdict']>, string> = {
+  correct: 'border-sage bg-[color-mix(in_oklab,var(--sage)_12%,var(--surface))]',
+  incorrect:
+    'border-berry bg-[color-mix(in_oklab,var(--berry)_8%,var(--surface))] animate-answer-shake',
+};
 
 /** The colour a choice takes once the learner has picked: the right answer is correct, a wrong pick incorrect. */
 export function choiceVerdict<T>(value: T, answer: T, picked: T | null): Choice['verdict'] {
@@ -65,12 +72,18 @@ export function ChoiceCard({
         {title}
       </h2>
 
-      <div className={`${styles.choices} mt-6 flex flex-col gap-2.5`}>
+      <div className="mt-6 flex flex-col gap-2.5">
         {choices.map((choice) => (
           <button
             key={choice.key}
             type="button"
-            className={clsx(styles.choice, choice.verdict && styles[choice.verdict])}
+            className={cn(
+              'ff-ui block w-full cursor-pointer rounded-r border border-rule bg-surface px-5 py-[18px] text-left text-body font-medium text-ink transition-all duration-150 ease-[ease] not-disabled:active:scale-[.985] disabled:cursor-default',
+              choice.verdict && VERDICT_STYLE[choice.verdict],
+              // Only the learner's own pick moves: a right pick pops, but the right answer
+              // revealed after a wrong pick stays still.
+              choice.verdict === 'correct' && pickedCorrect && 'animate-answer-pop',
+            )}
             disabled={answered}
             aria-pressed={choice.picked}
             onClick={choice.onSelect}

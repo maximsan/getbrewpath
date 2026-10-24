@@ -1,7 +1,5 @@
 import { useTranslations } from 'next-intl';
 
-import styles from './progress-topbar.module.css';
-
 /** Bean colours from green to dark roast. The bean darkens along this ramp as the learner moves through the cards. */
 const ROAST_RAMP = ['#9FB088', '#C79A63', '#A2703C', '#7A4526', '#54301C'] as const;
 /** The bean's highlight stroke, the same in both moods. */
@@ -43,7 +41,14 @@ function RoastBean({ done, total }: { done: number; total: number }) {
       aria-hidden="true"
     >
       <g transform="rotate(-18 12 12)">
-        <ellipse cx="12" cy="12" rx="7.5" ry="9.5" fill={fill} className={styles.beanFill} />
+        <ellipse
+          cx="12"
+          cy="12"
+          rx="7.5"
+          ry="9.5"
+          fill={fill}
+          className="transition-[fill] duration-[420ms] ease-[cubic-bezier(0.34,1.18,0.5,1)]"
+        />
         <ellipse
           cx="12"
           cy="12"
@@ -108,10 +113,13 @@ export function ProgressTopbar({
   const cardNumber = done ? total : pos + 1;
 
   return (
-    <div className={styles.topbar}>
+    // Sits under the phone's status bar; the demo's content clears it with 134px of top padding.
+    // Its opaque cap covers the status-bar inset, so content scrolled past never shows behind the clock.
+    <div className="absolute inset-x-0 top-[54px] z-10 grid grid-cols-[32px_1fr_32px] items-center border-b border-rule bg-bg px-5 py-3 before:absolute before:inset-x-0 before:bottom-full before:h-[54px] before:bg-inherit">
+      {/* A 44px hit area without a 44px box: the glyph stays where it is aligned. */}
       <button
         type="button"
-        className={`${styles.close} flex appearance-none items-center justify-center justify-self-start border-0 bg-transparent p-1 text-ink`}
+        className="relative flex appearance-none items-center justify-center justify-self-start border-0 bg-transparent p-1 text-ink before:absolute before:top-1/2 before:left-1/2 before:size-11 before:-translate-1/2"
         onClick={onClose}
         aria-label={closeLabel ?? translate('close')}
       >

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useFormatter, useTranslations } from 'next-intl';
-import { type MouseEvent, useEffect, useId, useRef, useState } from 'react';
+import { type CSSProperties, type MouseEvent, useEffect, useId, useRef, useState } from 'react';
 
 import { LinkButton } from '@components/link-button/link-button';
 import { MoodSwitch } from '@components/mood/mood-switch';
@@ -27,7 +27,7 @@ const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
 /** The slide-in delay of the menu item at `index`, as a CSS `animation-delay`. */
 function menuItemDelay(index: number) {
-  return { animationDelay: `${FIRST_LINK_DELAY + index * LINK_STAGGER}s` };
+  return { '--enter-delay': `${FIRST_LINK_DELAY + index * LINK_STAGGER}s` } as CSSProperties;
 }
 
 const menuSmallLinkClass = 'ff-ui text-sm text-ink-mute hover:text-ink hover:no-underline';
