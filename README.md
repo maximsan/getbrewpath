@@ -20,7 +20,7 @@ pnpm preview        # build for Cloudflare and serve it locally, http://localhos
 pnpm run deploy     # build for Cloudflare and put it live; CI runs it on every push to main
                     # `pnpm deploy` without `run` is a different, built-in pnpm command
 pnpm test:smoke     # build the site, open its main pages in Chromium and check them; runs before a push that changes more than Markdown, docs/, .github/ or prototype/
-                    # stops while pnpm preview is running, because the rebuild crashes it
+                    # stops while pnpm preview runs from this folder, because the rebuild crashes it; a preview from another worktree keeps running
 pnpm sync-cards     # refresh src/content/<language>/course.json from the app's main branch on GitHub
                     # it fetches main into your clone of the app repo, which it expects beside this repo:
                     #   projects/getbrewpath/   this repo
