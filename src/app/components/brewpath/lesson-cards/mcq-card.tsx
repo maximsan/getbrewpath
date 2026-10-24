@@ -1,7 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useState, useSyncExternalStore } from 'react';
+import { useState } from 'react';
+
+import { useHydrated } from '@shared/hooks/use-hydrated';
 
 import { type Choice, ChoiceCard, choiceVerdict } from './choice-card';
 
@@ -39,25 +41,12 @@ function shuffledIndices(n: number): number[] {
   return order;
 }
 
-const subscribeNever = () => () => {};
-
-/**
- * false on the server and during hydration, true after it. The server HTML
- * and the first client render then both list the answers in their written order.
- */
-function useHydrated(): boolean {
-  return useSyncExternalStore(
-    subscribeNever,
-    () => true,
-    () => false,
-  );
-}
-
 /** A multiple-choice card: cue, question, shuffled answers, feedback after one pick, and Continue. */
 export function MCQCard({ card, onContinue, onCorrect }: MCQCardProps) {
   const t = useTranslations('lesson');
   const [picked, setPicked] = useState<number | null>(null);
   const [shuffled] = useState(() => shuffledIndices(card.choices.length));
+  // Until hydration, the answers stay in their written order, as in the server HTML.
   const hydrated = useHydrated();
   // The shuffle changes display order only; grading uses each answer's written position.
   const order = hydrated ? shuffled : card.choices.map((_, i) => i);

@@ -3,11 +3,14 @@
 /* Below 800px a two-column block's two 380px columns and 40px gap no longer fit, so they stack. */
 @custom-variant stacked (@container (width < 800px));
 
+@custom-variant dark-roast (&:where([data-scheme='dark'] *, [data-mood='dark-roast'] *));
+
 /*
  * BrewPath design tokens, copied from the app's design system.
  * The site has two colour themes, called moods: cupping (light) and dark roast.
- * Cupping is the default. [data-mood='dark-roast'] on <html> switches the whole
- * page; on a section, it keeps that section dark in both moods.
+ * Cupping is the default. [data-scheme='dark'] on <html> switches the whole
+ * page to dark roast; [data-mood='dark-roast'] on a section keeps that section
+ * dark in both moods. The `dark-roast:` variant styles an element in either.
  * Source: prototype/_ds/brewpath-4b93ed84-d738-40ba-84a6-59af9b9bb79d/tokens/brewpath-tokens.css.
  */
 :root {
@@ -52,6 +55,7 @@
   --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+[data-scheme='dark'],
 [data-mood='dark-roast'] {
   --bg: #1a130e;
   --surface: #251b14;
@@ -159,22 +163,15 @@
     transform: scale(0.7);
   }
 }
+/* The phones' tilt sits on the elements, so it stays when reduced motion stops the float. */
 @keyframes hero-float {
-  0%,
-  100% {
-    transform: translateY(0) rotate(-5deg);
-  }
   50% {
-    transform: translateY(-14px) rotate(-5deg);
+    translate: 0 -14px;
   }
 }
 @keyframes hero-float-2 {
-  0%,
-  100% {
-    transform: translateY(0) rotate(7deg);
-  }
   50% {
-    transform: translateY(-10px) rotate(7deg);
+    translate: 0 -10px;
   }
 }
 
