@@ -56,7 +56,9 @@ test('a phone in dark mode shows Dark Roast from the first paint', async ({ page
   );
 });
 
-test('the open menu keeps keyboard focus off the page behind it', async ({ page }) => {
+test("while the phone menu is open, the page under it can't be reached by keyboard", async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await openPath(page, PAGE_ROUTES.home);
   await page.getByRole('button', { name: site.nav.menu }).click();
