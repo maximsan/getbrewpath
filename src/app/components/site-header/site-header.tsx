@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useFormatter, useTranslations } from 'next-intl';
-import { type MouseEvent, useEffect, useId, useRef, useState } from 'react';
+import { type MouseEvent, useId, useRef, useState } from 'react';
 
 import appIcon from '@assets/app-icon.png';
 import { LinkButton } from '@components/link-button/link-button';
@@ -14,6 +14,7 @@ import { TWO_DIGITS } from '@shared/format/number';
 import { cn } from '@shared/styles/cn';
 
 import { NAV_SECTIONS, sectionHref } from './nav-items';
+import { useModalMenu } from './use-modal-menu';
 
 /** From this width the section links sit in the header and the menu closes. Matches `min-[980px]` below. */
 const WIDE_SCREEN = '(min-width: 980px)';
@@ -32,8 +33,6 @@ const menuSmallLinkClass = 'ff-ui text-sm text-ink-mute hover:text-ink hover:no-
 /**
  * Sticky top bar: brand, section links, mood switch and the store link.
  * Below 980px the links move into a menu that covers the page under the bar.
- * While it is open the page behind it neither scrolls nor takes keyboard focus,
- * and Escape closes it.
  * Below 375px the brand shows only its icon, so the bar fits the screen.
  */
 export function SiteHeader() {
@@ -54,36 +53,14 @@ export function SiteHeader() {
     setMenuOpen(false);
   }
 
-  useEffect(() => {
-    if (!menuOpen) return;
-    const wide = window.matchMedia(WIDE_SCREEN);
-    const closeWhenWide = () => {
-      if (wide.matches) setMenuOpen(false);
-    };
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return;
-      setMenuOpen(false);
-      menuButton.current?.focus();
-    };
-    // Everything but the bar and the menu, the skip link included.
-    const pageBehind = Array.from(document.body.children).filter(
-      (element): element is HTMLElement =>
-        element instanceof HTMLElement &&
-        element !== bar.current &&
-        element.id !== menuId &&
-        !element.inert,
-    );
-    document.body.style.overflow = 'hidden';
-    pageBehind.forEach((element) => (element.inert = true));
-    wide.addEventListener('change', closeWhenWide);
-    document.addEventListener('keydown', closeOnEscape);
-    return () => {
-      document.body.style.overflow = '';
-      pageBehind.forEach((element) => (element.inert = false));
-      wide.removeEventListener('change', closeWhenWide);
-      document.removeEventListener('keydown', closeOnEscape);
-    };
-  }, [menuOpen, menuId]);
+  useModalMenu({
+    open: menuOpen,
+    setOpen: setMenuOpen,
+    bar,
+    menuId,
+    menuButton,
+    closesAt: WIDE_SCREEN,
+  });
 
   const closeMenu = () => setMenuOpen(false);
 
