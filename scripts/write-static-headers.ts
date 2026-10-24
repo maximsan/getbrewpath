@@ -4,7 +4,8 @@
  *
  *   pnpm write-static-headers
  *
- * `pnpm preview` runs it first, so the file is never edited by hand.
+ * Every Cloudflare build (`pnpm preview`, `pnpm deploy`) runs it first, so the
+ * file is never edited by hand.
  * Format: https://developers.cloudflare.com/workers/static-assets/headers/
  */
 import { writeFileSync } from 'node:fs';
@@ -19,7 +20,11 @@ const rule = (path: string, headers: { key: string; value: string }[]) =>
 writeFileSync(
   OUTPUT_FILE,
   [
-    rule('/*', SECURITY_HEADERS),
+    // Browsers apply the Content Security Policy only to pages, so static files skip it.
+    rule(
+      '/*',
+      SECURITY_HEADERS.filter(({ key }) => key !== 'Content-Security-Policy'),
+    ),
     // Next.js puts a content hash in these file names, so a copy never goes stale.
     rule('/_next/static/*', [{ key: 'Cache-Control', value: 'public,max-age=31536000,immutable' }]),
   ].join('\n\n') + '\n',

@@ -44,3 +44,5 @@ export const COPYRIGHT_YEAR = 2026;
 export const WEB_ANALYTICS_TOKEN = '3dae933cda004cb198b689159f1ff8d7';
 /** Cloudflare Web Analytics' script, which every page loads to count visits. */
 export const WEB_ANALYTICS_SCRIPT = 'https://static.cloudflareinsights.com/beacon.min.js';
+/** Where that script sends each visit. */
+export const WEB_ANALYTICS_ENDPOINT = 'https://cloudflareinsights.com';

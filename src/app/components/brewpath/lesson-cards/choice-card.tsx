@@ -81,13 +81,15 @@ export function ChoiceCard({
             key={choice.key}
             type="button"
             className={cn(
-              'ff-ui block w-full cursor-pointer rounded-card border border-rule bg-surface px-5 py-[18px] text-left text-body font-medium text-ink transition-all duration-150 ease-[ease] not-disabled:active:scale-[.985] disabled:cursor-default',
+              'ff-ui block w-full cursor-pointer rounded-card border border-rule bg-surface px-5 py-[18px] text-left text-body font-medium text-ink transition-all duration-150 ease-[ease] not-aria-disabled:active:scale-[.985] aria-disabled:cursor-default',
               choice.verdict && VERDICT_STYLE[choice.verdict],
               // Only the learner's own pick moves: a right pick pops, but the right answer
               // revealed after a wrong pick stays still.
               choice.verdict === 'correct' && pickedCorrect && 'animate-answer-pop',
             )}
-            disabled={answered}
+            // Not `disabled`: that would drop keyboard focus from the answer just picked.
+            // The cards ignore a second pick.
+            aria-disabled={answered}
             aria-pressed={choice.picked}
             onClick={choice.onSelect}
           >

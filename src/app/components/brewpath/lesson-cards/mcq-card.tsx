@@ -1,7 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useState, useSyncExternalStore } from 'react';
+import { useState } from 'react';
+
+import { useHydrated } from '@shared/hooks/use-hydrated';
 
 import { type Choice, ChoiceCard, choiceVerdict } from './choice-card';
 
@@ -40,20 +42,6 @@ function shuffledIndices(count: number): number[] {
   }
 
   return order;
-}
-
-const subscribeNever = () => () => {};
-
-/**
- * false on the server and during hydration, true after it. The server HTML
- * and the first client render then both list the answers in their written order.
- */
-function useHydrated(): boolean {
-  return useSyncExternalStore(
-    subscribeNever,
-    () => true,
-    () => false,
-  );
 }
 
 /** A multiple-choice card: cue, question, shuffled answers, feedback after one pick, and Continue. */
