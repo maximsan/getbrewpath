@@ -9,8 +9,8 @@
  * BrewPath design tokens, copied from the app's design system.
  * The site has two colour themes, called moods: cupping (light) and dark roast.
  * Cupping is the default. [data-scheme='dark'] on <html> switches the whole
- * page to dark roast; [data-mood='dark-roast'] on a section keeps that section
- * dark in both moods. The `dark-roast:` variant styles an element in either.
+ * page to Dark Roast. [data-mood='dark-roast'] on a section keeps that section
+ * dark in both moods. The `dark-roast:` variant styles an element in either case.
  * Source: prototype/_ds/brewpath-4b93ed84-d738-40ba-84a6-59af9b9bb79d/tokens/brewpath-tokens.css.
  */
 :root {
@@ -163,7 +163,7 @@
     transform: scale(0.7);
   }
 }
-/* The phones' tilt sits on the elements, so it stays when reduced motion stops the float. */
+/* The hero phones' tilt sits on the phone elements, not in the float, so it stays when reduced motion stops the float. */
 @keyframes hero-float {
   50% {
     translate: 0 -14px;

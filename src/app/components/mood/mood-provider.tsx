@@ -15,7 +15,7 @@ export function MoodProvider({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider
       attribute="data-scheme"
-      themes={[...COLOR_SCHEMES]}
+      themes={COLOR_SCHEMES}
       defaultTheme="system"
       enableSystem
       storageKey={MOOD_STORAGE_KEY}

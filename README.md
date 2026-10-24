@@ -36,7 +36,7 @@ pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpat
   app repo's content; do not edit by hand.
 - `src/assets/` — the app icon, and app screenshots in `screens/<mood>/`, one
   folder per [mood](GLOSSARY.md). Pages import them, so their addresses carry a
-  content hash and browsers keep them for good.
+  content hash and browsers cache them for a year.
 - `public/legal/` — the app's Terms of Use and Privacy Policy, as PDF files.
   The `/terms` and `/privacy` pages show the same text word for word. The text
   lives under the `docs` key of `src/messages/en/site.json`. Each file's date,
@@ -71,9 +71,9 @@ English pages with the PDF files in `public/legal/`.
 ## Screenshots
 
 Each mood shows its own screenshots. Both folders in `src/assets/screens/`
-hold every screen in `SCREENS` under the same file names.
-`src/domains/site/screens.ts` imports each one, so the build fails if a folder
-misses one.
+hold every screen in `SCREENS` (`src/domains/site/screens.ts`) under the same
+file names. `src/app/components/phone-shot/phone-shot.tsx` imports each one, so
+the build fails if a folder misses one.
 
 ## Universal links
 

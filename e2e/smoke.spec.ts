@@ -19,14 +19,19 @@ import {
 
 const APP_STORE_HOST = new URL(APP_STORE_URL).host;
 
-/** Every test fails if the page loads anything the Content Security Policy blocks. */
+/** Every test fails if the page tries to load anything the Content Security Policy blocks. */
 const test = base.extend<{ blockedByPolicy: void }>({
   blockedByPolicy: [
     async ({ page }, use) => {
       const blocked: string[] = [];
-      page.on('console', (message) => {
-        if (message.text().includes('Content Security Policy')) blocked.push(message.text());
-      });
+      await page.exposeFunction('reportBlocked', (address: string) => blocked.push(address));
+      await page.addInitScript(() =>
+        document.addEventListener('securitypolicyviolation', (event) =>
+          (window as unknown as { reportBlocked: (address: string) => void }).reportBlocked(
+            `${event.violatedDirective}: ${event.blockedURI}`,
+          ),
+        ),
+      );
       await use();
       expect(blocked).toEqual([]);
     },
@@ -45,8 +50,12 @@ const linkTargets = (page: Page, selector: string) =>
   page.locator(selector).evaluateAll((links) => links.map((link) => link.getAttribute('href')));
 
 /** `#1A130E` as CSS reports a colour: `rgb(26, 19, 14)`. */
-const hexToRgb = (hex: string) =>
-  `rgb(${[1, 3, 5].map((start) => parseInt(hex.slice(start, start + 2), 16)).join(', ')})`;
+function hexToRgb(hex: string) {
+  const channels = /^#(?<red>\w{2})(?<green>\w{2})(?<blue>\w{2})$/.exec(hex)?.groups;
+  if (!channels) throw new Error(`Not a #RRGGBB colour: ${hex}`);
+  const { red, green, blue } = channels;
+  return `rgb(${[red, green, blue].map((channel) => parseInt(channel ?? '', 16)).join(', ')})`;
+}
 
 /** Opens `path` and checks the server answered with `status`. */
 async function openPath(page: Page, path: string, status = 200) {

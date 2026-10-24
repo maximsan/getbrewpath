@@ -46,6 +46,7 @@ export function SiteHeader() {
   const [menuPathname, setMenuPathname] = useState(pathname);
   const menuId = useId();
   const menuButton = useRef<HTMLButtonElement>(null);
+  const bar = useRef<HTMLElement>(null);
 
   // Any page change closes the menu, including one from a footer link.
   if (menuPathname !== pathname) {
@@ -64,7 +65,14 @@ export function SiteHeader() {
       setMenuOpen(false);
       menuButton.current?.focus();
     };
-    const pageBehind = document.querySelectorAll<HTMLElement>('main, footer');
+    // Everything but the bar and the menu, the skip link included.
+    const pageBehind = Array.from(document.body.children).filter(
+      (element): element is HTMLElement =>
+        element instanceof HTMLElement &&
+        element !== bar.current &&
+        element.id !== menuId &&
+        !element.inert,
+    );
     document.body.style.overflow = 'hidden';
     pageBehind.forEach((element) => (element.inert = true));
     wide.addEventListener('change', closeWhenWide);
@@ -75,7 +83,7 @@ export function SiteHeader() {
       wide.removeEventListener('change', closeWhenWide);
       document.removeEventListener('keydown', closeOnEscape);
     };
-  }, [menuOpen]);
+  }, [menuOpen, menuId]);
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -88,7 +96,10 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-rule bg-[color-mix(in_oklab,var(--bg)_82%,transparent)] backdrop-blur-[14px]">
+      <header
+        ref={bar}
+        className="sticky top-0 z-50 border-b border-rule bg-[color-mix(in_oklab,var(--bg)_82%,transparent)] backdrop-blur-[14px]"
+      >
         <div className="page-width flex min-h-16 items-center gap-2.5 px-4 min-[600px]:gap-5 min-[600px]:px-6">
           <Link
             href="/"

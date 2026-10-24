@@ -5,8 +5,8 @@ import { BRAND_COLORS } from '@domains/site/brand';
  * visitor's pick, names its choices after them. Light shows Cupping and dark shows
  * Dark Roast, as in the app (brewpath ADR-0037).
  */
-export const COLOR_SCHEMES = ['light', 'dark'] as const;
-export type ColorScheme = (typeof COLOR_SCHEMES)[number];
+export type ColorScheme = 'light' | 'dark';
+export const COLOR_SCHEMES: ColorScheme[] = ['light', 'dark'];
 
 /** The browser bar colour for each setting: the mood's page colour. */
 export const BAR_COLOR_OF_SCHEME: Record<ColorScheme, string> = {

@@ -18,7 +18,6 @@ import type { ColorScheme } from './mood-scheme';
 export function MoodSwitch() {
   const t = useTranslations('nav');
   const { resolvedTheme, setTheme } = useTheme();
-  // The server can't know the stored mood, so the switch reports its state after hydration.
   const hydrated = useHydrated();
   const dark = resolvedTheme === 'dark';
   const next: ColorScheme = dark ? 'light' : 'dark';

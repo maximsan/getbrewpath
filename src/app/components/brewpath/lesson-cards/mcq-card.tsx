@@ -46,7 +46,6 @@ export function MCQCard({ card, onContinue, onCorrect }: MCQCardProps) {
   const t = useTranslations('lesson');
   const [picked, setPicked] = useState<number | null>(null);
   const [shuffled] = useState(() => shuffledIndices(card.choices.length));
-  // Until hydration, the answers stay in their written order, as in the server HTML.
   const hydrated = useHydrated();
   // The shuffle changes display order only; grading uses each answer's written position.
   const order = hydrated ? shuffled : card.choices.map((_, i) => i);

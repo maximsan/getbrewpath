@@ -8,7 +8,7 @@ import { BRAND_COLORS, BRAND_INK_MUTE } from '@domains/site/brand';
 export const OG_SIZE = { width: 1200, height: 630 };
 
 const iconDataUrl = async () => {
-  // A literal path: the build copies only the files a server read names in full.
+  // Written out in full: the build copies a file into the server code only when the code names its full path.
   const icon = await readFile(join(process.cwd(), 'src/assets/app-icon.png'));
   return `data:image/png;base64,${icon.toString('base64')}`;
 };

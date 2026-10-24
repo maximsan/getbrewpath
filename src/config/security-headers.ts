@@ -1,10 +1,11 @@
 import { WEB_ANALYTICS_ENDPOINT, WEB_ANALYTICS_SCRIPT } from '../domains/site/site';
 
 /**
- * What a page may load. Every page is built ahead of time, so the inline scripts
- * of Next.js and next-themes can't carry a per-request nonce; they are allowed as
- * 'unsafe-inline', as the Next.js guide's version without nonces does. `pnpm dev`
- * also needs 'unsafe-eval' for its live reload.
+ * What a page may load. A strict policy marks each inline script with a nonce, a
+ * one-time code the server writes into every response. Every page here is built
+ * ahead of time, so the inline scripts of Next.js and next-themes are allowed as
+ * 'unsafe-inline' instead, as in the Next.js guide's policy for that case.
+ * `pnpm dev` also needs 'unsafe-eval' for its live reload.
  */
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
