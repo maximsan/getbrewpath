@@ -2,7 +2,7 @@ import { type APIRequestContext, expect, type Page, test } from '@playwright/tes
 
 import course from '@content/en/course.json' with { type: 'json' };
 import site from '@messages/en/site.json' with { type: 'json' };
-import { LEGAL_DOCS } from '@domains/site/legal-docs';
+import { legalPageSource } from '@domains/site/legal-pages';
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import {
   APP_LINKS_HOST,
@@ -12,6 +12,8 @@ import {
   mailtoHref,
   SITE_HOST,
   SITE_URL,
+  WEB_ANALYTICS_SCRIPT,
+  WEB_ANALYTICS_TOKEN,
 } from '@domains/site/site';
 
 const APP_STORE_HOST = new URL(APP_STORE_URL).host;
@@ -34,6 +36,19 @@ async function openPath(page: Page, path: string, status = 200) {
   const response = await page.goto(path);
 
   expect(response?.status()).toBe(status);
+}
+
+// The tests never load the script, so they count no visits.
+test.beforeEach(({ page }) => page.route(WEB_ANALYTICS_SCRIPT, (route) => route.abort()));
+
+/** Checks that the page loads the visit counter with the site's key. */
+async function expectVisitCounter(page: Page) {
+  const counter = page.locator(`script[src="${WEB_ANALYTICS_SCRIPT}"]`);
+
+  await expect(counter).toHaveCount(1);
+  expect(JSON.parse((await counter.getAttribute('data-cf-beacon')) ?? '{}')).toEqual({
+    token: WEB_ANALYTICS_TOKEN,
+  });
 }
 
 /** Checks that the page's email links and App Store links point at the site's addresses. */
@@ -59,6 +74,7 @@ test('home page shows the lesson demo phone', async ({ page }) => {
   // screen stays hidden until the hook has measured that box.
   await expect(page.getByText(site.demo.card0.prompt)).toBeVisible();
   await expectSiteLinks(page);
+  await expectVisitCounter(page);
 });
 
 test('the home page fits a 320px-wide phone without scrolling sideways', async ({ page }) => {
@@ -75,9 +91,13 @@ for (const doc of LEGAL_PAGES) {
     await openPath(page, PAGE_ROUTES[doc]);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.docs[doc].title);
     expect(await linkTargets(page, 'a[href^="mailto:"]')).toContain(
-      mailtoHref(LEGAL_DOCS[doc].email),
+      mailtoHref(legalPageSource(doc).email),
     );
+    await expect(
+      page.getByRole('contentinfo').getByRole('link', { name: site.footer[doc] }),
+    ).toHaveAttribute('href', PAGE_ROUTES[doc]);
     await expectSiteLinks(page);
+    await expectVisitCounter(page);
   });
 }
 
@@ -85,6 +105,7 @@ test('a Coffee Card page shows its card', async ({ page }) => {
   await openPath(page, CARD_PATH);
   await expect(page.getByRole('heading', { level: 1 })).toContainText(firstCard.reward.title);
   await expectSiteLinks(page);
+  await expectVisitCounter(page);
 });
 
 test('an unknown URL shows the not-found page', async ({ page }) => {

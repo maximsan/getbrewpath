@@ -21,7 +21,11 @@ pnpm run deploy     # build for Cloudflare and put it live; CI runs it on every 
                     # `pnpm deploy` without `run` is a different, built-in pnpm command
 pnpm test:smoke     # build the site, open its main pages in Chromium and check them; runs before a push that changes more than Markdown, docs/, .github/ or prototype/
                     # stops while pnpm preview is running, because the rebuild crashes it
-pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpath
+pnpm sync-cards     # refresh src/content/<language>/course.json from the app's main branch on GitHub
+                    # it fetches main into your clone of the app repo, which it expects beside this repo:
+                    #   projects/getbrewpath/   this repo
+                    #   projects/brewpath/      the app repo
+                    # every worktree of this repo uses that same clone; `pnpm sync-cards <path>` uses a clone kept elsewhere
 ```
 
 ## Where things live
@@ -41,9 +45,9 @@ pnpm sync-cards     # refresh src/content/<language>/course.json from ../brewpat
   lives under the `docs` key of `src/messages/en/site.json`. Each file's date,
   contact address and path are in `src/domains/site/legal-docs.ts`. When a PDF
   changes, update both; `pnpm test` fails until the pages match the files.
-  The owner edits the PDF files. Page wording that changes first goes into
-  `pendingFileEdits` in `legal-docs.ts`, and into
-  [the ticket that collects them](https://github.com/maximsan/getbrewpath/issues/35).
+  The owner edits the PDF files. When the page's wording changes before the PDF
+  does, list the change in `pendingFileEdits` in `legal-docs.ts`. Also list it in
+  one open ticket for the owner, so each PDF gets all its changes in one pass.
 
 Terms such as Foundations and Module Reward are defined in [GLOSSARY.md](GLOSSARY.md).
 

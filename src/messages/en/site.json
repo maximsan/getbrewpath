@@ -671,12 +671,24 @@
               "p": "We do not receive or store your full payment-card information."
             },
             "b12": {
-              "h": "Support communications"
+              "h": "Crash reports"
             },
             "b13": {
-              "p": "If you contact us for support or a privacy-related request, we will receive the information you choose to provide, such as your email address and the contents of your message."
+              "p": "When the App crashes or hits an error, it sends a crash report to Firebase Crashlytics, a service of Google, so that we can find and fix the problem."
             },
             "b14": {
+              "p": "A crash report holds what failed and where in the App, the App version, the device model and operating system version, whether the device is jailbroken, free memory and disk space, screen orientation, whether the App was in the background, and the time."
+            },
+            "b15": {
+              "p": "A crash report carries random installation identifiers that Firebase creates for your installation of BrewPath; they change when you reinstall the App. It carries no name, email address or account, because BrewPath has none. When the App starts, Firebase also receives the App version, the operating system version and the type of network connection, so that crash reports from one session can be told apart."
+            },
+            "b16": {
+              "h": "Support communications"
+            },
+            "b17": {
+              "p": "If you contact us for support or a privacy-related request, we will receive the information you choose to provide, such as your email address and the contents of your message."
+            },
+            "b18": {
               "p": "We use this information only to respond to your request and resolve the relevant issue."
             }
           }
@@ -685,7 +697,7 @@
           "h": "Analytics and Advertising",
           "blocks": {
             "b1": {
-              "p": "At this time, BrewPath does not use third-party product analytics or crash analytics services."
+              "p": "BrewPath does not use third-party product analytics. Crash reports are described above under Information BrewPath Handles."
             },
             "b2": {
               "p": "BrewPath does not display third-party advertising and does not use your information for cross-app advertising tracking."
@@ -722,8 +734,9 @@
                 "i3": "provide access to purchased content;",
                 "i4": "verify and restore purchases;",
                 "i5": "maintain the reliability and security of the App;",
-                "i6": "respond to support and privacy requests;",
-                "i7": "comply with applicable legal obligations."
+                "i6": "find and fix crashes and errors;",
+                "i7": "respond to support and privacy requests;",
+                "i8": "comply with applicable legal obligations."
               }
             }
           }
@@ -754,6 +767,12 @@
             },
             "b8": {
               "p": "We do not provide RevenueCat with your name or email address as a BrewPath account identifier because BrewPath currently does not use user accounts."
+            },
+            "b9": {
+              "h": "Firebase Crashlytics"
+            },
+            "b10": {
+              "p": "Firebase Crashlytics, a service of Google, receives BrewPath's crash reports so that we can find and fix errors. Google processes them on our behalf, which may happen outside your country of residence."
             }
           }
         },
@@ -785,6 +804,9 @@
             },
             "b4": {
               "p": "Support correspondence may be retained for as long as reasonably necessary to resolve the relevant request and maintain appropriate records."
+            },
+            "b5": {
+              "p": "Google keeps crash reports for 90 days, after which they are deleted."
             }
           }
         },
@@ -865,7 +887,120 @@
               }
             },
             "b3": {
-              "p": "This document describes BrewPath's current release-state privacy practices. It should be updated if analytics, crash reporting, advertising, account functionality, server-side push notifications, or other material data-processing features are introduced."
+              "p": "This document describes BrewPath's current release-state privacy practices. It should be updated if analytics, advertising, account functionality, server-side push notifications, or other material data-processing features are introduced."
+            }
+          }
+        }
+      }
+    },
+    "websitePrivacy": {
+      "title": "Website Privacy Notice",
+      "dated": "Last updated: {date}",
+      "intro": {
+        "p1": "This notice explains what happens to your information when you visit getbrewpath.com."
+      },
+      "sections": {
+        "s1": {
+          "h": "Who runs this website",
+          "blocks": {
+            "b1": {
+              "p": "getbrewpath.com is run by Maksim Shchutski, a sole proprietor registered in Poland (\"we\", \"us\"). Email: {email}."
+            }
+          }
+        },
+        "s2": {
+          "h": "What this notice covers",
+          "blocks": {
+            "b1": {
+              "p": "This notice covers the website only. The BrewPath app has its own <policy>Privacy Policy</policy>, which describes what the app does with your information."
+            }
+          }
+        },
+        "s3": {
+          "h": "Cookies and browser storage",
+          "blocks": {
+            "b1": {
+              "p": "The website sets no cookies. If you pick a mood with the Cupping / Dark Roast switch, your browser remembers that choice on your device so the next visit looks the same. It is never sent to us. The website does not ask for consent, because it stores nothing you did not ask for."
+            }
+          }
+        },
+        "s4": {
+          "h": "Visit counting",
+          "blocks": {
+            "b1": {
+              "p": "We count visits with Cloudflare Web Analytics, a service of Cloudflare, Inc. A small script on every page sends Cloudflare:"
+            },
+            "b2": {
+              "list": {
+                "i1": "the address of the page you opened;",
+                "i2": "the address of the page you came from, if your browser passes it on;",
+                "i3": "how fast the page loaded and responded."
+              }
+            },
+            "b3": {
+              "p": "The script stores nothing in your browser. Cloudflare drops your IP address at the data centre nearest to you. We see totals only: how many people opened a page, from which countries, in which browsers."
+            },
+            "b4": {
+              "p": "Cloudflare keeps the counted visits for six months. After seven days it keeps only a sample of them."
+            }
+          }
+        },
+        "s5": {
+          "h": "Hosting",
+          "blocks": {
+            "b1": {
+              "p": "Cloudflare serves every page of this website, so each page request passes through Cloudflare's network. Cloudflare sees your IP address while it delivers the page and handles it under its own privacy policy, as our data processor. We keep no log of page requests ourselves."
+            }
+          }
+        },
+        "s6": {
+          "h": "Emailing us",
+          "blocks": {
+            "b1": {
+              "p": "If you email us, we receive your email address and the contents of your message. We use them only to reply to you and resolve what you wrote about."
+            },
+            "b2": {
+              "p": "We keep the exchange for as long as it takes to resolve it and to keep a reasonable record."
+            }
+          }
+        },
+        "s7": {
+          "h": "Links to other services",
+          "blocks": {
+            "b1": {
+              "p": "Links to the App Store take you to Apple, where Apple's privacy policy and terms apply. Links that open the BrewPath app are covered by the app's Privacy Policy."
+            }
+          }
+        },
+        "s8": {
+          "h": "Your rights",
+          "blocks": {
+            "b1": {
+              "p": "Depending on where you live, privacy laws may give you rights over your personal data. You may ask what we hold about you, have it corrected or deleted, or complain to a data protection authority."
+            },
+            "b2": {
+              "p": "The website holds no personal data about visitors. The only personal data we may hold is an email exchange you started. To use your rights, write to {email}."
+            }
+          }
+        },
+        "s9": {
+          "h": "Changes to this notice",
+          "blocks": {
+            "b1": {
+              "p": "We update this notice when the website changes how it handles information. The date at the top shows the latest version."
+            }
+          }
+        },
+        "s10": {
+          "h": "Contact",
+          "blocks": {
+            "b1": {
+              "lines": {
+                "l1": "Maksim Shchutski",
+                "l2": "Sole proprietor, Poland",
+                "l3": "Website: getbrewpath.com",
+                "l4": "Email: {email}"
+              }
             }
           }
         }
@@ -883,7 +1018,8 @@
   "footer": {
     "copyright": "© {year}",
     "terms": "Terms of Use",
-    "privacy": "Privacy",
+    "privacy": "App Privacy",
+    "websitePrivacy": "Website Privacy",
     "support": "Support"
   },
   "metadata": {

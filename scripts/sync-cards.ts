@@ -1,21 +1,24 @@
 /**
- * Copies the course summary from the BrewPath app repo into this site, once
- * per language the site is published in.
+ * Copies the course summary from the BrewPath app's `main` branch on GitHub
+ * into this site, once per language the site is published in. It reads the
+ * app's content files through the app's clone: by default the folder that
+ * `appClonePath` in `app-clone.ts` names, or the path given after the command.
  *
- *   pnpm sync-cards [path-to-brewpath-repo]   (default: ../brewpath)
+ *   pnpm sync-cards [path-to-app-clone]
  *
  * Rerun it whenever the app's lessons, modules, collectibles or free lessons
  * change, or a language is added to `src/i18n/routing.ts`.
  */
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import process from 'node:process';
 
 import { buildCourse, type ContentBanks } from '../src/domains/course/build-course';
 import { courseCounts } from '../src/domains/course/course';
 import { overlayTranslation } from '../src/domains/course/overlay-translation';
 import { type Locale, routing } from '../src/i18n/routing';
+import { APP_BRANCH, appClonePath, fetchAppMainFiles } from './app-clone';
 
-const DEFAULT_APP_REPO = '../brewpath';
 /**
  * The app's English content. Each other language has a folder of translated
  * fields; a translated field replaces the English one.
@@ -28,12 +31,26 @@ const outputFile = (locale: Locale) => `src/content/${locale}/course.json`;
 type Bank = Exclude<keyof ContentBanks, 'freeTier'>;
 type Records = Record<string, unknown>[];
 
-const appRepo = resolve(process.argv[2] ?? DEFAULT_APP_REPO);
+/** Fetches the app's `main` branch through its clone. On failure, prints the reason and exits. */
+function fetchAppMainFilesOrExit() {
+  try {
+    const appClone = process.argv[2] ? resolve(process.argv[2]) : appClonePath(process.cwd());
+    const appMainFiles = fetchAppMainFiles(appClone);
+
+    console.log(`Reading ${appClone} at ${APP_BRANCH}, commit ${appMainFiles.commit}`);
+
+    return appMainFiles;
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : error);
+    process.exit(1);
+  }
+}
+
+const appMainFiles = fetchAppMainFilesOrExit();
 
 /** A bank file's records; `buildCourse` checks their shape. */
 const readRecords = (dir: string, bank: Bank) =>
-  (JSON.parse(readFileSync(join(appRepo, dir, `${bank}.json`), 'utf8')) as { items: Records })
-    .items;
+  (JSON.parse(appMainFiles.readFile(`${dir}/${bank}.json`)) as { items: Records }).items;
 
 const banksBy = (records: (bank: Bank) => Records): ContentBanks => ({
   lessons: { items: records('lessons') },
@@ -48,9 +65,7 @@ const english: Record<Bank, Records> = {
   collectibles: readRecords(MASTER_DIR, 'collectibles'),
 };
 /** The free lessons and the daily limit, read once for every language. */
-const freeTier: unknown = JSON.parse(
-  readFileSync(join(appRepo, MASTER_DIR, 'website', 'free_tier.json'), 'utf8'),
-);
+const freeTier: unknown = JSON.parse(appMainFiles.readFile(`${MASTER_DIR}/website/free_tier.json`));
 
 for (const locale of routing.locales) {
   const banks = banksBy((bank) =>

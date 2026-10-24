@@ -9,10 +9,7 @@ interface LegalDocSource {
   date: string;
   /** The contact address the page gives. */
   email: string;
-  /**
-   * Wording the page already changed while the file keeps the old one, until the owner updates the file.
-   * https://github.com/maximsan/getbrewpath/issues/35 lists them.
-   */
+  /** Wording the page changed before the owner updated the file: `inFile` is the old wording, `onPage` the new. */
   pendingFileEdits: readonly { inFile: string; onPage: string }[];
 }
 
@@ -25,9 +22,9 @@ export const LEGAL_DOCS: Record<LegalDocId, LegalDocSource> = {
   },
   privacy: {
     file: '/legal/BrewPath_Privacy_Policy.pdf',
-    date: '2026-10-20',
+    date: '2026-10-23',
     email: EMAIL_HI,
-    pendingFileEdits: [{ inFile: 'support@getbrewpath.com', onPage: EMAIL_HI }],
+    pendingFileEdits: [],
   },
 };
 

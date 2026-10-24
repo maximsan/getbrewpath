@@ -1,12 +1,15 @@
 import { getFormatter, getMessages, getTranslations } from 'next-intl/server';
+import type { ReactNode } from 'react';
 
 import { DownloadIcon } from '@components/icons/icons';
 import { linkButtonClass } from '@components/link-button/link-button';
 import { pageTitleClass } from '@components/section/section';
 import { pageMetadata } from '@domains/site/page-metadata';
 import { PAGE_ROUTES } from '@domains/site/routes';
-import { LEGAL_DOC_DATE_FORMAT, LEGAL_DOCS, type LegalDocId } from '@domains/site/legal-docs';
+import { LEGAL_DOC_DATE_FORMAT } from '@domains/site/legal-docs';
+import { type LegalPageName, legalPageSource } from '@domains/site/legal-pages';
 import { mailtoHref, PHONE } from '@domains/site/site';
+import { Link } from '@i18n/navigation';
 import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 import { TWO_DIGITS } from '@shared/format/number';
 import { cn } from '@shared/styles/cn';
@@ -16,21 +19,31 @@ import { legalDocOutline, type OutlineBlock } from './legal-doc-outline';
 const paragraphClass = 'ff-ui mt-0 mb-3.5 text-base leading-[1.7] text-pretty text-ink';
 
 /**
- * The Terms of Use or Privacy Policy, word for word from its file in `public/legal/`:
- * title, date, a download button for the file, a table of contents and numbered sections.
+ * A legal page: title, date, a table of contents and numbered sections.
+ * The Terms of Use and the Privacy Policy copy their PDF in `public/legal/` word for word,
+ * and offer it for download. The website privacy page has no PDF.
  * On wide screens the table of contents stays on screen while scrolling.
  */
-export async function LegalDoc({ doc }: { doc: LegalDocId }) {
+export async function LegalDoc({ doc }: { doc: LegalPageName }) {
   const translate = await getTranslations('docs');
   const format = await getFormatter();
   const { docs } = await getMessages();
-  const source = LEGAL_DOCS[doc];
+  const source = legalPageSource(doc);
   const { introKeys, sections } = legalDocOutline(docs[doc]);
 
   type TextKey = Parameters<typeof translate>[0];
+  const values = { email: source.email, phone: PHONE };
   /** The text at `key` inside this document. The key is built at run time, so TypeScript cannot check it. */
-  const text = (key: string) =>
-    translate(`${doc}.${key}` as TextKey, { email: source.email, phone: PHONE });
+  const text = (key: string) => translate(`${doc}.${key}` as TextKey, values);
+  /**
+   * Like `text`, for the section blocks: there a `<policy>` tag becomes a link to the app's
+   * Privacy Policy. The website privacy page uses it. Titles and headings take no tags.
+   */
+  const richText = (key: string) =>
+    translate.rich(`${doc}.${key}` as TextKey, {
+      ...values,
+      policy: (chunks) => <Link href={PAGE_ROUTES.privacy}>{chunks}</Link>,
+    });
   const anchor = (sectionId: string) => `doc-${sectionId}`;
   const date = format.dateTime(new Date(source.date), LEGAL_DOC_DATE_FORMAT);
 
@@ -48,14 +61,16 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
             </p>
           ))}
         </div>
-        <a
-          href={source.file}
-          download
-          className={cn(linkButtonClass('outline', 'lg'), 'mt-[26px] gap-2')}
-        >
-          <DownloadIcon size={16} />
-          {translate('download')}
-        </a>
+        {source.file && (
+          <a
+            href={source.file}
+            download
+            className={cn(linkButtonClass('outline', 'lg'), 'mt-[26px] gap-2')}
+          >
+            <DownloadIcon size={16} />
+            {translate('download')}
+          </a>
+        )}
       </div>
       <div className="mt-14 grid items-start gap-12 min-[980px]:grid-cols-[220px_minmax(0,1fr)]">
         <nav
@@ -87,7 +102,7 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
                 {text(section.headingKey)}
               </h2>
               {section.blocks.map((block) => (
-                <SectionBlock key={block.id} block={block} text={text} />
+                <SectionBlock key={block.id} block={block} text={richText} />
               ))}
             </div>
           ))}
@@ -103,7 +118,7 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
   );
 }
 
-function SectionBlock({ block, text }: { block: OutlineBlock; text: (key: string) => string }) {
+function SectionBlock({ block, text }: { block: OutlineBlock; text: (key: string) => ReactNode }) {
   const texts = block.textKeys.map((key) => ({ key, text: text(key) }));
 
   switch (block.kind) {
@@ -134,8 +149,8 @@ function SectionBlock({ block, text }: { block: OutlineBlock; text: (key: string
   }
 }
 
-/** The Terms of Use or Privacy Policy page's title, description and address. */
-export async function legalDocMetadata(doc: LegalDocId, params: LocaleParams['params']) {
+/** A legal document page's title, description and address. */
+export async function legalDocMetadata(doc: LegalPageName, params: LocaleParams['params']) {
   const locale = await setPageLocale(params);
   const translate = await getTranslations({ locale, namespace: `docs.${doc}` });
   const { docs } = await getMessages({ locale });
