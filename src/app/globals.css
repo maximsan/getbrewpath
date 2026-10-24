@@ -8,6 +8,18 @@
   --breakpoint-tablet: 600px;
   /* The phone's status bar in the lesson demo: the lesson's top bar sits just under it. */
   --spacing-status-bar: 54px;
+
+  /* The phone frame around every app screenshot. Its screen matches the screenshots' 786 × 1704. */
+  --aspect-phone: 1000 / 2093;
+
+  /* The lesson demo's phone: a 296 × 600 screen in a 10px bezel. The app inside is drawn at
+     its real 393 × 797 points, then shrunk to fit the screen. */
+  --spacing-demo-phone: 316px;
+  --aspect-demo-phone: 316 / 620;
+  --spacing-demo-screen: 296px;
+  --spacing-demo-screen-height: 600px;
+  --spacing-demo-app: 393px;
+  --spacing-demo-app-height: 797px;
 }
 
 /*

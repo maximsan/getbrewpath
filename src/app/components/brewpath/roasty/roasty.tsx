@@ -569,20 +569,18 @@ export function Roasty({
   const [highlight, mid, edge] = ROAST_STOPS[roast];
   const leafFill = `url(#${leafGradientId})`;
   const showSprout = sprout === 'sprig';
-  const drawingSize: CssVariables = {
-    '--roasty-width': `${size}px`,
-    '--roasty-aspect': `${VIEW_WIDTH} / ${VIEW_HEIGHT}`,
-  };
+  const drawingWidth: CssVariables = { '--roasty-width': `${size}px` };
 
   return (
     // A new key remounts the drawing, which restarts its one-shot CSS animations.
     <span
       key={`${state}:${replayKey}`}
-      className="inline-block aspect-(--roasty-aspect) w-(--roasty-width) leading-0"
-      style={drawingSize}
+      className="inline-block w-(--roasty-width) leading-0"
+      style={drawingWidth}
     >
+      {/* With its width set and its height left to the browser, the SVG takes the viewBox's shape. */}
       <svg
-        className="block size-full overflow-visible"
+        className="block h-auto w-full overflow-visible"
         viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
         preserveAspectRatio="xMidYMid meet"
         aria-hidden

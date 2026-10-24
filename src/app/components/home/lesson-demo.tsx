@@ -15,31 +15,11 @@ import { linkButtonClass } from '@components/link-button/link-button';
 import { ScaledFrame } from '@components/scaled-frame/scaled-frame';
 import { twoColumnClass } from '@components/section/section';
 import { APP_STORE_URL } from '@domains/site/site';
-import type { CssVariables } from '@shared/styles/css-variables';
 
 import { CoffeeBurst } from './coffee-burst';
 
 /** The three cards of the demo, in order. */
 const CARD_COUNT = 3;
-
-/** The demo phone is drawn at the app's 393pt width and shrunk into a 296px screen. */
-const APP_WIDTH = 393;
-const APP_HEIGHT = 797;
-const SCREEN_WIDTH = 296;
-const SCREEN_HEIGHT = 600;
-const PHONE_WIDTH = 316;
-const PHONE_HEIGHT = SCREEN_HEIGHT + PHONE_WIDTH - SCREEN_WIDTH;
-const SCREEN_SCALE = SCREEN_WIDTH / APP_WIDTH;
-
-/** The phone's sizes, for its classes to read; each number lives once, in the constants above. */
-const PHONE_SIZES: CssVariables = {
-  '--phone-width': `${PHONE_WIDTH}px`,
-  '--screen-width': `${SCREEN_WIDTH}px`,
-  '--screen-height': `${SCREEN_HEIGHT}px`,
-  '--app-width': `${APP_WIDTH}px`,
-  '--app-height': `${APP_HEIGHT}px`,
-  '--screen-scale': `${SCREEN_SCALE}`,
-};
 
 interface LessonDemoProps {
   /** The card a perfect run of lesson one earns. */
@@ -136,17 +116,15 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
         </div>
       </div>
       <div className="flex justify-center">
-        <ScaledFrame width={PHONE_WIDTH} height={PHONE_HEIGHT}>
-          <div
-            className="w-(--phone-width) flex-none rounded-[48px] bg-[#15100c] p-2.5 shadow-[0_40px_80px_-30px_rgba(0,0,0,.7),0_0_0_1px_rgba(255,255,255,.06)]"
-            style={PHONE_SIZES}
-          >
-            <div className="relative h-(--screen-height) w-(--screen-width) overflow-hidden rounded-[40px] bg-bg">
+        <ScaledFrame className="aspect-demo-phone w-full max-w-demo-phone">
+          <div className="w-demo-phone flex-none rounded-[48px] bg-[#15100c] p-2.5 shadow-[0_40px_80px_-30px_rgba(0,0,0,.7),0_0_0_1px_rgba(255,255,255,.06)]">
+            <div className="relative h-demo-screen-height w-demo-screen overflow-hidden rounded-[40px] bg-bg">
               <div className="absolute inset-x-0 top-0 z-[3] flex h-11 items-center justify-center">
                 <div className="h-[26px] w-24 rounded-full bg-[#0b0806]" />
               </div>
-              <div className="absolute top-0 left-0 h-(--app-height) w-(--app-width) origin-top-left scale-(--screen-scale) overflow-hidden">
-                <div key={run}>
+              {/* The app is drawn at its real size, then shrunk to the screen's width. */}
+              <ScaledFrame className="absolute inset-0">
+                <div key={run} className="relative h-demo-app-height w-demo-app overflow-hidden">
                   <ProgressTopbar
                     onClose={restart}
                     pos={Math.min(step, CARD_COUNT - 1)}
@@ -176,7 +154,7 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
                     )}
                   </div>
                 </div>
-              </div>
+              </ScaledFrame>
               <div className="absolute bottom-2 left-1/2 h-1 w-[110px] -translate-x-1/2 rounded-full bg-rule" />
             </div>
           </div>

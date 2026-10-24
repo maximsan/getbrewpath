@@ -3,29 +3,37 @@
 import { type RefObject, useEffect, useState } from 'react';
 
 /**
- * How far to shrink a drawing `designWidth` wide so it fits `container`:
- * the container's width over `designWidth`, capped at 1. It is 0 until the
- * container has been measured, which happens only in the browser.
+ * How far to shrink `content` so it fits the width of `container`: the container's width
+ * over the content's own width, capped at 1. It is 0 until both have been measured, which
+ * happens only in the browser. The content's own width ignores any scale applied to it.
  */
-export function useFitScale(container: RefObject<HTMLElement | null>, designWidth: number) {
+export function useFitScale(
+  container: RefObject<HTMLElement | null>,
+  content: RefObject<HTMLElement | null>,
+) {
   const [scale, setScale] = useState(0);
 
   useEffect(() => {
-    const element = container.current;
+    const containerElement = container.current;
+    const contentElement = content.current;
 
-    if (!element) {
+    if (!containerElement || !contentElement) {
       return;
     }
-    const observer = new ResizeObserver(([entry]) => {
-      if (entry) {
-        setScale(Math.min(1, entry.contentRect.width / designWidth));
+
+    const observer = new ResizeObserver(() => {
+      const contentWidth = contentElement.offsetWidth;
+
+      if (contentWidth > 0) {
+        setScale(Math.min(1, containerElement.clientWidth / contentWidth));
       }
     });
 
-    observer.observe(element);
+    observer.observe(containerElement);
+    observer.observe(contentElement);
 
     return () => observer.disconnect();
-  }, [container, designWidth]);
+  }, [container, content]);
 
   return scale;
 }
