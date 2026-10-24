@@ -43,6 +43,10 @@ _Avoid_: theme, in copy
 
 **Roasty** — the coffee-bean mascot.
 
+**Roasty moment** — one of Roasty's short animations, such as the cheer for a
+right answer or dozing off. On the home page, visitors play one by tapping
+him.
+
 **Selling model** — how Foundations is sold: once for good (one-time), as a
 monthly or yearly subscription, or both, the learner's choice (hybrid). The
 app picks it per learner, so the site never names one.
