@@ -26,9 +26,6 @@ export const linkButtonClass = (tone: keyof typeof TONES, size: keyof typeof SIZ
     SIZES[size],
   );
 
-/** On a phone, each button of a pair takes the row's full width, so the two stack as equal bars. */
-export const fullWidthOnPhoneClass = 'max-[599px]:flex-[1_1_100%]';
-
 interface LinkButtonProps extends ComponentProps<typeof Link> {
   tone: keyof typeof TONES;
   size: keyof typeof SIZES;

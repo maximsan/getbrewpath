@@ -89,18 +89,25 @@ export function SiteHeader() {
    * scrolls to the section. A click that opens a new tab, or a visitor who asked for less
    * motion, gets the link straight away.
    */
-  const openSection = (event: MouseEvent, id: NavSectionId) => {
-    const newTab = event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
-    if (newTab || window.matchMedia(REDUCED_MOTION).matches) {
+  const openSection = (event: MouseEvent, sectionId: NavSectionId) => {
+    const opensNewTab = event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
+
+    if (opensNewTab || window.matchMedia(REDUCED_MOTION).matches) {
       closeMenu();
+
       return;
     }
+
     event.preventDefault();
-    if (pressedSection) return;
-    setPressedSection(id);
+
+    if (pressedSection) {
+      return;
+    }
+
+    setPressedSection(sectionId);
     pressTimer.current = setTimeout(() => {
       closeMenu();
-      router.push(sectionHref(id));
+      router.push(sectionHref(sectionId));
     }, PRESSED_MS);
   };
 

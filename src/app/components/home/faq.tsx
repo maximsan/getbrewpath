@@ -36,7 +36,7 @@ export async function Faq({ course }: { course: Course }) {
         </div>
         <div data-reveal data-delay="1" className="flex flex-col gap-1">
           <FaqList
-            items={(Object.keys(faq.items) as (keyof typeof faq.items)[]).map((key) => ({
+            entries={(Object.keys(faq.items) as (keyof typeof faq.items)[]).map((key) => ({
               question: t(`items.${key}.q`),
               answer: t(`items.${key}.a`, freeTier),
             }))}

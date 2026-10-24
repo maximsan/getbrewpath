@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
-import { fullWidthOnPhoneClass, LinkButton } from '@components/link-button/link-button';
-import { SleepingRoasty } from '@components/roasty-tap/sleeping-roasty';
+import { ButtonRow } from '@components/button-row/button-row';
+import { LinkButton } from '@components/link-button/link-button';
+import { SleepingRoasty } from '@components/sleeping-roasty/sleeping-roasty';
 import { pageTitleClass } from '@components/section/section';
 import { PAGE_ROUTES } from '@domains/site/routes';
 import { APP_STORE_URL } from '@domains/site/site';
@@ -27,14 +28,14 @@ export default async function NotFound() {
       <p className="ff-ui mt-[18px] mb-0 max-w-[40ch] text-[17px] leading-[1.6] text-pretty text-ink-mute">
         {t('body')}
       </p>
-      <div className="mt-[30px] flex flex-wrap justify-center gap-3">
-        <LinkButton href={PAGE_ROUTES.home} tone="ink" size="lg" className={fullWidthOnPhoneClass}>
+      <ButtonRow className="mt-[30px] justify-center">
+        <LinkButton href={PAGE_ROUTES.home} tone="ink" size="lg">
           {t('back')}
         </LinkButton>
-        <LinkButton href={APP_STORE_URL} tone="outline" size="lg" className={fullWidthOnPhoneClass}>
+        <LinkButton href={APP_STORE_URL} tone="outline" size="lg">
           {t('get')}
         </LinkButton>
-      </div>
+      </ButtonRow>
     </section>
   );
 }

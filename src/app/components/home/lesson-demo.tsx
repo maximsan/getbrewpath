@@ -10,11 +10,11 @@ import {
 } from '@components/brewpath/lesson-cards/true-false-card';
 import { ProgressTopbar } from '@components/brewpath/progress-topbar/progress-topbar';
 import { RewardCard, type RewardCardData } from '@components/brewpath/reward-card/reward-card';
-import { fullWidthOnPhoneClass, linkButtonClass } from '@components/link-button/link-button';
+import { ButtonRow } from '@components/button-row/button-row';
+import { linkButtonClass } from '@components/link-button/link-button';
 import { ScaledFrame } from '@components/scaled-frame/scaled-frame';
 import { twoColumnClass } from '@components/section/section';
 import { APP_STORE_URL } from '@domains/site/site';
-import { cn } from '@shared/styles/cn';
 
 import { CoffeeBurst } from './coffee-burst';
 
@@ -100,24 +100,18 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
                 {t(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')}{' '}
                 {t('fullLesson', { freeLessons })}
               </div>
-              <div className="mt-1 flex flex-wrap gap-2.5 stacked:justify-center">
-                <a
-                  href={APP_STORE_URL}
-                  className={cn(linkButtonClass('accent', 'md'), fullWidthOnPhoneClass)}
-                >
+              <ButtonRow className="mt-1 gap-2.5 stacked:justify-center">
+                <a href={APP_STORE_URL} className={linkButtonClass('accent', 'md')}>
                   {t('get')}
                 </a>
                 <button
                   type="button"
                   onClick={restart}
-                  className={cn(
-                    'ff-ui min-h-[42px] appearance-none rounded-full border border-rule bg-transparent px-[18px] py-2 text-sm leading-[1.15] font-medium text-ink',
-                    fullWidthOnPhoneClass,
-                  )}
+                  className="ff-ui min-h-[42px] appearance-none rounded-full border border-rule bg-transparent px-[18px] py-2 text-sm leading-[1.15] font-medium text-ink"
                 >
                   {t('again')}
                 </button>
-              </div>
+              </ButtonRow>
             </div>
           ) : (
             <div className="ff-mono mt-7 flex items-center gap-2.5 text-[11px] leading-normal tracking-[.1em] text-ink-mute uppercase stacked:justify-center">

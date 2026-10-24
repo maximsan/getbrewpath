@@ -10,23 +10,34 @@ export function RoastProgress() {
   const bar = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let frame = 0;
-    const draw = () => {
-      frame = 0;
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = scrollable > 0 ? Math.min(1, window.scrollY / scrollable) : 0;
-      bar.current?.style.setProperty('clip-path', `inset(0 ${(1 - progress) * 100}% 0 0)`);
+    /** The animation frame waiting to redraw the bar, or 0 when none is waiting. */
+    let pendingFrame = 0;
+
+    const drawBar = () => {
+      pendingFrame = 0;
+      const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolledShare =
+        scrollableHeight > 0 ? Math.min(1, window.scrollY / scrollableHeight) : 0;
+      const hiddenPercent = (1 - scrolledShare) * 100;
+
+      bar.current?.style.setProperty('clip-path', `inset(0 ${hiddenPercent}% 0 0)`);
     };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(draw);
+
+    /** Redraws at most once per frame, however often the page scrolls. */
+    const scheduleDraw = () => {
+      if (!pendingFrame) {
+        pendingFrame = requestAnimationFrame(drawBar);
+      }
     };
-    draw();
-    window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule);
+
+    drawBar();
+    window.addEventListener('scroll', scheduleDraw, { passive: true });
+    window.addEventListener('resize', scheduleDraw);
+
     return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', schedule);
-      window.removeEventListener('resize', schedule);
+      cancelAnimationFrame(pendingFrame);
+      window.removeEventListener('scroll', scheduleDraw);
+      window.removeEventListener('resize', scheduleDraw);
     };
   }, []);
 

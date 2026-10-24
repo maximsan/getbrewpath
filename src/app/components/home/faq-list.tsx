@@ -9,14 +9,14 @@ const ANSWER_MS = 380;
 const NONE_OPEN = -1;
 
 interface FaqListProps {
-  items: { question: string; answer: string }[];
+  entries: { question: string; answer: string }[];
 }
 
 /** The FAQ's questions, each opening to its answer. Opening one answer closes the one that was open. */
-export function FaqList({ items }: FaqListProps) {
+export function FaqList({ entries }: FaqListProps) {
   const [openIndex, setOpenIndex] = useState(NONE_OPEN);
 
-  return items.map(({ question, answer }, index) => (
+  return entries.map(({ question, answer }, index) => (
     <Disclosure
       key={question}
       label={question}
