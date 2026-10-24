@@ -1,6 +1,7 @@
-import { type CSSProperties, type ReactElement, useId } from 'react';
+import { type ReactElement, useId } from 'react';
 
 import { cn } from '@shared/styles/cn';
+import type { CssVariables } from '@shared/styles/css-variables';
 
 /** Each state has its own face and motion; idle, card, module and sleep loop, the rest play once. */
 export type RoastyState =
@@ -28,9 +29,6 @@ export interface RoastyProps {
   /** A paper disc behind him, for dark or accent backgrounds. true uses the fixed paper tone; a string sets the colour. */
   plate?: boolean | string;
 }
-
-/** The CSS variables an animation in globals.css reads, such as --effect-delay or --peak. */
-type AnimationVariables = CSSProperties & Record<`--${string}`, string>;
 
 const VIEW_WIDTH = 200;
 const VIEW_HEIGHT = 280;
@@ -72,12 +70,16 @@ const SPROUT_MOTION: Record<RoastyState, string> = {
 
 /** Scales and spins an SVG part around its own centre, as an HTML element would. */
 const AROUND_OWN_CENTRE = 'transform-fill origin-center';
-/** The bean's centre, in the drawing's own units; the body and the module rays scale around it. */
-const AROUND_BEAN_CENTRE = 'transform-fill origin-[100px_158px]';
+/**
+ * The point his body and the module rays move around, as the app's design system sets it.
+ * The class `transform-fill` measures this point from the top-left corner of each SVG
+ * group's bounding box.
+ */
+const BODY_PIVOT = 'transform-fill origin-[100px_158px]';
 
 /** Sets when one of Roasty's effects starts, for the animation to read. */
-const startingAfter = (delayMs: number): AnimationVariables => ({
-  '--effect-delay': `${delayMs}ms`,
+const startingAfter = (delayMs: number): CssVariables => ({
+  '--start-delay': `${delayMs}ms`,
 });
 
 /** Radial gradient stops (highlight, mid, edge) for each roast. */
@@ -98,7 +100,7 @@ const RIPE = 'var(--art-ripe)';
 
 const EYE_X = { left: 80, right: 120 } as const;
 const CHEEK_X = { left: 68, right: 132 } as const;
-/** Centre of the bean; the body and the module rays scale around it. */
+/** Centre of the bean, where the lesson state's heat glow sits. */
 const BEAN_CENTRE = { x: 100, y: 158 } as const;
 /** Where the first crack opens and the flavour notes launch from. */
 const CRACK_ORIGIN = { x: 100, y: 150 } as const;
@@ -429,16 +431,16 @@ function BeanBurst() {
         ))}
       </g>
       {FLAVOUR_NOTES.map((note, index) => {
-        const drift: AnimationVariables = {
+        const drift: CssVariables = {
           ...startingAfter(note.delayMs),
           '--drift': `${note.dx}px`,
         };
-        const arc: AnimationVariables = {
+        const arc: CssVariables = {
           ...startingAfter(note.delayMs),
           '--peak': `${note.peak}px`,
           '--fall': `${note.fall}px`,
         };
-        const flutter: AnimationVariables = {
+        const flutter: CssVariables = {
           ...startingAfter(note.delayMs),
           '--note-spin': `${note.spin}deg`,
         };
@@ -516,7 +518,7 @@ function Crema() {
               style={delay}
             />
             {DROP_DIRECTIONS.map(([signX, signY]) => {
-              const drop: AnimationVariables = {
+              const drop: CssVariables = {
                 ...delay,
                 '--drop-x': `${signX * bubble.spread}px`,
                 '--drop-y': `${signY * bubble.spread}px`,
@@ -567,14 +569,17 @@ export function Roasty({
   const [highlight, mid, edge] = ROAST_STOPS[roast];
   const leafFill = `url(#${leafGradientId})`;
   const showSprout = sprout === 'sprig';
-  const width: AnimationVariables = { '--roasty-width': `${size}px` };
+  const drawingSize: CssVariables = {
+    '--roasty-width': `${size}px`,
+    '--roasty-aspect': `${VIEW_WIDTH} / ${VIEW_HEIGHT}`,
+  };
 
   return (
     // A new key remounts the drawing, which restarts its one-shot CSS animations.
     <span
       key={`${state}:${replayKey}`}
-      className="inline-block aspect-[200/280] w-(--roasty-width) leading-none"
-      style={width}
+      className="inline-block aspect-(--roasty-aspect) w-(--roasty-width) leading-0"
+      style={drawingSize}
     >
       <svg
         className="block size-full overflow-visible"
@@ -607,7 +612,7 @@ export function Roasty({
         )}
 
         {state === 'module' && (
-          <g className={cn(AROUND_BEAN_CENTRE, 'animate-roasty-ray-radiate')} opacity="0.3">
+          <g className={cn(BODY_PIVOT, 'animate-roasty-ray-radiate')} opacity="0.3">
             <g fill="none" stroke="var(--warn)" strokeWidth="1.2" strokeLinecap="round">
               {MODULE_RAYS.map(([startX, startY, endX, endY]) => (
                 <line key={`${startX},${startY}`} x1={startX} y1={startY} x2={endX} y2={endY} />
@@ -618,7 +623,7 @@ export function Roasty({
 
         {state === 'lesson' && <BeanBurst />}
 
-        <g className={cn(AROUND_BEAN_CENTRE, BODY_MOTION[state])}>
+        <g className={cn(BODY_PIVOT, BODY_MOTION[state])}>
           <ellipse cx="100" cy="232" rx="56" ry="6" fill={CREASE} opacity="0.18" />
 
           {/* Bare-headed, the sprout sits behind the bean and moves with every hop. */}
@@ -667,7 +672,7 @@ export function Roasty({
           <g className="animate-roasty-points-rise">
             <rect x="68" y="42" width="64" height="24" rx="2" fill="var(--accent)" />
             <text
-              className="font-mono"
+              className="ff-mono"
               x="100"
               y="59"
               textAnchor="middle"

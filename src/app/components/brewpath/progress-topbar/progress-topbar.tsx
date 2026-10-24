@@ -114,8 +114,9 @@ export function ProgressTopbar({
 
   return (
     // Sits under the phone's status bar; the demo's content clears it with 134px of top padding.
-    // Its opaque cap covers the status-bar inset, so content scrolled past never shows behind the clock.
-    <div className="absolute inset-x-0 top-[54px] z-10 grid grid-cols-[32px_1fr_32px] items-center border-b border-rule bg-bg px-5 py-3 before:absolute before:inset-x-0 before:bottom-full before:h-[54px] before:bg-inherit">
+    // The bar's solid top covers the gap under the phone's status bar, so scrolled content
+    // stays hidden behind the clock.
+    <div className="absolute inset-x-0 top-status-bar z-10 grid grid-cols-[32px_1fr_32px] items-center border-b border-rule bg-bg px-5 py-3 before:absolute before:inset-x-0 before:bottom-full before:h-status-bar before:bg-inherit">
       {/* A 44px hit area without a 44px box: the glyph stays where it is aligned. */}
       <button
         type="button"

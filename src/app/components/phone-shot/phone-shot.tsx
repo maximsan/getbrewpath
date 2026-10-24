@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import type { CSSProperties } from 'react';
 
-import { type ScreenId, screenSrc } from '@domains/site/screens';
+import { PHONE_ASPECT, type ScreenId, screenSrc } from '@domains/site/screens';
 import { cn } from '@shared/styles/cn';
+import type { CssVariables } from '@shared/styles/css-variables';
 
 interface PhoneShotProps {
   screen: ScreenId;
@@ -18,18 +18,20 @@ interface PhoneShotProps {
 /**
  * An app screenshot in a phone frame, in the page's mood. The Dark Roast shot
  * lies over the Cupping one and fades in with the mood switch.
- * The frame is 1000 × 2093; the screen inside it matches the screenshots' 786 × 1704.
  */
 export function PhoneShot({ screen, alt, sizes, className, priority, riseOffset }: PhoneShotProps) {
-  const rise = riseOffset ? ({ '--rise-offset': riseOffset } as CSSProperties) : undefined;
+  const frame: CssVariables = {
+    '--phone-aspect': PHONE_ASPECT,
+    ...(riseOffset ? { '--rise-offset': riseOffset } : null),
+  };
 
   return (
     <div
       className={cn(
-        'relative aspect-[1000/2093] overflow-hidden rounded-[16.3%/7.8%] bg-phone-frame',
+        'relative aspect-(--phone-aspect) overflow-hidden rounded-[16.3%/7.8%] bg-phone-frame',
         className,
       )}
-      style={rise}
+      style={frame}
       data-rise={riseOffset ? '' : undefined}
     >
       <div className="absolute inset-x-[3.2%] inset-y-[1.53%] overflow-hidden rounded-[14%/6.46%] bg-bg">

@@ -6,8 +6,8 @@ import tailwindcss from 'eslint-plugin-tailwindcss';
 import unusedImports from 'eslint-plugin-unused-imports';
 
 /**
- * Short names allowed despite `id-length`: a loop index, an unused slot, an id, the class
- * joiner every component imports, and Node's file-system module.
+ * Short names allowed despite `id-length`: a loop index, an unused slot, an id, `cn` (the
+ * helper that joins class names) and Node's file-system module.
  */
 const SHORT_NAMES = ['i', '_', 'id', 'cn', 'fs'];
 
@@ -68,9 +68,17 @@ const eslintConfig = [
     },
   },
   {
-    // Tests state their expected values inline. The design system's drawings are coordinates,
-    // as the app repo's drawing code is (its analysis_options.yaml exempts them the same way).
-    files: ['**/*.test.ts', '**/*.test.tsx', 'e2e/**', 'src/app/components/brewpath/**'],
+    // Tests state their expected values inline. Roasty, the flavour stamp and the lesson
+    // progress bar's bean are drawings, and their numbers are coordinates. The app repo's
+    // analysis_options.yaml exempts its drawing code the same way.
+    files: [
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      'e2e/**',
+      'src/app/components/brewpath/roasty/roasty.tsx',
+      'src/app/components/brewpath/reward-card/flavor-stamp.tsx',
+      'src/app/components/brewpath/progress-topbar/progress-topbar.tsx',
+    ],
     rules: { '@typescript-eslint/no-magic-numbers': 'off' },
   },
   { ignores: ['.next/**', 'node_modules/**', 'prototype/**', 'next-env.d.ts'] },
@@ -78,7 +86,6 @@ const eslintConfig = [
   {
     // After `prettier`, which turns these off. Every branch body in braces on its own line,
     // one statement per line; Prettier then puts each body on its own line.
-    plugins: { '@stylistic': stylistic },
     rules: {
       curly: ['error', 'all'],
       '@stylistic/max-statements-per-line': ['error', { max: 1 }],

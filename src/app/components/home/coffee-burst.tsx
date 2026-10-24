@@ -1,8 +1,9 @@
 'use client';
 
-import { type CSSProperties, useState } from 'react';
+import { useState } from 'react';
 
 import { cn } from '@shared/styles/cn';
+import type { CssVariables } from '@shared/styles/css-variables';
 
 /** Roast colours, light to dark, then the paler tones of the chaff. */
 const COLOURS = [
@@ -42,17 +43,18 @@ const MAX_START_DELAY_S = 0.18;
 
 const FULL_TURN = Math.PI * 2;
 
-type PieceStyle = CSSProperties & Record<`--${string}`, string>;
+/** The middle of `Math.random()`'s 0–1 range. */
+const RANDOM_MIDPOINT = 0.5;
 
 /** A random number from -0.5 to 0.5, for an even spread either side of a value. */
-const randomOffset = () => Math.random() - 1 / 2;
+const randomOffset = () => Math.random() - RANDOM_MIDPOINT;
 
 /** Spreads the pieces evenly round a circle, each with a little random angle, distance, spin and timing. */
 function scatter() {
   return PIECES.map((kind, index) => {
     const angle = (FULL_TURN * index) / PIECES.length + randomOffset() * ANGLE_JITTER_RAD;
     const distance = MIN_DISTANCE_PX + Math.random() * DISTANCE_SPREAD_PX;
-    const style: PieceStyle = {
+    const style: CssVariables = {
       '--fly-x': `${Math.cos(angle) * distance}px`,
       '--fly-y': `${Math.sin(angle) * distance - LIFT_PX}px`,
       '--spin': `${randomOffset() * SPIN_RANGE_DEG}deg`,

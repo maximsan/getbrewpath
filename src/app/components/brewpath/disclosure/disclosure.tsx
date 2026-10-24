@@ -1,8 +1,9 @@
 'use client';
 
-import { type CSSProperties, type ReactNode, useId, useState } from 'react';
+import { type ReactNode, useId, useState } from 'react';
 
 import { cn } from '@shared/styles/cn';
+import type { CssVariables } from '@shared/styles/css-variables';
 
 /** "caret" for lists of things; "plus" for a prose answer such as an FAQ. */
 export type DisclosureGlyph = 'caret' | 'plus';
@@ -100,10 +101,10 @@ export function Disclosure({
   const panelId = useId();
   const open = openProp ?? openState;
   const toggle = onToggle ?? (() => setOpenState((wasOpen) => !wasOpen));
-  const duration = { '--disclosure-ms': `${durationMs}ms` } as CSSProperties;
+  const durationVariable: CssVariables = { '--disclosure-ms': `${durationMs}ms` };
 
   return (
-    <div style={duration}>
+    <div style={durationVariable}>
       <button
         type="button"
         aria-expanded={open}

@@ -78,7 +78,7 @@ export function ChoiceCard({
             key={choice.key}
             type="button"
             className={cn(
-              'ff-ui block w-full cursor-pointer rounded-r border border-rule bg-surface px-5 py-[18px] text-left text-body font-medium text-ink transition-all duration-150 ease-[ease] not-disabled:active:scale-[.985] disabled:cursor-default',
+              'ff-ui block w-full cursor-pointer rounded-card border border-rule bg-surface px-5 py-[18px] text-left text-body font-medium text-ink transition-all duration-150 ease-[ease] not-disabled:active:scale-[.985] disabled:cursor-default',
               choice.verdict && VERDICT_STYLE[choice.verdict],
               // Only the learner's own pick moves: a right pick pops, but the right answer
               // revealed after a wrong pick stays still.

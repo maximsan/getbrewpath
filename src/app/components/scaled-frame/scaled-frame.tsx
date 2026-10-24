@@ -1,9 +1,10 @@
 'use client';
 
-import { type CSSProperties, type ReactNode, useRef } from 'react';
+import { type ReactNode, useRef } from 'react';
 
 import { useFitScale } from '@shared/hooks/use-fit-scale';
 import { cn } from '@shared/styles/cn';
+import type { CssVariables } from '@shared/styles/css-variables';
 
 interface ScaledFrameProps {
   /** The size the content is drawn at. */
@@ -22,12 +23,12 @@ export function ScaledFrame({ width, height, children }: ScaledFrameProps) {
   const box = useRef<HTMLDivElement>(null);
   const shownWidth = useFitScale(box, width) * width;
   const measured = shownWidth > 0;
-  const frameSize = {
+  const frameSize: CssVariables = {
     '--frame-width': `${width}px`,
     '--frame-height': `${height}px`,
     '--frame-aspect': `${width} / ${height}`,
     '--frame-scale': `${shownWidth / width}`,
-  } as CSSProperties;
+  };
 
   return (
     <div

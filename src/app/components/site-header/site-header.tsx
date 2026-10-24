@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useFormatter, useTranslations } from 'next-intl';
-import { type CSSProperties, type MouseEvent, useEffect, useId, useRef, useState } from 'react';
+import { type MouseEvent, useEffect, useId, useRef, useState } from 'react';
 
 import { LinkButton } from '@components/link-button/link-button';
 import { MoodSwitch } from '@components/mood/mood-switch';
@@ -11,6 +11,7 @@ import { APP_STORE_URL, MAILTO_HI } from '@domains/site/site';
 import { Link, usePathname, useRouter } from '@i18n/navigation';
 import { TWO_DIGITS } from '@shared/format/number';
 import { cn } from '@shared/styles/cn';
+import type { CssVariables } from '@shared/styles/css-variables';
 
 import { NAV_SECTIONS, type NavSectionId, sectionHref } from './nav-items';
 import { RoastProgress } from './roast-progress';
@@ -25,9 +26,9 @@ const LINK_STAGGER = 0.06;
 const PRESSED_MS = 220;
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
-/** The slide-in delay of the menu item at `index`, as a CSS `animation-delay`. */
-function menuItemDelay(index: number) {
-  return { '--enter-delay': `${FIRST_LINK_DELAY + index * LINK_STAGGER}s` } as CSSProperties;
+/** The slide-in delay of the menu item at `index`, for its animation to read. */
+function menuItemDelay(index: number): CssVariables {
+  return { '--start-delay': `${FIRST_LINK_DELAY + index * LINK_STAGGER}s` };
 }
 
 const menuSmallLinkClass = 'ff-ui text-sm text-ink-mute hover:text-ink hover:no-underline';

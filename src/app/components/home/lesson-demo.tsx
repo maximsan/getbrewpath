@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { type CSSProperties, useState } from 'react';
+import { useState } from 'react';
 
 import { MCQCard, type MCQCardData } from '@components/brewpath/lesson-cards/mcq-card';
 import {
@@ -15,6 +15,7 @@ import { linkButtonClass } from '@components/link-button/link-button';
 import { ScaledFrame } from '@components/scaled-frame/scaled-frame';
 import { twoColumnClass } from '@components/section/section';
 import { APP_STORE_URL } from '@domains/site/site';
+import type { CssVariables } from '@shared/styles/css-variables';
 
 import { CoffeeBurst } from './coffee-burst';
 
@@ -30,15 +31,15 @@ const PHONE_WIDTH = 316;
 const PHONE_HEIGHT = SCREEN_HEIGHT + PHONE_WIDTH - SCREEN_WIDTH;
 const SCREEN_SCALE = SCREEN_WIDTH / APP_WIDTH;
 
-/** The phone's sizes, for its classes to read. */
-const PHONE_SIZES = {
+/** The phone's sizes, for its classes to read; each number lives once, in the constants above. */
+const PHONE_SIZES: CssVariables = {
   '--phone-width': `${PHONE_WIDTH}px`,
   '--screen-width': `${SCREEN_WIDTH}px`,
   '--screen-height': `${SCREEN_HEIGHT}px`,
   '--app-width': `${APP_WIDTH}px`,
   '--app-height': `${APP_HEIGHT}px`,
   '--screen-scale': `${SCREEN_SCALE}`,
-} as CSSProperties;
+};
 
 interface LessonDemoProps {
   /** The card a perfect run of lesson one earns. */
@@ -102,7 +103,7 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
         </p>
         <div aria-live="polite">
           {done ? (
-            <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-r border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-[22px] py-5">
+            <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-card border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-[22px] py-5">
               <div className="ff-display text-[22px] leading-[1.15]">
                 {translate(perfect ? 'scorePerfect' : 'scorePartial', {
                   n: score,

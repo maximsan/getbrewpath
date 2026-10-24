@@ -6,6 +6,8 @@
 /* From 600px the screen is wider than a phone: `tablet:` styles it, `max-tablet:` styles a phone. */
 @theme {
   --breakpoint-tablet: 600px;
+  /* The phone's status bar in the lesson demo: the lesson's top bar sits just under it. */
+  --spacing-status-bar: 54px;
 }
 
 /*
@@ -95,7 +97,7 @@
   --font-ui: var(--font-plex-sans), sans-serif;
   --font-mono: var(--font-plex-mono), monospace;
 
-  --radius-r: var(--r);
+  --radius-card: var(--r);
   --ease-soft: var(--ease-out-soft);
 
   --text-hero: var(--t-hero);
@@ -111,8 +113,8 @@
 
   --animate-rise-in: rise-in 0.8s var(--ease-out-soft) both;
   --animate-menu-fade: menu-fade 0.3s ease both;
-  /* Each menu item sets its own --enter-delay, so the links slide in one after another. */
-  --animate-menu-link: menu-link 0.5s var(--ease-out-soft) var(--enter-delay, 0s) both;
+  /* Each menu item sets its own --start-delay, so the links slide in one after another. */
+  --animate-menu-link: menu-link 0.5s var(--ease-out-soft) var(--start-delay, 0s) both;
   --animate-dot-pulse: dot-pulse 1.6s ease-in-out infinite;
   --animate-save-note-in: note-rise 260ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
 
@@ -140,21 +142,21 @@
   --animate-roasty-sleep-breathe: roasty-sleep-breathe 3.4s ease-in-out infinite;
   --animate-roasty-awake-pop: roasty-awake-pop 400ms ease-out;
   --animate-roasty-leaf-sway: roasty-leaf-sway 2.8s ease-in-out infinite;
-  /* Roasty's effects. Each reads its start from --effect-delay, which the drawing sets. */
+  /* Roasty's effects. Each reads its start from --start-delay, which the drawing sets. */
   --animate-roasty-crema-swell: roasty-crema-swell 1200ms cubic-bezier(0.3, 1.2, 0.5, 1)
-    var(--effect-delay, 0ms) both;
-  --animate-roasty-crema-pop: roasty-crema-pop 1200ms ease-out var(--effect-delay, 0ms) both;
+    var(--start-delay, 0ms) both;
+  --animate-roasty-crema-pop: roasty-crema-pop 1200ms ease-out var(--start-delay, 0ms) both;
   --animate-roasty-crema-drop: roasty-crema-drop 1200ms cubic-bezier(0.15, 0.8, 0.3, 1)
-    var(--effect-delay, 0ms) both;
+    var(--start-delay, 0ms) both;
   --animate-roasty-heat-glow: roasty-heat-glow 1600ms ease-out both;
   --animate-roasty-crack-ring: roasty-crack-ring 520ms ease-out 640ms both;
   --animate-roasty-crack-line: roasty-crack-line 420ms ease-out 660ms both;
-  --animate-roasty-fly-x: roasty-fly-x 2600ms linear var(--effect-delay, 0ms) both;
-  --animate-roasty-fly-y: roasty-fly-y 2600ms var(--effect-delay, 0ms) both;
-  --animate-roasty-note-flutter: roasty-note-flutter 2600ms ease-out var(--effect-delay, 0ms) both;
+  --animate-roasty-fly-x: roasty-fly-x 2600ms linear var(--start-delay, 0ms) both;
+  --animate-roasty-fly-y: roasty-fly-y 2600ms var(--start-delay, 0ms) both;
+  --animate-roasty-note-flutter: roasty-note-flutter 2600ms ease-out var(--start-delay, 0ms) both;
   --animate-roasty-ray-radiate: roasty-ray-radiate 1600ms cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
   --animate-roasty-points-rise: roasty-points-rise 1.3s ease-out forwards;
-  --animate-roasty-zzz-float: roasty-zzz-float 2.6s ease-in-out var(--effect-delay, 0ms) infinite;
+  --animate-roasty-zzz-float: roasty-zzz-float 2.6s ease-in-out var(--start-delay, 0ms) infinite;
 }
 
 @keyframes rise-in {
