@@ -33,7 +33,8 @@ const CONTENT_SECURITY_POLICY = [
 /**
  * Security headers on every response. Pages get them from `next.config.ts`.
  * Static files skip Next.js on Cloudflare, so `scripts/write-static-headers.ts`
- * writes the same list into `public/_headers` for them.
+ * writes the same list into `public/_headers` for them, without the Content
+ * Security Policy, which browsers apply only to pages.
  */
 export const SECURITY_HEADERS = [
   { key: 'Content-Security-Policy', value: CONTENT_SECURITY_POLICY },
