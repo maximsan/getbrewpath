@@ -1,17 +1,24 @@
 import { WEB_ANALYTICS_ENDPOINT, WEB_ANALYTICS_SCRIPT } from '../domains/site/site';
 
 /**
- * What a page may load. A strict policy marks each inline script with a nonce, a
- * one-time code the server writes into every response. Every page here is built
- * ahead of time, so the inline scripts of Next.js and next-themes are allowed as
- * 'unsafe-inline' instead, as in the Next.js guide's policy for that case.
- * `pnpm dev` also needs 'unsafe-eval' for its live reload.
+ * Where a page may load scripts from. A strict policy marks each inline script
+ * with a nonce, a one-time code the server writes into every response. Every page
+ * here is built ahead of time, so the inline scripts of Next.js and next-themes
+ * are allowed as 'unsafe-inline' instead, as in the Next.js guide's policy for
+ * that case.
  */
+const SCRIPT_SOURCES = [
+  "'self'",
+  "'unsafe-inline'",
+  new URL(WEB_ANALYTICS_SCRIPT).origin,
+  // `pnpm dev` runs code through eval for its live reload.
+  ...(process.env.NODE_ENV === 'development' ? ["'unsafe-eval'"] : []),
+];
+
+/** What a page may load. */
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' ${new URL(WEB_ANALYTICS_SCRIPT).origin}${
-    process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''
-  }`,
+  `script-src ${SCRIPT_SOURCES.join(' ')}`,
   `connect-src 'self' ${WEB_ANALYTICS_ENDPOINT}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' blob: data:",
