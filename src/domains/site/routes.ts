@@ -8,6 +8,9 @@ export const PAGE_ROUTES = {
 
 export type PageName = keyof typeof PAGE_ROUTES;
 
+/** The page of one Coffee Card. */
+export const cardPath = (cardId: string) => `/card/${cardId}`;
+
 /** The legal pages, in the order the footer and the phone menu list them. */
 export const LEGAL_PAGES = [
   'terms',
