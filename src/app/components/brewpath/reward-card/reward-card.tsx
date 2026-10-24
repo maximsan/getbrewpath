@@ -29,7 +29,7 @@ export interface RewardCardProps {
  * renders in both server and client trees.
  */
 export function RewardCard({ reward }: RewardCardProps) {
-  const t = useTranslations('reward');
+  const translate = useTranslations('reward');
   const rows = reward.meta ?? [];
 
   return (
@@ -46,7 +46,7 @@ export function RewardCard({ reward }: RewardCardProps) {
 
       {/* The right padding reserves the stamp's corner: 14px inset + 68px stamp + 10px gap. */}
       <div className="pr-[92px]">
-        <div className="smallcaps mb-2">{reward.badge ?? t('coffeeCard')}</div>
+        <div className="smallcaps mb-2">{reward.badge ?? translate('coffeeCard')}</div>
         <h2 className="ff-display m-0 text-title leading-[1.05] font-normal tracking-[-0.02em] text-pretty text-ink">
           {reward.title}
         </h2>
@@ -75,7 +75,7 @@ export function RewardCard({ reward }: RewardCardProps) {
       </dl>
 
       <div className="mt-4 border-t border-rule pt-3.5">
-        <div className="smallcaps mb-1.5">{t('memorable')}</div>
+        <div className="smallcaps mb-1.5">{translate('memorable')}</div>
         <p className="ff-display m-0 text-heading leading-[1.4] font-normal text-pretty text-ink">
           {reward.fact}
         </p>

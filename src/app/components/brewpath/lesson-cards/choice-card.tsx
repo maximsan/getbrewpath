@@ -18,8 +18,13 @@ export interface Choice {
 
 /** The colour a choice takes once the learner has picked: the right answer is correct, a wrong pick incorrect. */
 export function choiceVerdict<T>(value: T, answer: T, picked: T | null): Choice['verdict'] {
-  if (picked === null) return undefined;
-  if (value === answer) return 'correct';
+  if (picked === null) {
+    return undefined;
+  }
+  if (value === answer) {
+    return 'correct';
+  }
+
   return value === picked ? 'incorrect' : undefined;
 }
 
@@ -46,8 +51,9 @@ export function ChoiceCard({
   explain,
   onContinue,
 }: ChoiceCardProps) {
-  const t = useTranslations('lesson');
+  const translate = useTranslations('lesson');
   const answered = pickedCorrect !== null;
+
   return (
     <div className="flex min-h-[600px] flex-[1_0_auto] flex-col px-6">
       <div className="smallcaps mb-3 flex items-center gap-2 leading-none text-accent">
@@ -81,7 +87,7 @@ export function ChoiceCard({
       <div className="flex-1" />
       <div className="pt-8">
         <button type="button" className="btn btn-primary" onClick={onContinue} disabled={!answered}>
-          {t('continue')}
+          {translate('continue')}
         </button>
       </div>
     </div>

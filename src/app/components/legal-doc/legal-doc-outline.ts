@@ -49,8 +49,10 @@ export function legalDocOutline(messages: LegalDocMessages): LegalDocOutline {
 
 function outlineBlock(path: string, id: string, block: object): OutlineBlock {
   const [field, ...extra] = Object.entries(block) as [string, unknown][];
+
   if (field && extra.length === 0) {
     const [kind, value] = field;
+
     if ((kind === 'p' || kind === 'h') && typeof value === 'string') {
       return { id, kind, textKeys: [`${path}.${kind}`] };
     }

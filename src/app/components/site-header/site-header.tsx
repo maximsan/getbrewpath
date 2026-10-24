@@ -59,19 +59,27 @@ export function SiteHeader() {
   }
 
   useEffect(() => {
-    if (!menuOpen) return;
+    if (!menuOpen) {
+      return;
+    }
     const wide = window.matchMedia(WIDE_SCREEN);
     const closeWhenWide = () => {
-      if (wide.matches) setMenuOpen(false);
+      if (wide.matches) {
+        setMenuOpen(false);
+      }
     };
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return;
+      if (event.key !== 'Escape') {
+        return;
+      }
       setMenuOpen(false);
       menuButton.current?.focus();
     };
+
     document.body.style.overflow = 'hidden';
     wide.addEventListener('change', closeWhenWide);
     document.addEventListener('keydown', closeOnEscape);
+
     return () => {
       document.body.style.overflow = '';
       wide.removeEventListener('change', closeWhenWide);
@@ -113,7 +121,9 @@ export function SiteHeader() {
 
   const goHomeTop = (event: MouseEvent) => {
     closeMenu();
-    if (pathname !== '/') return;
+    if (pathname !== '/') {
+      return;
+    }
     event.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -184,7 +194,7 @@ export function SiteHeader() {
             <span
               className={cn(
                 'block h-[1.5px] w-3.5 rounded-sm bg-current transition-transform duration-300 ease-soft',
-                menuOpen && '-translate-y-[3.25px] -rotate-45',
+                menuOpen && 'translate-y-[-3.25px] -rotate-45',
               )}
             />
           </button>

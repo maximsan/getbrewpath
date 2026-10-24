@@ -22,6 +22,7 @@ async function bundle(files: MessageFiles): Promise<Messages> {
     files.lesson,
     files.reward,
   ]);
+
   return { ...siteStrings.default, lesson: lessonStrings.default, reward: rewardStrings.default };
 }
 

@@ -12,11 +12,18 @@ export function useFitScale(container: RefObject<HTMLElement | null>, designWidt
 
   useEffect(() => {
     const element = container.current;
-    if (!element) return;
+
+    if (!element) {
+      return;
+    }
     const observer = new ResizeObserver(([entry]) => {
-      if (entry) setScale(Math.min(1, entry.contentRect.width / designWidth));
+      if (entry) {
+        setScale(Math.min(1, entry.contentRect.width / designWidth));
+      }
     });
+
     observer.observe(element);
+
     return () => observer.disconnect();
   }, [container, designWidth]);
 

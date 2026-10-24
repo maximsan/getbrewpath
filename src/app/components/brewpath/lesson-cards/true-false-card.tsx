@@ -26,18 +26,22 @@ const ANSWERS = [true, false] as const;
 
 /** A true-or-false card: cue, statement, True and False buttons, feedback after one pick, and Continue. */
 export function TrueFalseCard({ card, onContinue, onCorrect }: TrueFalseCardProps) {
-  const t = useTranslations('lesson');
+  const translate = useTranslations('lesson');
   const [picked, setPicked] = useState<boolean | null>(null);
 
   const pick = (value: boolean) => {
-    if (picked !== null) return;
+    if (picked !== null) {
+      return;
+    }
     setPicked(value);
-    if (value === card.answer) onCorrect?.();
+    if (value === card.answer) {
+      onCorrect?.();
+    }
   };
 
   const choices: Choice[] = ANSWERS.map((value) => ({
     key: String(value),
-    label: value ? t('true') : t('false'),
+    label: value ? translate('true') : translate('false'),
     picked: picked === value,
     verdict: choiceVerdict(value, card.answer, picked),
     onSelect: () => pick(value),
@@ -45,7 +49,7 @@ export function TrueFalseCard({ card, onContinue, onCorrect }: TrueFalseCardProp
 
   return (
     <ChoiceCard
-      cue={t('cueTrueFalse')}
+      cue={translate('cueTrueFalse')}
       title={card.statement}
       titleLeading="leading-[1.18]"
       choices={choices}

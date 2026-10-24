@@ -20,6 +20,7 @@ export const findCard = (course: Course, id: string): CourseCard | undefined =>
 /** Route params for every card page, which are all built ahead of time. Card ids are the same in every language. */
 export async function cardRouteParams() {
   const course = await getCourse(routing.defaultLocale);
+
   return course.cards.map((card) => ({ id: card.id }));
 }
 
@@ -30,6 +31,7 @@ export async function cardRouteParams() {
  */
 export async function localeCardRouteParams() {
   const cards = await cardRouteParams();
+
   return routing.locales.flatMap((locale) => cards.map((card) => ({ locale, ...card })));
 }
 
@@ -46,6 +48,10 @@ export const DEMO_REWARD_CARD_ID = 'c1';
 
 export function rewardOf(course: Course, cardId: string) {
   const card = findCard(course, cardId);
-  if (!card) throw new Error(`No card ${cardId} in the course`);
+
+  if (!card) {
+    throw new Error(`No card ${cardId} in the course`);
+  }
+
   return card.reward;
 }

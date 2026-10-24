@@ -17,7 +17,10 @@ import {
 const APP_STORE_HOST = new URL(APP_STORE_URL).host;
 
 const firstCard = course.cards[0];
-if (!firstCard) throw new Error('The course has no cards; run pnpm sync-cards');
+
+if (!firstCard) {
+  throw new Error('The course has no cards; run pnpm sync-cards');
+}
 const CARD_PATH = `/card/${firstCard.id}`;
 const UNKNOWN_PATH = '/no-such-path';
 const APPLE_LINK_FILE_PATH = '/.well-known/apple-app-site-association';
@@ -29,18 +32,25 @@ const linkTargets = (page: Page, selector: string) =>
 /** Opens `path` and checks the server answered with `status`. */
 async function openPath(page: Page, path: string, status = 200) {
   const response = await page.goto(path);
+
   expect(response?.status()).toBe(status);
 }
 
 /** Checks that the page's email links and App Store links point at the site's addresses. */
 async function expectSiteLinks(page: Page) {
   const emailLinks = await linkTargets(page, 'a[href^="mailto:"]');
+
   expect(emailLinks.length, 'email links').toBeGreaterThan(0);
-  for (const href of emailLinks) expect(href).toBe(MAILTO_HI);
+  for (const href of emailLinks) {
+    expect(href).toBe(MAILTO_HI);
+  }
 
   const appStoreLinks = await linkTargets(page, `a[href*="${APP_STORE_HOST}"]`);
+
   expect(appStoreLinks.length, 'App Store links').toBeGreaterThan(0);
-  for (const href of appStoreLinks) expect(href).toBe(APP_STORE_URL);
+  for (const href of appStoreLinks) {
+    expect(href).toBe(APP_STORE_URL);
+  }
 }
 
 test('home page shows the lesson demo phone', async ({ page }) => {
@@ -56,6 +66,7 @@ test('the home page fits a 320px-wide phone without scrolling sideways', async (
   await openPath(page, PAGE_ROUTES.home);
   await expect(page.getByRole('button', { name: site.nav.menu })).toBeInViewport({ ratio: 1 });
   const pageWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+
   expect(pageWidth).toBe(320);
 });
 
@@ -91,11 +102,15 @@ test('the Apple link file lets the app open only card links, on both domains', a
 }) => {
   for (const host of [SITE_HOST, APP_LINKS_HOST]) {
     const response = await requestOnHost(request, host, APPLE_LINK_FILE_PATH);
+
     expect(response.status(), host).toBe(200);
     const { applinks } = (await response.json()) as {
       applinks: { details: { components: { '/': string }[] }[] };
     };
-    const claimedPaths = applinks.details.flatMap((detail) => detail.components.map((c) => c['/']));
+    const claimedPaths = applinks.details.flatMap((detail) =>
+      detail.components.map((component) => component['/']),
+    );
+
     expect(claimedPaths, host).toEqual(['/card/*']);
   }
 });
@@ -109,8 +124,10 @@ test(`${APP_LINKS_HOST} redirects to the site, or a card link to the App Store`,
     [PAGE_ROUTES.terms]: `${SITE_URL}${PAGE_ROUTES.terms}`,
     [CARD_PATH]: cardDestination,
   };
+
   for (const [path, destination] of Object.entries(destinations)) {
     const response = await requestOnHost(request, APP_LINKS_HOST, path);
+
     expect(response.status(), path).toBe(307);
     expect(response.headers().location, path).toBe(destination);
   }

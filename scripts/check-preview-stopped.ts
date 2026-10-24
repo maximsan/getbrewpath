@@ -9,13 +9,16 @@ import process from 'node:process';
 
 /** Wrangler's default port for `pnpm preview`; the repo sets no other. */
 const PREVIEW_PORT = 8787;
+/** How long a running preview gets to answer before the port counts as held open. */
+const ANSWER_TIMEOUT_MS = 2000;
 
 /** True when something answers on the preview port, or holds the connection open without answering. */
 async function previewPortIsTaken() {
   try {
     await fetch(`http://localhost:${PREVIEW_PORT}/robots.txt`, {
-      signal: AbortSignal.timeout(2000),
+      signal: AbortSignal.timeout(ANSWER_TIMEOUT_MS),
     });
+
     return true;
   } catch (error) {
     return error instanceof DOMException && error.name === 'TimeoutError';

@@ -18,7 +18,8 @@ export interface AnswerFeedbackProps {
 
 /** The verdict under an answered card: Roasty reacting, a mono label, then the explanation. */
 export function AnswerFeedback({ correct, text }: AnswerFeedbackProps) {
-  const t = useTranslations('lesson');
+  const translate = useTranslations('lesson');
+
   return (
     <div className={`${styles.feedbackRise} mt-[22px] flex items-center gap-3.5`}>
       <div className="shrink-0">
@@ -28,7 +29,7 @@ export function AnswerFeedback({ correct, text }: AnswerFeedbackProps) {
         <div
           className={`ff-mono mb-2 text-label font-medium tracking-[0.14em] uppercase ${correct ? 'text-sage' : 'text-berry'}`}
         >
-          {correct ? t('correct') : t('notQuite')}
+          {correct ? translate('correct') : translate('notQuite')}
         </div>
         <p className="m-0 text-support leading-normal text-pretty text-ink-mute">{text}</p>
       </div>

@@ -96,6 +96,7 @@ const WIDEST_EYE: EyeShape = { ...WIDE_EYE, white: { ...WIDE_EYE.white, ry: 14 }
 
 function Eye({ cx, shape }: { cx: number; shape: EyeShape }) {
   const { white, pupil, glint } = shape;
+
   return (
     <>
       <ellipse cx={cx} cy={white.cy} rx={white.rx} ry={white.ry} fill={EYE_WHITE} />
@@ -368,6 +369,7 @@ function BeanBurst() {
           animationDelay: delay,
         };
         const flutter: StyleWithVars = { '--spin': `${note.spin}deg`, animationDelay: delay };
+
         return (
           <g key={index} transform={`translate(${NOTE_ORIGIN.x} ${NOTE_ORIGIN.y})`}>
             <g className={styles.flyX} style={flyX}>
@@ -418,6 +420,7 @@ function Crema() {
     <g className={styles.crema}>
       {CREMA_BUBBLES.map((bubble) => {
         const delay = { animationDelay: `${bubble.delayMs}ms` };
+
         return (
           <g key={`${bubble.x},${bubble.y}`} transform={`translate(${bubble.x} ${bubble.y})`}>
             <g className={styles.cremaBubble} style={delay}>
@@ -444,6 +447,7 @@ function Crema() {
                 '--dy': `${signY * bubble.spread}px`,
                 ...delay,
               };
+
               return (
                 <circle
                   key={`${signX},${signY}`}
@@ -526,8 +530,8 @@ export function Roasty({
 
         <g className={styles.moduleRays} opacity="0.3">
           <g fill="none" stroke="var(--warn)" strokeWidth="1.2" strokeLinecap="round">
-            {MODULE_RAYS.map(([x1, y1, x2, y2]) => (
-              <line key={`${x1},${y1}`} x1={x1} y1={y1} x2={x2} y2={y2} />
+            {MODULE_RAYS.map(([startX, startY, endX, endY]) => (
+              <line key={`${startX},${startY}`} x1={startX} y1={startY} x2={endX} y2={endY} />
             ))}
           </g>
         </g>

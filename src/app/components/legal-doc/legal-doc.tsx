@@ -21,24 +21,25 @@ const paragraphClass = 'ff-ui mt-0 mb-3.5 text-base leading-[1.7] text-pretty te
  * On wide screens the table of contents stays on screen while scrolling.
  */
 export async function LegalDoc({ doc }: { doc: LegalDocId }) {
-  const t = await getTranslations('docs');
+  const translate = await getTranslations('docs');
   const format = await getFormatter();
   const { docs } = await getMessages();
   const source = LEGAL_DOCS[doc];
   const { introKeys, sections } = legalDocOutline(docs[doc]);
-  type TextKey = Parameters<typeof t>[0];
+
+  type TextKey = Parameters<typeof translate>[0];
   /** The text at `key` inside this document. The key is built at run time, so TypeScript cannot check it. */
   const text = (key: string) =>
-    t(`${doc}.${key}` as TextKey, { email: source.email, phone: PHONE });
+    translate(`${doc}.${key}` as TextKey, { email: source.email, phone: PHONE });
   const anchor = (sectionId: string) => `doc-${sectionId}`;
   const date = format.dateTime(new Date(source.date), LEGAL_DOC_DATE_FORMAT);
 
   return (
     <section className="mx-auto max-w-[768px] px-6 pt-[clamp(40px,6vw,72px)] min-[980px]:max-w-[1000px]">
       <div className="max-w-[720px]">
-        <h1 className={pageTitleClass}>{t(`${doc}.title`)}</h1>
+        <h1 className={pageTitleClass}>{translate(`${doc}.title`)}</h1>
         <div className="ff-mono mt-5 text-[11px] tracking-[.1em] text-ink-mute uppercase">
-          {t(`${doc}.dated`, { date })}
+          {translate(`${doc}.dated`, { date })}
         </div>
         <div className="mt-[22px] space-y-3.5">
           {introKeys.map((key) => (
@@ -53,7 +54,7 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
           className={cn(linkButtonClass('outline', 'lg'), 'mt-[26px] gap-2')}
         >
           <DownloadIcon size={16} />
-          {t('download')}
+          {translate('download')}
         </a>
       </div>
       <div className="mt-14 grid items-start gap-12 min-[980px]:grid-cols-[220px_minmax(0,1fr)]">
@@ -62,7 +63,7 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
           className="flex flex-col gap-0.5 min-[980px]:sticky min-[980px]:top-[88px]"
         >
           <div id="doc-contents" className="smallcaps mb-2.5">
-            {t('contents')}
+            {translate('contents')}
           </div>
           <div className="flex flex-wrap gap-2 min-[980px]:flex-col min-[980px]:gap-0.5">
             {sections.map((section) => (
@@ -91,7 +92,7 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
             </div>
           ))}
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-rule pt-6">
-            <span className="ff-ui text-sm text-ink-mute">{t('questions')}</span>
+            <span className="ff-ui text-sm text-ink-mute">{translate('questions')}</span>
             <a href={mailtoHref(source.email)} translate="no" className="ff-ui text-sm font-medium">
               {source.email}
             </a>
@@ -104,6 +105,7 @@ export async function LegalDoc({ doc }: { doc: LegalDocId }) {
 
 function SectionBlock({ block, text }: { block: OutlineBlock; text: (key: string) => string }) {
   const texts = block.textKeys.map((key) => ({ key, text: text(key) }));
+
   switch (block.kind) {
     case 'h':
       return (
@@ -135,14 +137,15 @@ function SectionBlock({ block, text }: { block: OutlineBlock; text: (key: string
 /** The Terms of Use or Privacy Policy page's title, description and address. */
 export async function legalDocMetadata(doc: LegalDocId, params: LocaleParams['params']) {
   const locale = await setPageLocale(params);
-  const t = await getTranslations({ locale, namespace: `docs.${doc}` });
+  const translate = await getTranslations({ locale, namespace: `docs.${doc}` });
   const { docs } = await getMessages({ locale });
   const [firstParagraph = ''] = legalDocOutline(docs[doc]).introKeys;
+
   return pageMetadata({
     locale,
-    title: t('title'),
+    title: translate('title'),
     // The key is built at run time, so TypeScript cannot check it.
-    description: t(firstParagraph as Parameters<typeof t>[0]),
+    description: translate(firstParagraph as Parameters<typeof translate>[0]),
     path: PAGE_ROUTES[doc],
   });
 }

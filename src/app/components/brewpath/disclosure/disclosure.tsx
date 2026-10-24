@@ -55,6 +55,7 @@ function Glyph({ glyph, open }: { glyph: DisclosureGlyph; open: boolean }) {
       </svg>
     );
   }
+
   return (
     <svg width={CARET_SIZE} height={CARET_SIZE} viewBox="0 0 20 20" {...shared}>
       <path

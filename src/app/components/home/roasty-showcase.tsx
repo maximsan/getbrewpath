@@ -17,6 +17,7 @@ const MOMENTS = [
   'module',
   'sleep',
 ] as const satisfies readonly RoastyState[];
+
 type Moment = (typeof MOMENTS)[number];
 
 const ROASTY_SIZE = 200;

@@ -14,6 +14,7 @@ const creasePath = (() => {
   const bend = innerRing * 0.18;
   const shoulder = innerRing * 0.35;
   const neck = innerRing * 0.05;
+
   return `M 0 ${-tip} C ${bend} ${-shoulder}, ${-bend} ${-neck}, 0 0 S ${bend} ${shoulder}, 0 ${tip}`;
 })();
 

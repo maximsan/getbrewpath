@@ -15,8 +15,12 @@ export interface LocaleParams {
  */
 export async function setPageLocale(params: LocaleParams['params']): Promise<Locale> {
   const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) notFound();
+
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
   setRequestLocale(locale);
+
   return locale;
 }
 

@@ -119,6 +119,7 @@ export function buildCourse(banks: ContentBanks): Course {
   const firstLessonIds = modules
     .flatMap((module) => module.lessons.map((lesson) => lesson.id))
     .slice(0, freeLessonIds.size);
+
   if (!firstLessonIds.every((lessonId) => freeLessonIds.has(lessonId))) {
     throw new Error(
       `The free lessons must be the first lessons of the course, got ${freeTier.freeLessonIds.join(', ')}`,
@@ -128,6 +129,7 @@ export function buildCourse(banks: ContentBanks): Course {
   const cards = collectibles.map((collectible): CourseCard => {
     if ('module' in collectible.unlock) {
       const courseModule = required(moduleById.get(collectible.unlock.module), collectible.id);
+
       return {
         id: collectible.id,
         source: 'module',
@@ -139,6 +141,7 @@ export function buildCourse(banks: ContentBanks): Course {
     const lessonId = collectible.unlock.lesson;
     const lesson = required(lessonById.get(lessonId), collectible.id);
     const place = required(placeOfLesson.get(lessonId), collectible.id);
+
     return {
       id: collectible.id,
       source: 'lesson',
@@ -164,6 +167,9 @@ export function buildCourse(banks: ContentBanks): Course {
 }
 
 function required<T>(value: T | undefined, cardId: string): T {
-  if (value === undefined) throw new Error(`Card ${cardId} unlocks from content that is missing`);
+  if (value === undefined) {
+    throw new Error(`Card ${cardId} unlocks from content that is missing`);
+  }
+
   return value;
 }

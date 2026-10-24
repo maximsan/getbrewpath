@@ -12,12 +12,12 @@ const STEPS = [
 ] as const satisfies readonly { key: string; screen: ScreenId }[];
 
 export async function HowItWorks() {
-  const t = await getTranslations('how');
+  const translate = await getTranslations('how');
   const format = await getFormatter();
 
   return (
     <Section id="how">
-      <SectionHeading>{t('title')}</SectionHeading>
+      <SectionHeading>{translate('title')}</SectionHeading>
       <div className="mt-12 flex flex-wrap justify-center gap-[clamp(24px,3vw,40px)]">
         {STEPS.map((step, index) => (
           <div
@@ -29,7 +29,7 @@ export async function HowItWorks() {
             <div className="flex aspect-[4/4.2] items-end justify-center overflow-hidden rounded-3xl bg-surface-2 px-[clamp(20px,3vw,36px)] pt-[clamp(20px,3vw,36px)]">
               <PhoneShot
                 screen={step.screen}
-                alt={t(`items.${step.key}.alt`)}
+                alt={translate(`items.${step.key}.alt`)}
                 sizes="250px"
                 riseOffset="34%"
                 className="w-[min(78%,250px)] shadow-[0_30px_60px_-20px_rgba(27,22,20,.5)]"
@@ -37,13 +37,13 @@ export async function HowItWorks() {
             </div>
             <div>
               <div className="ff-mono mb-2.5 text-[11px] tracking-[.16em] text-accent uppercase">
-                {t('step', { n: format.number(index + 1, TWO_DIGITS) })}
+                {translate('step', { n: format.number(index + 1, TWO_DIGITS) })}
               </div>
               <h3 className="ff-display m-0 text-[26px] leading-[1.1] font-normal tracking-[-0.015em]">
-                {t(`items.${step.key}.title`)}
+                {translate(`items.${step.key}.title`)}
               </h3>
               <p className="ff-ui mt-2.5 mb-0 text-[15px] leading-[1.6] text-pretty text-ink-mute">
-                {t(`items.${step.key}.body`)}
+                {translate(`items.${step.key}.body`)}
               </p>
             </div>
           </div>

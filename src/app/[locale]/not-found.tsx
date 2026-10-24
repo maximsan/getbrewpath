@@ -10,6 +10,7 @@ import { APP_STORE_URL } from '@domains/site/site';
 
 export async function generateMetadata(): Promise<Metadata> {
   const translate = await getTranslations('metadata');
+
   return { title: translate('notFound') };
 }
 

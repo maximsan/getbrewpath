@@ -23,6 +23,7 @@ const DEFAULT_APP_REPO = '../brewpath';
 const MASTER_DIR = 'assets/content/generated';
 const translationDir = (locale: Locale) => `assets/content/l10n/${locale}`;
 const outputFile = (locale: Locale) => `src/content/${locale}/course.json`;
+
 /** The content files the app has once per language. The free lessons file is one for all. */
 type Bank = Exclude<keyof ContentBanks, 'freeTier'>;
 type Records = Record<string, unknown>[];
@@ -62,9 +63,11 @@ for (const locale of routing.locales) {
         ),
   );
   const course = buildCourse(banks);
+
   mkdirSync(dirname(outputFile(locale)), { recursive: true });
   writeFileSync(outputFile(locale), `${JSON.stringify(course, null, 2)}\n`);
   const counts = courseCounts(course);
+
   console.log(
     `${locale}: wrote ${counts.modules} modules, ${counts.lessons} lessons of which ${counts.freeLessons} free, ${counts.cards} cards, ${course.freeDailyActivities} activities a day free`,
   );

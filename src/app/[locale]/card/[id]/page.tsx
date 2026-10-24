@@ -27,11 +27,15 @@ export const generateStaticParams = cardRouteParams;
 export async function generateMetadata({ params }: CardPageProps): Promise<Metadata> {
   const locale = await setPageLocale(params);
   const card = findCard(await getCourse(locale), (await params).id);
-  if (!card) return {};
+
+  if (!card) {
+    return {};
+  }
   const translate = await getTranslations({ locale, namespace: 'metadata' });
   const title = translate('cardTitle', { card: card.reward.title });
   const description = translate('cardDescription', { summary: card.reward.summary });
   const path = `/card/${card.id}`;
+
   return pageMetadata({
     locale,
     absoluteTitle: title,
@@ -50,7 +54,10 @@ const PITCH = [
 export default async function CardPage({ params }: CardPageProps) {
   const course = await getCourse(await setPageLocale(params));
   const card = findCard(course, (await params).id);
-  if (!card) notFound();
+
+  if (!card) {
+    notFound();
+  }
   const counts = courseCounts(course);
   const translate = await getTranslations('card');
 

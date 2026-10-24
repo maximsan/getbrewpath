@@ -17,6 +17,7 @@ const COLOURS = [
 ];
 /** How many pieces of each kind one round of the burst holds. */
 const KIND_COUNTS = { bean: 4, chaff: 6, steam: 3 } as const;
+
 type Kind = keyof typeof KIND_COUNTS;
 const ONE_ROUND = (Object.keys(KIND_COUNTS) as Kind[]).flatMap((kind) =>
   Array<Kind>(KIND_COUNTS[kind]).fill(kind),
@@ -46,7 +47,7 @@ const FULL_TURN = Math.PI * 2;
 type PieceStyle = CSSProperties & Record<`--${string}`, string>;
 
 /** A random number from -0.5 to 0.5, for an even spread either side of a value. */
-const randomOffset = () => Math.random() - 0.5;
+const randomOffset = () => Math.random() - 1 / 2;
 
 /** Spreads the pieces evenly round a circle, each with a little random angle, distance, spin and timing. */
 function scatter() {

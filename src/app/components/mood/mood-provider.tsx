@@ -41,8 +41,12 @@ function BarColor() {
 
   useEffect(() => {
     const scheme = COLOR_SCHEMES.find((known) => known === resolvedTheme);
-    if (!scheme) return;
+
+    if (!scheme) {
+      return;
+    }
     const color = BAR_COLOR_OF_SCHEME[scheme];
+
     document
       .querySelectorAll('meta[name="theme-color"]')
       .forEach((tag) => tag.setAttribute('content', color));

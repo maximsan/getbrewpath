@@ -7,15 +7,18 @@ import { LOCALE_NAMES, routing } from '@i18n/routing';
 
 /** Links to this page in the site's other languages. Hidden while the site has only one language. */
 export function LanguageLinks() {
-  const t = useTranslations('nav');
+  const translate = useTranslations('nav');
   const current = useLocale();
   const pathname = usePathname();
   const others = routing.locales.filter((locale) => locale !== current);
-  if (others.length === 0) return null;
+
+  if (others.length === 0) {
+    return null;
+  }
 
   return (
     <nav
-      aria-label={t('languages')}
+      aria-label={translate('languages')}
       className="flex flex-wrap items-center gap-x-4 gap-y-2 max-[600px]:justify-center"
     >
       {others.map((locale) => (
