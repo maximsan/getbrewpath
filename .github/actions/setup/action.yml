@@ -3,10 +3,11 @@ description: Install pnpm, Node.js and the project's packages.
 runs:
   using: composite
   steps:
-    - uses: pnpm/action-setup@v4
-    - uses: actions/setup-node@v5
+    - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+    - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
       with:
-        node-version: 24
+        # The exact version in `volta.node`, the one the project is checked with locally.
+        node-version-file: package.json
         cache: pnpm
     - run: pnpm install --frozen-lockfile
       shell: bash

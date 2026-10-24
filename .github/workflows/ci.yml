@@ -19,7 +19,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
       - uses: ./.github/actions/setup
       - run: pnpm lint
       - run: pnpm type-check
@@ -32,7 +32,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
       - uses: ./.github/actions/setup
       # A pull request merged on GitHub never passes the local pre-push hook,
       # so the smoke tests run here before anything goes live.

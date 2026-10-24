@@ -1,0 +1,11 @@
+# The workflow actions are pinned to exact commits, so a moved version tag can't
+# change what runs. Dependabot opens a pull request when one has a new release.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directories: ['/', '/.github/actions/setup']
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ['*']
