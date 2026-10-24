@@ -2,7 +2,7 @@ import course from '@content/en/course.json' with { type: 'json' };
 import site from '@messages/en/site.json' with { type: 'json' };
 import { BRAND_COLORS } from '@domains/site/brand';
 import { legalPageSource } from '@domains/site/legal-pages';
-import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
+import { cardPath, LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import {
   APP_LINKS_HOST,
   APP_STORE_ID,
@@ -24,7 +24,7 @@ import {
 
 const firstCard = course.cards[0];
 if (!firstCard) throw new Error('The course has no cards; run pnpm sync-cards');
-const CARD_PATH = `/card/${firstCard.id}`;
+const CARD_PATH = cardPath(firstCard.id);
 const UNKNOWN_PATH = '/no-such-path';
 const APPLE_LINK_FILE_PATH = '/.well-known/apple-app-site-association';
 
