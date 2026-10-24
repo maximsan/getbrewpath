@@ -20,7 +20,8 @@
     "preview": "pnpm build:cloudflare && opennextjs-cloudflare preview --env local",
     "deploy": "pnpm build:cloudflare && opennextjs-cloudflare deploy",
     "write-static-headers": "tsx scripts/write-static-headers.ts",
-    "test:smoke": "tsx scripts/check-preview-stopped.ts && playwright test"
+    "test:smoke": "tsx scripts/check-preview-stopped.ts && playwright test",
+    "lighthouse": "tsx scripts/lighthouse.ts"
   },
   "engines": {
     "node": "24.x"

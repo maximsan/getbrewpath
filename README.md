@@ -21,6 +21,7 @@ pnpm run deploy     # build for Cloudflare and put it live; CI runs it on every 
                     # `pnpm deploy` without `run` is a different, built-in pnpm command
 pnpm test:smoke     # build the site, open its main pages in Chromium and check them; runs before a push that changes more than Markdown, docs/, .github/ or prototype/
                     # stops while pnpm preview is running, because the rebuild crashes it
+pnpm lighthouse     # with pnpm preview running: page speed, 5 runs per page; compare the middle scores, as one run swings by up to ten points
 pnpm sync-cards     # refresh src/content/<language>/course.json from the app's main branch on GitHub
                     # it fetches main into your clone of the app repo, which it expects beside this repo:
                     #   projects/getbrewpath/   this repo
