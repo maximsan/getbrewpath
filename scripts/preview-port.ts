@@ -9,6 +9,8 @@ import { realpathSync } from 'node:fs';
 
 /** Wrangler's default port for `pnpm preview`; the repo sets no other. */
 export const PREVIEW_PORT = 8787;
+/** How long a running preview gets to answer before the port counts as held open. */
+const ANSWER_TIMEOUT_MS = 2000;
 
 /** `lsof -F` starts each output line with a one-letter field code; `n` marks a file name. */
 const LSOF_NAME_FIELD = 'n';
@@ -17,8 +19,9 @@ const LSOF_NAME_FIELD = 'n';
 export async function previewPortIsTaken() {
   try {
     await fetch(`http://localhost:${PREVIEW_PORT}/robots.txt`, {
-      signal: AbortSignal.timeout(2000),
+      signal: AbortSignal.timeout(ANSWER_TIMEOUT_MS),
     });
+
     return true;
   } catch (error) {
     return error instanceof DOMException && error.name === 'TimeoutError';
@@ -45,6 +48,7 @@ export function previewFolders() {
       .split('\n')
       .join(',');
     const output = lsof(['-a', '-d', 'cwd', '-Fn', '-p', listeningProcesses]);
+
     return processFolders(output).map((folder) => realpathSync(folder));
   } catch {
     return [];

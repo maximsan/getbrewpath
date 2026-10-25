@@ -19,18 +19,25 @@ import { useModalMenu } from './use-modal-menu';
 
 /** From this width the section links sit in the header and the menu closes. Matches `min-[980px]` below. */
 const WIDE_SCREEN = '(min-width: 980px)';
-/** Seconds before the first menu link slides in. */
-const FIRST_LINK_DELAY = 0.08;
-/** Seconds between one menu link's slide-in and the next one's. */
-const LINK_STAGGER = 0.06;
 /** How long a tapped menu link shows as pressed before the menu closes. */
 const PRESSED_MS = 220;
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
-/** The slide-in delay of the menu item at `index`, as a CSS `animation-delay`. */
-function menuItemDelay(index: number) {
-  return { animationDelay: `${FIRST_LINK_DELAY + index * LINK_STAGGER}s` };
-}
+type ClassPerItem<Items extends readonly unknown[]> = { readonly [Item in keyof Items]: string };
+
+/**
+ * When each menu item slides in, in menu order: each section link, then the store button
+ * and small links. The first starts after 80ms, each next one 60ms later. The type fails
+ * the type check when a section is added without a delay.
+ */
+const MENU_ENTER_DELAY_CLASSES = [
+  '[--start-delay:80ms]',
+  '[--start-delay:140ms]',
+  '[--start-delay:200ms]',
+  '[--start-delay:260ms]',
+  '[--start-delay:320ms]',
+  '[--start-delay:380ms]',
+] as const satisfies ClassPerItem<[...typeof NAV_SECTIONS, 'store row']>;
 
 const menuSmallLinkClass = 'ff-ui text-sm text-ink-mute hover:text-ink hover:no-underline';
 
@@ -70,7 +77,10 @@ export function SiteHeader() {
   });
 
   useEffect(() => {
-    if (!menuOpen) return;
+    if (!menuOpen) {
+      return;
+    }
+
     return () => {
       // A menu closed some other way mid-press must not still jump to the pressed section.
       clearTimeout(pressTimer.current);
@@ -109,7 +119,9 @@ export function SiteHeader() {
 
   const goHomeTop = (event: MouseEvent) => {
     closeMenu();
-    if (pathname !== '/') return;
+    if (pathname !== '/') {
+      return;
+    }
     event.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -140,7 +152,7 @@ export function SiteHeader() {
           </Link>
           <nav
             aria-label={translate('primary')}
-            className="ms-6 hidden flex-wrap items-center gap-x-[26px] gap-y-2 min-[980px]:flex"
+            className="ms-6 hidden flex-wrap items-center gap-x-6.5 gap-y-2 min-[980px]:flex"
           >
             {NAV_SECTIONS.map((section) => (
               <Link
@@ -169,7 +181,7 @@ export function SiteHeader() {
             aria-label={translate('menu')}
             aria-expanded={menuOpen}
             aria-controls={menuId}
-            className="inline-flex size-9 flex-none flex-col items-center justify-center gap-[5px] rounded-full border border-rule bg-surface p-0 text-ink min-[980px]:hidden"
+            className="inline-flex size-9 flex-none flex-col items-center justify-center gap-1.25 rounded-full border border-rule bg-surface p-0 text-ink min-[980px]:hidden"
           >
             <span
               className={cn(
@@ -180,7 +192,7 @@ export function SiteHeader() {
             <span
               className={cn(
                 'block h-[1.5px] w-3.5 rounded-sm bg-current transition-transform duration-300 ease-soft',
-                menuOpen && '-translate-y-[3.25px] -rotate-45',
+                menuOpen && 'translate-y-[-3.25px] -rotate-45',
               )}
             />
           </button>
@@ -200,12 +212,15 @@ export function SiteHeader() {
             <div className="flex-1" />
             {NAV_SECTIONS.map((section, index) => (
               // The wrapper slides in; the link inside moves on its own when pressed.
-              <div key={section.id} style={menuItemDelay(index)} className="animate-menu-link">
+              <div
+                key={section.id}
+                className={cn('animate-menu-link', MENU_ENTER_DELAY_CLASSES[index])}
+              >
                 <Link
                   href={sectionHref(section.id)}
                   onClick={(event) => openSection(event, section.id)}
                   data-pressed={pressedSection === section.id || undefined}
-                  className="group ff-display flex origin-left items-start gap-[18px] py-[clamp(8px,1.6vh,14px)] text-[clamp(34px,7vw,56px)] leading-none tracking-[-0.02em] text-ink transition-[color,transform] duration-200 ease-soft hover:no-underline active:translate-x-2 active:text-accent data-pressed:translate-x-2 data-pressed:text-accent [@media(hover:hover)]:hover:translate-x-2 [@media(hover:hover)]:hover:text-accent"
+                  className="group ff-display flex origin-left items-start gap-4.5 py-[clamp(8px,1.6vh,14px)] text-[clamp(34px,7vw,56px)] leading-none tracking-[-0.02em] text-ink transition-[color,transform] duration-200 ease-soft hover:no-underline active:translate-x-2 active:text-accent data-pressed:translate-x-2 data-pressed:text-accent [@media(hover:hover)]:hover:translate-x-2 [@media(hover:hover)]:hover:text-accent"
                 >
                   <span className="ff-mono mt-[.22em] flex-none text-xs leading-none tracking-[.14em] text-ink-mute transition-colors duration-200 group-hover:text-accent group-active:text-accent group-data-pressed:text-accent">
                     {format.number(index + 1, TWO_DIGITS)}
@@ -216,18 +231,20 @@ export function SiteHeader() {
             ))}
             <div className="flex-[1.4]" />
             <div
-              style={menuItemDelay(NAV_SECTIONS.length)}
-              className="mt-10 flex animate-menu-link flex-col gap-[22px]"
+              className={cn(
+                'mt-10 flex animate-menu-link flex-col gap-5.5',
+                MENU_ENTER_DELAY_CLASSES[NAV_SECTIONS.length],
+              )}
             >
               <LinkButton
                 href={APP_STORE_URL}
                 tone="accent"
                 size="hero"
-                className="mx-auto flex w-full max-w-[360px]"
+                className="mx-auto flex w-full max-w-90"
               >
                 {translate('getApp')}
               </LinkButton>
-              <div className="flex flex-wrap justify-center gap-x-[22px] gap-y-2.5">
+              <div className="flex flex-wrap justify-center gap-x-5.5 gap-y-2.5">
                 <a href={MAILTO_HI} className={menuSmallLinkClass}>
                   {translateFooter('support')}
                 </a>

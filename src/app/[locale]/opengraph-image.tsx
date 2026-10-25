@@ -10,10 +10,11 @@ export const alt = 'BrewPath — learn coffee, grow a tree';
 export const generateStaticParams = localeRouteParams;
 
 export default async function OpenGraphImage({ params }: LocaleParams) {
-  const t = await getTranslations({ locale: await setPageLocale(params) });
+  const translate = await getTranslations({ locale: await setPageLocale(params) });
+
   return renderOgImage({
-    kicker: t('brand'),
-    title: t('hero.title'),
-    body: t('hero.note'),
+    kicker: translate('brand'),
+    title: translate('hero.title'),
+    body: translate('hero.note'),
   });
 }

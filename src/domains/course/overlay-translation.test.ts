@@ -18,6 +18,7 @@ describe('overlayTranslation', () => {
       [{ id: 'm1', title: 'Зерны', lessons: [{ title: 'Што такое кава на самай справе' }] }],
       'modules',
     );
+
     expect(merged).toEqual({
       id: 'm1',
       n: 1,
@@ -32,6 +33,7 @@ describe('overlayTranslation', () => {
       [{ id: 'm1', title: 'Зерны', translatedFrom: { title: 'Beans' } }],
       'modules',
     );
+
     expect(merged).not.toHaveProperty('translatedFrom');
   });
 

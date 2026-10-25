@@ -4,8 +4,6 @@ import { useState } from 'react';
 
 import { Disclosure } from '@components/brewpath/disclosure/disclosure';
 
-/** The design file's pace for an answer opening or closing. */
-const ANSWER_MS = 380;
 const NONE_OPEN = -1;
 
 interface FaqListProps {
@@ -21,12 +19,13 @@ export function FaqList({ entries }: FaqListProps) {
       key={question}
       label={question}
       glyph="plus"
-      headerPad="20px 0"
-      durationMs={ANSWER_MS}
+      headerClassName="py-5"
+      // The design file's pace for an answer opening or closing.
+      className="[--disclosure-ms:380ms]"
       open={openIndex === index}
       onToggle={() => setOpenIndex((current) => (current === index ? NONE_OPEN : index))}
     >
-      <p className="ff-ui mt-0 mb-[18px] max-w-[60ch] text-[15px] leading-[1.65] text-pretty text-ink-mute">
+      <p className="ff-ui mt-0 mb-4.5 max-w-[60ch] text-[15px] leading-[1.65] text-pretty text-ink-mute">
         {answer}
       </p>
     </Disclosure>

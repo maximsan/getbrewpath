@@ -88,6 +88,7 @@ describe('buildCourse', () => {
       ...banks,
       collectibles: { items: [{ id: 'c9', unlock: { lesson: 'm9l9' } }] },
     };
+
     expect(() => buildCourse(broken)).toThrow('Card c9');
   });
 
@@ -97,6 +98,7 @@ describe('buildCourse', () => {
       freeTier: { freeLessonIds: ['m1l1', 'm1l3'], freeDailyActivities: 2 },
     };
     const unknown = { ...banks, freeTier: { freeLessonIds: ['m9l9'], freeDailyActivities: 2 } };
+
     expect(() => buildCourse(skipsOne)).toThrow('must be the first lessons');
     expect(() => buildCourse(unknown)).toThrow('must be the first lessons');
   });

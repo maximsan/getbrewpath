@@ -20,6 +20,7 @@ const THIS_FOLDER = realpathSync(fileURLToPath(new URL('..', import.meta.url)));
 // Asking the port first keeps the tests going where `lsof` is missing and nothing serves.
 if (await previewPortIsTaken()) {
   const folders = previewFolders();
+
   if (smokeTestsMustStop(folders, THIS_FOLDER)) {
     console.error(
       `A server, probably pnpm preview, is serving on port ${PREVIEW_PORT} from ${folders.join(', ') || 'an unknown folder'}. The smoke tests' rebuild would crash it. Stop it, then run the smoke tests again.`,

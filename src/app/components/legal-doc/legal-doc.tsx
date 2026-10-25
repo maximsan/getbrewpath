@@ -25,21 +25,22 @@ const paragraphClass = 'ff-ui mt-0 mb-3.5 text-base leading-[1.7] text-pretty te
  * On wide screens the table of contents stays on screen while scrolling.
  */
 export async function LegalDoc({ doc }: { doc: LegalPageName }) {
-  const t = await getTranslations('docs');
+  const translate = await getTranslations('docs');
   const format = await getFormatter();
   const { docs } = await getMessages();
   const source = legalPageSource(doc);
   const { introKeys, sections } = legalDocOutline(docs[doc]);
-  type TextKey = Parameters<typeof t>[0];
+
+  type TextKey = Parameters<typeof translate>[0];
   const values = { email: source.email, phone: PHONE };
   /** The text at `key` inside this document. The key is built at run time, so TypeScript cannot check it. */
-  const text = (key: string) => t(`${doc}.${key}` as TextKey, values);
+  const text = (key: string) => translate(`${doc}.${key}` as TextKey, values);
   /**
    * Like `text`, for the section blocks: there a `<policy>` tag becomes a link to the app's
    * Privacy Policy. The website privacy page uses it. Titles and headings take no tags.
    */
   const richText = (key: string) =>
-    t.rich(`${doc}.${key}` as TextKey, {
+    translate.rich(`${doc}.${key}` as TextKey, {
       ...values,
       policy: (chunks) => <Link href={PAGE_ROUTES.privacy}>{chunks}</Link>,
     });
@@ -47,13 +48,13 @@ export async function LegalDoc({ doc }: { doc: LegalPageName }) {
   const date = format.dateTime(new Date(source.date), LEGAL_DOC_DATE_FORMAT);
 
   return (
-    <section className="mx-auto max-w-[768px] px-6 pt-[clamp(40px,6vw,72px)] min-[980px]:max-w-[1000px]">
-      <div className="max-w-[720px]">
-        <h1 className={pageTitleClass}>{t(`${doc}.title`)}</h1>
-        <div className="ff-mono mt-5 text-[11px] tracking-[.1em] text-ink-mute uppercase">
-          {t(`${doc}.dated`, { date })}
+    <section className="mx-auto max-w-3xl px-6 pt-[clamp(40px,6vw,72px)] min-[980px]:max-w-250">
+      <div className="max-w-180">
+        <h1 className={pageTitleClass}>{translate(`${doc}.title`)}</h1>
+        <div className="ff-mono mt-5 text-[11px] tracking-widest text-ink-mute uppercase">
+          {translate(`${doc}.dated`, { date })}
         </div>
-        <div className="mt-[22px] space-y-3.5">
+        <div className="mt-5.5 space-y-3.5">
           {introKeys.map((key) => (
             <p key={key} className="ff-ui m-0 text-[17px] leading-[1.6] text-pretty text-ink-mute">
               {text(key)}
@@ -64,27 +65,27 @@ export async function LegalDoc({ doc }: { doc: LegalPageName }) {
           <a
             href={source.file}
             download
-            className={cn(linkButtonClass('outline', 'lg'), 'mt-[26px] gap-2')}
+            className={cn(linkButtonClass('outline', 'lg'), 'mt-6.5 gap-2')}
           >
             <DownloadIcon size={16} />
-            {t('download')}
+            {translate('download')}
           </a>
         )}
       </div>
       <div className="mt-14 grid items-start gap-12 min-[980px]:grid-cols-[220px_minmax(0,1fr)]">
         <nav
           aria-labelledby="doc-contents"
-          className="flex flex-col gap-0.5 min-[980px]:sticky min-[980px]:top-[88px]"
+          className="flex flex-col gap-0.5 min-[980px]:sticky min-[980px]:top-22"
         >
           <div id="doc-contents" className="smallcaps mb-2.5">
-            {t('contents')}
+            {translate('contents')}
           </div>
           <div className="flex flex-wrap gap-2 min-[980px]:flex-col min-[980px]:gap-0.5">
             {sections.map((section) => (
               <a
                 key={section.id}
                 href={`#${anchor(section.id)}`}
-                className="ff-ui block rounded-full border border-rule px-3.5 py-2 text-sm leading-[1.3] text-ink-mute min-[980px]:rounded-none min-[980px]:border-0 min-[980px]:border-s min-[980px]:py-[7px] min-[980px]:pe-0"
+                className="ff-ui block rounded-full border border-rule px-3.5 py-2 text-sm leading-[1.3] text-ink-mute min-[980px]:rounded-none min-[980px]:border-0 min-[980px]:border-s min-[980px]:py-1.75 min-[980px]:pe-0"
               >
                 {text(section.headingKey)}
               </a>
@@ -93,7 +94,7 @@ export async function LegalDoc({ doc }: { doc: LegalPageName }) {
         </nav>
         <div className="max-w-[68ch] min-w-0">
           {sections.map((section, index) => (
-            <div key={section.id} id={anchor(section.id)} className="scroll-mt-[90px] pb-10">
+            <div key={section.id} id={anchor(section.id)} className="scroll-mt-22.5 pb-10">
               <div className="ff-mono mb-2 text-[11px] tracking-[.14em] text-accent uppercase">
                 {format.number(index + 1, TWO_DIGITS)}
               </div>
@@ -106,7 +107,7 @@ export async function LegalDoc({ doc }: { doc: LegalPageName }) {
             </div>
           ))}
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-rule pt-6">
-            <span className="ff-ui text-sm text-ink-mute">{t('questions')}</span>
+            <span className="ff-ui text-sm text-ink-mute">{translate('questions')}</span>
             <a href={mailtoHref(source.email)} translate="no" className="ff-ui text-sm font-medium">
               {source.email}
             </a>
@@ -119,6 +120,7 @@ export async function LegalDoc({ doc }: { doc: LegalPageName }) {
 
 function SectionBlock({ block, text }: { block: OutlineBlock; text: (key: string) => ReactNode }) {
   const texts = block.textKeys.map((key) => ({ key, text: text(key) }));
+
   switch (block.kind) {
     case 'h':
       return (
@@ -126,7 +128,7 @@ function SectionBlock({ block, text }: { block: OutlineBlock; text: (key: string
       );
     case 'list':
       return (
-        <ul className={`${paragraphClass} list-disc ps-5`}>
+        <ul className={cn(paragraphClass, 'list-disc ps-5')}>
           {texts.map((item) => (
             <li key={item.key}>{item.text}</li>
           ))}
@@ -150,14 +152,15 @@ function SectionBlock({ block, text }: { block: OutlineBlock; text: (key: string
 /** A legal document page's title, description and address. */
 export async function legalDocMetadata(doc: LegalPageName, params: LocaleParams['params']) {
   const locale = await setPageLocale(params);
-  const t = await getTranslations({ locale, namespace: `docs.${doc}` });
+  const translate = await getTranslations({ locale, namespace: `docs.${doc}` });
   const { docs } = await getMessages({ locale });
   const [firstParagraph = ''] = legalDocOutline(docs[doc]).introKeys;
+
   return pageMetadata({
     locale,
-    title: t('title'),
+    title: translate('title'),
     // The key is built at run time, so TypeScript cannot check it.
-    description: t(firstParagraph as Parameters<typeof t>[0]),
+    description: translate(firstParagraph as Parameters<typeof translate>[0]),
     path: PAGE_ROUTES[doc],
   });
 }

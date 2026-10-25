@@ -2,6 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 
 /** The smoke tests' own port, so a `pnpm preview` left running on port 8787 never answers them. */
 const PORT = 8799;
+/** Five minutes: the preview builds the whole site before it answers. */
+const PREVIEW_START_TIMEOUT_MS = 300_000;
 
 /**
  * Smoke tests: open the site's main pages in Chromium and check they work.
@@ -17,7 +19,6 @@ export default defineConfig({
   webServer: {
     command: `pnpm preview --port ${PORT}`,
     url: `http://localhost:${PORT}/robots.txt`,
-    // The preview builds the whole site first.
-    timeout: 5 * 60_000,
+    timeout: PREVIEW_START_TIMEOUT_MS,
   },
 });

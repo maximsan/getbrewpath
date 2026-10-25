@@ -33,6 +33,7 @@ export function pageMetadata({
   shareImage = SITE_SHARE_IMAGE,
 }: PageMetadataInput): Metadata {
   const shareTitle = absoluteTitle ?? title;
+
   return {
     ...(absoluteTitle ? { title: { absolute: absoluteTitle } } : title ? { title } : null),
     description,

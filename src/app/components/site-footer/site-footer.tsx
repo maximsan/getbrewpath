@@ -18,14 +18,14 @@ export async function SiteFooter() {
   return (
     <footer className="mt-[clamp(64px,9vw,120px)] border-t border-rule">
       <div className="page-width flex flex-col items-center gap-y-6 px-6 pt-9 pb-11 tablet:flex-row tablet:flex-wrap tablet:justify-between tablet:gap-x-10">
-        <div className="flex flex-wrap items-center gap-x-[18px] gap-y-3 max-[600px]:justify-center">
+        <div className="flex flex-wrap items-center gap-x-4.5 gap-y-3 max-[600px]:justify-center">
           <div className="flex items-center gap-2.5">
             <Image src={appIcon} alt="" width={28} height={28} className="block rounded-[7px]" />
             <span translate="no" className="ff-display text-xl leading-none tracking-[-0.02em]">
               {tRoot('brand')}
             </span>
           </div>
-          <span className="ff-mono text-[11px] leading-none tracking-[.1em] text-ink-mute uppercase">
+          <span className="ff-mono text-[11px] leading-none tracking-widest text-ink-mute uppercase">
             {translate('copyright', { year: String(COPYRIGHT_YEAR) })}
           </span>
         </div>

@@ -17,12 +17,16 @@ export function RevealOnScroll() {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
+        if (!entry.isIntersecting) {
+          continue;
+        }
         entry.target.classList.add('in');
         observer.unobserve(entry.target);
       }
     }, REVEAL_OPTIONS);
+
     document.querySelectorAll(REVEAL_SELECTOR).forEach((element) => observer.observe(element));
+
     return () => observer.disconnect();
   }, [pathname]);
 
