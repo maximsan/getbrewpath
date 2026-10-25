@@ -62,7 +62,7 @@ export function ChoiceCard({
   const answered = pickedCorrect !== null;
 
   return (
-    <div className="flex min-h-[600px] flex-[1_0_auto] flex-col px-6">
+    <div className="flex min-h-demo-screen-height flex-[1_0_auto] flex-col px-6">
       <div className="smallcaps mb-3 flex items-center gap-2 leading-none text-accent">
         <span className="text-support leading-none">{cue}</span>
       </div>
@@ -81,7 +81,7 @@ export function ChoiceCard({
             key={choice.key}
             type="button"
             className={cn(
-              'ff-ui block w-full cursor-pointer rounded-card border border-rule bg-surface px-5 py-[18px] text-left text-body font-medium text-ink transition-all duration-150 ease-[ease] not-aria-disabled:active:scale-[.985] aria-disabled:cursor-default',
+              'ff-ui block w-full cursor-pointer rounded-card border border-rule bg-surface px-5 py-4.5 text-left text-body font-medium text-ink transition-all duration-150 ease-[ease] not-aria-disabled:active:scale-[.985] aria-disabled:cursor-default',
               choice.verdict && VERDICT_STYLE[choice.verdict],
               // Only the learner's own pick moves: a right pick pops, but the right answer
               // revealed after a wrong pick stays still.

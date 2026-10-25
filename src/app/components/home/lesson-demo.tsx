@@ -78,19 +78,19 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
         <h2 className="ff-display m-0 text-[clamp(28px,3.6vw,44px)] leading-[1.05] font-normal tracking-[-0.02em] text-balance">
           {translate('title')}
         </h2>
-        <p className="ff-ui mt-[18px] mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute stacked:mx-auto">
+        <p className="ff-ui mt-4.5 mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute stacked:mx-auto">
           {translate('body')}
         </p>
         <div aria-live="polite">
           {done ? (
-            <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-card border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-[22px] py-5">
+            <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-card border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-5.5 py-5">
               <div className="ff-display text-[22px] leading-[1.15]">
                 {translate(perfect ? 'scorePerfect' : 'scorePartial', {
                   n: score,
                   total: CARD_COUNT,
                 })}
               </div>
-              <div className="ff-ui text-sm leading-normal text-ink-mute">
+              <div className="ff-ui text-sm/normal text-ink-mute">
                 {translate(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')}{' '}
                 {translate('fullLesson', { freeLessons })}
               </div>
@@ -101,14 +101,14 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
                 <button
                   type="button"
                   onClick={restart}
-                  className="ff-ui min-h-[42px] appearance-none rounded-full border border-rule bg-transparent px-[18px] py-2 text-sm leading-[1.15] font-medium text-ink"
+                  className="ff-ui min-h-10.5 appearance-none rounded-full border border-rule bg-transparent px-4.5 py-2 text-sm leading-[1.15] font-medium text-ink"
                 >
                   {translate('again')}
                 </button>
               </ButtonRow>
             </div>
           ) : (
-            <div className="ff-mono mt-7 flex items-center gap-2.5 text-[11px] leading-normal tracking-[.1em] text-ink-mute uppercase stacked:justify-center">
+            <div className="ff-mono mt-7 flex items-center gap-2.5 text-[11px] leading-normal tracking-widest text-ink-mute uppercase stacked:justify-center">
               <span className="size-1.5 flex-none animate-dot-pulse rounded-full bg-accent" />
               {translate('progress', progress)}
             </div>
@@ -119,8 +119,8 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
         <ScaledFrame className="aspect-demo-phone w-full max-w-demo-phone">
           <div className="w-demo-phone flex-none rounded-[48px] bg-[#15100c] p-2.5 shadow-[0_40px_80px_-30px_rgba(0,0,0,.7),0_0_0_1px_rgba(255,255,255,.06)]">
             <div className="relative h-demo-screen-height w-demo-screen overflow-hidden rounded-[40px] bg-bg">
-              <div className="absolute inset-x-0 top-0 z-[3] flex h-11 items-center justify-center">
-                <div className="h-[26px] w-24 rounded-full bg-[#0b0806]" />
+              <div className="absolute inset-x-0 top-0 z-3 flex h-11 items-center justify-center">
+                <div className="h-6.5 w-24 rounded-full bg-[#0b0806]" />
               </div>
               {/* The app is drawn at its real size, then shrunk to the screen's width. */}
               <ScaledFrame className="absolute inset-0">
@@ -132,7 +132,7 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
                     done={done}
                     closeLabel={translate('restart')}
                   />
-                  <div className="absolute inset-0 flex flex-col pt-[134px]">
+                  <div className="absolute inset-0 flex flex-col pt-33.5">
                     {step === 0 && (
                       <MCQCard card={cards[0]} onContinue={next} onCorrect={countCorrect} />
                     )}
@@ -155,7 +155,7 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
                   </div>
                 </div>
               </ScaledFrame>
-              <div className="absolute bottom-2 left-1/2 h-1 w-[110px] -translate-x-1/2 rounded-full bg-rule" />
+              <div className="absolute bottom-2 left-1/2 h-1 w-27.5 -translate-x-1/2 rounded-full bg-rule" />
             </div>
           </div>
         </ScaledFrame>

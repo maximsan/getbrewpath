@@ -63,7 +63,7 @@ export default async function LocaleLayout({
           <MoodProvider>
             <a
               href="#main"
-              className="ff-ui sr-only rounded-full bg-ink px-4 py-2 text-bg focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60]"
+              className="ff-ui sr-only rounded-full bg-ink px-4 py-2 text-bg focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-60"
             >
               {translate('skip')}
             </a>

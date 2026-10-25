@@ -48,13 +48,13 @@ export async function LegalDoc({ doc }: { doc: LegalPageName }) {
   const date = format.dateTime(new Date(source.date), LEGAL_DOC_DATE_FORMAT);
 
   return (
-    <section className="mx-auto max-w-[768px] px-6 pt-[clamp(40px,6vw,72px)] min-[980px]:max-w-[1000px]">
-      <div className="max-w-[720px]">
+    <section className="mx-auto max-w-3xl px-6 pt-[clamp(40px,6vw,72px)] min-[980px]:max-w-250">
+      <div className="max-w-180">
         <h1 className={pageTitleClass}>{translate(`${doc}.title`)}</h1>
-        <div className="ff-mono mt-5 text-[11px] tracking-[.1em] text-ink-mute uppercase">
+        <div className="ff-mono mt-5 text-[11px] tracking-widest text-ink-mute uppercase">
           {translate(`${doc}.dated`, { date })}
         </div>
-        <div className="mt-[22px] space-y-3.5">
+        <div className="mt-5.5 space-y-3.5">
           {introKeys.map((key) => (
             <p key={key} className="ff-ui m-0 text-[17px] leading-[1.6] text-pretty text-ink-mute">
               {text(key)}
@@ -65,7 +65,7 @@ export async function LegalDoc({ doc }: { doc: LegalPageName }) {
           <a
             href={source.file}
             download
-            className={cn(linkButtonClass('outline', 'lg'), 'mt-[26px] gap-2')}
+            className={cn(linkButtonClass('outline', 'lg'), 'mt-6.5 gap-2')}
           >
             <DownloadIcon size={16} />
             {translate('download')}
@@ -75,7 +75,7 @@ export async function LegalDoc({ doc }: { doc: LegalPageName }) {
       <div className="mt-14 grid items-start gap-12 min-[980px]:grid-cols-[220px_minmax(0,1fr)]">
         <nav
           aria-labelledby="doc-contents"
-          className="flex flex-col gap-0.5 min-[980px]:sticky min-[980px]:top-[88px]"
+          className="flex flex-col gap-0.5 min-[980px]:sticky min-[980px]:top-22"
         >
           <div id="doc-contents" className="smallcaps mb-2.5">
             {translate('contents')}
@@ -85,7 +85,7 @@ export async function LegalDoc({ doc }: { doc: LegalPageName }) {
               <a
                 key={section.id}
                 href={`#${anchor(section.id)}`}
-                className="ff-ui block rounded-full border border-rule px-3.5 py-2 text-sm leading-[1.3] text-ink-mute min-[980px]:rounded-none min-[980px]:border-0 min-[980px]:border-s min-[980px]:py-[7px] min-[980px]:pe-0"
+                className="ff-ui block rounded-full border border-rule px-3.5 py-2 text-sm leading-[1.3] text-ink-mute min-[980px]:rounded-none min-[980px]:border-0 min-[980px]:border-s min-[980px]:py-1.75 min-[980px]:pe-0"
               >
                 {text(section.headingKey)}
               </a>
@@ -94,7 +94,7 @@ export async function LegalDoc({ doc }: { doc: LegalPageName }) {
         </nav>
         <div className="max-w-[68ch] min-w-0">
           {sections.map((section, index) => (
-            <div key={section.id} id={anchor(section.id)} className="scroll-mt-[90px] pb-10">
+            <div key={section.id} id={anchor(section.id)} className="scroll-mt-22.5 pb-10">
               <div className="ff-mono mb-2 text-[11px] tracking-[.14em] text-accent uppercase">
                 {format.number(index + 1, TWO_DIGITS)}
               </div>

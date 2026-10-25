@@ -81,7 +81,7 @@ export function PhoneShot({ screen, alt, sizes, className, aboveFold, rises }: P
           alt=""
           fill
           sizes={sizes}
-          className="object-cover opacity-0 transition-opacity duration-[450ms] dark-roast:opacity-100"
+          className="object-cover opacity-0 transition-opacity duration-450 dark-roast:opacity-100"
         />
       </div>
     </div>

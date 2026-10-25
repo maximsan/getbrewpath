@@ -18,7 +18,7 @@ export function AnswerFeedback({ correct, text }: AnswerFeedbackProps) {
 
   return (
     // The verdict rises in after the pick reacts, so the pop or shake reads first.
-    <div className="mt-[22px] flex animate-feedback-rise items-center gap-3.5">
+    <div className="mt-5.5 flex animate-feedback-rise items-center gap-3.5">
       <div className="shrink-0">
         <Roasty state={correct ? 'correct' : 'wrong'} size="small" />
       </div>
@@ -31,7 +31,7 @@ export function AnswerFeedback({ correct, text }: AnswerFeedbackProps) {
         >
           {correct ? translate('correct') : translate('notQuite')}
         </div>
-        <p className="m-0 text-support leading-normal text-pretty text-ink-mute">{text}</p>
+        <p className="m-0 text-support/normal text-pretty text-ink-mute">{text}</p>
       </div>
     </div>
   );

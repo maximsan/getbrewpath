@@ -82,7 +82,7 @@ export default async function CardPage({ params }: CardPageProps) {
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-10">
         <div
           data-mood="dark-roast"
-          className="relative flex min-h-[460px] items-center justify-center overflow-hidden rounded-[28px] border border-rule bg-surface px-6 py-[clamp(32px,5vw,64px)]"
+          className="relative flex min-h-115 items-center justify-center overflow-hidden rounded-[28px] border border-rule bg-surface px-6 py-[clamp(32px,5vw,64px)]"
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,color-mix(in_oklab,var(--accent)_16%,transparent),transparent_65%)]" />
           <div className="relative w-full max-w-[320px]">
@@ -90,7 +90,7 @@ export default async function CardPage({ params }: CardPageProps) {
           </div>
         </div>
         <div className="animate-rise-in [animation-delay:.1s]">
-          <h1 className="ff-display m-0 text-[clamp(34px,4.6vw,58px)] leading-[1.02] font-normal tracking-[-0.025em] text-balance">
+          <h1 className="ff-display m-0 text-[clamp(34px,4.6vw,58px)] leading-[1.02] font-normal tracking-tight text-balance">
             {translate.rich('earned', {
               card: card.reward.title,
               em: (chunks) => <em>{chunks}</em>,
@@ -99,7 +99,7 @@ export default async function CardPage({ params }: CardPageProps) {
           <p className="ff-ui mt-5 mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute">
             {body}
           </p>
-          <ButtonRow className="mt-[30px] items-center">
+          <ButtonRow className="mt-7.5 items-center">
             <LinkButton href={APP_STORE_URL} tone="ink" size="xl">
               {translate('get')}
             </LinkButton>
@@ -107,13 +107,13 @@ export default async function CardPage({ params }: CardPageProps) {
               {translate('open')}
             </LinkButton>
           </ButtonRow>
-          <div className={cn(monoNoteClass, 'mt-[18px]')}>{translate('avail')}</div>
+          <div className={cn(monoNoteClass, 'mt-4.5')}>{translate('avail')}</div>
         </div>
       </div>
 
       <div className="mt-[clamp(56px,8vw,96px)] grid grid-cols-[repeat(auto-fit,minmax(min(100%,240px),1fr))] gap-8">
         {PITCH.map(({ key, Icon }) => (
-          <div key={key} className="flex flex-col gap-3 border-t border-rule pt-[22px]">
+          <div key={key} className="flex flex-col gap-3 border-t border-rule pt-5.5">
             <span className="inline-flex text-accent">
               <Icon />
             </span>
@@ -135,7 +135,7 @@ export default async function CardPage({ params }: CardPageProps) {
             link: (chunks) => <Link href={PAGE_ROUTES.home}>{chunks}</Link>,
           })}
         </div>
-        <div className="ff-mono text-[11px] tracking-[.1em] text-ink-mute uppercase">
+        <div className="ff-mono text-[11px] tracking-widest text-ink-mute uppercase">
           {translate('count', { cards: counts.cards, moduleRewards: counts.moduleRewards })}
         </div>
       </div>

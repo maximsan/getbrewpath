@@ -25,10 +25,10 @@ export default async function NotFound() {
         {translate('label')}
       </div>
       <h1 className={cn(pageTitleClass, 'mt-4')}>{translate('title')}</h1>
-      <p className="ff-ui mt-[18px] mb-0 max-w-[40ch] text-[17px] leading-[1.6] text-pretty text-ink-mute">
+      <p className="ff-ui mt-4.5 mb-0 max-w-[40ch] text-[17px] leading-[1.6] text-pretty text-ink-mute">
         {translate('body')}
       </p>
-      <ButtonRow className="mt-[30px] justify-center">
+      <ButtonRow className="mt-7.5 justify-center">
         <LinkButton href={PAGE_ROUTES.home} tone="ink" size="lg">
           {translate('back')}
         </LinkButton>

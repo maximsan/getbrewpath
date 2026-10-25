@@ -25,7 +25,7 @@ export function FaqList({ entries }: FaqListProps) {
       open={openIndex === index}
       onToggle={() => setOpenIndex((current) => (current === index ? NONE_OPEN : index))}
     >
-      <p className="ff-ui mt-0 mb-[18px] max-w-[60ch] text-[15px] leading-[1.65] text-pretty text-ink-mute">
+      <p className="ff-ui mt-0 mb-4.5 max-w-[60ch] text-[15px] leading-[1.65] text-pretty text-ink-mute">
         {answer}
       </p>
     </Disclosure>

@@ -20,7 +20,7 @@ export async function Faq({ course }: { course: Course }) {
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-10">
         <div data-reveal>
           <h2 className={sectionTitleClass}>{translate('title')}</h2>
-          <p className="ff-ui mt-[18px] mb-0 flex max-w-[40ch] flex-col text-[15px] leading-[1.6] text-ink-mute">
+          <p className="ff-ui mt-4.5 mb-0 flex max-w-[40ch] flex-col text-[15px] leading-[1.6] text-ink-mute">
             <span>{translate('more')}</span>
             <span className="whitespace-nowrap">
               {translate.rich('write', {

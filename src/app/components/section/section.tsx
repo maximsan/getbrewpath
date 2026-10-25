@@ -18,7 +18,7 @@ export const pageTitleClass =
 /** A centred section heading that fades in. */
 export function SectionHeading({ children }: { children: ReactNode }) {
   return (
-    <div data-reveal className="mx-auto max-w-[720px] text-center">
+    <div data-reveal className="mx-auto max-w-180 text-center">
       <h2 className={sectionTitleClass}>{children}</h2>
     </div>
   );

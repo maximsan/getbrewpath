@@ -16,10 +16,10 @@ export async function FinalCta() {
       >
         <div className="pointer-events-none absolute top-[-40%] left-1/4 aspect-square w-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_18%,transparent),transparent)]" />
         <div className="relative">
-          <h2 className="ff-display m-0 text-[clamp(32px,4.4vw,56px)] leading-[1.02] font-normal tracking-[-0.025em] text-balance">
+          <h2 className="ff-display m-0 text-[clamp(32px,4.4vw,56px)] leading-[1.02] font-normal tracking-tight text-balance">
             {translate('title')}
           </h2>
-          <p className="ff-ui mx-auto mt-[18px] mb-0 max-w-[44ch] text-base leading-[1.6] text-ink-mute">
+          <p className="ff-ui mx-auto mt-4.5 mb-0 max-w-[44ch] text-base leading-[1.6] text-ink-mute">
             {translate('body')}
           </p>
         </div>

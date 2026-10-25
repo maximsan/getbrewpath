@@ -47,7 +47,7 @@ function RoastBean({ done, total }: { done: number; total: number }) {
           rx="7.5"
           ry="9.5"
           fill={fill}
-          className="transition-[fill] duration-[420ms] ease-[cubic-bezier(0.34,1.18,0.5,1)]"
+          className="transition-[fill] duration-420 ease-[cubic-bezier(0.34,1.18,0.5,1)]"
         />
         <ellipse
           cx="12"

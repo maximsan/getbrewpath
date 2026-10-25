@@ -26,7 +26,7 @@ export function TextField({
   ...inputProps
 }: TextFieldProps) {
   return (
-    <div className="flex items-center rounded-xl border border-rule bg-surface px-4 py-[13px] transition-[border-color] duration-[140ms] ease-in-out focus-within:border-accent">
+    <div className="flex items-center rounded-xl border border-rule bg-surface px-4 py-3.25 transition-[border-color] duration-140 ease-in-out focus-within:border-accent">
       <input
         {...inputProps}
         type={type}

@@ -19,13 +19,13 @@ export async function Hero() {
       )}
     >
       <div className="stacked:text-center">
-        <h1 className="ff-display m-0 animate-rise-in text-[clamp(42px,6.2vw,76px)] leading-none font-normal tracking-[-0.025em] text-balance whitespace-pre-line">
+        <h1 className="ff-display m-0 animate-rise-in text-[clamp(42px,6.2vw,76px)] leading-none font-normal tracking-tight text-balance whitespace-pre-line">
           {translate('title')}
         </h1>
-        <p className="ff-ui mt-[26px] mb-0 max-w-[46ch] animate-rise-in text-[clamp(17px,1.6vw,20px)] leading-[1.55] text-pretty text-ink-mute [animation-delay:.08s] stacked:mx-auto">
+        <p className="ff-ui mt-6.5 mb-0 max-w-[46ch] animate-rise-in text-[clamp(17px,1.6vw,20px)] leading-[1.55] text-pretty text-ink-mute [animation-delay:.08s] stacked:mx-auto">
           {translate('body')}
         </p>
-        <ButtonRow className="mt-[34px] animate-rise-in items-center [animation-delay:.16s] stacked:justify-center">
+        <ButtonRow className="mt-8.5 animate-rise-in items-center [animation-delay:.16s] stacked:justify-center">
           <LinkButton href={APP_STORE_URL} tone="ink" size="xl">
             {translate('download')}
           </LinkButton>
@@ -33,7 +33,7 @@ export async function Hero() {
             {translate('tryFirst')}
           </LinkButton>
         </ButtonRow>
-        <div className={cn(monoNoteClass, 'mt-[18px] animate-rise-in [animation-delay:.24s]')}>
+        <div className={cn(monoNoteClass, 'mt-4.5 animate-rise-in [animation-delay:.24s]')}>
           {translate('note')}
         </div>
       </div>
@@ -43,14 +43,14 @@ export async function Hero() {
           alt={translate('shotToday')}
           sizes="(max-width: 800px) 44vw, 270px"
           aboveFold
-          className="z-[2] w-[min(44%,270px)] flex-none shadow-[0_40px_70px_-24px_rgba(27,22,20,.55)]"
+          className="z-2 w-[min(44%,270px)] flex-none shadow-[0_40px_70px_-24px_rgba(27,22,20,.55)]"
         />
         <PhoneShot
           screen="lesson"
           alt={translate('shotLesson')}
           sizes="(max-width: 800px) 39vw, 240px"
           aboveFold
-          className="z-[1] -ms-[12%] mt-[14%] w-[min(39%,240px)] flex-none shadow-[0_30px_60px_-20px_rgba(27,22,20,.45)]"
+          className="z-1 ms-[-12%] mt-[14%] w-[min(39%,240px)] flex-none shadow-[0_30px_60px_-20px_rgba(27,22,20,.45)]"
         />
       </div>
     </section>

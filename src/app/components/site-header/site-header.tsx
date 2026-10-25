@@ -152,7 +152,7 @@ export function SiteHeader() {
           </Link>
           <nav
             aria-label={translate('primary')}
-            className="ms-6 hidden flex-wrap items-center gap-x-[26px] gap-y-2 min-[980px]:flex"
+            className="ms-6 hidden flex-wrap items-center gap-x-6.5 gap-y-2 min-[980px]:flex"
           >
             {NAV_SECTIONS.map((section) => (
               <Link
@@ -181,7 +181,7 @@ export function SiteHeader() {
             aria-label={translate('menu')}
             aria-expanded={menuOpen}
             aria-controls={menuId}
-            className="inline-flex size-9 flex-none flex-col items-center justify-center gap-[5px] rounded-full border border-rule bg-surface p-0 text-ink min-[980px]:hidden"
+            className="inline-flex size-9 flex-none flex-col items-center justify-center gap-1.25 rounded-full border border-rule bg-surface p-0 text-ink min-[980px]:hidden"
           >
             <span
               className={cn(
@@ -217,7 +217,7 @@ export function SiteHeader() {
                   href={sectionHref(section.id)}
                   onClick={(event) => openSection(event, section.id)}
                   data-pressed={pressedSection === section.id || undefined}
-                  className="group ff-display flex origin-left items-start gap-[18px] py-[clamp(8px,1.6vh,14px)] text-[clamp(34px,7vw,56px)] leading-none tracking-[-0.02em] text-ink transition-[color,transform] duration-200 ease-soft hover:no-underline active:translate-x-2 active:text-accent data-pressed:translate-x-2 data-pressed:text-accent [@media(hover:hover)]:hover:translate-x-2 [@media(hover:hover)]:hover:text-accent"
+                  className="group ff-display flex origin-left items-start gap-4.5 py-[clamp(8px,1.6vh,14px)] text-[clamp(34px,7vw,56px)] leading-none tracking-[-0.02em] text-ink transition-[color,transform] duration-200 ease-soft hover:no-underline active:translate-x-2 active:text-accent data-pressed:translate-x-2 data-pressed:text-accent [@media(hover:hover)]:hover:translate-x-2 [@media(hover:hover)]:hover:text-accent"
                 >
                   <span className="ff-mono mt-[.22em] flex-none text-xs leading-none tracking-[.14em] text-ink-mute transition-colors duration-200 group-hover:text-accent group-active:text-accent group-data-pressed:text-accent">
                     {format.number(index + 1, TWO_DIGITS)}
@@ -229,7 +229,7 @@ export function SiteHeader() {
             <div className="flex-[1.4]" />
             <div
               className={cn(
-                'mt-10 flex animate-menu-link flex-col gap-[22px]',
+                'mt-10 flex animate-menu-link flex-col gap-5.5',
                 MENU_ENTER_DELAYS[NAV_SECTIONS.length],
               )}
             >
@@ -237,11 +237,11 @@ export function SiteHeader() {
                 href={APP_STORE_URL}
                 tone="accent"
                 size="hero"
-                className="mx-auto flex w-full max-w-[360px]"
+                className="mx-auto flex w-full max-w-90"
               >
                 {translate('getApp')}
               </LinkButton>
-              <div className="flex flex-wrap justify-center gap-x-[22px] gap-y-2.5">
+              <div className="flex flex-wrap justify-center gap-x-5.5 gap-y-2.5">
                 <a href={MAILTO_HI} className={menuSmallLinkClass}>
                   {translateFooter('support')}
                 </a>

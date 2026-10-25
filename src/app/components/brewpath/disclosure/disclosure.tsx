@@ -40,7 +40,7 @@ const OPEN_TURN: Record<DisclosureGlyph, string> = { caret: 'rotate-180', plus: 
 
 function Glyph({ glyph, open }: { glyph: DisclosureGlyph; open: boolean }) {
   const className = cn(
-    'flex-none text-ink-mute transition-transform duration-(--disclosure-ms) ease-[cubic-bezier(0.4,0,0.2,1)]',
+    'flex-none text-ink-mute transition-transform duration-(--disclosure-ms) ease-in-out',
     open && OPEN_TURN[glyph],
   );
 
