@@ -11,6 +11,7 @@ import {
   SITE_HOST,
   SITE_URL,
 } from '@domains/site/site';
+import { routing } from '@i18n/routing';
 
 import { expect, test } from './fixtures';
 import {
@@ -97,6 +98,34 @@ test('an unknown URL shows the not-found page', async ({ page }) => {
   await openPath(page, UNKNOWN_PATH, 404);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.notfound.title);
   await expectSiteLinks(page);
+});
+
+test('an address with the default language prefix redirects to the same address without it', async ({
+  request,
+}) => {
+  for (const path of [PAGE_ROUTES.home, PAGE_ROUTES.terms, CARD_PATH]) {
+    const prefixedPath = `/${routing.defaultLocale}${path === PAGE_ROUTES.home ? '' : path}`;
+    const response = await request.get(prefixedPath, { maxRedirects: 0 });
+
+    expect(response.status(), prefixedPath).toBe(307);
+    expect(response.headers().location, prefixedPath).toBe(path);
+  }
+});
+
+test('a language prefix in capitals shows the not-found page', async ({ page }) => {
+  // On Cloudflare this address once failed with an error 500; see `next.config.ts`.
+  await openPath(page, `/${routing.defaultLocale.toUpperCase()}${PAGE_ROUTES.terms}`, 404);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.notfound.title);
+});
+
+test('a footer link opens its page without reloading the site', async ({ page }) => {
+  await openPath(page, PAGE_ROUTES.home);
+  // A full page load would drop this mark; moving inside the site keeps it.
+  await page.evaluate(() => Object.assign(window, { stayedOnPage: true }));
+  await page.getByRole('contentinfo').getByRole('link', { name: site.footer.terms }).click();
+  await expect(page).toHaveURL(PAGE_ROUTES.terms);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.docs.terms.title);
+  expect(await page.evaluate(() => 'stayedOnPage' in window)).toBe(true);
 });
 
 test('the Apple link file lets the app open only card links, on both domains', async ({
