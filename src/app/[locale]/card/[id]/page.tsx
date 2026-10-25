@@ -10,7 +10,7 @@ import { LinkButton } from '@components/link-button/link-button';
 import { monoNoteClass } from '@components/section/section';
 import { cardRouteParams, courseCounts, findCard, getCourse } from '@domains/course/course';
 import { pageMetadata } from '@domains/site/page-metadata';
-import { PAGE_ROUTES } from '@domains/site/routes';
+import { cardPath, PAGE_ROUTES } from '@domains/site/routes';
 import { APP_STORE_URL, appCardLink } from '@domains/site/site';
 import { Link } from '@i18n/navigation';
 import { setPageLocale } from '@i18n/page-locale';
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
   const translate = await getTranslations({ locale, namespace: 'metadata' });
   const title = translate('cardTitle', { card: card.reward.title });
   const description = translate('cardDescription', { summary: card.reward.summary });
-  const path = `/card/${card.id}`;
+  const path = cardPath(card.id);
 
   return pageMetadata({
     locale,
