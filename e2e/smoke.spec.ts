@@ -11,6 +11,7 @@ import {
   SITE_HOST,
   SITE_URL,
 } from '@domains/site/site';
+import { routing } from '@i18n/routing';
 
 import { expect, test } from './fixtures';
 import {
@@ -20,6 +21,7 @@ import {
   linkTargets,
   openPath,
   requestOnHost,
+  requestWithoutRedirect,
 } from './helpers';
 
 const firstCard = course.cards[0];
@@ -29,6 +31,8 @@ if (!firstCard) {
 }
 const CARD_PATH = `/card/${firstCard.id}`;
 const UNKNOWN_PATH = '/no-such-path';
+/** No redirect or page matches it, because the language rules match lower case only. */
+const CAPITALISED_LOCALE_PATH = `/${routing.defaultLocale.toUpperCase()}${PAGE_ROUTES.terms}`;
 const APPLE_LINK_FILE_PATH = '/.well-known/apple-app-site-association';
 
 test('home page shows the lesson demo phone', async ({ page }) => {
@@ -93,10 +97,43 @@ test('a Coffee Card page shows its card', async ({ page }) => {
   await expectVisitCounter(page);
 });
 
-test('an unknown URL shows the not-found page', async ({ page }) => {
-  await openPath(page, UNKNOWN_PATH, 404);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.notfound.title);
-  await expectSiteLinks(page);
+for (const path of [UNKNOWN_PATH, CAPITALISED_LOCALE_PATH]) {
+  test(`${path} shows the not-found page, not a server error`, async ({ page }) => {
+    await openPath(page, path, 404);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.notfound.title);
+    await expectSiteLinks(page);
+  });
+}
+
+test('an address with the default language prefix redirects to the same address without it', async ({
+  request,
+}) => {
+  const prefix = `/${routing.defaultLocale}`;
+  const destinations = {
+    [prefix]: PAGE_ROUTES.home,
+    [`${prefix}${PAGE_ROUTES.terms}`]: PAGE_ROUTES.terms,
+    [`${prefix}${CARD_PATH}`]: CARD_PATH,
+  };
+
+  for (const [path, destination] of Object.entries(destinations)) {
+    const response = await requestWithoutRedirect(request, path);
+
+    expect(response.status(), path).toBe(307);
+    expect(response.headers().location, path).toBe(destination);
+  }
+});
+
+test('a footer link opens its page without reloading the site', async ({ page }) => {
+  await openPath(page, PAGE_ROUTES.home);
+  let reloads = 0;
+
+  page.on('load', () => {
+    reloads += 1;
+  });
+  await page.getByRole('contentinfo').getByRole('link', { name: site.footer.terms }).click();
+  await expect(page).toHaveURL(PAGE_ROUTES.terms);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.docs.terms.title);
+  expect(reloads).toBe(0);
 });
 
 test('the Apple link file lets the app open only card links, on both domains', async ({
