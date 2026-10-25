@@ -23,9 +23,12 @@ const WIDE_SCREEN = '(min-width: 980px)';
 const PRESSED_MS = 220;
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
+type ClassPerItem<Items extends readonly unknown[]> = { readonly [Item in keyof Items]: string };
+
 /**
- * When each menu item slides in, in menu order: the five section links, then the store
- * button and small links. The first starts after 80ms, each next one 60ms later.
+ * When each menu item slides in, in menu order: each section link, then the store button
+ * and small links. The first starts after 80ms, each next one 60ms later. The type fails
+ * the type check when a section is added without a delay.
  */
 const MENU_ENTER_DELAYS = [
   '[--start-delay:80ms]',
@@ -34,7 +37,7 @@ const MENU_ENTER_DELAYS = [
   '[--start-delay:260ms]',
   '[--start-delay:320ms]',
   '[--start-delay:380ms]',
-] as const;
+] as const satisfies ClassPerItem<[...typeof NAV_SECTIONS, 'store row']>;
 
 const menuSmallLinkClass = 'ff-ui text-sm text-ink-mute hover:text-ink hover:no-underline';
 

@@ -129,6 +129,7 @@
 
   --animate-rise-in: rise-in 0.8s var(--ease-out-soft) both;
   --animate-menu-fade: menu-fade 0.3s ease both;
+  --animate-page-in: page-in 0.3s var(--ease-out-soft) both;
   /* Each menu item sets its own --start-delay, so the links slide in one after another. */
   --animate-menu-link: menu-link 0.5s var(--ease-out-soft) var(--start-delay, 0s) both;
   --animate-dot-pulse: dot-pulse 1.6s ease-in-out infinite;

@@ -16,13 +16,21 @@ const SHORT_NAMES = ['i', '_', 'id', 'cn', 'fs'];
  * assembled while the page runs, such as `w-[${size}px]`, silently gets no CSS, so class
  * names are joined whole, with `cn(...)`.
  */
-const ASSEMBLED_CLASS_NAMES = [
-  "JSXAttribute[name.name='className'] TemplateLiteral[expressions.length>0]",
-  "CallExpression[callee.name='cn'] TemplateLiteral[expressions.length>0]",
-].map((selector) => ({
-  selector,
-  message: 'Join whole class names with cn(...); Tailwind misses a name built with ${…}.',
-}));
+const CLASS_NAME_PLACES = [
+  "JSXAttribute[name.name='className']",
+  "CallExpression[callee.name='cn']",
+];
+/** A `${…}` template, or a `+` with a string on either side. */
+const ASSEMBLED_STRINGS = [
+  'TemplateLiteral[expressions.length>0]',
+  "BinaryExpression[operator='+']:matches([left.type='TemplateLiteral'], [right.type='TemplateLiteral'], [left.raw=/^['\"]/], [right.raw=/^['\"]/])",
+];
+const ASSEMBLED_CLASS_NAMES = CLASS_NAME_PLACES.flatMap((place) =>
+  ASSEMBLED_STRINGS.map((assembled) => ({
+    selector: `${place} ${assembled}`,
+    message: 'Join whole class names with cn(...); Tailwind misses a name built with ${…} or +.',
+  })),
+);
 
 /** Styling is Tailwind classes; `style` is only for a value the browser works out (AGENTS.md). */
 const STYLE_ATTRIBUTE = {
@@ -66,7 +74,7 @@ const eslintConfig = [
       '@typescript-eslint/no-magic-numbers': [
         'warn',
         {
-          // 2 halves or doubles, 100 turns a share into a percentage.
+          // 2 is allowed for halves and doubles, 100 for turning a share into a percentage.
           ignore: [-1, 0, 1, 2, 100],
           ignoreArrayIndexes: true,
           ignoreDefaultValues: true,
@@ -84,7 +92,6 @@ const eslintConfig = [
     plugins: { tailwindcss },
     settings: {
       tailwindcss: {
-        callees: ['cn'],
         cssConfigPath: './src/app/globals.css',
       },
     },

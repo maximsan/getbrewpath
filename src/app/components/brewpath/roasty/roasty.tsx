@@ -2,7 +2,10 @@ import { type ReactElement, useId } from 'react';
 
 import { cn } from '@shared/styles/cn';
 
-/** Each state has its own face and motion; idle, card, module and sleep loop, the rest play once. */
+/**
+ * Each state has its own face and motion. The body's motion loops when idle, on a card and
+ * asleep, and plays once otherwise; in the module state the sprout keeps swaying.
+ */
 export type RoastyState =
   'idle' | 'correct' | 'wrong' | 'lesson' | 'module' | 'points' | 'card' | 'sleep' | 'awake';
 
