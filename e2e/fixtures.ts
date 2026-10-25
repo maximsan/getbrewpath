@@ -19,6 +19,7 @@ export const test = base.extend<{ countsNoVisits: void; blockedByPolicy: void }>
   blockedByPolicy: [
     async ({ page }, use) => {
       const blocked: string[] = [];
+
       await page.exposeFunction('reportBlocked', (address: string) => blocked.push(address));
       await page.addInitScript(() =>
         document.addEventListener('securitypolicyviolation', (event) =>

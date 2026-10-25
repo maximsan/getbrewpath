@@ -7,7 +7,10 @@ import { WEB_ANALYTICS_SCRIPT, WEB_ANALYTICS_TOKEN } from '@domains/site/site';
  * is a production build and does count.
  */
 export function WebAnalytics() {
-  if (process.env.NODE_ENV !== 'production') return null;
+  if (process.env.NODE_ENV !== 'production') {
+    return null;
+  }
+
   return (
     <script
       defer

@@ -14,17 +14,19 @@ import { chromium } from '@playwright/test';
 
 import course from '../src/content/en/course.json' with { type: 'json' };
 import { cardPath, PAGE_ROUTES } from '../src/domains/site/routes';
+import { PREVIEW_PORT, previewPortIsTaken } from './preview-port';
 
-/** Wrangler's default port for `pnpm preview`; the repo sets no other. */
-const PREVIEW_PORT = 8787;
 const PREVIEW_URL = `http://localhost:${PREVIEW_PORT}`;
 /** Odd, so the middle score is one of the runs. */
 const RUNS_PER_PAGE = 5;
 /** A Lighthouse report is several megabytes; Node's default output limit is 1 MB. */
-const REPORT_MAX_BYTES = 64 * 1024 * 1024;
+const REPORT_MAX_BYTES = 64_000_000;
 
 const firstCard = course.cards[0];
-if (!firstCard) throw new Error('The course has no cards; run pnpm sync-cards');
+
+if (!firstCard) {
+  throw new Error('The course has no cards; run pnpm sync-cards');
+}
 const DEFAULT_PATHS = [PAGE_ROUTES.home, PAGE_ROUTES.privacy, cardPath(firstCard.id)];
 
 interface PageSpeed {
@@ -62,9 +64,11 @@ function measure(url: string): PageSpeed {
   );
   const report = JSON.parse(output) as LighthouseReport;
   const { score } = report.categories.performance;
+
   if (score === null) {
     throw new Error(`Lighthouse could not measure ${url}: ${report.runtimeError?.message}`);
   }
+
   return {
     score: Math.round(score * 100),
     largestContentfulPaintMs: Math.round(report.audits['largest-contentful-paint'].numericValue),
@@ -72,18 +76,7 @@ function measure(url: string): PageSpeed {
 }
 
 const median = (values: number[]) =>
-  values.toSorted((a, b) => a - b)[Math.floor(values.length / 2)];
-
-// TODO: import previewPortIsTaken from scripts/preview-port.ts once #49 adds it.
-/** True when something answers on the preview port, or holds the connection open without answering. */
-async function previewPortIsTaken() {
-  try {
-    await fetch(`${PREVIEW_URL}/robots.txt`, { signal: AbortSignal.timeout(2000) });
-    return true;
-  } catch (error) {
-    return error instanceof DOMException && error.name === 'TimeoutError';
-  }
-}
+  values.toSorted((first, second) => first - second)[Math.floor(values.length / 2)];
 
 if (!(await previewPortIsTaken())) {
   console.error(`Nothing answers on ${PREVIEW_URL}. Start pnpm preview first.`);
@@ -91,11 +84,13 @@ if (!(await previewPortIsTaken())) {
 }
 
 const givenPaths = process.argv.slice(2);
+
 for (const path of givenPaths.length > 0 ? givenPaths : DEFAULT_PATHS) {
   const url = new URL(path, PREVIEW_URL).href;
   const runs = Array.from({ length: RUNS_PER_PAGE }, () => measure(url));
   const scores = runs.map((run) => run.score);
   const largestPaint = median(runs.map((run) => run.largestContentfulPaintMs));
+
   console.log(
     `${path}  score ${median(scores)} (${Math.min(...scores)}–${Math.max(...scores)})  ` +
       `LCP ${largestPaint} ms  runs: ${scores.join(', ')}`,

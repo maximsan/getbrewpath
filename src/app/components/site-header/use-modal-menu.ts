@@ -19,9 +19,12 @@ interface ModalMenu {
  */
 export function useModalMenu({ open, setOpen, bar, menuId, menuButton, closesAt }: ModalMenu) {
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      return;
+    }
     const unlockPage = lockPageBehind([bar.current, document.getElementById(menuId)]);
     const stopListening = closeOnEscapeOrWideScreen(setOpen, menuButton, closesAt);
+
     return () => {
       unlockPage();
       stopListening();
@@ -38,8 +41,10 @@ function lockPageBehind(keep: (Element | null)[]) {
     (element): element is HTMLElement =>
       element instanceof HTMLElement && !keep.includes(element) && !element.inert,
   );
+
   document.body.style.overflow = 'hidden';
   pageBehind.forEach((element) => (element.inert = true));
+
   return () => {
     document.body.style.overflow = '';
     pageBehind.forEach((element) => (element.inert = false));
@@ -54,15 +59,21 @@ function closeOnEscapeOrWideScreen(
 ) {
   const wide = window.matchMedia(closesAt);
   const closeWhenWide = () => {
-    if (wide.matches) setOpen(false);
+    if (wide.matches) {
+      setOpen(false);
+    }
   };
   const closeOnEscape = (event: KeyboardEvent) => {
-    if (event.key !== 'Escape') return;
+    if (event.key !== 'Escape') {
+      return;
+    }
     setOpen(false);
     menuButton.current?.focus();
   };
+
   wide.addEventListener('change', closeWhenWide);
   document.addEventListener('keydown', closeOnEscape);
+
   return () => {
     wide.removeEventListener('change', closeWhenWide);
     document.removeEventListener('keydown', closeOnEscape);

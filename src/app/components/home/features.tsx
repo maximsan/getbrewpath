@@ -33,8 +33,8 @@ export async function Features() {
               screen={screen}
               alt={translate(`items.${key}.alt`)}
               sizes="200px"
-              riseOffset="30%"
-              className="w-[min(100%,200px)] shadow-[0_30px_60px_-20px_rgba(27,22,20,.5)]"
+              rises
+              className="w-[min(100%,200px)] shadow-[0_30px_60px_-20px_rgba(27,22,20,.5)] [--rise-offset:30%]"
             />
           </FeatureCard>
         ))}
@@ -56,16 +56,16 @@ function FeatureCard({ delay, icon, title, body, children }: FeatureCardProps) {
     <div
       data-reveal
       data-delay={delay}
-      className="grid min-h-[300px] grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] overflow-hidden rounded-3xl border border-rule bg-surface tablet:min-h-[340px]"
+      className="grid min-h-75 grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] overflow-hidden rounded-3xl border border-rule bg-surface tablet:min-h-85"
     >
-      <div className="flex flex-col justify-center py-6 ps-[22px] pe-1 tablet:py-[30px] tablet:ps-[30px] tablet:pe-2">
+      <div className="flex flex-col justify-center py-6 ps-5.5 pe-1 tablet:py-7.5 tablet:ps-7.5 tablet:pe-2">
         <div className="mb-4 inline-flex text-accent">{icon}</div>
         <h3 className="ff-display m-0 text-[clamp(22px,2.2vw,26px)] leading-[1.1] font-normal tracking-[-0.015em] text-balance">
           {title}
         </h3>
         <p className="ff-ui mt-2.5 mb-0 text-sm leading-[1.6] text-pretty text-ink-mute">{body}</p>
       </div>
-      <div className="relative flex items-end justify-center overflow-hidden bg-linear-to-b from-transparent to-surface-2 px-5 pt-[30px]">
+      <div className="relative flex items-end justify-center overflow-hidden bg-linear-to-b from-transparent to-surface-2 px-5 pt-7.5">
         {children}
       </div>
     </div>

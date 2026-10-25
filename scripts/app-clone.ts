@@ -9,8 +9,11 @@ import { dirname, join } from 'node:path';
 
 export const APP_BRANCH = 'main';
 const APP_CLONE_FOLDER = 'brewpath';
-/** Node stops reading git's output at 1 MiB by default, and the app's content files grow with each lesson. */
-const MAX_GIT_OUTPUT_BYTES = 64 * 1024 * 1024;
+/**
+ * 64 MiB. Node stops reading git's output at 1 MiB by default, and the app's content files
+ * grow with each lesson.
+ */
+const MAX_GIT_OUTPUT_BYTES = 67_108_864;
 
 /** Runs git in `cwd`; a failure throws git's own message, without the full command Node adds to the error. */
 function git(cwd: string, args: string[]) {
@@ -24,6 +27,7 @@ function git(cwd: string, args: string[]) {
   } catch (error) {
     const [command] = args;
     const gitMessage = (error as { stderr?: string }).stderr?.trim();
+
     throw new Error(`git ${command} failed in ${cwd}: ${gitMessage || String(error)}`);
   }
 }
@@ -36,7 +40,11 @@ function git(cwd: string, args: string[]) {
 export function appClonePath(cwd: string) {
   const worktrees = git(cwd, ['worktree', 'list', '--porcelain']);
   const repoFolder = /^worktree (?<path>.+)$/m.exec(worktrees)?.groups?.path;
-  if (!repoFolder) throw new Error(`git listed no folder for this repo in ${cwd}`);
+
+  if (!repoFolder) {
+    throw new Error(`git listed no folder for this repo in ${cwd}`);
+  }
+
   return join(dirname(repoFolder), APP_CLONE_FOLDER);
 }
 

@@ -9,7 +9,7 @@ import { RoastyButton } from '@components/roasty-button/roasty-button';
 const AWAKE_MS = 2600;
 
 /** A sleeping Roasty who wakes up for a moment when tapped. */
-export function SleepingRoasty({ size }: { size: number }) {
+export function SleepingRoasty() {
   const translate = useTranslations('notfound');
   const [awake, setAwake] = useState(false);
   /** Bumped on every tap, so a tap while he is awake plays the wake-up again. */
@@ -37,7 +37,7 @@ export function SleepingRoasty({ size }: { size: number }) {
       className="min-h-60"
       state={awake ? 'awake' : 'sleep'}
       replayKey={wakeCount}
-      size={size}
+      size="medium"
     />
   );
 }

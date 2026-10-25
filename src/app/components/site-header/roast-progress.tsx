@@ -47,7 +47,7 @@ export function RoastProgress() {
       ref={bar}
       aria-hidden
       // A clip, not a scale, uncovers the bar: each colour stays at its place across the screen.
-      className="pointer-events-none absolute inset-x-0 -bottom-px z-[1] h-[3px] bg-[linear-gradient(90deg,var(--art-raw)_0%,var(--art-roast-light)_25%,var(--art-roast-mid)_50%,var(--art-roast-deep)_75%,var(--art-roast-dark)_100%)] [clip-path:inset(0_100%_0_0)]"
+      className="pointer-events-none absolute inset-x-0 -bottom-px z-1 h-0.75 bg-[linear-gradient(90deg,var(--art-raw)_0%,var(--art-roast-light)_25%,var(--art-roast-mid)_50%,var(--art-roast-deep)_75%,var(--art-roast-dark)_100%)] [clip-path:inset(0_100%_0_0)]"
     />
   );
 }

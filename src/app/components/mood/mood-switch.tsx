@@ -32,11 +32,11 @@ export function MoodSwitch() {
       onClick={() => setTheme(next)}
       aria-label={translate('moodDark')}
       title={translate('moodSwitch')}
-      className="relative grid h-9 flex-none appearance-none grid-cols-2 items-stretch rounded-full border border-rule bg-surface p-[3px] text-ink-mute"
+      className="relative grid h-9 flex-none appearance-none grid-cols-2 items-stretch rounded-full border border-rule bg-surface p-0.75 text-ink-mute"
     >
       <span
         aria-hidden
-        className="absolute inset-y-[3px] start-[3px] w-[calc(50%-3px)] rounded-full bg-ink transition-transform duration-300 ease-soft dark-roast:translate-x-full"
+        className="absolute inset-y-0.75 inset-s-0.75 w-[calc(50%-3px)] rounded-full bg-ink transition-transform duration-300 ease-soft dark-roast:translate-x-full"
       />
       <span className={cn(label, 'text-bg dark-roast:text-ink-mute')}>
         {translate('moodLight')}

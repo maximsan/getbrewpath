@@ -1,30 +1,33 @@
 /**
- * Stops the smoke tests while something is serving on `pnpm preview`'s
- * default port. The smoke tests rebuild `.open-next`, the folder a running
- * preview serves from, and that rebuild crashes the preview.
+ * Stops the smoke tests while a `pnpm preview` serves this folder's build,
+ * because the smoke tests' rebuild would crash it.
  *
  * `pnpm test:smoke` runs it first, so the pre-push hook stops the push too.
  */
+import { realpathSync } from 'node:fs';
 import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 
-/** Wrangler's default port for `pnpm preview`; the repo sets no other. */
-const PREVIEW_PORT = 8787;
+import {
+  PREVIEW_PORT,
+  previewFolders,
+  previewPortIsTaken,
+  smokeTestsMustStop,
+} from './preview-port';
 
-/** True when something answers on the preview port, or holds the connection open without answering. */
-async function previewPortIsTaken() {
-  try {
-    await fetch(`http://localhost:${PREVIEW_PORT}/robots.txt`, {
-      signal: AbortSignal.timeout(2000),
-    });
-    return true;
-  } catch (error) {
-    return error instanceof DOMException && error.name === 'TimeoutError';
-  }
-}
+const THIS_FOLDER = realpathSync(fileURLToPath(new URL('..', import.meta.url)));
 
+// Asking the port first keeps the tests going where `lsof` is missing and nothing serves.
 if (await previewPortIsTaken()) {
-  console.error(
-    `Something is serving on port ${PREVIEW_PORT}, probably pnpm preview. Stop it, then run the smoke tests again.`,
+  const folders = previewFolders();
+
+  if (smokeTestsMustStop(folders, THIS_FOLDER)) {
+    console.error(
+      `A server, probably pnpm preview, is serving on port ${PREVIEW_PORT} from ${folders.join(', ') || 'an unknown folder'}. The smoke tests' rebuild would crash it. Stop it, then run the smoke tests again.`,
+    );
+    process.exit(1);
+  }
+  console.log(
+    `A preview from ${folders.join(', ')} is serving on port ${PREVIEW_PORT}. The smoke tests rebuild only this folder, so that preview keeps running.`,
   );
-  process.exit(1);
 }

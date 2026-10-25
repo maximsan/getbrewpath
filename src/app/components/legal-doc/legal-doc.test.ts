@@ -22,6 +22,7 @@ async function fileText(doc: LegalDocId) {
   const { text } = await extractText(await getDocumentProxy(new Uint8Array(bytes)), {
     mergePages: true,
   });
+
   return text;
 }
 
@@ -34,6 +35,7 @@ async function fileWords(doc: LegalDocId) {
     (edited, { inFile, onPage }) => edited.replaceAll(inFile, onPage),
     await fileText(doc),
   );
+
   return text
     .split('\n')
     .map((line) => line.trim())
@@ -49,17 +51,20 @@ async function fileWords(doc: LegalDocId) {
  * The file numbers its sections "1." where the page shows "01", and marks list items with a bullet.
  */
 function pageWords(doc: LegalDocId, titleInFile: string) {
-  const t = createTranslator({ locale: 'en', messages: site, namespace: `docs.${doc}` });
+  const translate = createTranslator({ locale: 'en', messages: site, namespace: `docs.${doc}` });
   const format = createFormatter({ locale: 'en' });
   const text = (key: string) =>
     // The key is built at run time, so TypeScript cannot check it.
-    t(key as Parameters<typeof t>[0], { email: LEGAL_DOCS[doc].email, phone: PHONE });
+    translate(key as Parameters<typeof translate>[0], {
+      email: LEGAL_DOCS[doc].email,
+      phone: PHONE,
+    });
   const { introKeys, sections } = legalDocOutline(site.docs[doc]);
   const date = format.dateTime(new Date(LEGAL_DOCS[doc].date), LEGAL_DOC_DATE_FORMAT);
 
   return [
-    titleInFile.replace('{title}', t('title')),
-    t('dated', { date }),
+    titleInFile.replace('{title}', translate('title')),
+    translate('dated', { date }),
     ...introKeys.map(text),
     ...sections.flatMap((section, index) => [
       `${index + 1}. ${text(section.headingKey)}`,
@@ -83,6 +88,9 @@ describe.each([
 
   it('lists only pending file edits the file still needs', async () => {
     const text = await fileText(doc);
-    for (const { inFile } of LEGAL_DOCS[doc].pendingFileEdits) expect(text).toContain(inFile);
+
+    for (const { inFile } of LEGAL_DOCS[doc].pendingFileEdits) {
+      expect(text).toContain(inFile);
+    }
   });
 });

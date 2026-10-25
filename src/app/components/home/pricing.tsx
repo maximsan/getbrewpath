@@ -22,11 +22,11 @@ export async function Pricing({ course }: { course: Course }) {
   return (
     <Section id="pricing">
       <SectionHeading>{translate('title')}</SectionHeading>
-      <div className="mx-auto mt-12 grid max-w-[900px] grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-5">
+      <div className="mx-auto mt-12 grid max-w-225 grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-5">
         <div
           data-reveal
           data-delay="1"
-          className="flex flex-col gap-[22px] rounded-3xl border border-rule bg-surface p-8"
+          className="flex flex-col gap-5.5 rounded-3xl border border-rule bg-surface p-8"
         >
           <PlanHeading name={translate('free')} note={translate('freeNote')} />
           <Checklist items={freeItems} tone="sage" />
@@ -38,9 +38,9 @@ export async function Pricing({ course }: { course: Course }) {
           data-reveal
           data-delay="2"
           data-mood="dark-roast"
-          className="relative flex flex-col gap-[22px] overflow-hidden rounded-3xl border border-rule bg-surface p-8"
+          className="relative flex flex-col gap-5.5 overflow-hidden rounded-3xl border border-rule bg-surface p-8"
         >
-          <div className="pointer-events-none absolute -right-[20%] -bottom-1/2 aspect-square w-[70%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_24%,transparent),transparent)]" />
+          <div className="pointer-events-none absolute right-[-20%] -bottom-1/2 aspect-square w-[70%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_24%,transparent),transparent)]" />
           <PlanHeading name={translate('foundations')} note={translate('foundationsNote')} />
           <Checklist items={foundationsItems} tone="accent" />
           <LinkButton
@@ -79,7 +79,7 @@ function Checklist({ items, tone }: { items: string[]; tone: 'sage' | 'accent' }
         <li key={item} className="ff-ui flex gap-3 text-[15px] leading-[1.45] text-ink">
           <span
             className={cn(
-              'mt-[3px] inline-flex flex-none',
+              'mt-0.75 inline-flex flex-none',
               tone === 'sage' ? 'text-sage' : 'text-accent',
             )}
           >

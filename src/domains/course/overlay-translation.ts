@@ -24,41 +24,60 @@ export function overlayTranslation(
   where: string,
 ): JsonRecord[] {
   const byId = new Map<unknown, JsonRecord>();
+
   for (const record of translated) {
-    if (byId.has(record.id)) throw new Error(`${where} translates "${String(record.id)}" twice`);
+    if (byId.has(record.id)) {
+      throw new Error(`${where} translates "${String(record.id)}" twice`);
+    }
     byId.set(record.id, record);
   }
   const merged = master.map((record) => {
     const translation = byId.get(record.id);
+
     byId.delete(record.id);
+
     return translation
       ? mergeRecord(record, translation, `${where} "${String(record.id)}"`)
       : record;
   });
+
   if (byId.size > 0) {
     const [orphan] = byId.keys();
+
     throw new Error(`${where} translates "${String(orphan)}", which English no longer has`);
   }
+
   return merged;
 }
 
 function mergeRecord(master: JsonRecord, translation: JsonRecord, where: string): JsonRecord {
   const merged: JsonRecord = { ...master };
+
   for (const [field, value] of Object.entries(translation)) {
-    if (BOOKKEEPING_FIELDS.has(field)) continue;
-    if (!(field in master)) throw new Error(`${where} translates "${field}", which English lacks`);
+    if (BOOKKEEPING_FIELDS.has(field)) {
+      continue;
+    }
+    if (!(field in master)) {
+      throw new Error(`${where} translates "${field}", which English lacks`);
+    }
     merged[field] = mergeValue(master[field], value, `${where} field "${field}"`);
   }
+
   return merged;
 }
 
 function mergeValue(master: unknown, translation: unknown, where: string): unknown {
-  if (translation === null || translation === undefined) return master;
-  if (isRecord(master) && isRecord(translation)) return mergeRecord(master, translation, where);
+  if (translation === null || translation === undefined) {
+    return master;
+  }
+  if (isRecord(master) && isRecord(translation)) {
+    return mergeRecord(master, translation, where);
+  }
   if (Array.isArray(master) && Array.isArray(translation)) {
     if (master.length !== translation.length) {
       throw new Error(`${where} lists ${translation.length} where English lists ${master.length}`);
     }
+
     return master.map((item, index) =>
       mergeValue(item, translation[index], `${where} item ${index + 1}`),
     );
@@ -66,5 +85,6 @@ function mergeValue(master: unknown, translation: unknown, where: string): unkno
   if (isNested(master) || isNested(translation)) {
     throw new Error(`${where} has a different shape from English`);
   }
+
   return translation;
 }

@@ -17,9 +17,8 @@ const MOMENTS = [
   'module',
   'sleep',
 ] as const satisfies readonly RoastyState[];
-type Moment = (typeof MOMENTS)[number];
 
-const ROASTY_SIZE = 200;
+type Moment = (typeof MOMENTS)[number];
 
 export function RoastyShowcase() {
   const translate = useTranslations('roasty');
@@ -48,27 +47,27 @@ export function RoastyShowcase() {
     <div className={twoColumnClass}>
       <div
         data-reveal
-        className="relative order-2 flex min-h-[420px] flex-col items-center justify-center overflow-hidden rounded-[28px] border border-rule bg-surface px-6 py-10"
+        className="relative order-2 flex min-h-105 flex-col items-center justify-center overflow-hidden rounded-[28px] border border-rule bg-surface px-6 py-10"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_70%,color-mix(in_oklab,var(--accent)_10%,transparent),transparent_60%)]" />
         <RoastyButton
           label={translate('playMoment')}
           onClick={playRandomMoment}
-          className="relative min-h-[290px]"
+          className="relative min-h-72.5"
           state={moment}
           replayKey={replayCount}
-          size={ROASTY_SIZE}
+          size="large"
         />
         <p
           aria-live="polite"
-          className="ff-display relative mt-2 mb-0 min-h-[26px] text-center text-[19px] text-ink-mute italic"
+          className="ff-display relative mt-2 mb-0 min-h-6.5 text-center text-[19px] text-ink-mute italic"
         >
           {translate(`lines.${moment}`)}
         </p>
       </div>
       <div data-reveal className="order-1">
         <h2 className={sectionTitleClass}>{translate('title')}</h2>
-        <p className="ff-ui mt-[18px] mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute">
+        <p className="ff-ui mt-4.5 mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute">
           {translate('body')}
         </p>
         <div

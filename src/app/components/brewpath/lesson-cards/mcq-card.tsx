@@ -31,19 +31,22 @@ export interface MCQCardProps {
   onCorrect?: () => void;
 }
 
-/** Fisher–Yates over 0..n-1. */
-function shuffledIndices(n: number): number[] {
-  const order = Array.from({ length: n }, (_, i) => i);
+/** The indices 0 to `count` - 1 in a random order (a Fisher–Yates shuffle). */
+function shuffledIndices(count: number): number[] {
+  const order = Array.from({ length: count }, (_, i) => i);
+
   for (let i = order.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [order[i], order[j]] = [order[j]!, order[i]!];
+    const swapIndex = Math.floor(Math.random() * (i + 1));
+
+    [order[i], order[swapIndex]] = [order[swapIndex]!, order[i]!];
   }
+
   return order;
 }
 
 /** A multiple-choice card: cue, question, shuffled answers, feedback after one pick, and Continue. */
 export function MCQCard({ card, onContinue, onCorrect }: MCQCardProps) {
-  const t = useTranslations('lesson');
+  const translate = useTranslations('lesson');
   const [picked, setPicked] = useState<number | null>(null);
   const [shuffled] = useState(() => shuffledIndices(card.choices.length));
   const hydrated = useHydrated();
@@ -52,9 +55,13 @@ export function MCQCard({ card, onContinue, onCorrect }: MCQCardProps) {
   const correctIndex = card.choices.findIndex((choice) => choice.correct);
 
   const pick = (index: number) => {
-    if (picked !== null) return;
+    if (picked !== null) {
+      return;
+    }
     setPicked(index);
-    if (index === correctIndex) onCorrect?.();
+    if (index === correctIndex) {
+      onCorrect?.();
+    }
   };
 
   const choices: Choice[] = order.map((index) => ({
@@ -67,7 +74,7 @@ export function MCQCard({ card, onContinue, onCorrect }: MCQCardProps) {
 
   return (
     <ChoiceCard
-      cue={t('cueMcq')}
+      cue={translate('cueMcq')}
       title={card.prompt}
       titleLeading="leading-[1.1]"
       choices={choices}

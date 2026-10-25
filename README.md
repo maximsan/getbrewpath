@@ -19,8 +19,11 @@ pnpm build
 pnpm preview        # build for Cloudflare and serve it locally, http://localhost:8787
 pnpm run deploy     # build for Cloudflare and put it live; CI runs it on every push to main
                     # `pnpm deploy` without `run` is a different, built-in pnpm command
-pnpm test:smoke     # build the site, open its main pages in Chromium and check them; runs before a push that changes more than Markdown, docs/, .github/ or prototype/
-                    # stops while pnpm preview is running, because the rebuild crashes it
+pnpm test:smoke     # build the site, open its main pages in Chromium and check them
+                    # refuses to start while pnpm preview runs from this folder: the rebuild would crash that preview
+                    # a preview running from another folder, such as another git worktree, is left alone
+                    # before a push that changes more than Markdown, docs/, .github/ or prototype/,
+                    # the pre-push hook runs pnpm lint, pnpm type-check and pnpm test:smoke
 pnpm lighthouse     # page speed score (0–100) per page, the middle of several runs; needs pnpm preview running
                     # compare middle scores: one run's score can vary by ten points or more
 pnpm sync-cards     # refresh src/content/<language>/course.json from the app's main branch on GitHub
