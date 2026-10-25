@@ -4,7 +4,8 @@ import { cn } from '@shared/styles/cn';
 
 /**
  * Each state has its own face and motion. The body's motion loops when idle, on a card and
- * asleep, and plays once otherwise; in the module state the sprout keeps swaying.
+ * asleep, and plays once otherwise. When he celebrates a finished module, the sprout on his
+ * head keeps swaying.
  */
 export type RoastyState =
   'idle' | 'correct' | 'wrong' | 'lesson' | 'module' | 'points' | 'card' | 'sleep' | 'awake';
@@ -12,21 +13,21 @@ export type RoastyState =
 export type RoastyRoast = 'light' | 'medium' | 'dark' | 'espresso';
 
 /** His width in each place he appears. */
-const ROASTY_WIDTH = {
+const ROASTY_WIDTH_CLASSES = {
   /** Beside a lesson card's verdict: 72px. */
   small: 'w-18',
   /** On the not-found page: 170px. */
-  medium: 'w-[170px]',
+  medium: 'w-42.5',
   /** On the home page: 200px. */
   large: 'w-50',
 } as const;
 
-export type RoastySize = keyof typeof ROASTY_WIDTH;
+export type RoastySize = keyof typeof ROASTY_WIDTH_CLASSES;
 
 export interface RoastyProps {
   /** Defaults to "idle". */
   state?: RoastyState;
-  /** How wide he is drawn: see ROASTY_WIDTH. The drawing is 1.4 times as tall. */
+  /** How wide he is drawn: see ROASTY_WIDTH_CLASSES. The drawing is 1.4 times as tall. */
   size: RoastySize;
   /** Changing this value replays the state's animation. */
   replayKey?: number | string;
@@ -54,7 +55,7 @@ const VIEW_HEIGHT = 280;
 const PLATE_PAPER = '#FBF7EE';
 
 /** His body's motion in each state. */
-const BODY_MOTION: Record<RoastyState, string> = {
+const BODY_MOTION_CLASSES: Record<RoastyState, string> = {
   idle: 'animate-roasty-breathe',
   correct: 'animate-roasty-hop',
   wrong: 'animate-roasty-shake',
@@ -70,7 +71,7 @@ const BODY_MOTION: Record<RoastyState, string> = {
  * The sprout sways while he is awake and cheerful, stays still while he frowns, and is gone
  * while he sleeps. Scale and opacity both go to 0: at a small scale a stub of stem stays visible.
  */
-const SPROUT_MOTION: Record<RoastyState, string> = {
+const SPROUT_MOTION_CLASSES: Record<RoastyState, string> = {
   idle: 'animate-roasty-leaf-sway',
   correct: 'animate-roasty-leaf-sway',
   wrong: '',
@@ -83,13 +84,13 @@ const SPROUT_MOTION: Record<RoastyState, string> = {
 };
 
 /** Scales and spins an SVG part around its own centre, as an HTML element would. */
-const AROUND_OWN_CENTRE = 'transform-fill origin-center';
+const AROUND_OWN_CENTRE_CLASS = 'transform-fill origin-center';
 /**
  * The point his body and the module rays move around, as the app's design system sets it.
  * The class `transform-fill` measures this point from the top-left corner of each SVG
  * group's bounding box.
  */
-const BODY_PIVOT = 'transform-fill origin-[100px_158px]';
+const BODY_PIVOT_CLASS = 'transform-fill origin-[100px_158px]';
 
 /** Radial gradient stops (highlight, mid, edge) for each roast. */
 const ROAST_STOPS: Record<RoastyRoast, readonly [string, string, string]> = {
@@ -279,7 +280,7 @@ function Face({ state }: { state: RoastyState }) {
 
 function Sprig({ leafFill, state }: { leafFill: string; state: RoastyState }) {
   return (
-    <g className={cn('origin-bottom transform-fill', SPROUT_MOTION[state])}>
+    <g className={cn('origin-bottom transform-fill', SPROUT_MOTION_CLASSES[state])}>
       <path
         d="M100 88 Q100 80 100 72"
         stroke={STEM}
@@ -476,13 +477,13 @@ const FLAVOUR_NOTES: readonly FlavourNote[] = [
 function BeanBurst() {
   return (
     <g>
-      <g className={cn(AROUND_OWN_CENTRE, 'animate-roasty-heat-glow')}>
+      <g className={cn(AROUND_OWN_CENTRE_CLASS, 'animate-roasty-heat-glow')}>
         <circle cx={BEAN_CENTRE.x} cy={BEAN_CENTRE.y} r="74" fill="#E0A866" opacity="0.18" />
         <circle cx={BEAN_CENTRE.x} cy={BEAN_CENTRE.y} r="58" fill="#E8B87A" opacity="0.22" />
       </g>
       <g transform={`translate(${CRACK_ORIGIN.x} ${CRACK_ORIGIN.y})`}>
         <circle
-          className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crack-ring')}
+          className={cn(AROUND_OWN_CENTRE_CLASS, 'animate-roasty-crack-ring')}
           r="12"
           fill="none"
           stroke={CREAM}
@@ -509,7 +510,7 @@ function BeanBurst() {
         >
           <g className="animate-roasty-fly-x">
             <g className="animate-roasty-fly-y">
-              <g className={cn(AROUND_OWN_CENTRE, 'animate-roasty-note-flutter')}>
+              <g className={cn(AROUND_OWN_CENTRE_CLASS, 'animate-roasty-note-flutter')}>
                 {NOTE_ART[note.kind]}
               </g>
             </g>
@@ -590,7 +591,7 @@ function Crema() {
           className={bubble.timing}
           transform={`translate(${bubble.x} ${bubble.y})`}
         >
-          <g className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crema-swell')}>
+          <g className={cn(AROUND_OWN_CENTRE_CLASS, 'animate-roasty-crema-swell')}>
             <circle r={bubble.r} fill="#E3B070" opacity="0.85" />
             <circle
               cx={-bubble.highlightOffset}
@@ -601,7 +602,7 @@ function Crema() {
             />
           </g>
           <circle
-            className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crema-pop')}
+            className={cn(AROUND_OWN_CENTRE_CLASS, 'animate-roasty-crema-pop')}
             r={bubble.r}
             fill="none"
             stroke={CREMA_EDGE}
@@ -610,7 +611,7 @@ function Crema() {
           {DROP_DIRECTIONS.map((direction) => (
             <circle
               key={direction.name}
-              className={cn(AROUND_OWN_CENTRE, 'animate-roasty-crema-drop', direction.signs)}
+              className={cn(AROUND_OWN_CENTRE_CLASS, 'animate-roasty-crema-drop', direction.signs)}
               r="1"
               fill={CREMA_EDGE}
             />
@@ -654,7 +655,7 @@ export function Roasty({
     // A new key remounts the drawing, which restarts its one-shot CSS animations.
     <span
       key={`${state}:${replayKey}`}
-      className={cn('inline-block leading-0', ROASTY_WIDTH[size])}
+      className={cn('inline-block leading-0', ROASTY_WIDTH_CLASSES[size])}
     >
       {/* With its width set and its height left to the browser, the SVG takes the viewBox's shape. */}
       <svg
@@ -688,7 +689,7 @@ export function Roasty({
         )}
 
         {state === 'module' && (
-          <g className={cn(BODY_PIVOT, 'animate-roasty-ray-radiate')} opacity="0.3">
+          <g className={cn(BODY_PIVOT_CLASS, 'animate-roasty-ray-radiate')} opacity="0.3">
             <g fill="none" stroke="var(--warn)" strokeWidth="1.2" strokeLinecap="round">
               {MODULE_RAYS.map(([startX, startY, endX, endY]) => (
                 <line key={`${startX},${startY}`} x1={startX} y1={startY} x2={endX} y2={endY} />
@@ -699,7 +700,7 @@ export function Roasty({
 
         {state === 'lesson' && <BeanBurst />}
 
-        <g className={cn(BODY_PIVOT, BODY_MOTION[state])}>
+        <g className={cn(BODY_PIVOT_CLASS, BODY_MOTION_CLASSES[state])}>
           <ellipse cx="100" cy="232" rx="56" ry="6" fill={CREASE} opacity="0.18" />
 
           {/* Bare-headed, the sprout sits behind the bean and moves with every hop. */}

@@ -13,7 +13,7 @@ export const sectionTitleClass =
   'ff-display m-0 text-[clamp(28px,3.6vw,44px)] leading-[1.05] font-normal tracking-[-0.02em] text-balance';
 
 export const pageTitleClass =
-  'ff-display m-0 text-[clamp(36px,5vw,60px)] leading-[1.02] font-normal tracking-[-0.025em] text-balance';
+  'ff-display m-0 text-[clamp(36px,5vw,60px)] leading-[1.02] font-normal tracking-tight text-balance';
 
 /** A centred section heading that fades in. */
 export function SectionHeading({ children }: { children: ReactNode }) {

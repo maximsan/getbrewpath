@@ -37,4 +37,7 @@ Single-context: one `GLOSSARY.md` and `docs/adr/` at the repo root. See `docs/ag
   - each animation, named once as an `--animate-*` token;
   - each fixed size, as a token such as `--aspect-phone`, used as the class `aspect-phone`.
 - A fixed value for one element is a class written out in full, such as `[--start-delay:600ms]`. Tailwind generates CSS only for class names written out in full, so join classes with `cn(...)`, never with `${…}` or `+`.
-- `style` is allowed only in the files `eslint.config.mjs` lists. Each passes a value the browser works out while the page runs, such as a measured scale, or draws a share image, whose renderer reads only `style`.
+- A constant that holds classes has a name ending in `Class`, `Classes`, `_CLASS` or `_CLASSES`, such as `paragraphClass`. Lint checks the classes only in `className`, in `cn(...)` and in such constants.
+- `style` is allowed only in the files `eslint.config.mjs` lists:
+  - files that pass a value the browser works out while the page runs, such as a measured scale;
+  - the share images, whose renderer reads only `style`.

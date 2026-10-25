@@ -3,6 +3,8 @@ import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTypescript from 'eslint-config-next/typescript';
 import prettier from 'eslint-config-prettier';
 import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
+import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults';
+import { MatcherType, SelectorKind } from 'eslint-plugin-better-tailwindcss/types';
 import unusedImports from 'eslint-plugin-unused-imports';
 
 /**
@@ -12,25 +14,19 @@ import unusedImports from 'eslint-plugin-unused-imports';
 const SHORT_NAMES = ['i', '_', 'id', 'cn', 'fs'];
 
 /**
- * Tailwind generates CSS only for class names it finds written out in the source. A name
- * assembled while the page runs, such as `w-[${size}px]`, silently gets no CSS, so class
- * names are joined whole, with `cn(...)`.
+ * Where the Tailwind checks look for classes, besides `className` and `cn(...)`: a constant whose
+ * name ends in `Class`, `Classes`, `_CLASS` or `_CLASSES`, in its strings, object values and the
+ * strings a function assigned to it returns.
  */
-const CLASS_NAME_PLACES = [
-  "JSXAttribute[name.name='className']",
-  "CallExpression[callee.name='cn']",
-];
-/** A `${…}` template, or a `+` with a string on either side. */
-const ASSEMBLED_STRINGS = [
-  'TemplateLiteral[expressions.length>0]',
-  "BinaryExpression[operator='+']:matches([left.type='TemplateLiteral'], [right.type='TemplateLiteral'], [left.raw=/^['\"]/], [right.raw=/^['\"]/])",
-];
-const ASSEMBLED_CLASS_NAMES = CLASS_NAME_PLACES.flatMap((place) =>
-  ASSEMBLED_STRINGS.map((assembled) => ({
-    selector: `${place} ${assembled}`,
-    message: 'Join whole class names with cn(...); Tailwind misses a name built with ${…} or +.',
-  })),
-);
+const CLASS_CONSTANTS = {
+  kind: SelectorKind.Variable,
+  name: '^(?:[a-z][A-Za-z]*Class(?:es)?|[A-Z][A-Z_]*_CLASS(?:ES)?)$',
+  match: [
+    { type: MatcherType.String },
+    { type: MatcherType.ObjectValue },
+    { type: MatcherType.AnonymousFunctionReturn, match: [{ type: MatcherType.String }] },
+  ],
+};
 
 /** Styling is Tailwind classes; `style` is only for a value the browser works out (AGENTS.md). */
 const STYLE_ATTRIBUTE = {
@@ -96,10 +92,14 @@ const eslintConfig = [
         // Classes defined in globals.css, such as `ff-ui`, count as known.
         detectComponentClasses: true,
         rootFontSize: 16,
+        selectors: [...getDefaultSelectors(), CLASS_CONSTANTS],
       },
     },
     rules: {
-      'no-restricted-syntax': ['error', ...ASSEMBLED_CLASS_NAMES, STYLE_ATTRIBUTE],
+      'no-restricted-syntax': ['error', STYLE_ATTRIBUTE],
+      // Tailwind generates CSS only for class names it finds written out in full. A name built
+      // with `${…}` or `+`, such as `w-[${size}px]`, gets no CSS and no warning.
+      'better-tailwindcss/no-concatenated-classes': 'error',
       'better-tailwindcss/no-conflicting-classes': 'error',
       'better-tailwindcss/no-unknown-classes': 'error',
       'better-tailwindcss/enforce-shorthand-classes': 'error',
@@ -123,7 +123,7 @@ const eslintConfig = [
   },
   {
     files: STYLE_FILES,
-    rules: { 'no-restricted-syntax': ['error', ...ASSEMBLED_CLASS_NAMES] },
+    rules: { 'no-restricted-syntax': 'off' },
   },
   { ignores: ['.next/**', 'node_modules/**', 'prototype/**', 'next-env.d.ts'] },
   prettier,

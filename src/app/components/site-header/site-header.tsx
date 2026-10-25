@@ -30,7 +30,7 @@ type ClassPerItem<Items extends readonly unknown[]> = { readonly [Item in keyof 
  * and small links. The first starts after 80ms, each next one 60ms later. The type fails
  * the type check when a section is added without a delay.
  */
-const MENU_ENTER_DELAYS = [
+const MENU_ENTER_DELAY_CLASSES = [
   '[--start-delay:80ms]',
   '[--start-delay:140ms]',
   '[--start-delay:200ms]',
@@ -212,7 +212,10 @@ export function SiteHeader() {
             <div className="flex-1" />
             {NAV_SECTIONS.map((section, index) => (
               // The wrapper slides in; the link inside moves on its own when pressed.
-              <div key={section.id} className={cn('animate-menu-link', MENU_ENTER_DELAYS[index])}>
+              <div
+                key={section.id}
+                className={cn('animate-menu-link', MENU_ENTER_DELAY_CLASSES[index])}
+              >
                 <Link
                   href={sectionHref(section.id)}
                   onClick={(event) => openSection(event, section.id)}
@@ -230,7 +233,7 @@ export function SiteHeader() {
             <div
               className={cn(
                 'mt-10 flex animate-menu-link flex-col gap-5.5',
-                MENU_ENTER_DELAYS[NAV_SECTIONS.length],
+                MENU_ENTER_DELAY_CLASSES[NAV_SECTIONS.length],
               )}
             >
               <LinkButton

@@ -22,6 +22,8 @@
   --spacing-demo-screen-height: 600px;
   --spacing-demo-app: 393px;
   --spacing-demo-app-height: 797px;
+  /* A lesson card's least height inside the app, in the app's points. */
+  --spacing-lesson-card-height: 600px;
 }
 
 /*

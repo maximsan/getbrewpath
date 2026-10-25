@@ -17,7 +17,7 @@ export interface Choice {
 }
 
 /** How a choice looks once the learner has picked: the right answer green, a wrong pick red and shaking. */
-const VERDICT_STYLE: Record<NonNullable<Choice['verdict']>, string> = {
+const VERDICT_CLASSES: Record<NonNullable<Choice['verdict']>, string> = {
   correct: 'border-sage bg-[color-mix(in_oklab,var(--sage)_12%,var(--surface))]',
   incorrect:
     'border-berry bg-[color-mix(in_oklab,var(--berry)_8%,var(--surface))] animate-answer-shake',
@@ -62,7 +62,7 @@ export function ChoiceCard({
   const answered = pickedCorrect !== null;
 
   return (
-    <div className="flex min-h-demo-screen-height flex-[1_0_auto] flex-col px-6">
+    <div className="flex min-h-lesson-card-height flex-[1_0_auto] flex-col px-6">
       <div className="smallcaps mb-3 flex items-center gap-2 leading-none text-accent">
         <span className="text-support leading-none">{cue}</span>
       </div>
@@ -82,7 +82,7 @@ export function ChoiceCard({
             type="button"
             className={cn(
               'ff-ui block w-full cursor-pointer rounded-card border border-rule bg-surface px-5 py-4.5 text-left text-body font-medium text-ink transition-all duration-150 ease-[ease] not-aria-disabled:active:scale-[.985] aria-disabled:cursor-default',
-              choice.verdict && VERDICT_STYLE[choice.verdict],
+              choice.verdict && VERDICT_CLASSES[choice.verdict],
               // Only the learner's own pick moves: a right pick pops, but the right answer
               // revealed after a wrong pick stays still.
               choice.verdict === 'correct' && pickedCorrect && 'animate-answer-pop',

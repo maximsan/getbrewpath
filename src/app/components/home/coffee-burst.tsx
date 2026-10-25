@@ -71,13 +71,13 @@ function scatter() {
 }
 
 /** Each kind's shape. Beans and chaff take their colour from --piece-colour. */
-const PIECE_SHAPE: Record<Kind, string> = {
+const PIECE_SHAPE_CLASSES: Record<Kind, string> = {
   // A coffee bean, with its centre crease.
-  bean: 'h-3 w-[9px] rounded-[50%/60%] bg-(--piece-colour) after:absolute after:inset-y-[12%] after:left-1/2 after:-ml-[0.6px] after:w-[1.2px] after:rounded-[1px] after:bg-(--art-cherry-silverskin) after:opacity-70',
+  bean: 'h-3 w-2.25 rounded-[50%/60%] bg-(--piece-colour) after:absolute after:inset-y-[12%] after:left-1/2 after:ml-[-0.6px] after:w-[1.2px] after:rounded-[1px] after:bg-(--art-cherry-silverskin) after:opacity-70',
   // A flake of chaff, the papery skin beans shed in the roaster.
-  chaff: 'h-1 w-[7px] rounded-full bg-(--piece-colour)',
+  chaff: 'h-1 w-1.75 rounded-full bg-(--piece-colour)',
   // A wisp of steam, dimmed in its colour: the animation owns the opacity.
-  steam: 'h-3.5 w-[5px] rounded-full bg-[color-mix(in_oklab,var(--ink-mute)_50%,transparent)]',
+  steam: 'h-3.5 w-1.25 rounded-full bg-[color-mix(in_oklab,var(--ink-mute)_50%,transparent)]',
 };
 
 /** A one-off burst of beans, chaff and steam, played once when it mounts. */
@@ -91,7 +91,7 @@ export function CoffeeBurst() {
           key={index}
           className={cn(
             'absolute top-[46%] left-1/2 animate-burst-piece will-change-[transform,opacity]',
-            PIECE_SHAPE[kind],
+            PIECE_SHAPE_CLASSES[kind],
           )}
           style={style}
         />

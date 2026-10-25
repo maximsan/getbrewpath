@@ -5,7 +5,7 @@ import { extendTailwindMerge } from 'tailwind-merge';
  * The `--text-*` sizes in `globals.css`. tailwind-merge knows only Tailwind's own sizes; it
  * reads an unknown `text-body` as a colour, and a later `text-ink` then drops it.
  */
-const TEXT_SIZES = [
+export const TEXT_SIZES = [
   'hero',
   'display',
   'title',
