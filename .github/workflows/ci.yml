@@ -26,6 +26,32 @@ jobs:
       - run: pnpm test
       - run: pnpm build
 
+  # Measures page speed on each pull request. The scores appear on the run's
+  # summary page. A page whose middle score is below its minimum in
+  # scripts/lighthouse.ts fails this check.
+  lighthouse:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup
+      - run: pnpm exec playwright install --with-deps chromium
+      # GitHub's default shell ignores a command that fails before a pipe.
+      # `shell: bash` keeps the exit code of `pnpm lighthouse`, not of `tee`.
+      # The port is PREVIEW_PORT in scripts/preview-port.ts.
+      - shell: bash
+        run: |
+          pnpm preview > preview.log 2>&1 &
+          if ! timeout 600 bash -c 'until curl -sf -o /dev/null http://localhost:8787/robots.txt; do sleep 3; done'; then
+            cat preview.log
+            exit 1
+          fi
+          status=0
+          pnpm --silent lighthouse --check | tee lighthouse.txt || status=$?
+          { echo '```'; cat lighthouse.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          exit "$status"
+
   # Puts `main` live on Cloudflare once the checks pass.
   deploy:
     needs: check
