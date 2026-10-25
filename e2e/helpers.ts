@@ -34,9 +34,16 @@ export async function openPath(page: Page, path: string, status = 200) {
   expect(response?.status()).toBe(status);
 }
 
+/** Requests `path`, without following a redirect. */
+export const requestWithoutRedirect = (
+  request: APIRequestContext,
+  path: string,
+  headers: Record<string, string> = {},
+) => request.get(path, { headers, maxRedirects: 0 });
+
 /** Requests `path` as the given domain would receive it, without following a redirect. */
 export const requestOnHost = (request: APIRequestContext, host: string, path: string) =>
-  request.get(path, { headers: { host }, maxRedirects: 0 });
+  requestWithoutRedirect(request, path, { host });
 
 /** Checks that the page loads the visit counter with the site's key. */
 export async function expectVisitCounter(page: Page) {
