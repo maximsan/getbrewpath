@@ -51,7 +51,8 @@ function measure(url: string): PageSpeed {
       url,
       '--quiet',
       '--only-categories=performance',
-      '--chrome-flags=--headless=new',
+      // Without its sandbox, as Playwright starts it: GitHub's Ubuntu machines block the sandbox.
+      '--chrome-flags=--headless=new --no-sandbox',
       '--output=json',
       '--output-path=stdout',
     ],
