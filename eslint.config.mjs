@@ -2,7 +2,7 @@ import stylistic from '@stylistic/eslint-plugin';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTypescript from 'eslint-config-next/typescript';
 import prettier from 'eslint-config-prettier';
-import tailwindcss from 'eslint-plugin-tailwindcss';
+import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import unusedImports from 'eslint-plugin-unused-imports';
 
 /**
@@ -89,20 +89,22 @@ const eslintConfig = [
   },
   {
     files: ['src/**/*.{ts,tsx}'],
-    plugins: { tailwindcss },
+    plugins: { 'better-tailwindcss': betterTailwindcss },
     settings: {
-      tailwindcss: {
-        cssConfigPath: './src/app/globals.css',
+      'better-tailwindcss': {
+        entryPoint: 'src/app/globals.css',
+        // Classes defined in globals.css, such as `ff-ui`, count as known.
+        detectComponentClasses: true,
+        rootFontSize: 16,
       },
     },
     rules: {
       'no-restricted-syntax': ['error', ...ASSEMBLED_CLASS_NAMES, STYLE_ATTRIBUTE],
-      'tailwindcss/enforces-negative-arbitrary-values': 'error',
-      'tailwindcss/enforces-shorthand': 'error',
-      'tailwindcss/no-contradicting-classname': 'error',
-      // Off: it reads Tailwind 4 wrongly, e.g. it turns `leading-[1.15]` (a line height of
-      // 1.15) into `leading-1.15` (1.15 spacing steps) and `scale-[1.035]` into 1.035%.
-      'tailwindcss/no-unnecessary-arbitrary-value': 'off',
+      'better-tailwindcss/no-conflicting-classes': 'error',
+      'better-tailwindcss/no-unknown-classes': 'error',
+      'better-tailwindcss/enforce-shorthand-classes': 'error',
+      // Tailwind itself picks the canonical class, so a custom value it keeps has no equal.
+      'better-tailwindcss/enforce-canonical-classes': 'warn',
     },
   },
   {
