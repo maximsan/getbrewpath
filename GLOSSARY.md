@@ -56,6 +56,10 @@ _Avoid_: pricing arm, monetization model (the app's code names)
 chat or social app. A Coffee Card page has its own, showing that card.
 _Avoid_: share preview, OG image
 
+**Language prefix** — the language code at the start of an address, such as
+`/en` in `/en/terms`. Addresses in the default language, English, carry none:
+`/en/terms` redirects to `/terms`.
+
 **Website privacy page** — the site's own privacy notice, covering visit
 counting. The app's notice is the Privacy Policy.
 _Avoid_: privacy policy, when the website page is meant
