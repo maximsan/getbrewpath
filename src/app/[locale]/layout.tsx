@@ -18,8 +18,14 @@ import { type LocaleParams, localeRouteParams, setPageLocale } from '@i18n/page-
 
 import { fontClasses } from '../fonts';
 
-/** Runs before paint so scroll-reveal blocks start hidden only when JavaScript is on. */
-const MARK_JS = "document.documentElement.classList.add('js')";
+/**
+ * Marks `<html>` for CSS. `js`, added before paint, lets scroll-reveal blocks start
+ * hidden only when JavaScript is on. `page-loaded`, added at the window load event,
+ * is for styles that wait until the first screen has loaded.
+ */
+const MARK_PAGE_SCRIPT =
+  "document.documentElement.classList.add('js');" +
+  "addEventListener('load', () => document.documentElement.classList.add('page-loaded'));";
 
 /** Every language is known at build time; any other code is a 404. */
 export const dynamicParams = false;
@@ -56,7 +62,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning className={fontClasses(locale)}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: MARK_JS }} />
+        <script dangerouslySetInnerHTML={{ __html: MARK_PAGE_SCRIPT }} />
       </head>
       <body className="flex min-h-screen flex-col">
         <NextIntlClientProvider>

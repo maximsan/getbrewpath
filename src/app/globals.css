@@ -5,6 +5,9 @@
 
 @custom-variant dark-roast (&:where([data-scheme='dark'] *, [data-mood='dark-roast'] *));
 
+/* `page-loaded` is set on <html> by the layout at the window load event. */
+@custom-variant page-loaded (&:where(.page-loaded *));
+
 /* From 600px the screen is wider than a phone: `tablet:` styles it, `max-tablet:` styles a phone. */
 @theme {
   --breakpoint-tablet: 600px;
