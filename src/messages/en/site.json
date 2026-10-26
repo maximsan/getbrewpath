@@ -783,7 +783,7 @@
               "p": "We do not sell your personal information."
             },
             "b2": {
-              "p": "Information may be processed by service providers such as Apple and RevenueCat where necessary to provide BrewPath's functionality."
+              "p": "Information may be processed by service providers such as Apple, RevenueCat, and Google (through Firebase Crashlytics) where necessary to provide BrewPath's functionality."
             },
             "b3": {
               "p": "We may also disclose information where required by applicable law or a valid legal request."
