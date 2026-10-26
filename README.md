@@ -26,6 +26,7 @@ pnpm test:smoke     # build the site, open its main pages in Chromium and check 
                     # the pre-push hook runs pnpm lint, pnpm type-check and pnpm test:smoke
 pnpm lighthouse     # page speed score (0–100) per page, the middle of several runs; needs pnpm preview running
                     # compare middle scores: one run's score can vary by ten points or more
+                    # --check exits with an error when a page scores below its minimum
 pnpm sync-cards     # refresh src/content/<language>/course.json from the app's main branch on GitHub
                     # it fetches main into your clone of the app repo, which it expects beside this repo:
                     #   projects/getbrewpath/   this repo
