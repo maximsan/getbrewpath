@@ -76,16 +76,17 @@ export function PhoneShot({ screen, alt, sizes, className, aboveFold, rises }: P
           className="object-cover"
         />
         {/*
-          Cupping is the default mood, so only its shot is preloaded. The Dark Roast
-          shot has `display: none` outside Dark Roast, and a browser skips a hidden
-          lazy image, so it loads on the first switch to Dark Roast.
+          Only the Cupping shot is preloaded. The Dark Roast shot has `display: none`
+          until the page has loaded, and a browser skips a hidden lazy image, so it
+          never competes with the first screen. After load it is displayed, still
+          transparent, so it downloads as it nears the screen, before any mood switch.
         */}
         <Image
           src={SCREEN_SHOTS['dark-roast'][screen]}
           alt=""
           fill
           sizes={sizes}
-          className="hidden object-cover opacity-0 transition-[display,opacity] transition-discrete duration-450 dark-roast:block dark-roast:opacity-100 dark-roast:starting:opacity-0"
+          className="hidden object-cover opacity-0 transition-[display,opacity] transition-discrete duration-450 dark-roast:block dark-roast:opacity-100 dark-roast:starting:opacity-0 page-loaded:block"
         />
       </div>
     </div>
