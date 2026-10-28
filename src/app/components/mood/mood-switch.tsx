@@ -1,27 +1,40 @@
 'use client';
 
-import type { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 
 import { useHydrated } from '@shared/hooks/use-hydrated';
 import { cn } from '@shared/styles/cn';
 
-import type { ColorScheme } from './mood-scheme';
+import { COLOR_SCHEMES, type ColorScheme } from './mood-scheme';
 
-const labelClass =
-  'ff-mono relative z-1 flex appearance-none items-center justify-center rounded-full px-2.25 text-center whitespace-nowrap text-[9.5px] leading-tight tracking-[.14em] uppercase transition-colors duration-300 tablet:px-3';
+const moodButtonClass =
+  'ff-mono relative z-1 flex appearance-none items-center justify-center px-2.25 text-center whitespace-nowrap text-micro/tight tracking-[.14em] uppercase transition-colors duration-300 tablet:px-3';
+
+/** Each button's word colour. The word of the mood that is on sits on the knob, so it takes the page colour. */
+const MOOD_BUTTON_CLASSES: Record<ColorScheme, string> = {
+  light: 'text-bg dark-roast:text-ink-mute',
+  dark: 'text-ink-mute dark-roast:text-bg',
+};
+
+const LABEL_KEY_OF_SCHEME = {
+  light: 'moodLight',
+  dark: 'moodDark',
+} as const satisfies Record<ColorScheme, string>;
 
 /**
  * The header's Light and Dark buttons, one per mood, so that each button's
- * spoken name is the word it shows. The knob position and label colours come
- * from `html[data-scheme]` in CSS, so the server render already matches the
- * stored mood and nothing jumps on hydration. A label never wraps: browsers
- * disagree on how wide a wrapping label makes its column, and Safari on iPhone
+ * name for screen readers and voice control is the word it shows. The knob,
+ * the dark pill behind the word of the mood that is on, and the word colours
+ * come from `html[data-scheme]` in CSS, so the server render already matches
+ * the stored mood and nothing jumps on hydration. A word never wraps: browsers
+ * disagree on how wide a wrapping word makes its column, and Safari on iPhone
  * pushed the header off screen.
  */
 export function MoodSwitch() {
   const translate = useTranslations('nav');
+  const { resolvedTheme, setTheme } = useTheme();
+  const hydrated = useHydrated();
 
   return (
     <div
@@ -33,37 +46,26 @@ export function MoodSwitch() {
         aria-hidden
         className="absolute inset-y-0.75 inset-s-0.75 w-[calc(50%-3px)] rounded-full bg-ink transition-transform duration-300 ease-soft dark-roast:translate-x-full"
       />
-      <MoodButton scheme="light" className="text-bg dark-roast:text-ink-mute">
-        {translate('moodLight')}
-      </MoodButton>
-      <MoodButton scheme="dark" className="text-ink-mute dark-roast:text-bg">
-        {translate('moodDark')}
-      </MoodButton>
+      {COLOR_SCHEMES.map((scheme) => {
+        const pressed = resolvedTheme === scheme;
+
+        return (
+          <button
+            key={scheme}
+            type="button"
+            aria-pressed={hydrated ? pressed : undefined}
+            onClick={() => {
+              // setTheme saves even an unchanged pick, and a saved pick stops the site following the phone.
+              if (!pressed) {
+                setTheme(scheme);
+              }
+            }}
+            className={cn(moodButtonClass, MOOD_BUTTON_CLASSES[scheme])}
+          >
+            {translate(LABEL_KEY_OF_SCHEME[scheme])}
+          </button>
+        );
+      })}
     </div>
-  );
-}
-
-/** The button that picks the mood shown for `scheme`, pressed while that mood is on. */
-function MoodButton({
-  scheme,
-  className,
-  children,
-}: {
-  scheme: ColorScheme;
-  className: string;
-  children: ReactNode;
-}) {
-  const { resolvedTheme, setTheme } = useTheme();
-  const hydrated = useHydrated();
-
-  return (
-    <button
-      type="button"
-      aria-pressed={hydrated ? resolvedTheme === scheme : undefined}
-      onClick={() => setTheme(scheme)}
-      className={cn(labelClass, className)}
-    >
-      {children}
-    </button>
   );
 }
