@@ -8,8 +8,8 @@
     "getApp": "Get the app",
     "menu": "Menu",
     "moodSwitch": "Switch light and dark mood",
-    "moodLight": "Cupping",
-    "moodDark": "Dark\nroast",
+    "moodLight": "Light",
+    "moodDark": "Dark",
     "skip": "Skip to content",
     "primary": "Main",
     "footer": "Footer",
@@ -920,7 +920,7 @@
           "h": "Cookies and browser storage",
           "blocks": {
             "b1": {
-              "p": "The website sets no cookies. If you pick a mood with the Cupping / Dark Roast switch, your browser remembers that choice on your device so the next visit looks the same. It is never sent to us. The website does not ask for consent, because it stores nothing you did not ask for."
+              "p": "The website sets no cookies. If you pick light or dark mode with the switch at the top of the page, your browser remembers that choice on your device so the next visit looks the same. It is never sent to us. The website does not ask for consent, because it stores nothing you did not ask for."
             }
           }
         },
