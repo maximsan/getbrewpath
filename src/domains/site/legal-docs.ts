@@ -22,7 +22,7 @@ export const LEGAL_DOCS: Record<LegalDocId, LegalDocSource> = {
   },
   privacy: {
     file: '/legal/BrewPath_Privacy_Policy.pdf',
-    date: '2026-10-23',
+    date: '2026-10-26',
     email: EMAIL_HI,
     pendingFileEdits: [],
   },
