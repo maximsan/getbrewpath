@@ -11,9 +11,9 @@ import type { ColorScheme } from './mood-scheme';
 /**
  * The header's two-label switch. The knob position and label colours come
  * from `html[data-scheme]` in CSS, so the server render already matches the
- * stored mood and nothing jumps on hydration. A label breaks only where its
- * message has a line break: browsers disagree on how wide a label that wraps on
- * its own makes its column, and Safari on iPhone pushed the header off screen.
+ * stored mood and nothing jumps on hydration. A label never wraps: browsers
+ * disagree on how wide a wrapping label makes its column, and Safari on iPhone
+ * pushed the header off screen.
  */
 export function MoodSwitch() {
   const translate = useTranslations('nav');
@@ -23,7 +23,7 @@ export function MoodSwitch() {
   const next: ColorScheme = dark ? 'light' : 'dark';
 
   const label =
-    'ff-mono relative z-[1] flex items-center justify-center px-[9px] text-center whitespace-pre-line text-[9.5px] leading-[1.25] tracking-[.14em] uppercase transition-colors duration-300 tablet:px-3';
+    'ff-mono relative z-[1] flex items-center justify-center px-[9px] text-center whitespace-nowrap text-[9.5px] leading-[1.25] tracking-[.14em] uppercase transition-colors duration-300 tablet:px-3';
 
   return (
     <button
