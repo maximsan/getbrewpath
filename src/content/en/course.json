@@ -39,6 +39,7 @@
   "cards": [
     {
       "id": "c1",
+      "kind": "botanical",
       "source": "lesson",
       "reward": {
         "title": "The Coffee Cherry",
@@ -66,6 +67,7 @@
     },
     {
       "id": "c2",
+      "kind": "map",
       "source": "lesson",
       "reward": {
         "title": "The Bean Belt",
@@ -93,6 +95,7 @@
     },
     {
       "id": "c3",
+      "kind": "specimen",
       "source": "lesson",
       "reward": {
         "title": "Arabica",
@@ -120,6 +123,7 @@
     },
     {
       "id": "cM1",
+      "kind": "fieldGuideBeans",
       "source": "module",
       "reward": {
         "title": "Beans Field Guide",
@@ -132,6 +136,7 @@
     },
     {
       "id": "c-m2l1",
+      "kind": "dryingbed",
       "source": "lesson",
       "reward": {
         "title": "The Drying Bed",
@@ -159,6 +164,7 @@
     },
     {
       "id": "c-m2l2",
+      "kind": "ferment",
       "source": "lesson",
       "reward": {
         "title": "Fermentation",
@@ -186,6 +192,7 @@
     },
     {
       "id": "c-m2l3",
+      "kind": "label",
       "source": "lesson",
       "reward": {
         "title": "The Coffee Label",
@@ -213,6 +220,7 @@
     },
     {
       "id": "c-m3l1",
+      "kind": "roastscale",
       "source": "lesson",
       "reward": {
         "title": "The Roast Spectrum",
@@ -240,6 +248,7 @@
     },
     {
       "id": "c-m3l2",
+      "kind": "crack",
       "source": "lesson",
       "reward": {
         "title": "First and Second Crack",
@@ -267,6 +276,7 @@
     },
     {
       "id": "c-m3l3",
+      "kind": "calendar",
       "source": "lesson",
       "reward": {
         "title": "The Roast Date",
@@ -294,6 +304,7 @@
     },
     {
       "id": "c-m4l1",
+      "kind": "particles",
       "source": "lesson",
       "reward": {
         "title": "Particle Size",
@@ -321,6 +332,7 @@
     },
     {
       "id": "c-m4l2",
+      "kind": "burrblade",
       "source": "lesson",
       "reward": {
         "title": "Burr vs Blade",
@@ -348,6 +360,7 @@
     },
     {
       "id": "c-m4l3",
+      "kind": "grinddial",
       "source": "lesson",
       "reward": {
         "title": "The Grinder",
@@ -375,6 +388,7 @@
     },
     {
       "id": "c-m5l1",
+      "kind": "gauge",
       "source": "lesson",
       "reward": {
         "title": "The Brew Ratio",
@@ -402,6 +416,7 @@
     },
     {
       "id": "c-m5l2",
+      "kind": "droplet",
       "source": "lesson",
       "reward": {
         "title": "Water",
@@ -429,6 +444,7 @@
     },
     {
       "id": "c-m5l3",
+      "kind": "spectrum",
       "source": "lesson",
       "reward": {
         "title": "Sour vs Bitter",
@@ -456,6 +472,7 @@
     },
     {
       "id": "cM2",
+      "kind": "fieldGuideProcess",
       "source": "module",
       "reward": {
         "title": "Processing Field Guide",
@@ -468,6 +485,7 @@
     },
     {
       "id": "cM3",
+      "kind": "fieldGuideRoast",
       "source": "module",
       "reward": {
         "title": "Roasting Field Guide",
@@ -480,6 +498,7 @@
     },
     {
       "id": "cM4",
+      "kind": "fieldGuideGrind",
       "source": "module",
       "reward": {
         "title": "Grind Field Guide",
@@ -492,6 +511,7 @@
     },
     {
       "id": "cM5",
+      "kind": "fieldGuideBrew",
       "source": "module",
       "reward": {
         "title": "Brew Field Guide",
@@ -504,6 +524,7 @@
     },
     {
       "id": "c-m1l4",
+      "kind": "altitude",
       "source": "lesson",
       "reward": {
         "title": "Altitude",
@@ -527,6 +548,7 @@
     },
     {
       "id": "c-m1l5",
+      "kind": "scales",
       "source": "lesson",
       "reward": {
         "title": "The Trade",
@@ -550,6 +572,7 @@
     },
     {
       "id": "c-m1l7",
+      "kind": "layers",
       "source": "lesson",
       "reward": {
         "title": "The Cherry in Section",
@@ -577,6 +600,7 @@
     },
     {
       "id": "c-m1l6",
+      "kind": "varieties",
       "source": "lesson",
       "reward": {
         "title": "Varieties",
@@ -600,6 +624,7 @@
     },
     {
       "id": "c-m2l4",
+      "kind": "drying",
       "source": "lesson",
       "reward": {
         "title": "Drying",
@@ -623,6 +648,7 @@
     },
     {
       "id": "c-m2l5",
+      "kind": "anaerobic",
       "source": "lesson",
       "reward": {
         "title": "Anaerobic Fermentation",
@@ -646,6 +672,7 @@
     },
     {
       "id": "c-m2l6",
+      "kind": "decaf",
       "source": "lesson",
       "reward": {
         "title": "Decaf",
@@ -669,6 +696,7 @@
     },
     {
       "id": "c-m3l4",
+      "kind": "roastcurve",
       "source": "lesson",
       "reward": {
         "title": "The Roast",
@@ -692,6 +720,7 @@
     },
     {
       "id": "c-m3l5",
+      "kind": "lightdark",
       "source": "lesson",
       "reward": {
         "title": "Light vs Dark",
@@ -715,6 +744,7 @@
     },
     {
       "id": "c-m3l6",
+      "kind": "caffeine",
       "source": "lesson",
       "reward": {
         "title": "Caffeine",
@@ -738,6 +768,7 @@
     },
     {
       "id": "c-m4l5",
+      "kind": "grindbrewer",
       "source": "lesson",
       "reward": {
         "title": "Grind and Brewer",
@@ -761,6 +792,7 @@
     },
     {
       "id": "c-m4l6",
+      "kind": "hourglass",
       "source": "lesson",
       "reward": {
         "title": "Freshness",
@@ -784,6 +816,7 @@
     },
     {
       "id": "c-m4l7",
+      "kind": "burrs",
       "source": "lesson",
       "reward": {
         "title": "Your Grinder",
@@ -807,6 +840,7 @@
     },
     {
       "id": "c-m5l4",
+      "kind": "extraction",
       "source": "lesson",
       "reward": {
         "title": "Extraction",
@@ -834,6 +868,7 @@
     },
     {
       "id": "c-m5l5",
+      "kind": "filter",
       "source": "lesson",
       "reward": {
         "title": "The Filter",
@@ -857,6 +892,7 @@
     },
     {
       "id": "c-m5l7",
+      "kind": "shot",
       "source": "lesson",
       "reward": {
         "title": "The Shot",
@@ -884,6 +920,7 @@
     },
     {
       "id": "c-m5l6",
+      "kind": "firstcup",
       "source": "lesson",
       "reward": {
         "title": "Your First Cup",
