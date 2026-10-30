@@ -3,10 +3,10 @@
 export const SITE_HOST = 'getbrewpath.com';
 export const SITE_URL = `https://${SITE_HOST}`;
 
-/** The App Store listing's id. Null until the listing exists. Set it at launch. */
-export const APP_STORE_ID: string | null = null;
-/** The App Store listing. Until `APP_STORE_ID` is set, a placeholder address that leads nowhere. */
-export const APP_STORE_URL = `https://apps.apple.com/app/brewpath/id${APP_STORE_ID ?? '0000000000'}`;
+/** The numeric Apple ID of BrewPath's App Store Connect app record. */
+export const APP_STORE_ID: string | null = '6827754824';
+/** The real listing address; Apple controls availability before public release. */
+export const APP_STORE_URL = `https://apps.apple.com/app/brewpath/id${APP_STORE_ID}`;
 
 export const EMAIL_HI = 'hi@getbrewpath.com';
 /** The link address that opens a new email to `email`. */
@@ -41,7 +41,7 @@ export const COPYRIGHT_YEAR = 2026;
  * The site's key in Cloudflare Web Analytics, which counts visits. It is public: every
  * page's HTML carries it. Source: `cf rum site-info list`, the site for getbrewpath.com.
  */
-export const WEB_ANALYTICS_TOKEN = '3dae933cda004cb198b689159f1ff8d7';
+export const WEB_ANALYTICS_SITE_ID = '3dae933cda004cb198b689159f1ff8d7';
 /** Cloudflare Web Analytics' script, which every page loads to count visits. */
 export const WEB_ANALYTICS_SCRIPT = 'https://static.cloudflareinsights.com/beacon.min.js';
 /** Where that script sends each visit. */

@@ -1,0 +1,11 @@
+title = "BrewPath secret detection"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Design export callback assignment, not an API key"
+condition = "AND"
+paths = ['''(?:^|/)prototype/_ds/brewpath-4b93ed84-d738-40ba-84a6-59af9b9bb79d/_ds_bundle\.js$''']
+regexTarget = "match"
+regexes = ['''onToggleFavKey = _ref3\.onToggleFavKey''']

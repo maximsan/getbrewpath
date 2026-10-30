@@ -1026,8 +1026,8 @@
     "title": "BrewPath — learn coffee, grow a tree",
     "titleTemplate": "%s · BrewPath",
     "description": "Three-minute lessons in the craft of coffee — beans, roast, grind, brew. Every one you finish feeds a living tree and earns a card worth keeping.",
-    "cardTitle": "{card} — a BrewPath Coffee Card",
-    "cardDescription": "A friend shared a Coffee Card from BrewPath: {summary}",
+    "cardTitle": "{card}",
+    "cardDescription": "{summary}",
     "notFound": "Page not found"
   },
   "brand": "BrewPath"

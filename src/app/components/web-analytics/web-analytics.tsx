@@ -1,4 +1,4 @@
-import { WEB_ANALYTICS_SCRIPT, WEB_ANALYTICS_TOKEN } from '@domains/site/site';
+import { WEB_ANALYTICS_SCRIPT, WEB_ANALYTICS_SITE_ID } from '@domains/site/site';
 
 /**
  * Cloudflare Web Analytics' script, which counts visits and stores nothing in the browser:
@@ -15,7 +15,7 @@ export function WebAnalytics() {
     <script
       defer
       src={WEB_ANALYTICS_SCRIPT}
-      data-cf-beacon={JSON.stringify({ token: WEB_ANALYTICS_TOKEN })}
+      data-cf-beacon={JSON.stringify({ token: WEB_ANALYTICS_SITE_ID })}
     />
   );
 }

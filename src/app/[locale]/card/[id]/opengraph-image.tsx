@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { OG_SIZE, renderOgImage } from '@components/og/og-image';
 import { findCard, getCourse, localeCardRouteParams } from '@domains/course/course';
+import { getCardArtImage } from '@domains/course/card-art';
 import { setPageLocale } from '@i18n/page-locale';
 
 export const size = OG_SIZE;
@@ -25,11 +26,15 @@ export default async function CardOpenGraphImage({
   if (!card) {
     notFound();
   }
-  const translate = await getTranslations({ locale, namespace: 'card' });
+  const [translate, illustration] = await Promise.all([
+    getTranslations({ locale, namespace: 'card' }),
+    getCardArtImage(locale, card.kind, 'cupping'),
+  ]);
 
   return renderOgImage({
     kicker: translate('shared'),
     title: card.reward.title,
     body: card.reward.summary,
+    illustration,
   });
 }

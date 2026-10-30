@@ -42,15 +42,22 @@ const banks = {
   },
   collectibles: {
     items: [
-      { id: 'c1', unlock: { lesson: 'm1l1' } },
-      { id: 'c2', unlock: { lesson: 'm1l3' } },
-      { id: 'cM1', unlock: { module: 'm1' } },
+      { id: 'c1', kind: 'botanical', unlock: { lesson: 'm1l1' } },
+      { id: 'c2', kind: 'map', unlock: { lesson: 'm1l3' } },
+      { id: 'cM1', kind: 'fieldGuideBeans', unlock: { module: 'm1' } },
     ],
   },
   freeTier: { freeLessonIds: ['m1l1', 'm1l2'], freeDailyActivities: 2 },
 };
 
 describe('buildCourse', () => {
+  it('preserves each card illustration kind instead of dropping it from the export', () => {
+    expect(buildCourse(banks).cards.map((card) => card.kind)).toEqual([
+      'botanical',
+      'map',
+      'fieldGuideBeans',
+    ]);
+  });
   it('counts the lessons of each module, and the free ones among them', () => {
     expect(buildCourse(banks).modules).toEqual([
       { id: 'm1', number: 1, title: 'Beans', lessonCount: 3, freeLessonCount: 2 },
@@ -64,6 +71,7 @@ describe('buildCourse', () => {
   it('places a lesson card inside its module', () => {
     expect(buildCourse(banks).cards[1]).toEqual({
       id: 'c2',
+      kind: 'map',
       source: 'lesson',
       reward: beanBelt,
       moduleNumber: 1,
@@ -76,6 +84,7 @@ describe('buildCourse', () => {
   it('gives a field guide its module reward', () => {
     expect(buildCourse(banks).cards[2]).toEqual({
       id: 'cM1',
+      kind: 'fieldGuideBeans',
       source: 'module',
       reward: beansGuide,
       moduleNumber: 1,
@@ -86,7 +95,7 @@ describe('buildCourse', () => {
   it('fails when a card unlocks from a lesson that does not exist', () => {
     const broken = {
       ...banks,
-      collectibles: { items: [{ id: 'c9', unlock: { lesson: 'm9l9' } }] },
+      collectibles: { items: [{ id: 'c9', kind: 'botanical', unlock: { lesson: 'm9l9' } }] },
     };
 
     expect(() => buildCourse(broken)).toThrow('Card c9');

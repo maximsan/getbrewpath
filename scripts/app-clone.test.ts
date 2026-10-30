@@ -22,7 +22,7 @@ const git = (cwd: string, ...args: string[]) =>
   });
 
 /** Writes `text` to `file` in the checkout at `dir` and commits it. */
-function commitFile(dir: string, file: string, text: string) {
+function commitFile(dir: string, file: string, text: string | Buffer) {
   mkdirSync(dirname(join(dir, file)), { recursive: true });
   writeFileSync(join(dir, file), text);
   git(dir, 'add', file);
@@ -103,6 +103,17 @@ describe('appClonePath', () => {
 });
 
 describe('fetchAppMainFiles', () => {
+  it('reads original font bytes without UTF-8 conversion or working-tree substitutions', () => {
+    const app = cloneApp();
+    const file = 'assets/fonts/example.ttf';
+    const bytes = Buffer.from([0, 255, 128, 1, 240]);
+
+    commitFile(app, file, bytes);
+    git(app, 'push', '--quiet', 'origin', 'HEAD:main');
+    writeFileSync(join(app, file), 'local edits');
+
+    expect(fetchAppMainFiles(app).readFileBytes(file)).toEqual(bytes);
+  });
   it('reads main on GitHub and ignores the app clone’s checked-out branch and uncommitted edits', () => {
     const app = cloneApp();
 

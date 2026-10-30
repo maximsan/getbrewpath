@@ -16,21 +16,22 @@ const APP_CLONE_FOLDER = 'brewpath';
 const MAX_GIT_OUTPUT_BYTES = 67_108_864;
 
 /** Runs git in `cwd`; a failure throws git's own message, without the full command Node adds to the error. */
-function git(cwd: string, args: string[]) {
+function gitBytes(cwd: string, args: string[]) {
   try {
     return execFileSync('git', args, {
       cwd,
-      encoding: 'utf8',
       maxBuffer: MAX_GIT_OUTPUT_BYTES,
       stdio: ['ignore', 'pipe', 'pipe'],
     });
   } catch (error) {
     const [command] = args;
-    const gitMessage = (error as { stderr?: string }).stderr?.trim();
+    const gitMessage = (error as { stderr?: Buffer }).stderr?.toString().trim();
 
     throw new Error(`git ${command} failed in ${cwd}: ${gitMessage || String(error)}`);
   }
 }
+
+const git = (cwd: string, args: string[]) => gitBytes(cwd, args).toString('utf8');
 
 /**
  * Where the app's clone should be: the `brewpath` folder beside this repo's folder.
@@ -68,5 +69,7 @@ export function fetchAppMainFiles(appClone: string) {
     /** The id of the commit the files are read at. */
     commit,
     readFile: (path: string) => git(appClone, ['cat-file', 'blob', `${commit}:${path}`]),
+    /** Fonts are binary; decoding them as UTF-8 would corrupt the outlines. */
+    readFileBytes: (path: string) => gitBytes(appClone, ['cat-file', 'blob', `${commit}:${path}`]),
   };
 }

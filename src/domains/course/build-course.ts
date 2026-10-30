@@ -11,6 +11,7 @@ import { z } from 'zod';
  */
 
 const specRowSchema = z.tuple([z.string(), z.string()]);
+const cardKindSchema = z.string().regex(/^[a-z][a-zA-Z]*$/);
 
 const rewardSchema = z.object({
   title: z.string(),
@@ -40,6 +41,7 @@ const collectiblesBankSchema = z.object({
   items: z.array(
     z.object({
       id: z.string(),
+      kind: cardKindSchema,
       unlock: z.union([z.object({ lesson: z.string() }), z.object({ module: z.string() })]),
     }),
   ),
@@ -64,6 +66,7 @@ const courseModuleSchema = z.object({
 
 const cardBase = {
   id: z.string(),
+  kind: cardKindSchema,
   reward: rewardSchema,
   moduleNumber: z.number().int().positive(),
   moduleTitle: z.string(),
@@ -132,6 +135,7 @@ export function buildCourse(banks: ContentBanks): Course {
 
       return {
         id: collectible.id,
+        kind: collectible.kind,
         source: 'module',
         reward: courseModule.reward,
         moduleNumber: courseModule.n,
@@ -144,6 +148,7 @@ export function buildCourse(banks: ContentBanks): Course {
 
     return {
       id: collectible.id,
+      kind: collectible.kind,
       source: 'lesson',
       reward: lesson.reward,
       moduleNumber: place.module.n,

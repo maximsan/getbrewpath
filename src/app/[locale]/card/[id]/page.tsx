@@ -9,6 +9,7 @@ import { ButtonRow } from '@components/button-row/button-row';
 import { LinkButton } from '@components/link-button/link-button';
 import { monoNoteClass } from '@components/section/section';
 import { cardRouteParams, courseCounts, findCard, getCourse } from '@domains/course/course';
+import { getCardArtImage } from '@domains/course/card-art';
 import { pageMetadata } from '@domains/site/page-metadata';
 import { cardPath, PAGE_ROUTES } from '@domains/site/routes';
 import { APP_STORE_URL, appCardLink } from '@domains/site/site';
@@ -32,6 +33,7 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
   if (!card) {
     return {};
   }
+
   const translate = await getTranslations({ locale, namespace: 'metadata' });
   const title = translate('cardTitle', { card: card.reward.title });
   const description = translate('cardDescription', { summary: card.reward.summary });
@@ -53,13 +55,16 @@ const PITCH = [
 ] as const satisfies readonly { key: string; Icon: ComponentType }[];
 
 export default async function CardPage({ params }: CardPageProps) {
-  const course = await getCourse(await setPageLocale(params));
+  const locale = await setPageLocale(params);
+  const course = await getCourse(locale);
   const card = findCard(course, (await params).id);
 
   if (!card) {
     notFound();
   }
+
   const counts = courseCounts(course);
+  const illustration = await getCardArtImage(locale, card.kind, 'dark-roast');
   const translate = await getTranslations('card');
 
   const strong = (chunks: ReactNode) => <strong className="font-medium text-ink">{chunks}</strong>;
@@ -86,11 +91,11 @@ export default async function CardPage({ params }: CardPageProps) {
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,color-mix(in_oklab,var(--accent)_16%,transparent),transparent_65%)]" />
           <div className="relative w-full max-w-[320px]">
-            <RewardCard reward={card.reward} />
+            <RewardCard reward={card.reward} illustration={illustration} />
           </div>
         </div>
         <div className="animate-rise-in [animation-delay:.1s]">
-          <h1 className="ff-display m-0 text-[clamp(34px,4.6vw,58px)] leading-[1.02] font-normal tracking-tight text-balance">
+          <h1 className="ff-display m-0 text-[clamp(34px,4.6vw,58px)] leading-[1.02] font-normal tracking-tight text-balance wrap-anywhere">
             {translate.rich('earned', {
               card: card.reward.title,
               em: (chunks) => <em>{chunks}</em>,

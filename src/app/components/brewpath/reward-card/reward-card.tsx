@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
 import { FlavorStamp } from './flavor-stamp';
@@ -18,6 +19,8 @@ export interface RewardCardData {
 
 export interface RewardCardProps {
   reward: RewardCardData;
+  /** The card's original drawing, imported and rendered as a standalone image. */
+  illustration?: string;
 }
 
 /**
@@ -25,22 +28,24 @@ export interface RewardCardProps {
  * It rises in once on mount. No client hooks besides `useTranslations`, so it
  * renders in both server and client trees.
  */
-export function RewardCard({ reward }: RewardCardProps) {
+export function RewardCard({ reward, illustration }: RewardCardProps) {
   const translate = useTranslations('reward');
   const rows = reward.meta ?? [];
 
   return (
     // It rises in once on mount; then an accent ring spreads out from its edge.
-    <div className="relative w-full max-w-[320px] animate-reward-card-in rounded-xs border border-[color-mix(in_oklab,var(--accent)_22%,var(--rule))] bg-surface px-6 pt-8 pb-6 shadow-[0_18px_40px_rgb(0_0_0/0.35),0_0_0_1px_color-mix(in_oklab,var(--accent)_10%,transparent)]">
+    <div className="@container relative w-full max-w-[320px] animate-reward-card-in rounded-xs border border-[color-mix(in_oklab,var(--accent)_22%,var(--rule))] bg-surface px-6 pt-8 pb-6 shadow-[0_18px_40px_rgb(0_0_0/0.35),0_0_0_1px_color-mix(in_oklab,var(--accent)_10%,transparent)]">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 animate-reward-card-ring rounded-xs"
       />
 
-      {/* The right padding reserves the stamp's corner: 14px inset + 68px stamp + 10px gap. */}
-      <div className="pr-23">
-        <div className="smallcaps mb-2">{reward.badge ?? translate('coffeeCard')}</div>
-        <h2 className="ff-display m-0 text-title leading-[1.05] font-normal tracking-[-0.02em] text-pretty text-ink">
+      {/* Narrow cards place the title below the stamp; wider cards reserve its corner. */}
+      <div className="@min-[240px]:pr-23">
+        <div className="smallcaps mb-2 pr-23 @min-[240px]:pr-0">
+          {reward.badge ?? translate('coffeeCard')}
+        </div>
+        <h2 className="ff-display m-0 text-title leading-[1.05] font-normal tracking-[-0.02em] text-pretty wrap-anywhere text-ink @max-[240px]:mt-8">
           {reward.title}
         </h2>
       </div>
@@ -49,16 +54,27 @@ export function RewardCard({ reward }: RewardCardProps) {
         <FlavorStamp />
       </div>
 
+      {illustration && (
+        <Image
+          src={illustration}
+          alt={translate('illustration', { title: reward.title })}
+          width={100}
+          height={100}
+          unoptimized
+          className="mx-auto mt-5 block aspect-square h-auto w-full max-w-card-art"
+        />
+      )}
+
       <p className="mt-5 mb-0 text-support/normal text-pretty text-ink-mute">{reward.summary}</p>
 
       <dl className="mt-5 mb-0">
         {rows.map(([label, value]) => (
           <div
             key={label}
-            className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-b border-rule py-3.5 last:border-b-0"
+            className="grid grid-cols-1 items-baseline gap-1.5 border-b border-rule py-3.5 last:border-b-0 @min-[240px]:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] @min-[240px]:gap-4"
           >
-            <dt className="smallcaps">{label}</dt>
-            <dd className="ff-mono m-0 text-right text-support whitespace-nowrap text-ink">
+            <dt className="smallcaps wrap-anywhere">{label}</dt>
+            <dd className="ff-mono m-0 min-w-0 text-support wrap-anywhere text-ink @min-[240px]:text-right">
               {value}
             </dd>
           </div>

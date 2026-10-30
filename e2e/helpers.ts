@@ -4,7 +4,7 @@ import {
   APP_STORE_URL,
   MAILTO_HI,
   WEB_ANALYTICS_SCRIPT,
-  WEB_ANALYTICS_TOKEN,
+  WEB_ANALYTICS_SITE_ID,
 } from '@domains/site/site';
 
 import { expect } from './fixtures';
@@ -51,7 +51,7 @@ export async function expectVisitCounter(page: Page) {
 
   await expect(counter).toHaveCount(1);
   expect(JSON.parse((await counter.getAttribute('data-cf-beacon')) ?? '{}')).toEqual({
-    token: WEB_ANALYTICS_TOKEN,
+    token: WEB_ANALYTICS_SITE_ID,
   });
 }
 
@@ -69,5 +69,6 @@ export async function expectSiteLinks(page: Page) {
   expect(appStoreLinks.length, 'App Store links').toBeGreaterThan(0);
   for (const href of appStoreLinks) {
     expect(href).toBe(APP_STORE_URL);
+    expect(new URL(href!).pathname).toMatch(/\/id6827754824$/);
   }
 }

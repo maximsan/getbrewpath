@@ -1,0 +1,4 @@
+# Two historical occurrences of the intentionally public Cloudflare browser beacon ID.
+# Exact fingerprints only: future matches, other values and other paths still fail.
+d17a3b6746093b5c466b0207f97da4ed39779049:src/domains/site/site.ts:generic-api-key:44
+40f186790f10253f6b273ea173c669d79089a0d0:src/domains/site/site.ts:generic-api-key:44

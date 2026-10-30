@@ -119,7 +119,7 @@ export function SiteHeader() {
 
   const goHomeTop = (event: MouseEvent) => {
     closeMenu();
-    if (pathname !== '/') {
+    if (pathname !== '/' || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
       return;
     }
     event.preventDefault();
