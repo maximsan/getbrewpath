@@ -57,7 +57,9 @@ for (const card of course.cards) {
         expect(overflow, `${width}px ${colorScheme}: text must wrap instead of clipping`).toEqual(
           [],
         );
-        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+        await expect
+          .poll(() => page.evaluate(() => document.documentElement.scrollWidth))
+          .toBe(width);
       }
     }
 
@@ -80,4 +82,13 @@ test('unknown Coffee Card pages and share images return 404', async ({ request }
   for (const path of ['/card/no-such-card', '/card/no-such-card/opengraph-image']) {
     expect((await request.get(path)).status(), path).toBe(404);
   }
+});
+
+test('long headings fit a narrow phone while web fonts are unavailable', async ({ page }) => {
+  await page.route('**/*.woff2', (route) => route.abort());
+  await openPath(page, '/card/c-m2l5');
+  const heading = page.getByRole('heading', { level: 1 });
+
+  await expect(heading).toBeVisible();
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
 });
