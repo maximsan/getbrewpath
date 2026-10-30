@@ -1,7 +1,9 @@
 # Security and Coffee Card review — 30 October 2026
 
 Local implementation for [the approved map](https://github.com/maximsan/getbrewpath/issues/58).
-No code has been pushed or deployed, no provider settings changed, and no history rewritten.
+The reviewed website implementation is published in [PR #66](https://github.com/maximsan/getbrewpath/pull/66).
+The shorter sharing-copy follow-up remains local pending push approval. No deployment,
+provider-setting change or history rewrite has been performed in this effort.
 This is the consolidated handoff; the superseded planning/research drafts were removed.
 
 ## Delivered changes
@@ -99,10 +101,11 @@ thresholds over five runs per page: median home 84, privacy 95, Coffee Card 96.
 Verification reproduced and resolved card metadata clipping, the modified-click
 defect, and a transient resize assertion; the final suites pass. These are bounded checks.
 
-Before publication: approve the exact commits/destination, then push through the
-normal PR workflow. Main deploys automatically on push. GitHub issue resolutions
-and security-setting changes need their own concrete approved external-write
-scope. The map and its seven children exist but have not been closed as delivered.
+The original PR passed its build/test, secret scan, Lighthouse and GitGuardian
+checks. Additional commits require approval before pushing. Main deploys
+automatically after merge. GitHub issue resolutions and security-setting changes
+need their own concrete approved external-write scope; the issue map tracks
+remaining delivery and operational work.
 
 At launch: verify the real App Store listing is publicly available and test
 universal-link handling on an actual iPhone with/without the app. Desktop Chromium
