@@ -2,7 +2,8 @@
 
 Local implementation for [the approved map](https://github.com/maximsan/getbrewpath/issues/58).
 The reviewed website implementation is published in [PR #66](https://github.com/maximsan/getbrewpath/pull/66).
-The shorter sharing-copy follow-up remains local pending push approval. No deployment,
+The shorter sharing-copy follow-up is also published in that PR.
+A subsequent accessibility follow-up is local pending push approval. No deployment,
 provider-setting change or history rewrite has been performed in this effort.
 This is the consolidated handoff; the superseded planning/research drafts were removed.
 
@@ -100,6 +101,16 @@ secret scan; the dependency audit reported no advisories. Lighthouse passed its
 thresholds over five runs per page: median home 84, privacy 95, Coffee Card 96.
 Verification reproduced and resolved card metadata clipping, the modified-click
 defect, and a transient resize assertion; the final suites pass. These are bounded checks.
+
+A local accessibility follow-up reproduces and fixes two additional defects:
+the skip link did not transfer focus into main content, and the long card-page
+heading overflowed a narrow phone when text sizes were doubled. All 71 Chromium
+browser tests, 80 unit tests, lint, type checking and the Cloudflare build pass.
+The new checks cover representative short/long cards and a Module Reward in both
+moods, using frozen computed font sizes doubled through a test stylesheet.
+This is not a substitute for actual browser zoom or VoiceOver verification.
+Telegram's in-app header behavior on iOS 27.0.1 remains unresolved; the automated
+WebKit scroll/resize probe cannot verify native browser chrome.
 
 The original PR passed its build/test, secret scan, Lighthouse and GitGuardian
 checks. Additional commits require approval before pushing. Main deploys

@@ -95,7 +95,7 @@ export default async function CardPage({ params }: CardPageProps) {
           </div>
         </div>
         <div className="animate-rise-in [animation-delay:.1s]">
-          <h1 className="ff-display m-0 text-[clamp(34px,4.6vw,58px)] leading-[1.02] font-normal tracking-tight text-balance">
+          <h1 className="ff-display m-0 text-[clamp(34px,4.6vw,58px)] leading-[1.02] font-normal tracking-tight text-balance wrap-anywhere">
             {translate.rich('earned', {
               card: card.reward.title,
               em: (chunks) => <em>{chunks}</em>,
