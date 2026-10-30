@@ -22,7 +22,8 @@ for (const cardId of CARD_IDS) {
         parseFloat(getComputedStyle(element).fontSize),
       );
 
-      // Freeze sizes in a stylesheet: hydration may replace inline DOM attributes.
+      // Keep test CSS outside React-managed DOM. Match by type so streamed scripts
+      // removed during hydration cannot shift selectors for visible content.
       const enlargedText = await page.evaluate(
         (scale) =>
           [...document.body.querySelectorAll('*')]
@@ -34,9 +35,12 @@ for (const cardId of CARD_IDS) {
 
               while (current && current !== document.body) {
                 const parent: HTMLElement = current.parentElement!;
-                const position = [...parent.children].indexOf(current) + 1;
+                const siblings = [...parent.children].filter(
+                  (child) => child.localName === current!.localName,
+                );
+                const position = siblings.indexOf(current) + 1;
 
-                path.unshift(`${current.localName}:nth-child(${position})`);
+                path.unshift(`${current.localName}:nth-of-type(${position})`);
                 current = parent;
               }
 
@@ -46,10 +50,15 @@ for (const cardId of CARD_IDS) {
         TEXT_SCALE,
       );
 
-      await page.addStyleTag({ content: enlargedText });
-      expect(
-        await heading.evaluate((element) => parseFloat(getComputedStyle(element).fontSize)),
-      ).toBe(originalSize * TEXT_SCALE);
+      await page.evaluate((css) => {
+        const sheet = new CSSStyleSheet();
+
+        sheet.replaceSync(css);
+        document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+      }, enlargedText);
+      await expect
+        .poll(() => heading.evaluate((element) => parseFloat(getComputedStyle(element).fontSize)))
+        .toBe(originalSize * TEXT_SCALE);
       await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
       const clipped = await page.getByRole('main').evaluate((main) =>
         [...main.querySelectorAll('h1, h2, p, dt, dd, a')]

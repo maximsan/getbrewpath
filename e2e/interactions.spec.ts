@@ -1,5 +1,8 @@
 import site from '@messages/en/site.json' with { type: 'json' };
 import lesson from '@messages/en/lesson.json' with { type: 'json' };
+import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
+import { legalPageSource } from '@domains/site/legal-pages';
+import { MAILTO_HI } from '@domains/site/site';
 import { NAV_SECTIONS } from '../src/app/components/site-header/nav-items';
 
 import { expect, test } from './fixtures';
@@ -219,5 +222,58 @@ test('every footer legal link opens the expected document', async ({ page }) => 
       .click();
     await expect(page).toHaveURL(path);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.docs[key].title);
+  }
+});
+
+for (const doc of LEGAL_PAGES) {
+  test(`${doc}: contents links and PDF downloads reach the actual document`, async ({
+    page,
+    request,
+  }) => {
+    await openPath(page, PAGE_ROUTES[doc]);
+    const contents = page.getByRole('navigation', { name: site.docs.contents });
+    const links = contents.getByRole('link');
+
+    expect(await links.count()).toBeGreaterThan(0);
+    for (const link of await links.all()) {
+      const target = await link.getAttribute('href');
+
+      expect(target).toMatch(/^#doc-/);
+      await link.click();
+      await expect(page).toHaveURL(`${PAGE_ROUTES[doc]}${target}`);
+      await expect(page.locator(target!)).toBeInViewport();
+    }
+
+    const source = legalPageSource(doc);
+    const download = page.getByRole('link', { name: site.docs.download, exact: true });
+
+    if (source.file) {
+      await expect(download).toHaveAttribute('download', '');
+      await expect(download).toHaveAttribute('href', source.file);
+      const pdf = await request.get(source.file);
+
+      expect(pdf.status()).toBe(200);
+      expect(pdf.headers()['content-type']).toContain('application/pdf');
+      expect((await pdf.body()).subarray(0, 5).toString()).toBe('%PDF-');
+    } else {
+      await expect(download).toHaveCount(0);
+    }
+  });
+}
+
+test('phone menu legal links close the menu and support links use email', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openPath(page, '/');
+  const menu = page.getByRole('button', { name: site.nav.menu, exact: true });
+
+  for (const doc of LEGAL_PAGES) {
+    await menu.click();
+    const navigation = page.getByRole('navigation', { name: site.nav.primary });
+
+    await expect(navigation.locator('a[href^="mailto:"]')).toHaveAttribute('href', MAILTO_HI);
+    await navigation.getByRole('link', { name: site.footer[doc], exact: true }).click();
+    await expect(page).toHaveURL(PAGE_ROUTES[doc]);
+    await expect(menu).toHaveAttribute('aria-expanded', 'false');
+    await expect(page.getByRole('main')).toHaveJSProperty('inert', false);
   }
 });
