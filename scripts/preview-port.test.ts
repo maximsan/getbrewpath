@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 
 import { processFolders, smokeTestsMustStop } from './preview-port';
 
-const THIS_FOLDER = '/Users/maksimshchutski/projects/my/getbrewpath';
-const OTHER_WORKTREE = '/Users/maksimshchutski/projects/my/getbrewpath-preview-check';
+const THIS_FOLDER = '/projects/getbrewpath';
+const OTHER_WORKTREE = '/projects/getbrewpath-preview-check';
 
 describe('processFolders', () => {
   it('reads the folder of every process lsof lists', () => {
