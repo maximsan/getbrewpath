@@ -4,7 +4,7 @@ import {
   APP_STORE_URL,
   MAILTO_HI,
   WEB_ANALYTICS_SCRIPT,
-  WEB_ANALYTICS_TOKEN,
+  WEB_ANALYTICS_SITE_ID,
 } from '@domains/site/site';
 
 import { expect } from './fixtures';
@@ -51,7 +51,7 @@ export async function expectVisitCounter(page: Page) {
 
   await expect(counter).toHaveCount(1);
   expect(JSON.parse((await counter.getAttribute('data-cf-beacon')) ?? '{}')).toEqual({
-    token: WEB_ANALYTICS_TOKEN,
+    token: WEB_ANALYTICS_SITE_ID,
   });
 }
 

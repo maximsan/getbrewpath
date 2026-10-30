@@ -41,7 +41,7 @@ export const COPYRIGHT_YEAR = 2026;
  * The site's key in Cloudflare Web Analytics, which counts visits. It is public: every
  * page's HTML carries it. Source: `cf rum site-info list`, the site for getbrewpath.com.
  */
-export const WEB_ANALYTICS_TOKEN = '3dae933cda004cb198b689159f1ff8d7';
+export const WEB_ANALYTICS_SITE_ID = '3dae933cda004cb198b689159f1ff8d7';
 /** Cloudflare Web Analytics' script, which every page loads to count visits. */
 export const WEB_ANALYTICS_SCRIPT = 'https://static.cloudflareinsights.com/beacon.min.js';
 /** Where that script sends each visit. */
