@@ -1,6 +1,8 @@
 import courseFile from '@content/en/course.json' with { type: 'json' };
 import { courseSchema } from '@domains/course/build-course';
 import { cardPath } from '@domains/site/routes';
+import { APP_STORE_URL, appCardLink } from '@domains/site/site';
+import site from '@messages/en/site.json' with { type: 'json' };
 
 import { expect, test } from './fixtures';
 import { openPath } from './helpers';
@@ -20,6 +22,22 @@ for (const card of course.cards) {
     const reward = title.locator('../..');
 
     await expect(main.getByRole('heading', { level: 1 })).toContainText(card.reward.title);
+    await expect(main.getByRole('link', { name: site.card.get, exact: true })).toHaveAttribute(
+      'href',
+      APP_STORE_URL,
+    );
+    await expect(main.getByRole('link', { name: site.card.open, exact: true })).toHaveAttribute(
+      'href',
+      appCardLink(card.id),
+    );
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      'content',
+      card.reward.title,
+    );
+    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+      'content',
+      card.reward.summary,
+    );
     await expect(reward).toContainText(card.reward.summary);
     await expect(reward).toContainText(card.reward.fact);
     const illustration = reward.getByRole('img', {
