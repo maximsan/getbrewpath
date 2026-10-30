@@ -3,10 +3,10 @@
 export const SITE_HOST = 'getbrewpath.com';
 export const SITE_URL = `https://${SITE_HOST}`;
 
-/** The App Store listing's id. Null until the listing exists. Set it at launch. */
-export const APP_STORE_ID: string | null = null;
-/** The App Store listing. Until `APP_STORE_ID` is set, a placeholder address that leads nowhere. */
-export const APP_STORE_URL = `https://apps.apple.com/app/brewpath/id${APP_STORE_ID ?? '0000000000'}`;
+/** The numeric Apple ID of BrewPath's App Store Connect app record. */
+export const APP_STORE_ID: string | null = '6827754824';
+/** The real listing address; Apple controls availability before public release. */
+export const APP_STORE_URL = `https://apps.apple.com/app/brewpath/id${APP_STORE_ID}`;
 
 export const EMAIL_HI = 'hi@getbrewpath.com';
 /** The link address that opens a new email to `email`. */

@@ -69,5 +69,6 @@ export async function expectSiteLinks(page: Page) {
   expect(appStoreLinks.length, 'App Store links').toBeGreaterThan(0);
   for (const href of appStoreLinks) {
     expect(href).toBe(APP_STORE_URL);
+    expect(new URL(href!).pathname).toMatch(/\/id6827754824$/);
   }
 }
