@@ -27,7 +27,7 @@ pnpm test:smoke     # build the site, open its main pages in Chromium and check 
 pnpm lighthouse     # page speed score (0–100) per page, the middle of several runs; needs pnpm preview running
                     # compare middle scores: one run's score can vary by ten points or more
                     # --check exits with an error when a page scores below its minimum
-pnpm sync-cards     # refresh src/content/<language>/course.json from the app's main branch on GitHub
+pnpm sync-cards     # refresh course.json and card-art.json from the app's main branch on GitHub
                     # it fetches main into your clone of the app repo, which it expects beside this repo:
                     #   projects/getbrewpath/   this repo
                     #   projects/brewpath/      the app repo
@@ -42,8 +42,10 @@ pnpm sync-cards     # refresh src/content/<language>/course.json from the app's 
 - `src/app/[locale]/` — the pages, once per language.
 - `src/i18n/` — the language list, routing and string loading.
 - `src/messages/<language>/` — every string, one folder per language.
-- `src/content/<language>/course.json` — written by `pnpm sync-cards` from the
-  app repo's content; do not edit by hand.
+- `src/content/<language>/course.json` and `card-art.json` — written by
+  `pnpm sync-cards` from the app repo's content, SVG drawings and fonts; do not
+  edit by hand. Artwork includes both moods, with labels outlined so it does not
+  depend on browser fonts.
 - `src/assets/` — the app icon, and app screenshots in `screens/<mood>/`, one
   folder per [mood](GLOSSARY.md). Pages import them, so their addresses carry a
   content hash and browsers cache them for a year.
@@ -68,7 +70,8 @@ its code (`/be/terms`).
    folder to `MESSAGES` in `src/i18n/messages.ts`.
 3. Run `pnpm sync-cards`. It writes the course in that language from the app's
    `assets/content/l10n/<code>/`. Add the file to `COURSE_FILES` in
-   `src/domains/course/course.ts`.
+   `src/domains/course/course.ts` and the artwork file to `ART_FILES` in
+   `src/domains/course/card-art.ts`.
 4. Pick a headline serif that covers the language's script and add it to
    `DISPLAY_FONT` in `src/app/fonts.ts`. Fraunces has Latin letters only.
 
@@ -105,3 +108,7 @@ It serves `getbrewpath.com` and `open.getbrewpath.com`.
 `www.getbrewpath.com` is not in the code. A Cloudflare redirect rule sends it to
 the same path on `getbrewpath.com`: Cloudflare dashboard → getbrewpath.com →
 Rules → Redirect Rules.
+
+Security configuration and reporting are in [SECURITY.md](SECURITY.md). The
+[security and Coffee Card review](docs/security-and-card-review.md) records the
+implementation evidence, audit limits and remaining publication/launch checks.
