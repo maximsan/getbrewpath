@@ -105,7 +105,7 @@ export default async function CardPage({ params }: CardPageProps) {
             {body}
           </p>
           <ButtonRow className="mt-7.5 items-center">
-            <LinkButton href={APP_STORE_URL} tone="ink" size="xl">
+            <LinkButton href={APP_STORE_URL} tone="ink" size="xl" className="min-w-42">
               {translate('get')}
             </LinkButton>
             <LinkButton href={appCardLink(card.id)} tone="outline" size="xl">
@@ -135,7 +135,7 @@ export default async function CardPage({ params }: CardPageProps) {
         ))}
       </div>
       <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
-        <div className="ff-ui text-[15px] text-ink-mute">
+        <div className="ff-ui text-[15px] whitespace-pre-line text-ink-mute">
           {translate.rich('curious', {
             link: (chunks) => <Link href={PAGE_ROUTES.home}>{chunks}</Link>,
           })}

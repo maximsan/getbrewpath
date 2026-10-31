@@ -206,10 +206,10 @@
     "lessonBody": "A perfect score on <strong>{lesson}</strong>, lesson {lessonNumber} of the {module} module. In BrewPath, every lesson you ace becomes a Coffee Card — a fact worth keeping, in a collection worth finishing.",
     "moduleRewardBody": "This is a Module Reward, earned by finishing every lesson of the <strong>{module}</strong> module. Each module you finish adds its Module Reward to your card collection, next to the cards from its lessons.",
     "defaultBadge": "Coffee card",
-    "get": "Get BrewPath — free to start",
+    "get": "Get BrewPath",
     "open": "Open in the app",
     "avail": "Available on iPhone",
-    "curious": "Curious what the whole thing is? <link>See BrewPath</link>",
+    "curious": "Curious what the whole thing is?\n<link>See BrewPath</link>",
     "count": "{cards} cards, {moduleRewards} of them Module Rewards",
     "pitch": {
       "lessons": {
