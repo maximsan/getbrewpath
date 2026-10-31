@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { ButtonRow } from '@components/button-row/button-row';
 import { LinkButton } from '@components/link-button/link-button';
-import { PhoneShot } from '@components/phone-shot/phone-shot';
+import { PhoneShotGroup } from '@components/phone-shot';
 import { monoNoteClass, twoColumnClass } from '@components/section/section';
 import { sectionHref } from '@components/site-header/nav-items';
 import { APP_STORE_URL } from '@domains/site/site';
@@ -26,10 +26,10 @@ export async function Hero() {
           {translate('body')}
         </p>
         <ButtonRow className="mt-8.5 animate-rise-in items-center [animation-delay:.16s] stacked:justify-center">
-          <LinkButton href={APP_STORE_URL} tone="ink" size="xl">
+          <LinkButton href={APP_STORE_URL} tone="ink" size="xl" className="min-w-58">
             {translate('download')}
           </LinkButton>
-          <LinkButton href={sectionHref('demo')} tone="outline" size="xl">
+          <LinkButton href={sectionHref('demo')} tone="outline" size="xl" className="min-w-58">
             {translate('tryFirst')}
           </LinkButton>
         </ButtonRow>
@@ -37,22 +37,7 @@ export async function Hero() {
           {translate('note')}
         </div>
       </div>
-      <div className="-mx-6 flex animate-[rise-in_1s_var(--ease-out-soft)_.2s_both] items-start justify-center px-6 pt-8">
-        <PhoneShot
-          screen="today"
-          alt={translate('shotToday')}
-          sizes="(max-width: 800px) 44vw, 270px"
-          aboveFold
-          className="z-2 w-[min(44%,270px)] flex-none shadow-[0_40px_70px_-24px_rgba(27,22,20,.55)]"
-        />
-        <PhoneShot
-          screen="lesson"
-          alt={translate('shotLesson')}
-          sizes="(max-width: 800px) 39vw, 240px"
-          aboveFold
-          className="z-1 ms-[-12%] mt-[14%] w-[min(39%,240px)] flex-none shadow-[0_30px_60px_-20px_rgba(27,22,20,.45)]"
-        />
-      </div>
+      <PhoneShotGroup alt1={translate('shotToday')} alt2={translate('shotLesson')} />
     </section>
   );
 }
