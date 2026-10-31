@@ -67,6 +67,13 @@ export default async function LocaleLayout({
       <body className="flex min-h-screen flex-col">
         <NextIntlClientProvider>
           <MoodProvider>
+            {/* Paint above Telegram's webview frame without moving the page.
+                https://github.com/TelegramMessenger/Telegram-iOS/issues/2347 */}
+            <div
+              aria-hidden="true"
+              data-browser-chrome-cover
+              className="pointer-events-none sticky -top-(--browser-chrome-cover-height) z-50 -mt-(--browser-chrome-cover-height) h-(--browser-chrome-cover-height) flex-none bg-bg"
+            />
             <a
               href="#main"
               className="ff-ui sr-only rounded-full bg-ink px-4 py-2 text-bg focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-60"

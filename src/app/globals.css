@@ -40,6 +40,9 @@
  * Source: prototype/_ds/brewpath-4b93ed84-d738-40ba-84a6-59af9b9bb79d/tokens/brewpath-tokens.css.
  */
 :root {
+  /* Offscreen paint area for Telegram's unclipped webview, not page spacing.
+     Matches the device-tested workaround: Telegram-iOS issue #2347. */
+  --browser-chrome-cover-height: 200px;
   --bg: #f4efe6;
   --surface: #fbf7ee;
   --surface-2: #efe8da;
