@@ -2,7 +2,12 @@ import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 import { SECURITY_HEADERS } from './src/config/security-headers';
-import { APP_LINKS_HOST, APP_STORE_ID, APP_STORE_URL, SITE_URL } from './src/domains/site/site';
+import {
+  APP_LINKS_HOST,
+  APP_STORE_ID,
+  APP_STORE_URL,
+  SITE_URL,
+} from './src/domains/site/site-config';
 import { routing } from './src/i18n/routing';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
