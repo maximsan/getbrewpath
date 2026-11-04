@@ -1,4 +1,4 @@
-import { WEB_ANALYTICS_ENDPOINT, WEB_ANALYTICS_SCRIPT } from '../domains/site/site';
+import { WEB_ANALYTICS_ENDPOINT, WEB_ANALYTICS_SCRIPT } from '../domains/site/site-config';
 
 /**
  * Where a page may load scripts from. A strict policy marks each inline script
