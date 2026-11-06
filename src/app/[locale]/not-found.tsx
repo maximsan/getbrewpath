@@ -2,11 +2,10 @@ import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
 import { ButtonRow } from '@components/button-row/button-row';
-import { LinkButton } from '@components/link-button/link-button';
+import { AppDownloadLink, LinkButton } from '@components/link-button/link-button';
 import { SleepingRoasty } from '@components/sleeping-roasty/sleeping-roasty';
 import { pageTitleClass } from '@components/section/section';
 import { PAGE_ROUTES } from '@domains/site/routes';
-import { APP_STORE_URL } from '@domains/site/site';
 import { cn } from '@shared/styles/cn';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -32,9 +31,9 @@ export default async function NotFound() {
         <LinkButton href={PAGE_ROUTES.home} tone="ink" size="lg">
           {translate('back')}
         </LinkButton>
-        <LinkButton href={APP_STORE_URL} tone="outline" size="lg">
+        <AppDownloadLink tone="outline" size="lg">
           {translate('get')}
-        </LinkButton>
+        </AppDownloadLink>
       </ButtonRow>
     </section>
   );

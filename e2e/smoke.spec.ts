@@ -5,8 +5,9 @@ import { legalPageSource } from '@domains/site/legal-pages';
 import { cardPath, LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import {
   APP_LINKS_HOST,
-  APP_STORE_ID,
+  APP_STORE_LIVE,
   APP_STORE_URL,
+  COMING_SOON_PATH,
   mailtoHref,
   SITE_HOST,
   SITE_URL,
@@ -154,10 +155,12 @@ test('the Apple link file lets the app open only card links, on both domains', a
   }
 });
 
-test(`${APP_LINKS_HOST} redirects to the site, or a card link to the App Store`, async ({
+test(`${APP_LINKS_HOST} redirects browsers to the site or the active card fallback`, async ({
   request,
 }) => {
-  const cardDestination = APP_STORE_ID === null ? `${SITE_URL}${CARD_PATH}` : APP_STORE_URL;
+  const cardDestination = APP_STORE_LIVE
+    ? APP_STORE_URL
+    : `${SITE_URL}${COMING_SOON_PATH}?card=${firstCard.id}`;
   const destinations = {
     '/': `${SITE_URL}/`,
     [PAGE_ROUTES.terms]: `${SITE_URL}${PAGE_ROUTES.terms}`,
@@ -170,4 +173,20 @@ test(`${APP_LINKS_HOST} redirects to the site, or a card link to the App Store`,
     expect(response.status(), path).toBe(307);
     expect(response.headers().location, path).toBe(destination);
   }
+});
+
+test('coming-soon page returns to the shared card when the card is known', async ({ page }) => {
+  await openPath(page, `${COMING_SOON_PATH}?card=${firstCard.id}`);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.availability.title);
+  await page.getByRole('link', { name: site.availability.backToCard }).click();
+  await expect(page).toHaveURL(new RegExp(`${CARD_PATH}$`));
+});
+
+test('coming-soon page offers the demo without a card context', async ({ page }) => {
+  await openPath(page, COMING_SOON_PATH);
+  const main = page.getByRole('main');
+
+  await expect(main.getByRole('link', { name: site.availability.backToCard })).toHaveCount(0);
+  await main.getByRole('link', { name: site.availability.tryLesson }).click();
+  await expect(page).toHaveURL(/#demo$/);
 });

@@ -1,4 +1,7 @@
+import { useTranslations } from 'next-intl';
 import type { ComponentProps } from 'react';
+
+import { APP_DOWNLOAD_URL, APP_STORE_LIVE } from '@domains/site/site';
 
 import { Link } from '@i18n/navigation';
 import { cn } from '@shared/styles/cn';
@@ -33,4 +36,14 @@ interface LinkButtonProps extends ComponentProps<typeof Link> {
 
 export function LinkButton({ tone, size, className, ...props }: LinkButtonProps) {
   return <Link className={cn(linkButtonClass(tone, size), className)} {...props} />;
+}
+
+export function AppDownloadLink({ children, ...props }: Omit<LinkButtonProps, 'href'>) {
+  const translate = useTranslations('availability');
+
+  return (
+    <LinkButton {...props} href={APP_DOWNLOAD_URL}>
+      {APP_STORE_LIVE ? children : translate('comingSoon')}
+    </LinkButton>
+  );
 }

@@ -1,6 +1,8 @@
 import type { APIRequestContext, Page } from '@playwright/test';
 
 import {
+  APP_DOWNLOAD_URL,
+  APP_STORE_LIVE,
   APP_STORE_URL,
   MAILTO_HI,
   WEB_ANALYTICS_SCRIPT,
@@ -64,11 +66,11 @@ export async function expectSiteLinks(page: Page) {
     expect(href).toBe(MAILTO_HI);
   }
 
-  const appStoreLinks = await linkTargets(page, `a[href*="${APP_STORE_HOST}"]`);
+  const downloadLinks = await linkTargets(page, `a[href="${APP_DOWNLOAD_URL}"]`);
 
-  expect(appStoreLinks.length, 'App Store links').toBeGreaterThan(0);
-  for (const href of appStoreLinks) {
-    expect(href).toBe(APP_STORE_URL);
-    expect(new URL(href!).pathname).toMatch(/\/id6827754824$/);
+  expect(downloadLinks.length, 'download links').toBeGreaterThan(0);
+  if (!APP_STORE_LIVE) {
+    expect(await linkTargets(page, `a[href*="${APP_STORE_HOST}"]`)).toEqual([]);
+    await expect(page.locator(`a[href="${APP_DOWNLOAD_URL}"]`).first()).toHaveText('Coming soon');
   }
 }

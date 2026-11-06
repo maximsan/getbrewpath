@@ -200,14 +200,21 @@
     "body": "Free to start, offline, no account. Roasty is already waiting.",
     "download": "Download on the App Store"
   },
+  "availability": {
+    "comingSoon": "Coming soon",
+    "title": "BrewPath is coming to the App Store",
+    "body": "In the meantime, try a coffee lesson right here on the website.",
+    "backToCard": "Back to the Coffee Card",
+    "tryLesson": "Try a lesson"
+  },
   "card": {
     "shared": "Shared from BrewPath",
     "earned": "A friend earned <em>{card}</em>.",
     "lessonBody": "A perfect score on <strong>{lesson}</strong>, lesson {lessonNumber} of the {module} module. In BrewPath, every lesson you ace becomes a Coffee Card — a fact worth keeping, in a collection worth finishing.",
     "moduleRewardBody": "This is a Module Reward, earned by finishing every lesson of the <strong>{module}</strong> module. Each module you finish adds its Module Reward to your card collection, next to the cards from its lessons.",
     "defaultBadge": "Coffee card",
-    "get": "Get BrewPath",
-    "open": "Open in the app",
+    "open": "Open BrewPath",
+    "comingSoon": "Coming soon to iPhone",
     "avail": "Available on iPhone",
     "curious": "Curious what the whole thing is?\n<link>See BrewPath</link>",
     "count": "{cards} cards, {moduleRewards} of them Module Rewards",
@@ -1027,7 +1034,7 @@
     "titleTemplate": "%s · BrewPath",
     "description": "Three-minute lessons in the craft of coffee — beans, roast, grind, brew. Every one you finish feeds a living tree and earns a card worth keeping.",
     "cardTitle": "{card}",
-    "cardDescription": "{summary}",
+    "cardDescription": "A Coffee Card from BrewPath.",
     "notFound": "Page not found"
   },
   "brand": "BrewPath"
