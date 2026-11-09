@@ -177,7 +177,9 @@ test(`${APP_LINKS_HOST} redirects browsers to the site or the active card fallba
 
 test('coming-soon page returns to the shared card when the card is known', async ({ page }) => {
   await openPath(page, `${COMING_SOON_PATH}?card=${firstCard.id}`);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.availability.title);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    site.availability.heading.replace(/<\/?em>/g, ''),
+  );
   await page.getByRole('link', { name: site.availability.backToCard }).click();
   await expect(page).toHaveURL(new RegExp(`${CARD_PATH}$`));
 });

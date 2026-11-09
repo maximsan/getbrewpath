@@ -203,6 +203,7 @@
   "availability": {
     "comingSoon": "Coming soon",
     "title": "BrewPath is coming to the App Store",
+    "heading": "BrewPath is coming <em>to the App Store.</em>",
     "body": "In the meantime, try a coffee lesson right here on the website.",
     "backToCard": "Back to the Coffee Card",
     "tryLesson": "Try a lesson"
