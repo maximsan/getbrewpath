@@ -28,7 +28,7 @@ export default async function ComingSoonPage({ params, searchParams }: ComingSoo
 
   return (
     <section className="page-width px-6 pt-[clamp(32px,6vw,80px)] pb-4">
-      <div className="grid items-center gap-12 tablet:grid-cols-2 tablet:gap-[clamp(40px,7vw,96px)]">
+      <div className="grid items-center gap-8 tablet:grid-cols-2 tablet:gap-[clamp(40px,7vw,96px)]">
         <div className="animate-rise-in py-4">
           <h1 className="ff-display m-0 text-[clamp(36px,4.4vw,60px)] leading-[1.02] font-normal tracking-tight text-balance">
             {translate.rich('heading', {
@@ -53,11 +53,7 @@ export default async function ComingSoonPage({ params, searchParams }: ComingSoo
             )}
           </div>
         </div>
-        <div
-          aria-hidden="true"
-          className="relative isolate mx-auto flex aspect-square w-full max-w-90 items-center justify-center overflow-hidden rounded-t-full rounded-b-[28px] bg-surface-2"
-        >
-          <div className="pointer-events-none absolute inset-5 -z-10 rounded-t-full rounded-b-[18px] bg-sage/10" />
+        <div aria-hidden="true" className="flex items-center justify-center py-4 tablet:py-8">
           <Roasty size="large" state="idle" />
         </div>
       </div>
