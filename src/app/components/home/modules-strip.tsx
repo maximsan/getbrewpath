@@ -69,7 +69,7 @@ export async function ModulesStrip({ course }: { course: Course }) {
                   {translate(`items.${key}.title`)}
                 </h3>
                 <p className="ff-ui mt-1.5 mb-0 text-[13px] leading-[1.45] text-ink-mute">
-                  {translate(`items.${key}.desc`)}
+                  {translate(`items.${key}.description`)}
                 </p>
               </div>
             </div>

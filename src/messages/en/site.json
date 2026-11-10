@@ -29,29 +29,29 @@
     "items": {
       "m1": {
         "title": "Beans",
-        "desc": "What coffee actually is, arabica vs robusta, origin, altitude."
+        "description": "What coffee actually is, arabica vs robusta, origin, altitude."
       },
       "m2": {
         "title": "Processing",
-        "desc": "Washed, natural, honey — and why it changes the cup."
+        "description": "Washed, natural, honey — and why it changes the cup."
       },
       "m3": {
         "title": "Roasting",
-        "desc": "Light to dark, first and second crack, reading a roast date."
+        "description": "Light to dark, first and second crack, reading a roast date."
       },
       "m4": {
         "title": "Grind",
-        "desc": "Particle size in plain English, burr vs blade, dialing in."
+        "description": "Particle size in plain English, burr vs blade, dialing in."
       },
       "m5": {
         "title": "Brew",
-        "desc": "Ratio, water, extraction, your first truly good cup."
+        "description": "Ratio, water, extraction, your first truly good cup."
       }
     }
   },
   "how": {
     "title": "Guess. Find out. Keep the card.",
-    "step": "Step {n}",
+    "step": "Step {stepNumber}",
     "items": {
       "step1": {
         "title": "Guess first",
@@ -88,15 +88,15 @@
   "demo": {
     "title": "This is lesson one. Have a go.",
     "body": "Three real cards from “What coffee actually is”, running the same way they do in the app. Pick an answer, read why, tap Continue.",
-    "scorePerfect": "{n} of {total}. That card is yours.",
-    "scorePartial": "{n} of {total}. Close — the card wants a perfect run.",
+    "scorePerfect": "{correctAnswers} of {total}. That card is yours.",
+    "scorePartial": "{correctAnswers} of {total}. Close — the card wants a perfect run.",
     "scoreBodyPerfect": "In the app, a perfect lesson keeps the card for good.",
     "scoreBodyPartial": "In the app you can replay any lesson until it’s perfect.",
     "fullLesson": "The full lesson is eight cards — and {freeLessons, plural, =1 {the free one} =2 {one of the two free ones} =3 {one of the three free ones} other {one of the # free ones}}.",
     "get": "Get BrewPath",
     "again": "Play again",
     "restart": "Restart",
-    "progress": "Card {n} of {total}. Tap an answer on the phone",
+    "progress": "Card {cardNumber} of {total}. Tap an answer on the phone",
     "card0": {
       "prompt": "How many seeds sit inside a typical coffee cherry?",
       "choices": {

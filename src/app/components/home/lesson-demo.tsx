@@ -70,7 +70,7 @@ export function LessonDemo({ reward, illustration, freeLessons }: LessonDemoProp
     },
   ];
 
-  const progress = { n: Math.min(step, CARD_COUNT - 1) + 1, total: CARD_COUNT };
+  const progress = { cardNumber: Math.min(step, CARD_COUNT - 1) + 1, total: CARD_COUNT };
 
   return (
     <div className={twoColumnClass}>
@@ -86,7 +86,7 @@ export function LessonDemo({ reward, illustration, freeLessons }: LessonDemoProp
             <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-card border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-5.5 py-5">
               <div className="ff-display text-[22px] leading-[1.15]">
                 {translate(perfect ? 'scorePerfect' : 'scorePartial', {
-                  n: score,
+                  correctAnswers: score,
                   total: CARD_COUNT,
                 })}
               </div>
@@ -127,7 +127,7 @@ export function LessonDemo({ reward, illustration, freeLessons }: LessonDemoProp
                 <div key={run} className="relative h-demo-app-height w-demo-app overflow-hidden">
                   <ProgressTopbar
                     onClose={restart}
-                    pos={Math.min(step, CARD_COUNT - 1)}
+                    cardIndex={Math.min(step, CARD_COUNT - 1)}
                     total={CARD_COUNT}
                     done={done}
                     closeLabel={translate('restart')}
