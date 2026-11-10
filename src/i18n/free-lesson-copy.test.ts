@@ -15,21 +15,21 @@ describe('the free lesson copy', () => {
       /^The first three lessons and the practice games they teach are free, up to two lessons or games a day\. /,
     );
     expect(translate('demo.fullLesson', { freeLessons: 3 })).toBe(
-      'The full lesson is eight cards — and one of the three free ones.',
+      'The full lesson has eight cards and is one of the three free lessons.',
     );
   });
 
   it('uses the singular when one lesson is free', () => {
     expect(translate('pricing.freeList.item1', { freeLessons: 1 })).toBe('The first lesson');
     expect(translate('demo.fullLesson', { freeLessons: 1 })).toBe(
-      'The full lesson is eight cards — and the free one.',
+      'The full lesson has eight cards and is free to play.',
     );
   });
 
   it('shows a count past three as digits', () => {
     expect(translate('pricing.freeList.item1', { freeLessons: 4 })).toBe('The first 4 lessons');
     expect(translate('demo.fullLesson', { freeLessons: 4 })).toBe(
-      'The full lesson is eight cards — and one of the 4 free ones.',
+      'The full lesson has eight cards and is one of the 4 free lessons.',
     );
   });
 });
