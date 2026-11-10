@@ -89,7 +89,7 @@
     "title": "This is lesson one. Have a go.",
     "body": "Three real cards from “What coffee actually is”, running the same way they do in the app. Pick an answer, read why, tap Continue.",
     "scorePerfect": "{correctAnswers} of {total}. That card is yours.",
-    "scorePartial": "{correctAnswers} of {total}. Close. Get every answer right to earn the card.",
+    "scorePartial": "{correctAnswers} of {total}. Get every answer right to earn the card.",
     "scoreBodyPerfect": "In the app, a perfect lesson keeps the card for good.",
     "scoreBodyPartial": "In the app, you can replay any lesson and try again.",
     "fullLesson": "The full lesson has eight cards and is {freeLessons, plural, =1 {free to play} =2 {one of the two free lessons} =3 {one of the three free lessons} other {one of the # free lessons}}.",

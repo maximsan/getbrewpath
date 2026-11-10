@@ -112,7 +112,9 @@ for (const perfect of [true, false]) {
       await expect(next).toBeEnabled();
       await next.click();
     }
-    await expect(demo).toContainText(perfect ? '3 of 3. That card is yours.' : '2 of 3. Close');
+    await expect(demo).toContainText(
+      perfect ? '3 of 3. That card is yours.' : '2 of 3. Get every answer right to earn the card.',
+    );
     const reward = demo.getByRole('heading', { name: 'The Coffee Cherry', exact: true });
 
     await expect(reward).toBeVisible();
