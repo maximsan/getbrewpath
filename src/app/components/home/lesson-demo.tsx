@@ -9,6 +9,7 @@ import {
   type TrueFalseCardData,
 } from '@components/brewpath/lesson-cards/true-false-card';
 import { ProgressTopbar } from '@components/brewpath/progress-topbar/progress-topbar';
+import { LockedRewardCard } from '@components/brewpath/reward-card/locked-reward-card';
 import { RewardCard, type RewardCardData } from '@components/brewpath/reward-card/reward-card';
 import { ButtonRow } from '@components/button-row/button-row';
 import { AppDownloadLink } from '@components/link-button/link-button';
@@ -24,12 +25,10 @@ interface LessonDemoProps {
   /** The card a perfect run of lesson one earns. */
   reward: RewardCardData;
   illustration: string;
-  /** How many lessons are free, lesson one among them. */
-  freeLessons: number;
 }
 
 /** Lesson one's first three cards, playable in a phone frame. */
-export function LessonDemo({ reward, illustration, freeLessons }: LessonDemoProps) {
+export function LessonDemo({ reward, illustration }: LessonDemoProps) {
   const translate = useTranslations('demo');
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
@@ -92,7 +91,7 @@ export function LessonDemo({ reward, illustration, freeLessons }: LessonDemoProp
               </div>
               <div className="ff-ui text-sm/normal text-ink-mute">
                 {translate(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')}{' '}
-                {translate('fullLesson', { freeLessons })}
+                {translate('fullLesson')}
               </div>
               <ButtonRow className="mt-1 gap-2.5 stacked:justify-center">
                 <AppDownloadLink tone="accent" size="md">
@@ -147,11 +146,15 @@ export function LessonDemo({ reward, illustration, freeLessons }: LessonDemoProp
                         {perfect && <CoffeeBurst />}
                         <div className="flex animate-save-note-in justify-center px-6">
                           <div className="flex w-full max-w-[320px] justify-center">
-                            <RewardCard
-                              reward={reward}
-                              illustration={perfect ? undefined : illustration}
-                              preview={!perfect}
-                            />
+                            {perfect ? (
+                              <RewardCard reward={reward} />
+                            ) : (
+                              <LockedRewardCard
+                                title={reward.title}
+                                illustration={illustration}
+                                onRetry={restart}
+                              />
+                            )}
                           </div>
                         </div>
                       </>

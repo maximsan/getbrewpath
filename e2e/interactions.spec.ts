@@ -122,12 +122,16 @@ for (const perfect of [true, false]) {
     const fact = demo.getByText('Cherries ripen unevenly on the same branch', { exact: false });
 
     await expect(fact).toHaveCount(perfect ? 1 : 0);
+    await expect(demo.getByText('Not yet earned', { exact: true })).toHaveCount(perfect ? 0 : 1);
     if (!perfect) {
       await expect(
         demo.getByRole('img', { name: 'Illustration: The Coffee Cherry' }),
       ).toBeVisible();
+      await demo.getByRole('button', { name: 'Try again', exact: true }).click();
+      await expect(demo.getByText(site.demo.card0.prompt, { exact: true })).toBeVisible();
+    } else {
+      await demo.getByRole('button', { name: site.demo.again, exact: true }).click();
     }
-    await demo.getByRole('button', { name: site.demo.again, exact: true }).click();
     await expect(next).toBeDisabled();
     await demo.getByRole('button', { name: new RegExp(`${site.demo.card0.choices.c2}$`) }).click();
     await next.click();

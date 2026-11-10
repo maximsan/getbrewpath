@@ -9,7 +9,7 @@ import { Pricing } from '@components/home/pricing';
 import { RoastyShowcase } from '@components/home/roasty-showcase';
 import { Section } from '@components/section/section';
 import { getCardArtImage } from '@domains/course/card-art';
-import { courseCounts, DEMO_REWARD_CARD_ID, findCard, getCourse } from '@domains/course/course';
+import { DEMO_REWARD_CARD_ID, findCard, getCourse } from '@domains/course/course';
 import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 
 export default async function HomePage({ params }: LocaleParams) {
@@ -37,11 +37,7 @@ export default async function HomePage({ params }: LocaleParams) {
           data-reveal
           className="overflow-hidden rounded-[28px] border border-rule bg-surface px-[clamp(24px,5vw,64px)] py-[clamp(32px,5vw,64px)]"
         >
-          <LessonDemo
-            reward={demoCard.reward}
-            illustration={illustration}
-            freeLessons={courseCounts(course).freeLessons}
-          />
+          <LessonDemo reward={demoCard.reward} illustration={illustration} />
         </div>
       </Section>
       <Pricing course={course} />
