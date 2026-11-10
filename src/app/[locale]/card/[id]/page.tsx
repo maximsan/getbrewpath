@@ -107,7 +107,7 @@ export default async function CardPage({ params }: CardPageProps) {
             {translate('open')}
           </LinkButton>
           <div className={cn(monoNoteClass, 'mt-4.5')}>
-            {translate(APP_STORE_LIVE ? 'avail' : 'comingSoon')}
+            {translate(APP_STORE_LIVE ? 'availableOnIPhone' : 'comingSoon')}
           </div>
         </div>
       </div>
