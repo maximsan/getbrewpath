@@ -43,13 +43,11 @@ export function AppDownloadLink({ children, className, ...props }: Omit<LinkButt
 
   if (!APP_STORE_LIVE) {
     return (
-      <span
-        className={cn(
-          'ff-ui inline-flex items-center justify-center text-sm text-ink-mute',
-          className,
-        )}
-      >
-        {translate('comingSoon')}
+      <span className={cn('inline-flex items-center justify-center', className)}>
+        <span className="ff-mono inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-xs/normal font-medium tracking-wider text-accent uppercase">
+          <span aria-hidden="true" className="size-1.5 rounded-full bg-current" />
+          {translate('comingSoon')}
+        </span>
       </span>
     );
   }
