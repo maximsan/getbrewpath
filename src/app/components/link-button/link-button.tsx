@@ -38,12 +38,25 @@ export function LinkButton({ tone, size, className, ...props }: LinkButtonProps)
   return <Link className={cn(linkButtonClass(tone, size), className)} {...props} />;
 }
 
-export function AppDownloadLink({ children, ...props }: Omit<LinkButtonProps, 'href'>) {
+export function AppDownloadLink({ children, className, ...props }: Omit<LinkButtonProps, 'href'>) {
   const translate = useTranslations('availability');
 
+  if (!APP_STORE_LIVE) {
+    return (
+      <span
+        className={cn(
+          'ff-ui inline-flex items-center justify-center text-sm text-ink-mute',
+          className,
+        )}
+      >
+        {translate('comingSoon')}
+      </span>
+    );
+  }
+
   return (
-    <LinkButton {...props} href={APP_DOWNLOAD_URL}>
-      {APP_STORE_LIVE ? children : translate('comingSoon')}
+    <LinkButton {...props} className={className} href={APP_DOWNLOAD_URL}>
+      {children}
     </LinkButton>
   );
 }

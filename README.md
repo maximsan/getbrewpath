@@ -102,8 +102,9 @@ describes. See `src/domains/site/site.ts`.
 A card page and its share image show the Coffee Card's title and artwork. The
 lesson demo shows the full example card after a perfect run.
 
-Before launch, download buttons link to `/coming-soon`. If the app does not open
-from a card link, the browser goes to that page with a link back to the card.
+Before launch, download locations show “Coming soon” as plain text. If the app
+does not open from a card link, the browser goes to `/coming-soon` with a link
+back to the card.
 Once the public App Store listing is available, set `APP_STORE_LIVE` to `true`
 in `src/domains/site/site-config.ts`. This switches the download buttons and card
 fallback to the App Store in the next deployment. Verify the listing and the
