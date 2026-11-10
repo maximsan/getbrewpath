@@ -17,7 +17,7 @@
   },
   "hero": {
     "title": "Learn coffee.\nGrow a tree.",
-    "body": "Three-minute lessons in the craft of coffee — beans, roast, grind, brew. Every one you finish feeds a living tree and earns a card worth keeping.",
+    "body": "Learn about beans, roasting, grinding and brewing in short lessons. Each completed lesson helps your tree grow. A perfect score earns a collectible Coffee Card.",
     "download": "Download on the App Store",
     "tryFirst": "Try a lesson first",
     "note": "Free to start. Foundations unlocks the rest, in the app.",
@@ -25,7 +25,7 @@
     "shotLesson": "A BrewPath lesson asking for a first guess"
   },
   "modules": {
-    "meta": "{modules, plural, =5 {Five modules} other {# modules}} — {lessons} lessons, {minutes} min each",
+    "meta": "{modules, plural, =5 {Five modules} other {# modules}}. {lessons} lessons, {minutes} min each.",
     "items": {
       "m1": {
         "title": "Beans",
@@ -33,7 +33,7 @@
       },
       "m2": {
         "title": "Processing",
-        "description": "Washed, natural, honey — and why it changes the cup."
+        "description": "How washed, natural and honey processing change the taste of coffee."
       },
       "m3": {
         "title": "Roasting",
@@ -55,17 +55,17 @@
     "items": {
       "step1": {
         "title": "Guess first",
-        "body": "Every lesson opens with a question you answer before you know. Being wrong is the point — it’s what makes the answer stick.",
+        "body": "Each lesson starts with a question. Make a guess, then find out why the answer is right.",
         "alt": "First guess card"
       },
       "step2": {
         "title": "Find out, in three minutes",
-        "body": "Short cards, one idea each. Complete the sentence, put steps in order, match a taste to its cause.",
+        "body": "Learn one idea at a time. Complete sentences, put steps in order and match flavours to their causes.",
         "alt": "Complete the sentence card"
       },
       "step3": {
         "title": "Keep the card",
-        "body": "A perfect lesson earns a Coffee Card. Finish a module and its Module Reward joins your card collection. Your tree grows either way.",
+        "body": "Get every answer right to earn a Coffee Card. Earn every lesson card in a module to receive its Module Reward. Every completed lesson helps your tree grow.",
         "alt": "Coffee Card collection"
       }
     }
@@ -80,14 +80,14 @@
       },
       "dictionary": {
         "title": "A dictionary that shows its sources",
-        "body": "Each term is explained in plain words, with sources and related terms, then one quick question to check you remember it.",
+        "body": "Read clear definitions with sources and related terms. Answer a quick question to check what you remember.",
         "alt": "Dictionary term screen"
       }
     }
   },
   "demo": {
     "title": "This is lesson one. Have a go.",
-    "body": "Three real cards from “What coffee actually is”, running the same way they do in the app. Pick an answer, read why, tap Continue.",
+    "body": "Try three questions from the app’s first lesson, “What coffee actually is”. Pick an answer, read the explanation and tap Continue.",
     "scorePerfect": "{correctAnswers} of {total}. That card is yours.",
     "scorePartial": "{correctAnswers} of {total}. Get every answer right to earn the card.",
     "scoreBodyPerfect": "In the app, a perfect lesson keeps the card for good.",
@@ -105,11 +105,11 @@
         "c3": "Five",
         "c4": "Four"
       },
-      "explain": "Two flat-faced seeds sit pressed together inside each cherry. A “peaberry” is the rare cherry that grew only one — which is why it’s rounder."
+      "explain": "Most coffee cherries contain two seeds with flat sides pressed together. Sometimes only one seed grows, forming a rounder “peaberry”."
     },
     "card1": {
       "statement": "Arabica and robusta are two roasts of the same bean",
-      "explain": "False — they are two different species of coffee plant. Roast is what happens later, to either one."
+      "explain": "False. Arabica and robusta are different coffee plant species. Either can be roasted."
     },
     "card2": {
       "prompt": "Which grows best high up a mountain?",
@@ -119,20 +119,20 @@
         "c3": "Both equally",
         "c4": "Neither"
       },
-      "explain": "Arabica prefers cool altitude — often 1,200 m and up. The slower ripening packs in more sugar, which is why it tastes sweeter."
+      "explain": "Arabica prefers cool conditions, often at 1,200 m and above. Slower ripening allows more sugar to develop."
     }
   },
   "roasty": {
     "title": "Meet Roasty.\nHe’ll walk you bean to cup.",
-    "body": "A coffee bean with a beanie and strong opinions. He cheers a right answer, winces at a wrong one, and dozes off if you leave him too long. The path you take together is five modules — beans, processing, roasting, grind, brew.",
+    "body": "Roasty is a coffee bean with a beanie. He cheers right answers, winces at wrong ones and dozes off when you leave him alone. Together, you explore beans, processing, roasting, grinding and brewing.",
     "tapMoment": "Tap a moment",
     "playMoment": "Show another Roasty moment",
     "lines": {
       "idle": "Breathing. Mostly.",
       "correct": "Yes! That’s the one.",
       "wrong": "Hm. Close, but no.",
-      "lesson": "Lesson done. Card earned.",
-      "module": "Beans to brew — the whole thing.",
+      "lesson": "Lesson finished!",
+      "module": "From beans to brew.",
       "sleep": "Zzz… wake me for coffee."
     },
     "chips": {
@@ -159,11 +159,11 @@
       "item4": "Roasty, your tree and your streak"
     },
     "foundationsList": {
-      "item1": "All {modules, plural, =5 {five} other {#}} modules — every lesson",
-      "item2": "The five premium card formats",
+      "item1": "All {modules, plural, =5 {five} other {#}} modules and their lessons",
+      "item2": "Lesson questions about fixing flavours and choosing grind settings",
       "item3": "The complete Dictionary",
       "item4": "Unlimited saved terms and cards",
-      "item5": "The Studio — dress Roasty, choose your plant"
+      "item5": "The Studio lets you dress Roasty and choose your plant."
     },
     "note": "The app shows the plans and the price for your country before you buy.",
     "updatesIncluded": "Fixes and improvements are included."
@@ -173,23 +173,23 @@
     "items": {
       "q1": {
         "q": "Is BrewPath free?",
-        "a": "The first {freeLessons, plural, one {lesson} =2 {two lessons} =3 {three lessons} other {# lessons}} and the practice games they teach are free, up to {freeDailyActivities, plural, one {one} =2 {two} =3 {three} other {#}} lessons or games a day. Foundations unlocks the rest of the course. The app shows how it’s sold and what it costs where you are."
+        "a": "The first {freeLessons, plural, one {lesson} =2 {two lessons} =3 {three lessons} other {# lessons}} and their practice games are free. You can complete up to {freeDailyActivities, plural, one {one} =2 {two} =3 {three} other {#}} lessons or games a day. Foundations unlocks the rest of the course. See the available plans and prices in the app."
       },
       "q2": {
         "q": "Do I need any equipment?",
-        "a": "No. The lessons are about understanding what happens to coffee, not about owning gear. The optional brew challenges use whatever is already in your kitchen."
+        "a": "You can learn without special equipment. Optional brewing challenges use the equipment you already have."
       },
       "q3": {
         "q": "Is there an Android version?",
-        "a": "Not yet. BrewPath is iPhone-only for now; Android is on the plan."
+        "a": "BrewPath is designed for iPhone. An Android version is planned."
       },
       "q4": {
         "q": "Does it work offline?",
-        "a": "Yes. Everything is on your phone — lessons, dictionary, your progress. Planes and bad café Wi-Fi are fine."
+        "a": "Yes. Lessons and dictionary entries are stored on your phone. You can keep learning without an internet connection."
       },
       "q5": {
         "q": "What exactly is a Coffee Card?",
-        "a": "A collectible you earn by finishing a lesson with a perfect score. Each one holds a fact, a specimen drawing and the spec of what you learned. Finish a module and you earn its Module Reward too. You can share any card with a link."
+        "a": "A Coffee Card is a collectible you earn with a perfect lesson score. Each card has an illustration, a fact and details about what you learned. Earn every lesson card in a module to get its Module Reward. You can share earned cards with a link."
       }
     },
     "more": "Something else?",
@@ -211,22 +211,22 @@
   "card": {
     "shared": "Shared from BrewPath",
     "earned": "A friend earned <em>{card}</em>.",
-    "lessonBody": "A perfect score on <strong>{lesson}</strong>, lesson {lessonNumber} of the {module} module. In BrewPath, every lesson you ace becomes a Coffee Card — a fact worth keeping, in a collection worth finishing.",
-    "moduleRewardBody": "This is a Module Reward, earned by finishing every lesson of the <strong>{module}</strong> module. Each module you finish adds its Module Reward to your card collection, next to the cards from its lessons.",
+    "lessonBody": "Get every answer right in <strong>{lesson}</strong> to earn this Coffee Card. This lesson is number {lessonNumber} in the {module} module.",
+    "moduleRewardBody": "Earn every lesson card in the <strong>{module}</strong> module to receive this Module Reward. It joins the Coffee Cards in your collection.",
     "defaultBadge": "Coffee card",
     "open": "Open BrewPath",
     "comingSoon": "Coming soon to iPhone",
     "availableOnIPhone": "Available on iPhone",
-    "curious": "Curious what the whole thing is?\n<link>See BrewPath</link>",
+    "curious": "Want to learn more?\n<link>Explore BrewPath</link>",
     "count": "{cards} cards, {moduleRewards} of them Module Rewards",
     "pitch": {
       "lessons": {
         "title": "{lessons} short lessons",
-        "body": "Beans to brew in five modules. Three minutes each, one idea per card."
+        "body": "Learn about coffee from beans to brewing in short lessons."
       },
       "cards": {
         "title": "{cards} cards to keep",
-        "body": "A perfect lesson earns its card. Finish a module for its Module Reward."
+        "body": "A perfect lesson score earns a Coffee Card. Earn every lesson card in a module to get its Module Reward."
       },
       "tree": {
         "title": "A tree that grows",
@@ -1018,7 +1018,7 @@
   "notfound": {
     "label": "Error 404",
     "title": "This cup’s empty.",
-    "body": "The page you’re after isn’t here — maybe it moved, maybe it was never brewed. Roasty slept through it.",
+    "body": "We couldn’t find this page. The link may be outdated.",
     "back": "Back to the start",
     "get": "Get the app",
     "wakeRoasty": "Wake Roasty"
@@ -1031,9 +1031,9 @@
     "support": "Support"
   },
   "metadata": {
-    "title": "BrewPath — learn coffee, grow a tree",
+    "title": "BrewPath. Learn coffee, grow a tree.",
     "titleTemplate": "%s · BrewPath",
-    "description": "Three-minute lessons in the craft of coffee — beans, roast, grind, brew. Every one you finish feeds a living tree and earns a card worth keeping.",
+    "description": "Learn about beans, roasting, grinding and brewing in short lessons. Each completed lesson helps your tree grow. A perfect score earns a collectible Coffee Card.",
     "cardTitle": "{card}",
     "cardDescription": "A Coffee Card from BrewPath.",
     "notFound": "Page not found"
