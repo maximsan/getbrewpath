@@ -9,12 +9,12 @@ import {
   type TrueFalseCardData,
 } from '@components/brewpath/lesson-cards/true-false-card';
 import { ProgressTopbar } from '@components/brewpath/progress-topbar/progress-topbar';
+import { LockedRewardCard } from '@components/brewpath/reward-card/locked-reward-card';
 import { RewardCard, type RewardCardData } from '@components/brewpath/reward-card/reward-card';
 import { ButtonRow } from '@components/button-row/button-row';
-import { linkButtonClass } from '@components/link-button/link-button';
+import { AppDownloadLink } from '@components/link-button/link-button';
 import { ScaledFrame } from '@components/scaled-frame/scaled-frame';
 import { twoColumnClass } from '@components/section/section';
-import { APP_STORE_URL } from '@domains/site/site';
 
 import { CoffeeBurst } from './coffee-burst';
 
@@ -24,12 +24,11 @@ const CARD_COUNT = 3;
 interface LessonDemoProps {
   /** The card a perfect run of lesson one earns. */
   reward: RewardCardData;
-  /** How many lessons are free, lesson one among them. */
-  freeLessons: number;
+  illustration: string;
 }
 
 /** Lesson one's first three cards, playable in a phone frame. */
-export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
+export function LessonDemo({ reward, illustration }: LessonDemoProps) {
   const translate = useTranslations('demo');
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
@@ -70,7 +69,7 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
     },
   ];
 
-  const progress = { n: Math.min(step, CARD_COUNT - 1) + 1, total: CARD_COUNT };
+  const progress = { cardNumber: Math.min(step, CARD_COUNT - 1) + 1, total: CARD_COUNT };
 
   return (
     <div className={twoColumnClass}>
@@ -86,18 +85,18 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
             <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-card border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-5.5 py-5">
               <div className="ff-display text-[22px] leading-[1.15]">
                 {translate(perfect ? 'scorePerfect' : 'scorePartial', {
-                  n: score,
+                  correctAnswers: score,
                   total: CARD_COUNT,
                 })}
               </div>
               <div className="ff-ui text-sm/normal text-ink-mute">
                 {translate(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')}{' '}
-                {translate('fullLesson', { freeLessons })}
+                {translate('fullLesson')}
               </div>
               <ButtonRow className="mt-1 gap-2.5 stacked:justify-center">
-                <a href={APP_STORE_URL} className={linkButtonClass('accent', 'md')}>
+                <AppDownloadLink tone="accent" size="md">
                   {translate('get')}
-                </a>
+                </AppDownloadLink>
                 <button
                   type="button"
                   onClick={restart}
@@ -127,7 +126,7 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
                 <div key={run} className="relative h-demo-app-height w-demo-app overflow-hidden">
                   <ProgressTopbar
                     onClose={restart}
-                    pos={Math.min(step, CARD_COUNT - 1)}
+                    cardIndex={Math.min(step, CARD_COUNT - 1)}
                     total={CARD_COUNT}
                     done={done}
                     closeLabel={translate('restart')}
@@ -144,10 +143,18 @@ export function LessonDemo({ reward, freeLessons }: LessonDemoProps) {
                     )}
                     {done && (
                       <>
-                        <CoffeeBurst />
+                        {perfect && <CoffeeBurst />}
                         <div className="flex animate-save-note-in justify-center px-6">
                           <div className="flex w-full max-w-[320px] justify-center">
-                            <RewardCard reward={reward} />
+                            {perfect ? (
+                              <RewardCard reward={reward} />
+                            ) : (
+                              <LockedRewardCard
+                                title={reward.title}
+                                illustration={illustration}
+                                onRetry={restart}
+                              />
+                            )}
                           </div>
                         </div>
                       </>

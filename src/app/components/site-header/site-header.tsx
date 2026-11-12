@@ -5,10 +5,10 @@ import { useFormatter, useTranslations } from 'next-intl';
 import { type MouseEvent, useEffect, useId, useRef, useState } from 'react';
 
 import appIcon from '@assets/app-icon.png';
-import { LinkButton } from '@components/link-button/link-button';
+import { AppDownloadLink } from '@components/link-button/link-button';
 import { MoodSwitch } from '@components/mood/mood-switch';
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
-import { APP_STORE_URL, MAILTO_HI } from '@domains/site/site';
+import { MAILTO_HI } from '@domains/site/site';
 import { Link, usePathname, useRouter } from '@i18n/navigation';
 import { TWO_DIGITS } from '@shared/format/number';
 import { cn } from '@shared/styles/cn';
@@ -166,14 +166,13 @@ export function SiteHeader() {
           </nav>
           <div className="flex-1" />
           <MoodSwitch />
-          <LinkButton
-            href={APP_STORE_URL}
+          <AppDownloadLink
             tone="accent"
             size="sm"
             className="hidden flex-none min-[980px]:inline-flex"
           >
             {translate('getApp')}
-          </LinkButton>
+          </AppDownloadLink>
           <button
             ref={menuButton}
             type="button"
@@ -236,14 +235,9 @@ export function SiteHeader() {
                 MENU_ENTER_DELAY_CLASSES[NAV_SECTIONS.length],
               )}
             >
-              <LinkButton
-                href={APP_STORE_URL}
-                tone="accent"
-                size="hero"
-                className="mx-auto flex w-full max-w-90"
-              >
+              <AppDownloadLink tone="accent" size="hero" className="mx-auto flex w-full max-w-90">
                 {translate('getApp')}
-              </LinkButton>
+              </AppDownloadLink>
               <div className="flex flex-wrap justify-center gap-x-5.5 gap-y-2.5">
                 <a href={MAILTO_HI} className={menuSmallLinkClass}>
                   {translateFooter('support')}

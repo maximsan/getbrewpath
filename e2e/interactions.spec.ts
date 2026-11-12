@@ -112,12 +112,26 @@ for (const perfect of [true, false]) {
       await expect(next).toBeEnabled();
       await next.click();
     }
-    await expect(demo).toContainText(perfect ? '3 of 3. That card is yours.' : '2 of 3. Close');
-    await expect(demo.getByRole('link', { name: site.demo.get, exact: true })).toHaveAttribute(
-      'href',
-      'https://apps.apple.com/app/brewpath/id6827754824',
+    await expect(demo).toContainText(
+      perfect ? '3 of 3. That card is yours.' : '2 of 3. Get every answer right to earn the card.',
     );
-    await demo.getByRole('button', { name: site.demo.again, exact: true }).click();
+    const reward = demo.getByRole('heading', { name: 'The Coffee Cherry', exact: true });
+
+    await expect(reward).toBeVisible();
+
+    const fact = demo.getByText('Cherries ripen unevenly on the same branch', { exact: false });
+
+    await expect(fact).toHaveCount(perfect ? 1 : 0);
+    await expect(demo.getByText('Not yet earned', { exact: true })).toHaveCount(perfect ? 0 : 1);
+    if (!perfect) {
+      await expect(
+        demo.getByRole('img', { name: 'Illustration: The Coffee Cherry' }),
+      ).toBeVisible();
+      await demo.getByRole('button', { name: 'Try again', exact: true }).click();
+      await expect(demo.getByText(site.demo.card0.prompt, { exact: true })).toBeVisible();
+    } else {
+      await demo.getByRole('button', { name: site.demo.again, exact: true }).click();
+    }
     await expect(next).toBeDisabled();
     await demo.getByRole('button', { name: new RegExp(`${site.demo.card0.choices.c2}$`) }).click();
     await next.click();

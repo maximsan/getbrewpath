@@ -94,10 +94,21 @@ the build fails if a folder misses one.
 BrewPath app: card links, `/card/<id>`, on `getbrewpath.com` and on
 `open.getbrewpath.com`. Every other address stays on the site.
 
-"Open in the app" on a card page links to `open.getbrewpath.com`, because iOS
+"Open BrewPath" on a card page links to `open.getbrewpath.com`, because iOS
 ignores a link tapped on a page of the same domain. That domain serves only
 the Apple link file and redirects everything else, as `next.config.ts`
 describes. See `src/domains/site/site.ts`.
+
+A card page and its share image show the Coffee Card's title and artwork. The
+lesson demo shows the full example card after a perfect run.
+
+Before launch, download locations show “Coming soon” as plain text. If the app
+does not open from a card link, the browser goes to `/coming-soon` with a link
+back to the card.
+Once the public App Store listing is available, set `APP_STORE_LIVE` to `true`
+in `src/domains/site/site-config.ts`. This switches the download buttons and card
+fallback to the App Store in the next deployment. Verify the listing and the
+same-card handoff on an iPhone with and without BrewPath installed.
 
 ## Hosting
 
