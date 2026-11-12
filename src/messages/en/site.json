@@ -86,6 +86,7 @@
     }
   },
   "demo": {
+    "unavailable": "The lesson demo is currently unavailable.",
     "title": "This is lesson one. Have a go.",
     "body": "Try three questions from the app’s first lesson, “What coffee actually is”. Pick an answer, read the explanation and tap Continue.",
     "scorePerfect": "{correctAnswers} of {total}. That card is yours.",

@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server';
+
 import { Faq } from '@components/home/faq';
 import { Features } from '@components/home/features';
 import { FinalCta } from '@components/home/final-cta';
@@ -18,10 +20,10 @@ export default async function HomePage({ params }: LocaleParams) {
   const demoCard = findCard(course, DEMO_REWARD_CARD_ID);
 
   if (!demoCard) {
-    throw new Error(`No demo card ${DEMO_REWARD_CARD_ID} in the course`);
+    console.warn(`Missing demo Coffee Card ${DEMO_REWARD_CARD_ID} in the ${locale} course`);
   }
 
-  const illustration = await getCardArtImage(locale, demoCard.kind, 'dark-roast');
+  const translate = await getTranslations('demo');
 
   return (
     <>
@@ -37,7 +39,14 @@ export default async function HomePage({ params }: LocaleParams) {
           data-reveal
           className="overflow-hidden rounded-[28px] border border-rule bg-surface px-[clamp(24px,5vw,64px)] py-[clamp(32px,5vw,64px)]"
         >
-          <LessonDemo reward={demoCard.reward} illustration={illustration} />
+          {demoCard ? (
+            <LessonDemo
+              reward={demoCard.reward}
+              illustration={await getCardArtImage(locale, demoCard.kind, 'dark-roast')}
+            />
+          ) : (
+            <p className="ff-ui m-0 text-base text-ink-mute">{translate('unavailable')}</p>
+          )}
         </div>
       </Section>
       <Pricing course={course} />
