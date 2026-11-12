@@ -9,8 +9,6 @@ This follow-up fixes the test setup and runs the browser gate on PRs as well as
 main. Deployment remains unconfirmed until the new changes pass remotely and
 are merged. No provider-setting change or history rewrite has been performed.
 
-The mobile caption and opaque padded share-image canvas are published separately
-in [PR #877](https://github.com/maximsan/brewpath/pull/877), still open at verification.
 No actual iPhone-to-Telegram share or native Telegram browser verification has
 been completed. This is the consolidated handoff; superseded drafts were removed.
 
