@@ -1,11 +1,10 @@
 import { getTranslations } from 'next-intl/server';
 
 import { ButtonRow } from '@components/button-row/button-row';
-import { LinkButton } from '@components/link-button/link-button';
+import { AppDownloadLink, LinkButton } from '@components/link-button/link-button';
 import { PhoneShotGroup } from '@components/phone-shot';
 import { monoNoteClass, twoColumnClass } from '@components/section/section';
 import { sectionHref } from '@components/site-header/nav-items';
-import { APP_STORE_URL } from '@domains/site/site';
 import { cn } from '@shared/styles/cn';
 
 export async function Hero() {
@@ -26,9 +25,9 @@ export async function Hero() {
           {translate('body')}
         </p>
         <ButtonRow className="mt-8.5 animate-rise-in items-center [animation-delay:.16s] stacked:justify-center">
-          <LinkButton href={APP_STORE_URL} tone="ink" size="xl" className="min-w-58">
+          <AppDownloadLink tone="ink" size="xl" className="min-w-58">
             {translate('download')}
-          </LinkButton>
+          </AppDownloadLink>
           <LinkButton href={sectionHref('demo')} tone="outline" size="xl" className="min-w-58">
             {translate('tryFirst')}
           </LinkButton>

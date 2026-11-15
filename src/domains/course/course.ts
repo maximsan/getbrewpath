@@ -45,13 +45,3 @@ export const courseCounts = (course: Course) => ({
 
 /** Lesson one's card, which the home page demo awards. */
 export const DEMO_REWARD_CARD_ID = 'c1';
-
-export function rewardOf(course: Course, cardId: string) {
-  const card = findCard(course, cardId);
-
-  if (!card) {
-    throw new Error(`No card ${cardId} in the course`);
-  }
-
-  return card.reward;
-}

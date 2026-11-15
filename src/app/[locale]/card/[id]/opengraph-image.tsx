@@ -34,7 +34,6 @@ export default async function CardOpenGraphImage({
   return renderOgImage({
     kicker: translate('shared'),
     title: card.reward.title,
-    body: card.reward.summary,
     illustration,
   });
 }

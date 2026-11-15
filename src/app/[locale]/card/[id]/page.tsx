@@ -5,14 +5,13 @@ import type { ComponentType, ReactNode } from 'react';
 
 import { RewardCard } from '@components/brewpath/reward-card/reward-card';
 import { CardsIcon, LeafIcon, RouteIcon, ShareIcon } from '@components/icons/icons';
-import { ButtonRow } from '@components/button-row/button-row';
 import { LinkButton } from '@components/link-button/link-button';
 import { monoNoteClass } from '@components/section/section';
 import { cardRouteParams, courseCounts, findCard, getCourse } from '@domains/course/course';
 import { getCardArtImage } from '@domains/course/card-art';
 import { pageMetadata } from '@domains/site/page-metadata';
 import { cardPath, PAGE_ROUTES } from '@domains/site/routes';
-import { APP_STORE_URL, appCardLink } from '@domains/site/site';
+import { APP_STORE_LIVE, appCardLink } from '@domains/site/site';
 import { Link } from '@i18n/navigation';
 import { setPageLocale } from '@i18n/page-locale';
 import { cn } from '@shared/styles/cn';
@@ -36,7 +35,7 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
 
   const translate = await getTranslations({ locale, namespace: 'metadata' });
   const title = translate('cardTitle', { card: card.reward.title });
-  const description = translate('cardDescription', { summary: card.reward.summary });
+  const description = translate('cardDescription');
   const path = cardPath(card.id);
 
   return pageMetadata({
@@ -91,7 +90,7 @@ export default async function CardPage({ params }: CardPageProps) {
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,color-mix(in_oklab,var(--accent)_16%,transparent),transparent_65%)]" />
           <div className="relative w-full max-w-[320px]">
-            <RewardCard reward={card.reward} illustration={illustration} />
+            <RewardCard reward={card.reward} illustration={illustration} preview />
           </div>
         </div>
         <div className="animate-rise-in [animation-delay:.1s]">
@@ -104,15 +103,12 @@ export default async function CardPage({ params }: CardPageProps) {
           <p className="ff-ui mt-5 mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute">
             {body}
           </p>
-          <ButtonRow className="mt-7.5 items-center">
-            <LinkButton href={APP_STORE_URL} tone="ink" size="xl" className="min-w-42">
-              {translate('get')}
-            </LinkButton>
-            <LinkButton href={appCardLink(card.id)} tone="outline" size="xl">
-              {translate('open')}
-            </LinkButton>
-          </ButtonRow>
-          <div className={cn(monoNoteClass, 'mt-4.5')}>{translate('avail')}</div>
+          <LinkButton href={appCardLink(card.id)} tone="ink" size="xl" className="mt-7.5 min-w-42">
+            {translate('open')}
+          </LinkButton>
+          <div className={cn(monoNoteClass, 'mt-4.5')}>
+            {translate(APP_STORE_LIVE ? 'availableOnIPhone' : 'comingSoon')}
+          </div>
         </div>
       </div>
 

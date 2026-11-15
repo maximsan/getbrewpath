@@ -22,13 +22,21 @@ const getArt = cache(async (locale: Locale) =>
   cardArtSchema.parse((await ART_FILES[locale]()).default),
 );
 
-/** A standalone image: never insert imported SVG markup into the page's DOM. */
-export async function getCardArtImage(locale: Locale, kind: string, mood: Mood) {
+/** Returns artwork as an image URL so imported SVG stays out of the page markup. */
+export async function findCardArtImage(locale: Locale, kind: string, mood: Mood) {
   const drawing = (await getArt(locale))[kind]?.[mood];
 
-  if (!drawing) {
+  return drawing
+    ? `data:image/svg+xml;base64,${Buffer.from(drawing).toString('base64')}`
+    : undefined;
+}
+
+export async function getCardArtImage(locale: Locale, kind: string, mood: Mood) {
+  const illustration = await findCardArtImage(locale, kind, mood);
+
+  if (!illustration) {
     throw new Error(`Missing ${locale} Coffee Card illustration ${kind}`);
   }
 
-  return `data:image/svg+xml;base64,${Buffer.from(drawing).toString('base64')}`;
+  return illustration;
 }

@@ -90,8 +90,8 @@ const padCount = (count: number) => String(count).padStart(COUNTER_DIGITS, '0');
 export interface ProgressTopbarProps {
   /** Called by the close cross. */
   onClose: () => void;
-  /** Zero-based index of the current step. */
-  pos: number;
+  /** Zero-based index of the current card. */
+  cardIndex: number;
   /** Number of steps. */
   total: number;
   /** Every card is answered: the meter and counter show total of total. */
@@ -103,14 +103,14 @@ export interface ProgressTopbarProps {
 /** The top bar while playing a lesson's cards: close on the left, the roast-bean meter and a step counter centred. */
 export function ProgressTopbar({
   onClose,
-  pos,
+  cardIndex,
   total,
   done = false,
   closeLabel,
 }: ProgressTopbarProps) {
   const translate = useTranslations('lesson');
   /** The card number the counter shows, counting from one. */
-  const cardNumber = done ? total : pos + 1;
+  const cardNumber = done ? total : cardIndex + 1;
 
   return (
     // Sits under the phone's status bar; the demo's content clears it with 134px of top padding.

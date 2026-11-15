@@ -19,16 +19,17 @@ export interface RewardCardData {
 
 export interface RewardCardProps {
   reward: RewardCardData;
+  preview?: boolean;
   /** The card's original drawing, imported and rendered as a standalone image. */
   illustration?: string;
 }
 
 /**
- * The earned card: badge, title, stamp, summary, spec rows and a memorable fact.
+ * The card face, with reading content when earned.
  * It rises in once on mount. No client hooks besides `useTranslations`, so it
  * renders in both server and client trees.
  */
-export function RewardCard({ reward, illustration }: RewardCardProps) {
+export function RewardCard({ reward, illustration, preview = false }: RewardCardProps) {
   const translate = useTranslations('reward');
   const rows = reward.meta ?? [];
 
@@ -65,28 +66,34 @@ export function RewardCard({ reward, illustration }: RewardCardProps) {
         />
       )}
 
-      <p className="mt-5 mb-0 text-support/normal text-pretty text-ink-mute">{reward.summary}</p>
+      {!preview && (
+        <>
+          <p className="mt-5 mb-0 text-support/normal text-pretty text-ink-mute">
+            {reward.summary}
+          </p>
 
-      <dl className="mt-5 mb-0">
-        {rows.map(([label, value]) => (
-          <div
-            key={label}
-            className="grid grid-cols-1 items-baseline gap-1.5 border-b border-rule py-3.5 last:border-b-0 @min-[240px]:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] @min-[240px]:gap-4"
-          >
-            <dt className="smallcaps wrap-anywhere">{label}</dt>
-            <dd className="ff-mono m-0 min-w-0 text-support wrap-anywhere text-ink @min-[240px]:text-right">
-              {value}
-            </dd>
+          <dl className="mt-5 mb-0">
+            {rows.map(([label, value]) => (
+              <div
+                key={label}
+                className="grid grid-cols-1 items-baseline gap-1.5 border-b border-rule py-3.5 last:border-b-0 @min-[240px]:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] @min-[240px]:gap-4"
+              >
+                <dt className="smallcaps wrap-anywhere">{label}</dt>
+                <dd className="ff-mono m-0 min-w-0 text-support wrap-anywhere text-ink @min-[240px]:text-right">
+                  {value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-4 border-t border-rule pt-3.5">
+            <div className="smallcaps mb-1.5">{translate('memorable')}</div>
+            <p className="ff-display m-0 text-heading leading-[1.4] font-normal text-pretty text-ink">
+              {reward.fact}
+            </p>
           </div>
-        ))}
-      </dl>
-
-      <div className="mt-4 border-t border-rule pt-3.5">
-        <div className="smallcaps mb-1.5">{translate('memorable')}</div>
-        <p className="ff-display m-0 text-heading leading-[1.4] font-normal text-pretty text-ink">
-          {reward.fact}
-        </p>
-      </div>
+        </>
+      )}
     </div>
   );
 }

@@ -5,7 +5,9 @@ import { APP_LINKS_HOST } from './site-config';
 export {
   APP_LINKS_HOST,
   APP_STORE_ID,
+  APP_STORE_LIVE,
   APP_STORE_URL,
+  COMING_SOON_PATH,
   SITE_HOST,
   SITE_URL,
   WEB_ANALYTICS_ENDPOINT,

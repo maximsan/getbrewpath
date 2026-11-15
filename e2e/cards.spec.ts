@@ -1,7 +1,7 @@
 import courseFile from '@content/en/course.json' with { type: 'json' };
 import { courseSchema } from '@domains/course/build-course';
 import { cardPath } from '@domains/site/routes';
-import { APP_STORE_URL, appCardLink } from '@domains/site/site';
+import { appCardLink } from '@domains/site/site';
 import site from '@messages/en/site.json' with { type: 'json' };
 
 import { expect, test } from './fixtures';
@@ -12,7 +12,7 @@ const course = courseSchema.parse(courseFile);
 test.use({ viewport: { width: 320, height: 740 }, reducedMotion: 'reduce' });
 
 for (const card of course.cards) {
-  test(`${card.id}: complete Coffee Card content fits supported widths and moods`, async ({
+  test(`${card.id}: Coffee Card preview fits supported widths and moods`, async ({
     page,
     request,
   }) => {
@@ -22,24 +22,21 @@ for (const card of course.cards) {
     const reward = title.locator('../..');
 
     await expect(main.getByRole('heading', { level: 1 })).toContainText(card.reward.title);
-    await expect(main.getByRole('link', { name: site.card.get, exact: true })).toHaveAttribute(
-      'href',
-      APP_STORE_URL,
-    );
     await expect(main.getByRole('link', { name: site.card.open, exact: true })).toHaveAttribute(
       'href',
       appCardLink(card.id),
     );
+    await expect(main.locator('a[href*="apps.apple.com"]')).toHaveCount(0);
     await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
       'content',
       card.reward.title,
     );
     await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
       'content',
-      card.reward.summary,
+      site.metadata.cardDescription,
     );
-    await expect(reward).toContainText(card.reward.summary);
-    await expect(reward).toContainText(card.reward.fact);
+    await expect(reward).not.toContainText(card.reward.summary);
+    await expect(reward).not.toContainText(card.reward.fact);
     const illustration = reward.getByRole('img', {
       name: `Illustration: ${card.reward.title}`,
       exact: true,
@@ -57,8 +54,8 @@ for (const card of course.cards) {
       )
       .toBe(true);
     for (const [label, value] of card.reward.meta ?? []) {
-      await expect(reward.getByText(label, { exact: true })).toBeVisible();
-      await expect(reward.getByText(value, { exact: true })).toBeVisible();
+      await expect(reward.getByText(label, { exact: true })).toHaveCount(0);
+      await expect(reward.getByText(value, { exact: true })).toHaveCount(0);
     }
 
     for (const colorScheme of ['light', 'dark'] as const) {
