@@ -1,0 +1,9 @@
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  esbuild: true
+  unrs-resolver: true
+  workerd: true
+overrides:
+  'glob@>=10.2.0 <10.5.0': '10.5.0'
+  'undici@>=7.0.0 <7.30.1': '7.30.1'
