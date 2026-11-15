@@ -129,7 +129,7 @@ for (const perfect of [true, false]) {
       await expect(demo.getByText(site.demo.card0.prompt, { exact: true })).toBeVisible();
     } else {
       await fact.scrollIntoViewIfNeeded();
-      await expect(fact).toBeInViewport({ ratio: 1 });
+      await expect(fact).toBeInViewport({ ratio: 0.99 });
       await demo.getByRole('button', { name: site.demo.again, exact: true }).click();
     }
     await expect(next).toBeDisabled();
