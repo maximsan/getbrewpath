@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import type { ComponentProps } from 'react';
 
-import { APP_DOWNLOAD_URL, APP_STORE_LIVE } from '@domains/site/site';
+import { APP_STORE_LIVE, APP_STORE_URL } from '@domains/site/site';
 
 import { Link } from '@i18n/navigation';
 import { cn } from '@shared/styles/cn';
@@ -53,7 +53,7 @@ export function AppDownloadLink({ children, className, ...props }: Omit<LinkButt
   }
 
   return (
-    <LinkButton {...props} className={className} href={APP_DOWNLOAD_URL}>
+    <LinkButton {...props} className={className} href={APP_STORE_URL}>
       {children}
     </LinkButton>
   );

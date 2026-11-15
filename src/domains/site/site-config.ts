@@ -17,4 +17,3 @@ export const APP_STORE_URL = `https://apps.apple.com/app/brewpath/id${APP_STORE_
 // Enable after the public App Store listing is verified.
 export const APP_STORE_LIVE: boolean = false;
 export const COMING_SOON_PATH = '/coming-soon';
-export const APP_DOWNLOAD_URL = APP_STORE_LIVE ? APP_STORE_URL : COMING_SOON_PATH;

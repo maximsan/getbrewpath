@@ -180,14 +180,19 @@ test('coming-soon page returns to the shared card when the card is known', async
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     site.availability.heading.replace(/<\/?em>/g, ''),
   );
+  await expect(page.getByRole('main')).toContainText(site.availability.appDidNotOpen);
   await page.getByRole('link', { name: site.availability.backToCard }).click();
   await expect(page).toHaveURL(new RegExp(`${CARD_PATH}$`));
 });
 
 test('coming-soon page offers the demo without a card context', async ({ page }) => {
+  await openPath(page, `${COMING_SOON_PATH}?card=unknown`);
+  await expect(page.getByRole('main')).not.toContainText(site.availability.appDidNotOpen);
+  await expect(page.getByRole('link', { name: site.availability.backToCard })).toHaveCount(0);
   await openPath(page, COMING_SOON_PATH);
   const main = page.getByRole('main');
 
+  await expect(main).not.toContainText(site.availability.appDidNotOpen);
   await expect(main.getByRole('link', { name: site.availability.backToCard })).toHaveCount(0);
   await main.getByRole('link', { name: site.availability.tryLesson }).click();
   await expect(page).toHaveURL(/#demo$/);

@@ -3,7 +3,6 @@ import { getYear } from '@shared/utils/date';
 import { APP_LINKS_HOST } from './site-config';
 
 export {
-  APP_DOWNLOAD_URL,
   APP_LINKS_HOST,
   APP_STORE_ID,
   APP_STORE_LIVE,

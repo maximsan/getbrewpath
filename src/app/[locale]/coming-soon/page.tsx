@@ -36,6 +36,7 @@ export default async function ComingSoonPage({ params, searchParams }: ComingSoo
             })}
           </h1>
           <p className="ff-ui mt-7 mb-0 max-w-[34ch] text-[17px] leading-[1.6] text-pretty text-ink-mute">
+            {card && <>{translate('appDidNotOpen')} </>}
             {translate('body')}
           </p>
           <div className="mt-7 flex flex-col items-start gap-5">

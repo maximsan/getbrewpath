@@ -5,7 +5,7 @@ import { linkButtonClass } from '@components/link-button/link-button';
 
 interface LockedRewardCardProps {
   title: string;
-  illustration: string;
+  illustration?: string;
   onRetry: () => void;
 }
 
@@ -17,16 +17,18 @@ export function LockedRewardCard({ title, illustration, onRetry }: LockedRewardC
       <h2 className="ff-display m-0 text-title leading-[1.1] font-normal tracking-tight text-pretty text-ink">
         {title}
       </h2>
-      <div className="flex aspect-video items-center justify-center rounded-xs bg-surface-2">
-        <Image
-          src={illustration}
-          alt={translate('illustration', { title })}
-          width={195}
-          height={195}
-          unoptimized
-          className="block h-auto w-36 opacity-40 saturate-[.4]"
-        />
-      </div>
+      {illustration && (
+        <div className="flex aspect-video items-center justify-center rounded-xs bg-surface-2">
+          <Image
+            src={illustration}
+            alt={translate('illustration', { title })}
+            width={195}
+            height={195}
+            unoptimized
+            className="block h-auto w-36 opacity-40 saturate-[.4]"
+          />
+        </div>
+      )}
       <div>
         <p className="smallcaps m-0 text-ink-mute">{translate('notYetEarned')}</p>
         <p className="ff-ui mt-2 mb-0 text-base/normal text-pretty text-ink">

@@ -23,8 +23,8 @@ const CARD_COUNT = 3;
 
 interface LessonDemoProps {
   /** The card a perfect run of lesson one earns. */
-  reward: RewardCardData;
-  illustration: string;
+  reward?: RewardCardData;
+  illustration?: string;
 }
 
 /** Lesson one's first three cards, playable in a phone frame. */
@@ -37,6 +37,7 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
 
   const done = step >= CARD_COUNT;
   const perfect = score === CARD_COUNT;
+  const rewardScore = perfect ? 'scorePerfect' : 'scorePartial';
   const next = () => setStep((current) => Math.min(current + 1, CARD_COUNT));
   const countCorrect = () => setScore((current) => current + 1);
   const restart = () => {
@@ -84,13 +85,13 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
           {done ? (
             <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-card border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-5.5 py-5">
               <div className="ff-display text-[22px] leading-[1.15]">
-                {translate(perfect ? 'scorePerfect' : 'scorePartial', {
+                {translate(reward ? rewardScore : 'scoreOnly', {
                   correctAnswers: score,
                   total: CARD_COUNT,
                 })}
               </div>
               <div className="ff-ui text-sm/normal text-ink-mute">
-                {translate(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')}{' '}
+                {reward && <>{translate(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')} </>}
                 {translate('fullLesson')}
               </div>
               <ButtonRow className="mt-1 gap-2.5 stacked:justify-center">
@@ -141,13 +142,13 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                     {step === 2 && (
                       <MCQCard card={cards[2]} onContinue={next} onCorrect={countCorrect} />
                     )}
-                    {done && (
+                    {done && reward && (
                       <>
                         {perfect && <CoffeeBurst />}
-                        <div className="flex animate-save-note-in justify-center px-6">
-                          <div className="flex w-full max-w-[320px] justify-center">
+                        <div className="min-h-0 animate-save-note-in overflow-y-auto px-6 pb-6">
+                          <div className="mx-auto flex w-full max-w-[320px] justify-center">
                             {perfect ? (
-                              <RewardCard reward={reward} />
+                              <RewardCard reward={reward} illustration={illustration} />
                             ) : (
                               <LockedRewardCard
                                 title={reward.title}

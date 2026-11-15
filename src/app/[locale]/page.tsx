@@ -1,5 +1,3 @@
-import { getTranslations } from 'next-intl/server';
-
 import { Faq } from '@components/home/faq';
 import { Features } from '@components/home/features';
 import { FinalCta } from '@components/home/final-cta';
@@ -10,7 +8,7 @@ import { ModulesStrip } from '@components/home/modules-strip';
 import { Pricing } from '@components/home/pricing';
 import { RoastyShowcase } from '@components/home/roasty-showcase';
 import { Section } from '@components/section/section';
-import { getCardArtImage } from '@domains/course/card-art';
+import { findCardArtImage } from '@domains/course/card-art';
 import { DEMO_REWARD_CARD_ID, findCard, getCourse } from '@domains/course/course';
 import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 
@@ -23,7 +21,13 @@ export default async function HomePage({ params }: LocaleParams) {
     console.warn(`Missing demo Coffee Card ${DEMO_REWARD_CARD_ID} in the ${locale} course`);
   }
 
-  const translate = await getTranslations('demo');
+  const illustration = demoCard
+    ? await findCardArtImage(locale, demoCard.kind, 'dark-roast')
+    : undefined;
+
+  if (demoCard && !illustration) {
+    console.warn(`Missing demo Coffee Card illustration ${demoCard.kind} in the ${locale} course`);
+  }
 
   return (
     <>
@@ -39,14 +43,7 @@ export default async function HomePage({ params }: LocaleParams) {
           data-reveal
           className="overflow-hidden rounded-[28px] border border-rule bg-surface px-[clamp(24px,5vw,64px)] py-[clamp(32px,5vw,64px)]"
         >
-          {demoCard ? (
-            <LessonDemo
-              reward={demoCard.reward}
-              illustration={await getCardArtImage(locale, demoCard.kind, 'dark-roast')}
-            />
-          ) : (
-            <p className="ff-ui m-0 text-base text-ink-mute">{translate('unavailable')}</p>
-          )}
+          <LessonDemo reward={demoCard?.reward} illustration={illustration} />
         </div>
       </Section>
       <Pricing course={course} />

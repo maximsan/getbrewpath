@@ -86,7 +86,7 @@
     }
   },
   "demo": {
-    "unavailable": "The lesson demo is currently unavailable.",
+    "scoreOnly": "{correctAnswers} of {total} correct.",
     "title": "This is lesson one. Have a go.",
     "body": "Try three questions from the app’s first lesson, “What coffee actually is”. Pick an answer, read the explanation and tap Continue.",
     "scorePerfect": "{correctAnswers} of {total}. That card is yours.",
@@ -206,6 +206,7 @@
     "title": "BrewPath is coming to the App Store",
     "heading": "BrewPath is coming <em>to the App Store.</em>",
     "body": "In the meantime, try a coffee lesson right here on the website.",
+    "appDidNotOpen": "BrewPath didn’t open.",
     "backToCard": "Back to the Coffee Card",
     "tryLesson": "Try a lesson"
   },
