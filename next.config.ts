@@ -49,6 +49,7 @@ const appLinksHostRedirects = [
 ];
 
 const nextConfig: NextConfig = {
+  experimental: { agentUpgrade: 'security' },
   poweredByHeader: false,
   async headers() {
     return [{ source: '/(.*)', headers: SECURITY_HEADERS }];
