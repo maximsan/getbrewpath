@@ -176,7 +176,7 @@ test(`${APP_LINKS_HOST} redirects browsers to the site or the active card fallba
 });
 
 test('coming-soon page returns to the shared card when the card is known', async ({ page }) => {
-  test.skip(APP_STORE_LIVE, 'The fallback is a redirect after launch');
+  test.skip(APP_STORE_LIVE, 'The coming-soon page redirects to the App Store after launch');
   await openPath(page, `${COMING_SOON_PATH}?card=${firstCard.id}`);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     site.availability.heading.replace(/<\/?em>/g, ''),
@@ -187,7 +187,7 @@ test('coming-soon page returns to the shared card when the card is known', async
 });
 
 test('coming-soon page offers the demo without a card context', async ({ page }) => {
-  test.skip(APP_STORE_LIVE, 'The fallback is a redirect after launch');
+  test.skip(APP_STORE_LIVE, 'The coming-soon page redirects to the App Store after launch');
   await openPath(page, `${COMING_SOON_PATH}?card=unknown`);
   await expect(page.getByRole('main')).not.toContainText(site.availability.appDidNotOpen);
   await expect(page.getByRole('link', { name: site.availability.backToCard })).toHaveCount(0);

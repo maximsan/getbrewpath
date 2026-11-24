@@ -89,7 +89,7 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
         <p className="ff-ui mt-4.5 mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute stacked:mx-auto">
           {translate('body')}
         </p>
-        <div aria-live="polite">
+        <div>
           {done ? (
             <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-card border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-5.5 py-5">
               <h3
@@ -120,7 +120,10 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
               </ButtonRow>
             </div>
           ) : (
-            <div className="ff-mono mt-7 flex items-center gap-2.5 text-[11px] leading-normal tracking-widest text-ink-mute uppercase stacked:justify-center">
+            <div
+              aria-live="polite"
+              className="ff-mono mt-7 flex items-center gap-2.5 text-[11px] leading-normal tracking-widest text-ink-mute uppercase stacked:justify-center"
+            >
               <span className="size-1.5 flex-none animate-dot-pulse rounded-full bg-accent" />
               {translate('progress', progress)}
             </div>
