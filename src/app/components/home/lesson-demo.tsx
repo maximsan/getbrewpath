@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 
 import { MCQCard, type MCQCardData } from '@components/brewpath/lesson-cards/mcq-card';
 import {
@@ -14,6 +14,7 @@ import { RewardCard, type RewardCardData } from '@components/brewpath/reward-car
 import { ButtonRow } from '@components/button-row/button-row';
 import { AppDownloadLink } from '@components/link-button/link-button';
 import { ScaledFrame } from '@components/scaled-frame/scaled-frame';
+import { cn } from '@shared/styles/cn';
 import { twoColumnClass } from '@components/section/section';
 
 import { CoffeeBurst } from './coffee-burst';
@@ -27,13 +28,19 @@ interface LessonDemoProps {
   illustration?: string;
 }
 
-/** Lesson one's first three cards, playable in a phone frame. */
+function focusHeading(heading: HTMLHeadingElement | null) {
+  heading?.focus();
+}
+
+/** Three questions based on lesson one, playable in a phone frame. */
 export function LessonDemo({ reward, illustration }: LessonDemoProps) {
   const translate = useTranslations('demo');
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
   /** A new run number remounts the cards, so a replay starts with unanswered cards. */
   const [run, setRun] = useState(0);
+  const [moreToRead, setMoreToRead] = useState(false);
+  const scrollCueId = useId();
 
   const done = step >= CARD_COUNT;
   const perfect = score === CARD_COUNT;
@@ -43,6 +50,7 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
   const restart = () => {
     setStep(0);
     setScore(0);
+    setMoreToRead(false);
     setRun((current) => current + 1);
   };
 
@@ -84,12 +92,16 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
         <div aria-live="polite">
           {done ? (
             <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-card border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-5.5 py-5">
-              <div className="ff-display text-[22px] leading-[1.15]">
+              <h3
+                ref={focusHeading}
+                tabIndex={-1}
+                className="ff-display m-0 text-[22px] leading-[1.15] font-normal"
+              >
                 {translate(reward ? rewardScore : 'scoreOnly', {
                   correctAnswers: score,
                   total: CARD_COUNT,
                 })}
-              </div>
+              </h3>
               <div className="ff-ui text-sm/normal text-ink-mute">
                 {reward && <>{translate(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')} </>}
                 {translate('fullLesson')}
@@ -115,7 +127,18 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
           )}
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center">
+        {done && perfect && reward && (
+          <p
+            id={scrollCueId}
+            className={cn(
+              'ff-ui mt-0 mb-3 text-center text-sm text-ink-mute',
+              !moreToRead && 'invisible',
+            )}
+          >
+            {translate('scrollReward')} <span aria-hidden="true">↓</span>
+          </p>
+        )}
         <ScaledFrame className="aspect-demo-phone w-full max-w-demo-phone">
           <div className="w-demo-phone flex-none rounded-[48px] bg-[#15100c] p-2.5 shadow-[0_40px_80px_-30px_rgba(0,0,0,.7),0_0_0_1px_rgba(255,255,255,.06)]">
             <div className="relative h-demo-screen-height w-demo-screen overflow-hidden rounded-[40px] bg-bg">
@@ -134,32 +157,52 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                   />
                   <div className="absolute inset-0 flex flex-col pt-33.5">
                     {step === 0 && (
-                      <MCQCard card={cards[0]} onContinue={next} onCorrect={countCorrect} />
+                      <MCQCard
+                        card={cards[0]}
+                        focusTitle={run > 0 ? focusHeading : undefined}
+                        onContinue={next}
+                        onCorrect={countCorrect}
+                      />
                     )}
                     {step === 1 && (
-                      <TrueFalseCard card={cards[1]} onContinue={next} onCorrect={countCorrect} />
+                      <TrueFalseCard
+                        card={cards[1]}
+                        focusTitle={focusHeading}
+                        onContinue={next}
+                        onCorrect={countCorrect}
+                      />
                     )}
                     {step === 2 && (
-                      <MCQCard card={cards[2]} onContinue={next} onCorrect={countCorrect} />
+                      <MCQCard
+                        card={cards[2]}
+                        focusTitle={focusHeading}
+                        onContinue={next}
+                        onCorrect={countCorrect}
+                      />
                     )}
-                    {done && reward && (
-                      <>
-                        {perfect && <CoffeeBurst />}
+                    {done &&
+                      reward &&
+                      (perfect ? (
+                        <>
+                          <CoffeeBurst />
+                          <EarnedReward
+                            reward={reward}
+                            illustration={illustration}
+                            cueId={moreToRead ? scrollCueId : undefined}
+                            onMoreToReadChange={setMoreToRead}
+                          />
+                        </>
+                      ) : (
                         <div className="min-h-0 animate-save-note-in overflow-y-auto px-6 pb-6">
-                          <div className="mx-auto flex w-full max-w-[320px] justify-center">
-                            {perfect ? (
-                              <RewardCard reward={reward} illustration={illustration} />
-                            ) : (
-                              <LockedRewardCard
-                                title={reward.title}
-                                illustration={illustration}
-                                onRetry={restart}
-                              />
-                            )}
+                          <div className="mx-auto w-full max-w-[320px]">
+                            <LockedRewardCard
+                              title={reward.title}
+                              illustration={illustration}
+                              onRetry={restart}
+                            />
                           </div>
                         </div>
-                      </>
-                    )}
+                      ))}
                   </div>
                 </div>
               </ScaledFrame>
@@ -167,6 +210,60 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
             </div>
           </div>
         </ScaledFrame>
+      </div>
+    </div>
+  );
+}
+
+function EarnedReward({
+  reward,
+  illustration,
+  cueId,
+  onMoreToReadChange,
+}: {
+  reward: RewardCardData;
+  illustration?: string;
+  cueId?: string;
+  onMoreToReadChange: (moreToRead: boolean) => void;
+}) {
+  const viewport = useRef<HTMLDivElement>(null);
+  const content = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const region = viewport.current;
+    const card = content.current;
+
+    if (!region || !card) {
+      return;
+    }
+
+    const updateCue = () => {
+      onMoreToReadChange(region.scrollHeight - region.clientHeight - region.scrollTop > 1);
+    };
+    const observer = new ResizeObserver(updateCue);
+
+    observer.observe(region);
+    observer.observe(card);
+    region.addEventListener('scroll', updateCue, { passive: true });
+    updateCue();
+
+    return () => {
+      observer.disconnect();
+      region.removeEventListener('scroll', updateCue);
+    };
+  }, [onMoreToReadChange]);
+
+  return (
+    <div
+      ref={viewport}
+      role="region"
+      aria-label={reward.title}
+      aria-describedby={cueId}
+      tabIndex={0}
+      className="min-h-0 animate-save-note-in overflow-y-auto px-6 pb-6 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+    >
+      <div ref={content} className="flex justify-center">
+        <RewardCard reward={reward} illustration={illustration} />
       </div>
     </div>
   );

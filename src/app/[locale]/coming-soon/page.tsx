@@ -3,9 +3,10 @@ import { getTranslations } from 'next-intl/server';
 
 import { LinkButton } from '@components/link-button/link-button';
 import { Roasty } from '@components/brewpath/roasty/roasty';
-import { Link } from '@i18n/navigation';
+import { Link, redirect } from '@i18n/navigation';
 import { findCard, getCourse } from '@domains/course/course';
 import { cardPath } from '@domains/site/routes';
+import { APP_STORE_LIVE, APP_STORE_URL } from '@domains/site/site';
 import { sectionHref } from '@components/site-header/nav-items';
 import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 
@@ -22,6 +23,11 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
 
 export default async function ComingSoonPage({ params, searchParams }: ComingSoonProps) {
   const locale = await setPageLocale(params);
+
+  if (APP_STORE_LIVE) {
+    redirect({ href: APP_STORE_URL, locale });
+  }
+
   const { card: id } = await searchParams;
   const card = typeof id === 'string' ? findCard(await getCourse(locale), id) : undefined;
   const translate = await getTranslations('availability');

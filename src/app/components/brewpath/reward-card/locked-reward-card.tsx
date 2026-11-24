@@ -13,7 +13,7 @@ export function LockedRewardCard({ title, illustration, onRetry }: LockedRewardC
   const translate = useTranslations('reward');
 
   return (
-    <div className="flex w-full max-w-[320px] flex-col gap-6">
+    <div className="flex w-full flex-col gap-6">
       <h2 className="ff-display m-0 text-title leading-[1.1] font-normal tracking-tight text-pretty text-ink">
         {title}
       </h2>

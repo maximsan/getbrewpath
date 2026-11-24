@@ -25,6 +25,7 @@ export interface MCQCardData {
 
 export interface MCQCardProps {
   card: MCQCardData;
+  focusTitle?: (heading: HTMLHeadingElement | null) => void;
   /** Continue is enabled once an answer is picked. */
   onContinue?: () => void;
   /** Called once when the pick is the correct one. */
@@ -45,7 +46,7 @@ function shuffledIndices(count: number): number[] {
 }
 
 /** A multiple-choice card: cue, question, shuffled answers, feedback after one pick, and Continue. */
-export function MCQCard({ card, onContinue, onCorrect }: MCQCardProps) {
+export function MCQCard({ card, onContinue, onCorrect, focusTitle }: MCQCardProps) {
   const translate = useTranslations('lesson');
   const [picked, setPicked] = useState<number | null>(null);
   const [shuffled] = useState(() => shuffledIndices(card.choices.length));
@@ -76,6 +77,7 @@ export function MCQCard({ card, onContinue, onCorrect }: MCQCardProps) {
     <ChoiceCard
       cue={translate('cueMcq')}
       title={card.prompt}
+      focusTitle={focusTitle}
       titleLeading="leading-[1.1]"
       choices={choices}
       pickedCorrect={picked === null ? null : picked === correctIndex}

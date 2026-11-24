@@ -86,9 +86,10 @@
     }
   },
   "demo": {
+    "scrollReward": "Scroll to read the full card",
     "scoreOnly": "{correctAnswers} of {total} correct.",
-    "title": "This is lesson one. Have a go.",
-    "body": "Try three questions from the app’s first lesson, “What coffee actually is”. Pick an answer, read the explanation and tap Continue.",
+    "title": "Try a coffee lesson",
+    "body": "Try three questions based on the app’s first lesson, “What coffee actually is”. Pick an answer, read the explanation and tap Continue.",
     "scorePerfect": "{correctAnswers} of {total}. That card is yours.",
     "scorePartial": "{correctAnswers} of {total}. Get every answer right to earn the card.",
     "scoreBodyPerfect": "In the app, a perfect lesson keeps the card for good.",

@@ -2,7 +2,7 @@ import site from '@messages/en/site.json' with { type: 'json' };
 import lesson from '@messages/en/lesson.json' with { type: 'json' };
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import { legalPageSource } from '@domains/site/legal-pages';
-import { MAILTO_HI } from '@domains/site/site';
+import { APP_STORE_LIVE, MAILTO_HI } from '@domains/site/site';
 import { NAV_SECTIONS } from '../src/app/components/site-header/nav-items';
 
 import { expect, test } from './fixtures';
@@ -90,31 +90,41 @@ test('the mood switch changes and persists the selected mood', async ({ page }) 
 for (const perfect of [true, false]) {
   test(`the lesson demo grades a ${perfect ? 'perfect' : 'partial'} run and resets`, async ({
     page,
+    browserName,
   }) => {
     await openPath(page, '/#demo');
     const demo = page.locator('#demo');
     const next = demo.getByRole('button', { name: lesson.continue, exact: true });
-    const answers = [
-      perfect ? site.demo.card0.choices.c2 : site.demo.card0.choices.c1,
-      lesson.false,
-      site.demo.card2.choices.c2,
-    ];
+    const finish = async (firstAnswer: string) => {
+      const answers = [firstAnswer, lesson.false, site.demo.card2.choices.c2];
+      const nextQuestions = [site.demo.card1.statement, site.demo.card2.prompt];
 
-    for (const answer of answers) {
-      await expect(next).toBeDisabled();
-      // Choice labels include a decorative answer letter, so match their text suffix.
-      const selected = demo.getByRole('button', { name: new RegExp(`${answer}$`) });
+      for (const [index, answer] of answers.entries()) {
+        await expect(next).toBeDisabled();
+        // Choice labels include a decorative answer letter, so match their text suffix.
+        const selected = demo.getByRole('button', { name: new RegExp(`${answer}$`) });
 
-      await selected.click();
-      await expect(selected).toHaveAttribute('aria-pressed', 'true');
-      await expect(selected).toHaveAttribute('aria-disabled', 'true');
-      await selected.press('Enter');
-      await expect(next).toBeEnabled();
-      await next.click();
-    }
-    await expect(demo).toContainText(
+        await selected.press('Enter');
+        await expect(selected).toHaveAttribute('aria-pressed', 'true');
+        await expect(selected).toHaveAttribute('aria-disabled', 'true');
+        await selected.press('Enter');
+        await expect(next).toBeEnabled();
+        await next.press('Enter');
+        const nextQuestion = nextQuestions[index];
+
+        if (nextQuestion) {
+          await expect(demo.getByRole('heading', { name: nextQuestion })).toBeFocused();
+        }
+      }
+    };
+
+    await finish(perfect ? site.demo.card0.choices.c2 : site.demo.card0.choices.c1);
+    const score = demo.getByText(
       perfect ? '3 of 3. That card is yours.' : '2 of 3. Get every answer right to earn the card.',
+      { exact: true },
     );
+
+    await expect(score).toBeFocused();
     const reward = demo.getByRole('heading', { name: 'The Coffee Cherry', exact: true });
 
     await expect(reward).toBeVisible();
@@ -126,17 +136,39 @@ for (const perfect of [true, false]) {
     await expect(demo.getByRole('img', { name: 'Illustration: The Coffee Cherry' })).toBeVisible();
     if (!perfect) {
       await demo.getByRole('button', { name: 'Try again', exact: true }).click();
-      await expect(demo.getByText(site.demo.card0.prompt, { exact: true })).toBeVisible();
     } else {
-      await fact.scrollIntoViewIfNeeded();
+      const tab = browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab';
+      const card = demo.getByRole('region', { name: 'The Coffee Cherry' });
+
+      await expect(demo.getByText('Scroll to read the full card')).toBeVisible();
+      if (APP_STORE_LIVE) {
+        await page.keyboard.press(tab);
+        await expect(demo.getByRole('link', { name: site.demo.get, exact: true })).toBeFocused();
+      }
+      await page.keyboard.press(tab);
+      await expect(demo.getByRole('button', { name: site.demo.again, exact: true })).toBeFocused();
+      await page.keyboard.press(tab);
+      await expect(
+        demo.getByRole('button', { name: site.demo.restart, exact: true }),
+      ).toBeFocused();
+      await page.keyboard.press(tab);
+      await expect(card).toBeFocused();
+      await page.keyboard.press('End');
       await expect(fact).toBeInViewport({ ratio: 0.99 });
       await demo.getByRole('button', { name: site.demo.again, exact: true }).click();
     }
-    await expect(next).toBeDisabled();
-    await demo.getByRole('button', { name: new RegExp(`${site.demo.card0.choices.c2}$`) }).click();
-    await next.click();
+    await expect(demo.getByRole('heading', { name: site.demo.card0.prompt })).toBeFocused();
+    await finish(perfect ? site.demo.card0.choices.c1 : site.demo.card0.choices.c2);
+    await expect(
+      demo.getByText(
+        perfect
+          ? '2 of 3. Get every answer right to earn the card.'
+          : '3 of 3. That card is yours.',
+        { exact: true },
+      ),
+    ).toBeFocused();
     await demo.getByRole('button', { name: site.demo.restart, exact: true }).click();
-    await expect(demo.getByText(site.demo.card0.prompt, { exact: true })).toBeVisible();
+    await expect(demo.getByRole('heading', { name: site.demo.card0.prompt })).toBeFocused();
     await expect(next).toBeDisabled();
   });
 }

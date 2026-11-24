@@ -36,6 +36,7 @@ export function choiceVerdict<T>(value: T, answer: T, picked: T | null): Choice[
 }
 
 interface ChoiceCardProps {
+  focusTitle?: (heading: HTMLHeadingElement | null) => void;
   cue: string;
   /** The question or statement, set in Fraunces at title size. */
   title: string;
@@ -53,6 +54,7 @@ export function ChoiceCard({
   cue,
   title,
   titleLeading,
+  focusTitle,
   choices,
   pickedCorrect,
   explain,
@@ -67,6 +69,8 @@ export function ChoiceCard({
         <span className="text-support leading-none">{cue}</span>
       </div>
       <h2
+        ref={focusTitle}
+        tabIndex={focusTitle ? -1 : undefined}
         className={cn(
           'ff-display m-0 text-title font-normal tracking-[-0.01em] text-pretty text-ink',
           titleLeading,
