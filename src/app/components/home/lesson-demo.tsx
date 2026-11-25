@@ -1,8 +1,10 @@
 'use client';
 
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useEffect, useId, useRef, useState } from 'react';
 
+import coffeeTree from '@assets/demo-coffee-tree.png';
 import { MCQCard, type MCQCardData } from '@components/brewpath/lesson-cards/mcq-card';
 import {
   TrueFalseCard,
@@ -277,6 +279,14 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                                   total: CARD_COUNT,
                                 })}
                               </p>
+                            </div>
+                            <div className="flex flex-1 items-center justify-center">
+                              <Image
+                                src={coffeeTree}
+                                alt=""
+                                sizes="180px"
+                                className="size-60 object-contain"
+                              />
                             </div>
                             {reward &&
                               (perfect ? (
