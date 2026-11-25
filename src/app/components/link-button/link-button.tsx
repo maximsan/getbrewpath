@@ -38,22 +38,31 @@ export function LinkButton({ tone, size, className, ...props }: LinkButtonProps)
   return <Link className={cn(linkButtonClass(tone, size), className)} {...props} />;
 }
 
-export function AppDownloadLink({ children, className, ...props }: Omit<LinkButtonProps, 'href'>) {
+export function AppDownloadLink({
+  children,
+  className,
+  size,
+  ...props
+}: Omit<LinkButtonProps, 'href'>) {
   const translate = useTranslations('availability');
 
   if (!APP_STORE_LIVE) {
     return (
-      <span className={cn('inline-flex items-center justify-center', className)}>
-        <span className="ff-mono inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-xs/normal font-medium tracking-wider text-accent uppercase">
-          <span aria-hidden="true" className="size-1.5 rounded-full bg-current" />
-          {translate('comingSoon')}
-        </span>
+      <span
+        className={cn(
+          'ff-ui inline-flex items-center justify-center gap-2 rounded-full bg-accent/10 text-center leading-[1.15] font-medium text-accent',
+          SIZE_CLASSES[size],
+          className,
+        )}
+      >
+        <span aria-hidden="true" className="size-1.5 rounded-full bg-current" />
+        {translate('comingSoon')}
       </span>
     );
   }
 
   return (
-    <LinkButton {...props} className={className} href={APP_STORE_URL}>
+    <LinkButton {...props} size={size} className={className} href={APP_STORE_URL}>
       {children}
     </LinkButton>
   );

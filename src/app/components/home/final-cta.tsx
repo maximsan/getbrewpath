@@ -7,7 +7,7 @@ export async function FinalCta() {
   const translate = await getTranslations('cta');
 
   return (
-    <Section>
+    <Section className="pt-[clamp(40px,6vw,72px)]">
       <div
         data-mood="dark-roast"
         data-reveal

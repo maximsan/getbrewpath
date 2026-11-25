@@ -86,6 +86,8 @@
     }
   },
   "demo": {
+    "completed": "Lesson complete",
+    "continueToResult": "Lesson complete. Show result",
     "scrollReward": "Scroll to read the full card",
     "scoreOnly": "{correctAnswers} of {total} correct.",
     "title": "Try a coffee lesson",

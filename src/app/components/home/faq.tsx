@@ -16,8 +16,8 @@ export async function Faq({ course }: { course: Course }) {
   };
 
   return (
-    <Section id="faq">
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-10">
+    <Section id="faq" className="pt-[clamp(40px,6vw,72px)]">
+      <div className="grid items-start gap-4 tablet:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] tablet:gap-8">
         <div data-reveal>
           <h2 className={sectionTitleClass}>{translate('title')}</h2>
           <p className="ff-ui mt-4.5 mb-0 flex max-w-[40ch] flex-col text-[15px] leading-[1.6] text-ink-mute">
@@ -34,7 +34,7 @@ export async function Faq({ course }: { course: Course }) {
             </span>
           </p>
         </div>
-        <div data-reveal data-delay="1" className="flex flex-col gap-1">
+        <div data-reveal data-delay="1" className="flex flex-col">
           <FaqList
             entries={(Object.keys(faq.items) as (keyof typeof faq.items)[]).map((key) => ({
               question: translate(`items.${key}.q`),

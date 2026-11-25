@@ -19,7 +19,7 @@ export function FaqList({ entries }: FaqListProps) {
       key={question}
       label={question}
       glyph="plus"
-      headerClassName="py-5"
+      headerClassName="min-h-11 py-2.5"
       // The design file's pace for an answer opening or closing.
       className="[--disclosure-ms:380ms]"
       open={openIndex === index}

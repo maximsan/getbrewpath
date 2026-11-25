@@ -3,6 +3,7 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { CheckIcon } from '@components/icons/icons';
 import { AppDownloadLink } from '@components/link-button/link-button';
 import { Section, SectionHeading } from '@components/section/section';
+import { APP_STORE_LIVE } from '@domains/site/site';
 import type { Course } from '@domains/course/build-course';
 import { courseCounts } from '@domains/course/course';
 import { cn } from '@shared/styles/cn';
@@ -19,9 +20,9 @@ export async function Pricing({ course }: { course: Course }) {
   ).map((item) => translate(`foundationsList.${item}`, { modules: counts.modules }));
 
   return (
-    <Section id="pricing">
+    <Section id="pricing" className="pt-[clamp(40px,6vw,72px)]">
       <SectionHeading>{translate('title')}</SectionHeading>
-      <div className="mx-auto mt-12 grid max-w-225 grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-5">
+      <div className="mt-8 grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-5">
         <div
           data-reveal
           data-delay="1"
@@ -29,9 +30,11 @@ export async function Pricing({ course }: { course: Course }) {
         >
           <PlanHeading name={translate('free')} note={translate('freeNote')} />
           <Checklist items={freeItems} tone="sage" />
-          <AppDownloadLink tone="outline" size="lg" className="mt-auto w-full">
-            {translate('freeCta')}
-          </AppDownloadLink>
+          {APP_STORE_LIVE && (
+            <AppDownloadLink tone="outline" size="lg" className="mt-auto w-full">
+              {translate('freeCta')}
+            </AppDownloadLink>
+          )}
         </div>
         <div
           data-reveal
@@ -42,11 +45,20 @@ export async function Pricing({ course }: { course: Course }) {
           <div className="pointer-events-none absolute right-[-20%] -bottom-1/2 aspect-square w-[70%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_24%,transparent),transparent)]" />
           <PlanHeading name={translate('foundations')} note={translate('foundationsNote')} />
           <Checklist items={foundationsItems} tone="accent" />
-          <AppDownloadLink tone="accent" size="lg" className="relative mt-auto w-full">
-            {translate('foundationsCta')}
-          </AppDownloadLink>
+          {APP_STORE_LIVE && (
+            <AppDownloadLink tone="accent" size="lg" className="relative mt-auto w-full">
+              {translate('foundationsCta')}
+            </AppDownloadLink>
+          )}
         </div>
       </div>
+      {!APP_STORE_LIVE && (
+        <div className="mt-5 flex justify-center">
+          <AppDownloadLink tone="outline" size="md">
+            {translate('freeCta')}
+          </AppDownloadLink>
+        </div>
+      )}
       <p className="ff-ui mx-auto mt-5 mb-0 flex flex-col gap-0.5 text-center text-[13px] leading-normal text-ink-mute">
         <span>{translate('note')}</span>
         <span>{translate('updatesIncluded')}</span>

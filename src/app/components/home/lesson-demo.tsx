@@ -10,9 +10,10 @@ import {
 } from '@components/brewpath/lesson-cards/true-false-card';
 import { ProgressTopbar } from '@components/brewpath/progress-topbar/progress-topbar';
 import { LockedRewardCard } from '@components/brewpath/reward-card/locked-reward-card';
+import { Roasty } from '@components/brewpath/roasty/roasty';
 import { RewardCard, type RewardCardData } from '@components/brewpath/reward-card/reward-card';
 import { ButtonRow } from '@components/button-row/button-row';
-import { AppDownloadLink } from '@components/link-button/link-button';
+import { AppDownloadLink, linkButtonClass } from '@components/link-button/link-button';
 import { ScaledFrame } from '@components/scaled-frame/scaled-frame';
 import { cn } from '@shared/styles/cn';
 import { twoColumnClass } from '@components/section/section';
@@ -21,6 +22,7 @@ import { CoffeeBurst } from './coffee-burst';
 
 /** The three cards of the demo, in order. */
 const CARD_COUNT = 3;
+const COMPLETION_HOLD_MS = 2000;
 
 interface LessonDemoProps {
   /** The card a perfect run of lesson one earns. */
@@ -41,14 +43,36 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
   const [run, setRun] = useState(0);
   const [moreToRead, setMoreToRead] = useState(false);
   const scrollCueId = useId();
+  const celebrationButton = useRef<HTMLButtonElement>(null);
+  const [focusResult, setFocusResult] = useState(false);
 
-  const done = step >= CARD_COUNT;
+  const celebrating = step === CARD_COUNT;
+  const done = step > CARD_COUNT;
+  const showReward = () => {
+    setFocusResult(true);
+    setStep(CARD_COUNT + 1);
+  };
+
+  useEffect(() => {
+    if (!celebrating) {
+      return;
+    }
+
+    celebrationButton.current?.focus();
+    const timer = window.setTimeout(() => {
+      setFocusResult(document.activeElement === celebrationButton.current);
+      setStep(CARD_COUNT + 1);
+    }, COMPLETION_HOLD_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [celebrating]);
   const perfect = score === CARD_COUNT;
   const rewardScore = perfect ? 'scorePerfect' : 'scorePartial';
   const next = () => setStep((current) => Math.min(current + 1, CARD_COUNT));
   const countCorrect = () => setScore((current) => current + 1);
   const restart = () => {
     setStep(0);
+    setFocusResult(false);
     setScore(0);
     setMoreToRead(false);
     setRun((current) => current + 1);
@@ -93,7 +117,7 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
           {done ? (
             <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-card border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-5.5 py-5">
               <h3
-                ref={focusHeading}
+                ref={focusResult ? focusHeading : undefined}
                 tabIndex={-1}
                 className="ff-display m-0 text-[22px] leading-[1.15] font-normal"
               >
@@ -113,7 +137,7 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                 <button
                   type="button"
                   onClick={restart}
-                  className="ff-ui min-h-10.5 appearance-none rounded-full border border-rule bg-transparent px-4.5 py-2 text-sm leading-[1.15] font-medium text-ink"
+                  className={linkButtonClass('outline', 'md')}
                 >
                   {translate('again')}
                 </button>
@@ -125,7 +149,7 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
               className="ff-mono mt-7 flex items-center gap-2.5 text-[11px] leading-normal tracking-widest text-ink-mute uppercase stacked:justify-center"
             >
               <span className="size-1.5 flex-none animate-dot-pulse rounded-full bg-accent" />
-              {translate('progress', progress)}
+              {celebrating ? translate('completed') : translate('progress', progress)}
             </div>
           )}
         </div>
@@ -155,10 +179,10 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                     onClose={restart}
                     cardIndex={Math.min(step, CARD_COUNT - 1)}
                     total={CARD_COUNT}
-                    done={done}
+                    done={celebrating || done}
                     closeLabel={translate('restart')}
                   />
-                  <div className="absolute inset-0 flex flex-col pt-33.5">
+                  <div className="absolute inset-0 flex flex-col pt-30 pb-8">
                     {step === 0 && (
                       <MCQCard
                         card={cards[0]}
@@ -183,6 +207,18 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                         onCorrect={countCorrect}
                       />
                     )}
+                    {celebrating && (
+                      <button
+                        ref={celebrationButton}
+                        type="button"
+                        onClick={showReward}
+                        aria-label={translate('continueToResult')}
+                        className="flex min-h-0 flex-1 cursor-pointer flex-col items-center justify-center gap-6 bg-transparent px-6 text-ink"
+                      >
+                        <Roasty size="large" state="lesson" />
+                        <span className="ff-display text-title">{translate('completed')}</span>
+                      </button>
+                    )}
                     {done &&
                       reward &&
                       (perfect ? (
@@ -196,8 +232,8 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                           />
                         </>
                       ) : (
-                        <div className="min-h-0 animate-save-note-in overflow-y-auto px-6 pb-6">
-                          <div className="mx-auto w-full max-w-[320px]">
+                        <div className="flex min-h-0 flex-1 animate-save-note-in flex-col px-6">
+                          <div className="mx-auto flex min-h-0 w-full max-w-[320px] flex-1">
                             <LockedRewardCard
                               title={reward.title}
                               illustration={illustration}
@@ -209,7 +245,10 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                   </div>
                 </div>
               </ScaledFrame>
-              <div className="absolute bottom-2 left-1/2 h-1 w-27.5 -translate-x-1/2 rounded-full bg-rule" />
+              <div
+                data-demo-home-indicator
+                className="absolute bottom-2 left-1/2 h-1 w-27.5 -translate-x-1/2 rounded-full bg-rule"
+              />
             </div>
           </div>
         </ScaledFrame>
@@ -263,7 +302,7 @@ function EarnedReward({
       aria-label={reward.title}
       aria-describedby={cueId}
       tabIndex={0}
-      className="min-h-0 animate-save-note-in overflow-y-auto px-6 pb-6 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+      className="min-h-0 animate-save-note-in scrollbar-none overflow-y-auto px-6 pb-3 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
     >
       <div ref={content} className="flex justify-center">
         <RewardCard reward={reward} illustration={illustration} />

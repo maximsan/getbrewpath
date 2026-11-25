@@ -92,9 +92,25 @@ for (const perfect of [true, false]) {
     page,
     browserName,
   }) => {
+    await page.clock.install();
     await openPath(page, '/#demo');
     const demo = page.locator('#demo');
     const next = demo.getByRole('button', { name: lesson.continue, exact: true });
+    const staysAboveHomeIndicator = async (button: typeof next) => {
+      await expect
+        .poll(() =>
+          button.evaluate((element) => {
+            const indicator = element.closest('#demo')?.querySelector('[data-demo-home-indicator]');
+
+            return (
+              indicator !== undefined &&
+              indicator !== null &&
+              element.getBoundingClientRect().bottom < indicator.getBoundingClientRect().top
+            );
+          }),
+        )
+        .toBe(true);
+    };
     const finish = async (firstAnswer: string) => {
       const answers = [firstAnswer, lesson.false, site.demo.card2.choices.c2];
       const nextQuestions = [site.demo.card1.statement, site.demo.card2.prompt];
@@ -109,8 +125,13 @@ for (const perfect of [true, false]) {
         await expect(selected).toHaveAttribute('aria-disabled', 'true');
         await selected.press('Enter');
         await expect(next).toBeEnabled();
-        await next.press('Enter');
+        await staysAboveHomeIndicator(next);
         const nextQuestion = nextQuestions[index];
+
+        if (!nextQuestion) {
+          await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
+        }
+        await next.press('Enter');
 
         if (nextQuestion) {
           await expect(demo.getByRole('heading', { name: nextQuestion })).toBeFocused();
@@ -119,6 +140,14 @@ for (const perfect of [true, false]) {
     };
 
     await finish(perfect ? site.demo.card0.choices.c2 : site.demo.card0.choices.c1);
+    const celebration = demo.getByRole('button', { name: site.demo.continueToResult });
+
+    await expect(celebration).toBeFocused();
+    await expect(demo.getByRole('heading', { name: 'The Coffee Cherry', exact: true })).toHaveCount(
+      0,
+    );
+    await celebration.press('Enter');
+    await page.clock.resume();
     const score = demo.getByText(
       perfect ? '3 of 3. That card is yours.' : '2 of 3. Get every answer right to earn the card.',
       { exact: true },
@@ -135,7 +164,10 @@ for (const perfect of [true, false]) {
     await expect(demo.getByText('Not yet earned', { exact: true })).toHaveCount(perfect ? 0 : 1);
     await expect(demo.getByRole('img', { name: 'Illustration: The Coffee Cherry' })).toBeVisible();
     if (!perfect) {
-      await demo.getByRole('button', { name: 'Try again', exact: true }).click();
+      const retry = demo.getByRole('button', { name: 'Try again', exact: true });
+
+      await staysAboveHomeIndicator(retry);
+      await retry.click();
     } else {
       const tab = browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab';
       const card = demo.getByRole('region', { name: 'The Coffee Cherry' });
@@ -153,12 +185,19 @@ for (const perfect of [true, false]) {
       ).toBeFocused();
       await page.keyboard.press(tab);
       await expect(card).toBeFocused();
+      await expect(card).toHaveCSS('scrollbar-width', 'none');
       await page.keyboard.press('End');
       await expect(fact).toBeInViewport({ ratio: 0.99 });
       await demo.getByRole('button', { name: site.demo.again, exact: true }).click();
     }
     await expect(demo.getByRole('heading', { name: site.demo.card0.prompt })).toBeFocused();
     await finish(perfect ? site.demo.card0.choices.c1 : site.demo.card0.choices.c2);
+    await expect(celebration).toBeFocused();
+    const restart = demo.getByRole('button', { name: site.demo.restart, exact: true });
+
+    await restart.focus();
+    await page.clock.runFor(2000);
+    await page.clock.resume();
     await expect(
       demo.getByText(
         perfect
@@ -166,8 +205,9 @@ for (const perfect of [true, false]) {
           : '3 of 3. That card is yours.',
         { exact: true },
       ),
-    ).toBeFocused();
-    await demo.getByRole('button', { name: site.demo.restart, exact: true }).click();
+    ).toBeVisible();
+    await expect(restart).toBeFocused();
+    await restart.click();
     await expect(demo.getByRole('heading', { name: site.demo.card0.prompt })).toBeFocused();
     await expect(next).toBeDisabled();
   });
