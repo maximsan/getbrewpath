@@ -295,16 +295,22 @@ function EarnedReward({
   }, [onMoreToReadChange]);
 
   return (
-    <div
-      ref={viewport}
-      role="region"
-      aria-label={reward.title}
-      aria-describedby={cueId}
-      tabIndex={0}
-      className="min-h-0 animate-save-note-in scrollbar-none overflow-y-auto px-6 pb-3 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
-    >
-      <div ref={content} className="flex justify-center">
-        <RewardCard reward={reward} illustration={illustration} />
+    <div className="relative flex min-h-0 flex-col">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-5 bg-bg/65 mask-[linear-gradient(black,transparent)] backdrop-blur-sm"
+      />
+      <div
+        ref={viewport}
+        role="region"
+        aria-label={reward.title}
+        aria-describedby={cueId}
+        tabIndex={0}
+        className="min-h-0 animate-save-note-in scrollbar-none overflow-y-auto px-6 pb-3 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+      >
+        <div ref={content} className="flex justify-center">
+          <RewardCard reward={reward} illustration={illustration} />
+        </div>
       </div>
     </div>
   );
