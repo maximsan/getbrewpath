@@ -284,7 +284,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                                   ref={hasOpenedCard ? focusButton : undefined}
                                   type="button"
                                   onClick={openCard}
-                                  className="ff-ui my-auto flex w-full items-center justify-between gap-4 rounded-card border border-rule bg-surface px-4 py-3 text-left text-body"
+                                  className="ff-ui mt-auto flex w-full items-center justify-between gap-4 rounded-card border border-rule bg-surface px-4 py-3 text-left text-body"
                                 >
                                   <span className="flex flex-col gap-1">
                                     <span className="font-medium text-ink">
@@ -300,7 +300,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                                   </span>
                                 </button>
                               ) : (
-                                <p className="ff-ui mx-0 my-auto text-center text-body/normal text-pretty text-ink-mute">
+                                <p className="ff-ui mx-0 mt-auto mb-0 text-center text-body/normal text-pretty text-ink-mute">
                                   {translateReward('earnCard')}
                                 </p>
                               ))}
