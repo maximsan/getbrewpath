@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { useHydrated } from '@shared/hooks/use-hydrated';
@@ -45,9 +44,8 @@ function shuffledIndices(count: number): number[] {
   return order;
 }
 
-/** A multiple-choice card: cue, question, shuffled answers, feedback after one pick, and Continue. */
+/** A multiple-choice card: question, shuffled answers, feedback after one pick, and Continue. */
 export function MCQCard({ card, onContinue, onCorrect, focusTitle }: MCQCardProps) {
-  const translate = useTranslations('lesson');
   const [picked, setPicked] = useState<number | null>(null);
   const [shuffled] = useState(() => shuffledIndices(card.choices.length));
   const hydrated = useHydrated();
@@ -75,7 +73,6 @@ export function MCQCard({ card, onContinue, onCorrect, focusTitle }: MCQCardProp
 
   return (
     <ChoiceCard
-      cue={translate('cueMcq')}
       title={card.prompt}
       focusTitle={focusTitle}
       titleLeading="leading-[1.1]"

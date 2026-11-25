@@ -25,7 +25,7 @@ export interface TrueFalseCardProps {
 
 const ANSWERS = [true, false] as const;
 
-/** A true-or-false card: cue, statement, True and False buttons, feedback after one pick, and Continue. */
+/** A true-or-false card: statement, True and False buttons, feedback after one pick, and Continue. */
 export function TrueFalseCard({ card, onContinue, onCorrect, focusTitle }: TrueFalseCardProps) {
   const translate = useTranslations('lesson');
   const [picked, setPicked] = useState<boolean | null>(null);
@@ -50,7 +50,6 @@ export function TrueFalseCard({ card, onContinue, onCorrect, focusTitle }: TrueF
 
   return (
     <ChoiceCard
-      cue={translate('cueTrueFalse')}
       title={card.statement}
       focusTitle={focusTitle}
       titleLeading="leading-[1.18]"

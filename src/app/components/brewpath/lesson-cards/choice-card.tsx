@@ -37,7 +37,6 @@ export function choiceVerdict<T>(value: T, answer: T, picked: T | null): Choice[
 
 interface ChoiceCardProps {
   focusTitle?: (heading: HTMLHeadingElement | null) => void;
-  cue: string;
   /** The question or statement, set in Fraunces at title size. */
   title: string;
   /** Tailwind line-height class for the title. */
@@ -49,9 +48,8 @@ interface ChoiceCardProps {
   onContinue?: () => void;
 }
 
-/** The shared layout of a one-pick card: cue, title, choices, verdict after the pick, and Continue. */
+/** The shared layout of a one-pick card: title, choices, verdict after the pick, and Continue. */
 export function ChoiceCard({
-  cue,
   title,
   titleLeading,
   focusTitle,
@@ -71,9 +69,6 @@ export function ChoiceCard({
         tabIndex={0}
         className="min-h-0 flex-1 scrollbar-none overflow-y-auto px-6 pt-1 pb-3 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
       >
-        <div className="smallcaps mb-3 flex items-center gap-2 leading-none text-accent">
-          <span className="text-support leading-none">{cue}</span>
-        </div>
         <h2
           ref={focusTitle}
           tabIndex={focusTitle ? -1 : undefined}
