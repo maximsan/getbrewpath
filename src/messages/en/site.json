@@ -87,6 +87,7 @@
   },
   "demo": {
     "completed": "Lesson complete",
+    "backToResult": "Back to lesson result",
     "continueToResult": "Lesson complete. Show result",
     "scrollReward": "Scroll to read the full card",
     "scoreOnly": "{correctAnswers} of {total} correct.",

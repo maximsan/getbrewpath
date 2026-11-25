@@ -21,12 +21,16 @@ import { CoffeeBurst } from './coffee-burst';
 
 /** The three cards of the demo, in order. */
 const CARD_COUNT = 3;
-const COMPLETION_HOLD_MS = 2000;
+const COMPLETION_HOLD_MS = 3000;
 
 interface LessonDemoProps {
   /** The card a perfect run of lesson one earns. */
   reward?: RewardCardData;
   illustration?: string;
+}
+
+function focusButton(button: HTMLButtonElement | null) {
+  button?.focus();
 }
 
 function focusHeading(heading: HTMLHeadingElement | null) {
@@ -40,6 +44,8 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
   const [score, setScore] = useState(0);
   /** A new run number remounts the cards, so a replay starts with unanswered cards. */
   const [run, setRun] = useState(0);
+  const [cardOpen, setCardOpen] = useState(true);
+  const [focusBack, setFocusBack] = useState(false);
   const [moreToRead, setMoreToRead] = useState(false);
   const scrollCueId = useId();
   const celebrationButton = useRef<HTMLButtonElement>(null);
@@ -67,10 +73,21 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
   }, [celebrating]);
   const perfect = score === CARD_COUNT;
   const rewardScore = perfect ? 'scorePerfect' : 'scorePartial';
+  const readingCard = done && perfect && reward && cardOpen;
+  const backToResult = () => {
+    setCardOpen(false);
+    setMoreToRead(false);
+  };
+  const reopenCard = () => {
+    setFocusBack(true);
+    setCardOpen(true);
+  };
   const next = () => setStep((current) => Math.min(current + 1, CARD_COUNT));
   const countCorrect = () => setScore((current) => current + 1);
   const restart = () => {
     setStep(0);
+    setCardOpen(true);
+    setFocusBack(false);
     setFocusResult(false);
     setScore(0);
     setMoreToRead(false);
@@ -154,7 +171,7 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
         </div>
       </div>
       <div className="flex flex-col items-center">
-        {done && perfect && reward && (
+        {readingCard && (
           <p
             id={scrollCueId}
             className={cn(
@@ -174,13 +191,39 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
               {/* The app is drawn at its real size, then shrunk to the screen's width. */}
               <ScaledFrame className="absolute inset-0">
                 <div key={run} className="relative h-demo-app-height w-demo-app overflow-hidden">
-                  <ProgressTopbar
-                    onClose={restart}
-                    cardIndex={Math.min(step, CARD_COUNT - 1)}
-                    total={CARD_COUNT}
-                    done={celebrating || done}
-                    closeLabel={translate('restart')}
-                  />
+                  {readingCard ? (
+                    <button
+                      ref={focusBack ? focusButton : undefined}
+                      type="button"
+                      aria-label={translate('backToResult')}
+                      onClick={backToResult}
+                      className="absolute top-status-bar left-3 z-10 flex size-11 items-center justify-center rounded-full text-ink"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="m15 5-7 7 7 7"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  ) : (
+                    <ProgressTopbar
+                      onClose={restart}
+                      cardIndex={Math.min(step, CARD_COUNT - 1)}
+                      total={CARD_COUNT}
+                      done={celebrating || done}
+                      closeLabel={translate('restart')}
+                    />
+                  )}
                   <div className="absolute inset-0 flex flex-col pt-30 pb-8">
                     {step === 0 && (
                       <MCQCard
@@ -218,29 +261,40 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                         <span className="ff-display text-title">{translate('completed')}</span>
                       </button>
                     )}
-                    {done &&
-                      reward &&
-                      (perfect ? (
-                        <>
-                          <CoffeeBurst />
-                          <EarnedReward
-                            reward={reward}
+                    {readingCard && (
+                      <>
+                        {!focusBack && <CoffeeBurst />}
+                        <EarnedReward
+                          reward={reward}
+                          cueId={moreToRead ? scrollCueId : undefined}
+                          onMoreToReadChange={setMoreToRead}
+                        />
+                      </>
+                    )}
+                    {done && reward && perfect && !cardOpen && (
+                      <div className="flex min-h-0 flex-1 flex-col justify-center gap-5 px-6 text-center">
+                        <h2 className="ff-display m-0 text-title">{translate('completed')}</h2>
+                        <button
+                          ref={focusButton}
+                          type="button"
+                          onClick={reopenCard}
+                          className={linkButtonClass('outline', 'lg')}
+                        >
+                          {reward.title}
+                        </button>
+                      </div>
+                    )}
+                    {done && reward && !perfect && (
+                      <div className="flex min-h-0 flex-1 animate-save-note-in flex-col px-6">
+                        <div className="mx-auto flex min-h-0 w-full max-w-[320px] flex-1">
+                          <LockedRewardCard
+                            title={reward.title}
                             illustration={illustration}
-                            cueId={moreToRead ? scrollCueId : undefined}
-                            onMoreToReadChange={setMoreToRead}
+                            onRetry={restart}
                           />
-                        </>
-                      ) : (
-                        <div className="flex min-h-0 flex-1 animate-save-note-in flex-col px-6">
-                          <div className="mx-auto flex min-h-0 w-full max-w-[320px] flex-1">
-                            <LockedRewardCard
-                              title={reward.title}
-                              illustration={illustration}
-                              onRetry={restart}
-                            />
-                          </div>
                         </div>
-                      ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </ScaledFrame>
@@ -258,17 +312,16 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
 
 function EarnedReward({
   reward,
-  illustration,
   cueId,
   onMoreToReadChange,
 }: {
   reward: RewardCardData;
-  illustration?: string;
   cueId?: string;
   onMoreToReadChange: (moreToRead: boolean) => void;
 }) {
   const viewport = useRef<HTMLDivElement>(null);
   const content = useRef<HTMLDivElement>(null);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const region = viewport.current;
@@ -279,6 +332,7 @@ function EarnedReward({
     }
 
     const updateCue = () => {
+      setScrolled(region.scrollTop > 1);
       onMoreToReadChange(region.scrollHeight - region.clientHeight - region.scrollTop > 1);
     };
     const observer = new ResizeObserver(updateCue);
@@ -295,21 +349,23 @@ function EarnedReward({
   }, [onMoreToReadChange]);
 
   return (
-    <div className="relative flex min-h-0 flex-col">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-5 bg-bg/65 mask-[linear-gradient(black,transparent)] backdrop-blur-sm"
-      />
+    <div className="relative flex min-h-0 flex-1 flex-col">
+      {scrolled && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-5 bg-bg/65 mask-[linear-gradient(black,transparent)] backdrop-blur-sm"
+        />
+      )}
       <div
         ref={viewport}
         role="region"
         aria-label={reward.title}
         aria-describedby={cueId}
         tabIndex={0}
-        className="min-h-0 animate-save-note-in scrollbar-none overflow-y-auto px-6 pb-3 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+        className="min-h-0 flex-1 animate-save-note-in scrollbar-none overflow-y-auto px-6 pb-3 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
       >
-        <div ref={content} className="flex justify-center">
-          <RewardCard reward={reward} illustration={illustration} />
+        <div ref={content} className="flex min-h-full items-center justify-center py-3">
+          <RewardCard reward={reward} compact />
         </div>
       </div>
     </div>

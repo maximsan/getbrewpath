@@ -214,7 +214,9 @@ for (const perfect of [true, false]) {
 
     await expect(fact).toHaveCount(perfect ? 1 : 0);
     await expect(demo.getByText('Not yet earned', { exact: true })).toHaveCount(perfect ? 0 : 1);
-    await expect(demo.getByRole('img', { name: 'Illustration: The Coffee Cherry' })).toBeVisible();
+    await expect(demo.getByRole('img', { name: 'Illustration: The Coffee Cherry' })).toHaveCount(
+      perfect ? 0 : 1,
+    );
     if (!perfect) {
       const retry = demo.getByRole('button', { name: 'Try again', exact: true });
 
@@ -224,7 +226,12 @@ for (const perfect of [true, false]) {
       const tab = browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab';
       const card = demo.getByRole('region', { name: 'The Coffee Cherry' });
 
-      await expect(demo.getByText('Scroll to read the full card')).toBeVisible();
+      const back = demo.getByRole('button', { name: site.demo.backToResult, exact: true });
+
+      await expect(demo.getByText(site.demo.scrollReward)).toBeHidden();
+      await expect
+        .poll(() => card.evaluate((region) => region.scrollHeight - region.clientHeight))
+        .toBeLessThanOrEqual(1);
       if (APP_STORE_LIVE) {
         await page.keyboard.press(tab);
         await expect(demo.getByRole('link', { name: site.demo.get, exact: true })).toBeFocused();
@@ -232,23 +239,31 @@ for (const perfect of [true, false]) {
       await page.keyboard.press(tab);
       await expect(demo.getByRole('button', { name: site.demo.again, exact: true })).toBeFocused();
       await page.keyboard.press(tab);
-      await expect(
-        demo.getByRole('button', { name: site.demo.restart, exact: true }),
-      ).toBeFocused();
+      await expect(back).toBeFocused();
       await page.keyboard.press(tab);
       await expect(card).toBeFocused();
       await expect(card).toHaveCSS('scrollbar-width', 'none');
-      await page.keyboard.press('End');
+      await expect(fact).toBeInViewport({ ratio: 0.99 });
+      await back.press('Enter');
+      await expect(card).toHaveCount(0);
+      const reopen = demo.getByRole('button', { name: 'The Coffee Cherry', exact: true });
+
+      await expect(reopen).toBeFocused();
+      await expect(score).toBeVisible();
+      await reopen.press('Enter');
+      await expect(back).toBeFocused();
       await expect(fact).toBeInViewport({ ratio: 0.99 });
       await demo.getByRole('button', { name: site.demo.again, exact: true }).click();
     }
     await expect(demo.getByRole('heading', { name: site.demo.card0.prompt })).toBeFocused();
     await finish(perfect ? site.demo.card0.choices.c1 : site.demo.card0.choices.c2);
     await expect(celebration).toBeFocused();
-    const restart = demo.getByRole('button', { name: site.demo.restart, exact: true });
+    const lessonLink = page.getByRole('link', { name: 'Try a lesson first', exact: true });
 
-    await restart.focus();
-    await page.clock.runFor(2000);
+    await lessonLink.focus();
+    await page.clock.runFor(2999);
+    await expect(celebration).toBeVisible();
+    await page.clock.runFor(1);
     await page.clock.resume();
     await expect(
       demo.getByText(
@@ -258,8 +273,8 @@ for (const perfect of [true, false]) {
         { exact: true },
       ),
     ).toBeVisible();
-    await expect(restart).toBeFocused();
-    await restart.click();
+    await expect(lessonLink).toBeFocused();
+    await demo.getByRole('button', { name: site.demo.again, exact: true }).click();
     await expect(demo.getByRole('heading', { name: site.demo.card0.prompt })).toBeFocused();
     await expect(next).toBeDisabled();
   });
