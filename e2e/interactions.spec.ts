@@ -154,6 +154,58 @@ for (const perfect of [true, false]) {
     );
 
     await expect(score).toBeFocused();
+    if (!perfect) {
+      const replay = demo.getByRole('button', { name: site.demo.again, exact: true });
+      const availability = APP_STORE_LIVE
+        ? demo.getByRole('link', { name: site.demo.get, exact: true })
+        : demo.getByText(site.availability.comingSoon, { exact: true });
+      const desktop = page.viewportSize()!;
+
+      for (const width of [320, 390, 600, 768, 1024, 1440]) {
+        await page.setViewportSize({ width, height: 844 });
+        if (width < 600) {
+          await expect
+            .poll(() =>
+              replay.evaluate((button) => {
+                const row = button.parentElement!;
+                const panel = row.parentElement!;
+                const padding = getComputedStyle(panel);
+                const contentWidth =
+                  panel.clientWidth -
+                  parseFloat(padding.paddingLeft) -
+                  parseFloat(padding.paddingRight);
+
+                return Math.abs(button.getBoundingClientRect().width - contentWidth);
+              }),
+            )
+            .toBeLessThan(1);
+        }
+        await expect
+          .poll(
+            async () => {
+              const [status, action] = await Promise.all([
+                availability.boundingBox(),
+                replay.boundingBox(),
+              ]);
+
+              return (
+                !!status &&
+                !!action &&
+                Math.abs(status.width - action.width) < 1 &&
+                Math.abs(status.height - action.height) < 1 &&
+                (width < 600
+                  ? Math.abs(status.x - action.x) < 1 && status.y + status.height <= action.y
+                  : Math.abs(status.y - action.y) < 1 && status.x + status.width <= action.x) &&
+                status.x >= 0 &&
+                action.x + action.width <= width
+              );
+            },
+            { message: `Equal result controls at ${width}px` },
+          )
+          .toBe(true);
+      }
+      await page.setViewportSize(desktop);
+    }
     const reward = demo.getByRole('heading', { name: 'The Coffee Cherry', exact: true });
 
     await expect(reward).toBeVisible();

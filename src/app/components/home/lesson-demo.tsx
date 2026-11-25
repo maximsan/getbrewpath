@@ -12,7 +12,6 @@ import { ProgressTopbar } from '@components/brewpath/progress-topbar/progress-to
 import { LockedRewardCard } from '@components/brewpath/reward-card/locked-reward-card';
 import { Roasty } from '@components/brewpath/roasty/roasty';
 import { RewardCard, type RewardCardData } from '@components/brewpath/reward-card/reward-card';
-import { ButtonRow } from '@components/button-row/button-row';
 import { AppDownloadLink, linkButtonClass } from '@components/link-button/link-button';
 import { ScaledFrame } from '@components/scaled-frame/scaled-frame';
 import { cn } from '@shared/styles/cn';
@@ -130,7 +129,7 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                 {reward && <>{translate(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')} </>}
                 {translate('fullLesson')}
               </div>
-              <ButtonRow className="mt-1 gap-2.5 stacked:justify-center">
+              <div className="mt-1 grid w-full grid-cols-1 gap-2.5 tablet:w-fit tablet:max-w-full tablet:grid-cols-2 stacked:mx-auto">
                 <AppDownloadLink tone="accent" size="md">
                   {translate('get')}
                 </AppDownloadLink>
@@ -141,7 +140,7 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                 >
                   {translate('again')}
                 </button>
-              </ButtonRow>
+              </div>
             </div>
           ) : (
             <div
