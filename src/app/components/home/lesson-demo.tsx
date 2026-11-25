@@ -296,7 +296,15 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                                     aria-hidden="true"
                                     className="flex size-9 shrink-0 items-center justify-center rounded-full bg-accent text-accent-ink"
                                   >
-                                    →
+                                    <svg width="16" height="16" viewBox="0 0 14 10" fill="none">
+                                      <path
+                                        d="M1.25 5h10.5M8.6 1.9L11.75 5 8.6 8.1"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                    </svg>
                                   </span>
                                 </button>
                               ) : (
