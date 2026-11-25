@@ -2,7 +2,7 @@ import site from '@messages/en/site.json' with { type: 'json' };
 import lesson from '@messages/en/lesson.json' with { type: 'json' };
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import { legalPageSource } from '@domains/site/legal-pages';
-import { APP_STORE_LIVE, MAILTO_HI } from '@domains/site/site';
+import { MAILTO_HI } from '@domains/site/site';
 import { NAV_SECTIONS } from '../src/app/components/site-header/nav-items';
 
 import { expect, test } from './fixtures';
@@ -153,108 +153,48 @@ for (const perfect of [true, false]) {
       { exact: true },
     );
 
-    await expect(score).toBeFocused();
-    if (!perfect) {
-      const replay = demo.getByRole('button', { name: site.demo.again, exact: true });
-      const availability = APP_STORE_LIVE
-        ? demo.getByRole('link', { name: site.demo.get, exact: true })
-        : demo.getByText(site.availability.comingSoon, { exact: true });
-      const desktop = page.viewportSize()!;
+    const title = demo.getByRole('heading', { name: site.demo.lessonTitle, exact: true });
+    const replay = demo.getByRole('button', { name: site.demo.again, exact: true });
+    const card = demo.getByRole('region', { name: 'The Coffee Cherry' });
+    const openCard = demo.getByRole('button', { name: 'Coffee Card The Coffee Cherry' });
 
-      for (const width of [320, 390, 600, 768, 1024, 1440]) {
-        await page.setViewportSize({ width, height: 844 });
-        if (width < 600) {
-          await expect
-            .poll(() =>
-              replay.evaluate((button) => {
-                const row = button.parentElement!;
-                const panel = row.parentElement!;
-                const padding = getComputedStyle(panel);
-                const contentWidth =
-                  panel.clientWidth -
-                  parseFloat(padding.paddingLeft) -
-                  parseFloat(padding.paddingRight);
+    await expect(score).toBeVisible();
+    await expect(title).toBeFocused();
+    await expect(demo.getByText(perfect ? '3 / 3 correct' : '2 / 3 correct')).toBeVisible();
+    await expect(card).toHaveCount(0);
+    await expect(replay).toHaveCount(1);
+    await expect(demo.getByRole('button', { name: site.demo.restart, exact: true })).toHaveCount(0);
+    await staysAboveHomeIndicator(replay);
 
-                return Math.abs(button.getBoundingClientRect().width - contentWidth);
-              }),
-            )
-            .toBeLessThan(1);
-        }
-        await expect
-          .poll(
-            async () => {
-              const [status, action] = await Promise.all([
-                availability.boundingBox(),
-                replay.boundingBox(),
-              ]);
-
-              return (
-                !!status &&
-                !!action &&
-                Math.abs(status.width - action.width) < 1 &&
-                Math.abs(status.height - action.height) < 1 &&
-                (width < 600
-                  ? Math.abs(status.x - action.x) < 1 && status.y + status.height <= action.y
-                  : Math.abs(status.y - action.y) < 1 && status.x + status.width <= action.x) &&
-                status.x >= 0 &&
-                action.x + action.width <= width
-              );
-            },
-            { message: `Equal result controls at ${width}px` },
-          )
-          .toBe(true);
-      }
-      await page.setViewportSize(desktop);
-    }
-    const reward = demo.getByRole('heading', { name: 'The Coffee Cherry', exact: true });
-
-    await expect(reward).toBeVisible();
-
-    const fact = demo.getByText('Cherries ripen unevenly on the same branch', { exact: false });
-
-    await expect(fact).toHaveCount(perfect ? 1 : 0);
-    await expect(demo.getByText('Not yet earned', { exact: true })).toHaveCount(perfect ? 0 : 1);
-    await expect(demo.getByRole('img', { name: 'Illustration: The Coffee Cherry' })).toHaveCount(
-      perfect ? 0 : 1,
-    );
-    if (!perfect) {
-      const retry = demo.getByRole('button', { name: 'Try again', exact: true });
-
-      await staysAboveHomeIndicator(retry);
-      await retry.click();
-    } else {
+    if (perfect) {
       const tab = browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab';
-      const card = demo.getByRole('region', { name: 'The Coffee Cherry' });
-
       const back = demo.getByRole('button', { name: site.demo.backToResult, exact: true });
+      const fact = card.getByText('Cherries ripen unevenly on the same branch', { exact: false });
 
+      await page.keyboard.press(tab);
+      await expect(openCard).toBeFocused();
+      await openCard.press('Enter');
+      await expect(back).toBeFocused();
+      await expect(card).toBeVisible();
+      await expect(replay).toHaveCount(0);
       await expect(demo.getByText(site.demo.scrollReward)).toBeHidden();
       await expect
         .poll(() => card.evaluate((region) => region.scrollHeight - region.clientHeight))
         .toBeLessThanOrEqual(1);
-      if (APP_STORE_LIVE) {
-        await page.keyboard.press(tab);
-        await expect(demo.getByRole('link', { name: site.demo.get, exact: true })).toBeFocused();
-      }
-      await page.keyboard.press(tab);
-      await expect(demo.getByRole('button', { name: site.demo.again, exact: true })).toBeFocused();
-      await page.keyboard.press(tab);
-      await expect(back).toBeFocused();
       await page.keyboard.press(tab);
       await expect(card).toBeFocused();
-      await expect(card).toHaveCSS('scrollbar-width', 'none');
       await expect(fact).toBeInViewport({ ratio: 0.99 });
       await back.press('Enter');
       await expect(card).toHaveCount(0);
-      const reopen = demo.getByRole('button', { name: 'The Coffee Cherry', exact: true });
-
-      await expect(reopen).toBeFocused();
-      await expect(score).toBeVisible();
-      await reopen.press('Enter');
-      await expect(back).toBeFocused();
-      await expect(fact).toBeInViewport({ ratio: 0.99 });
-      await demo.getByRole('button', { name: site.demo.again, exact: true }).click();
+      await expect(openCard).toBeFocused();
+      await expect(demo.getByText('3 / 3 correct')).toBeVisible();
+    } else {
+      await expect(openCard).toHaveCount(0);
+      await expect(
+        demo.getByText('Get every answer right to earn this Coffee Card.'),
+      ).toBeVisible();
     }
+    await replay.click();
     await expect(demo.getByRole('heading', { name: site.demo.card0.prompt })).toBeFocused();
     await finish(perfect ? site.demo.card0.choices.c1 : site.demo.card0.choices.c2);
     await expect(celebration).toBeFocused();

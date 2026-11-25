@@ -8,7 +8,6 @@ import { ModulesStrip } from '@components/home/modules-strip';
 import { Pricing } from '@components/home/pricing';
 import { RoastyShowcase } from '@components/home/roasty-showcase';
 import { Section } from '@components/section/section';
-import { findCardArtImage } from '@domains/course/card-art';
 import { DEMO_REWARD_CARD_ID, findCard, getCourse } from '@domains/course/course';
 import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
 
@@ -19,14 +18,6 @@ export default async function HomePage({ params }: LocaleParams) {
 
   if (!demoCard) {
     console.warn(`Missing demo Coffee Card ${DEMO_REWARD_CARD_ID} in the ${locale} course`);
-  }
-
-  const illustration = demoCard
-    ? await findCardArtImage(locale, demoCard.kind, 'dark-roast')
-    : undefined;
-
-  if (demoCard && !illustration) {
-    console.warn(`Missing demo Coffee Card illustration ${demoCard.kind} in the ${locale} course`);
   }
 
   return (
@@ -43,7 +34,7 @@ export default async function HomePage({ params }: LocaleParams) {
           data-reveal
           className="overflow-hidden rounded-[28px] border border-rule bg-surface px-[clamp(24px,5vw,64px)] py-[clamp(32px,5vw,64px)]"
         >
-          <LessonDemo reward={demoCard?.reward} illustration={illustration} />
+          <LessonDemo reward={demoCard?.reward} />
         </div>
       </Section>
       <Pricing course={course} />

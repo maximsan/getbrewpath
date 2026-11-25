@@ -9,10 +9,9 @@ import {
   type TrueFalseCardData,
 } from '@components/brewpath/lesson-cards/true-false-card';
 import { ProgressTopbar } from '@components/brewpath/progress-topbar/progress-topbar';
-import { LockedRewardCard } from '@components/brewpath/reward-card/locked-reward-card';
 import { Roasty } from '@components/brewpath/roasty/roasty';
 import { RewardCard, type RewardCardData } from '@components/brewpath/reward-card/reward-card';
-import { AppDownloadLink, linkButtonClass } from '@components/link-button/link-button';
+import { AppDownloadLink } from '@components/link-button/link-button';
 import { ScaledFrame } from '@components/scaled-frame/scaled-frame';
 import { cn } from '@shared/styles/cn';
 import { twoColumnClass } from '@components/section/section';
@@ -26,7 +25,6 @@ const COMPLETION_HOLD_MS = 3000;
 interface LessonDemoProps {
   /** The card a perfect run of lesson one earns. */
   reward?: RewardCardData;
-  illustration?: string;
 }
 
 function focusButton(button: HTMLButtonElement | null) {
@@ -38,14 +36,15 @@ function focusHeading(heading: HTMLHeadingElement | null) {
 }
 
 /** Three questions based on lesson one, playable in a phone frame. */
-export function LessonDemo({ reward, illustration }: LessonDemoProps) {
+export function LessonDemo({ reward }: LessonDemoProps) {
   const translate = useTranslations('demo');
+  const translateReward = useTranslations('reward');
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
   /** A new run number remounts the cards, so a replay starts with unanswered cards. */
   const [run, setRun] = useState(0);
-  const [cardOpen, setCardOpen] = useState(true);
-  const [focusBack, setFocusBack] = useState(false);
+  const [cardOpen, setCardOpen] = useState(false);
+  const [hasOpenedCard, setHasOpenedCard] = useState(false);
   const [moreToRead, setMoreToRead] = useState(false);
   const scrollCueId = useId();
   const celebrationButton = useRef<HTMLButtonElement>(null);
@@ -76,18 +75,18 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
   const readingCard = done && perfect && reward && cardOpen;
   const backToResult = () => {
     setCardOpen(false);
+    setHasOpenedCard(true);
     setMoreToRead(false);
   };
-  const reopenCard = () => {
-    setFocusBack(true);
+  const openCard = () => {
     setCardOpen(true);
   };
   const next = () => setStep((current) => Math.min(current + 1, CARD_COUNT));
   const countCorrect = () => setScore((current) => current + 1);
   const restart = () => {
     setStep(0);
-    setCardOpen(true);
-    setFocusBack(false);
+    setCardOpen(false);
+    setHasOpenedCard(false);
     setFocusResult(false);
     setScore(0);
     setMoreToRead(false);
@@ -132,11 +131,7 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
         <div>
           {done ? (
             <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-card border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-5.5 py-5">
-              <h3
-                ref={focusResult ? focusHeading : undefined}
-                tabIndex={-1}
-                className="ff-display m-0 text-[22px] leading-[1.15] font-normal"
-              >
+              <h3 className="ff-display m-0 text-[22px] leading-[1.15] font-normal">
                 {translate(reward ? rewardScore : 'scoreOnly', {
                   correctAnswers: score,
                   total: CARD_COUNT,
@@ -146,17 +141,10 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                 {reward && <>{translate(perfect ? 'scoreBodyPerfect' : 'scoreBodyPartial')} </>}
                 {translate('fullLesson')}
               </div>
-              <div className="mt-1 grid w-full grid-cols-1 gap-2.5 tablet:w-fit tablet:max-w-full tablet:grid-cols-2 stacked:mx-auto">
+              <div className="mt-1 flex stacked:justify-center">
                 <AppDownloadLink tone="accent" size="md">
                   {translate('get')}
                 </AppDownloadLink>
-                <button
-                  type="button"
-                  onClick={restart}
-                  className={linkButtonClass('outline', 'md')}
-                >
-                  {translate('again')}
-                </button>
               </div>
             </div>
           ) : (
@@ -193,7 +181,7 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                 <div key={run} className="relative h-demo-app-height w-demo-app overflow-hidden">
                   {readingCard ? (
                     <button
-                      ref={focusBack ? focusButton : undefined}
+                      ref={focusButton}
                       type="button"
                       aria-label={translate('backToResult')}
                       onClick={backToResult}
@@ -215,15 +203,15 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                         />
                       </svg>
                     </button>
-                  ) : (
+                  ) : !done ? (
                     <ProgressTopbar
                       onClose={restart}
                       cardIndex={Math.min(step, CARD_COUNT - 1)}
                       total={CARD_COUNT}
-                      done={celebrating || done}
+                      done={celebrating}
                       closeLabel={translate('restart')}
                     />
-                  )}
+                  ) : null}
                   <div className="absolute inset-0 flex flex-col pt-30 pb-8">
                     {step === 0 && (
                       <MCQCard
@@ -263,7 +251,7 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                     )}
                     {readingCard && (
                       <>
-                        {!focusBack && <CoffeeBurst />}
+                        {!hasOpenedCard && <CoffeeBurst />}
                         <EarnedReward
                           reward={reward}
                           cueId={moreToRead ? scrollCueId : undefined}
@@ -271,28 +259,60 @@ export function LessonDemo({ reward, illustration }: LessonDemoProps) {
                         />
                       </>
                     )}
-                    {done && reward && perfect && !cardOpen && (
-                      <div className="flex min-h-0 flex-1 flex-col justify-center gap-5 px-6 text-center">
-                        <h2 className="ff-display m-0 text-title">{translate('completed')}</h2>
-                        <button
-                          ref={focusButton}
-                          type="button"
-                          onClick={reopenCard}
-                          className={linkButtonClass('outline', 'lg')}
-                        >
-                          {reward.title}
-                        </button>
-                      </div>
-                    )}
-                    {done && reward && !perfect && (
-                      <div className="flex min-h-0 flex-1 animate-save-note-in flex-col px-6">
-                        <div className="mx-auto flex min-h-0 w-full max-w-[320px] flex-1">
-                          <LockedRewardCard
-                            title={reward.title}
-                            illustration={illustration}
-                            onRetry={restart}
-                          />
+                    {done && !readingCard && (
+                      <div className="flex min-h-0 flex-1 flex-col px-6">
+                        <div className="min-h-0 flex-1 scrollbar-none overflow-y-auto px-1 pt-3 pb-4">
+                          <div className="flex min-h-full flex-col gap-8">
+                            <div className="text-center">
+                              <h2
+                                ref={focusResult && !hasOpenedCard ? focusHeading : undefined}
+                                tabIndex={-1}
+                                className="ff-display m-0 text-title/tight font-normal text-balance"
+                              >
+                                {translate('lessonTitle')}
+                              </h2>
+                              <p className="ff-mono mt-3 mb-0 text-body text-ink-mute">
+                                {translate('resultCount', {
+                                  correctAnswers: score,
+                                  total: CARD_COUNT,
+                                })}
+                              </p>
+                            </div>
+                            {reward &&
+                              (perfect ? (
+                                <button
+                                  ref={hasOpenedCard ? focusButton : undefined}
+                                  type="button"
+                                  onClick={openCard}
+                                  className="ff-ui my-auto flex w-full items-center justify-between gap-4 rounded-card border border-rule bg-surface px-4 py-3 text-left text-body"
+                                >
+                                  <span className="flex flex-col gap-1">
+                                    <span className="font-medium text-ink">
+                                      {translate('earnedCard')}
+                                    </span>
+                                    <span className="text-ink-mute">{reward.title}</span>
+                                  </span>
+                                  <span
+                                    aria-hidden="true"
+                                    className="flex size-9 shrink-0 items-center justify-center rounded-full bg-accent text-accent-ink"
+                                  >
+                                    →
+                                  </span>
+                                </button>
+                              ) : (
+                                <p className="ff-ui mx-0 my-auto text-center text-body/normal text-pretty text-ink-mute">
+                                  {translateReward('earnCard')}
+                                </p>
+                              ))}
+                          </div>
                         </div>
+                        <button
+                          type="button"
+                          onClick={restart}
+                          className="btn btn-primary shrink-0"
+                        >
+                          {translate('again')}
+                        </button>
                       </div>
                     )}
                   </div>

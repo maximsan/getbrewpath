@@ -87,6 +87,9 @@
   },
   "demo": {
     "completed": "Lesson complete",
+    "lessonTitle": "What coffee actually is",
+    "resultCount": "{correctAnswers} / {total} correct",
+    "earnedCard": "Coffee Card",
     "backToResult": "Back to lesson result",
     "continueToResult": "Lesson complete. Show result",
     "scrollReward": "Scroll to read the full card",
