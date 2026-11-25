@@ -52,13 +52,6 @@ export async function Pricing({ course }: { course: Course }) {
           )}
         </div>
       </div>
-      {!APP_STORE_LIVE && (
-        <div className="mt-5 flex justify-center">
-          <AppDownloadLink tone="outline" size="md">
-            {translate('freeCta')}
-          </AppDownloadLink>
-        </div>
-      )}
       <p className="ff-ui mx-auto mt-5 mb-0 flex flex-col gap-0.5 text-center text-[13px] leading-normal text-ink-mute">
         <span>{translate('note')}</span>
         <span>{translate('updatesIncluded')}</span>
