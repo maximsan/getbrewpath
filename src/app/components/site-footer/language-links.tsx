@@ -19,7 +19,7 @@ export function LanguageLinks() {
   return (
     <nav
       aria-label={translate('languages')}
-      className="flex flex-wrap items-center gap-x-4 gap-y-2 max-[600px]:justify-center"
+      className="flex flex-wrap items-center gap-x-4 gap-y-2 max-tablet:justify-center"
     >
       {others.map((locale) => (
         <Link
