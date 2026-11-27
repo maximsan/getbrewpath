@@ -160,12 +160,13 @@ export function LessonDemo({ reward }: LessonDemoProps) {
           )}
         </div>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="relative flex justify-center">
+        {/* Placed outside the layout, so showing it never moves the phone. */}
         {readingCard && (
           <p
             id={scrollCueId}
             className={cn(
-              'ff-ui mt-0 mb-3 text-center text-sm text-ink-mute',
+              'ff-ui absolute inset-x-0 bottom-full mt-0 mb-3 text-center text-sm text-ink-mute',
               !moreToRead && 'invisible',
             )}
           >
