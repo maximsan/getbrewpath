@@ -38,7 +38,7 @@ const appLinksHostRedirects = [
   {
     source: '/card/:id',
     has: onAppLinksHost,
-    destination: APP_STORE_LIVE ? APP_STORE_URL : `${SITE_URL}${COMING_SOON_PATH}?card=:id`,
+    destination: APP_STORE_LIVE ? APP_STORE_URL : `${SITE_URL}${COMING_SOON_PATH}/:id`,
     permanent: false,
   },
   {
@@ -48,6 +48,11 @@ const appLinksHostRedirects = [
     permanent: false,
   },
 ];
+
+/** After launch, saved coming-soon addresses go to the App Store. */
+const comingSoonRedirects = APP_STORE_LIVE
+  ? [{ source: `${COMING_SOON_PATH}/:id?`, destination: APP_STORE_URL, permanent: false }]
+  : [];
 
 const nextConfig: NextConfig = {
   experimental: { agentUpgrade: 'security' },
@@ -61,6 +66,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       ...appLinksHostRedirects,
+      ...comingSoonRedirects,
       { source: `/${defaultLocale}/:path*`, destination: '/:path*', permanent: false },
     ];
   },

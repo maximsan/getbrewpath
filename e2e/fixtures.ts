@@ -6,7 +6,11 @@ import { WEB_ANALYTICS_SCRIPT } from '@domains/site/site';
  * Playwright's `test`, with rules every smoke test follows. Test files import
  * `test` and `expect` from here, not from `@playwright/test`.
  */
-export const test = base.extend<{ countsNoVisits: void; blockedByPolicy: void }>({
+export const test = base.extend<{
+  countsNoVisits: void;
+  blockedByPolicy: void;
+  throwsNoErrors: void;
+}>({
   /** The tests never load the visit counter's script, so they count no visits. */
   countsNoVisits: [
     async ({ page }, use) => {
@@ -30,6 +34,17 @@ export const test = base.extend<{ countsNoVisits: void; blockedByPolicy: void }>
       );
       await use();
       expect(blocked).toEqual([]);
+    },
+    { auto: true },
+  ],
+  /** Every test fails if a script on the page throws, such as the inline mood script. */
+  throwsNoErrors: [
+    async ({ page }, use) => {
+      const errors: string[] = [];
+
+      page.on('pageerror', (error) => errors.push(error.message));
+      await use();
+      expect(errors).toEqual([]);
     },
     { auto: true },
   ],

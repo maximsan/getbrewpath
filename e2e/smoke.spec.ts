@@ -160,7 +160,7 @@ test(`${APP_LINKS_HOST} redirects browsers to the site or the active card fallba
 }) => {
   const cardDestination = APP_STORE_LIVE
     ? APP_STORE_URL
-    : `${SITE_URL}${COMING_SOON_PATH}?card=${firstCard.id}`;
+    : `${SITE_URL}${COMING_SOON_PATH}/${firstCard.id}`;
   const destinations = {
     '/': `${SITE_URL}/`,
     [PAGE_ROUTES.terms]: `${SITE_URL}${PAGE_ROUTES.terms}`,
@@ -177,7 +177,7 @@ test(`${APP_LINKS_HOST} redirects browsers to the site or the active card fallba
 
 test('coming-soon page returns to the shared card when the card is known', async ({ page }) => {
   test.skip(APP_STORE_LIVE, 'The coming-soon page redirects to the App Store after launch');
-  await openPath(page, `${COMING_SOON_PATH}?card=${firstCard.id}`);
+  await openPath(page, `${COMING_SOON_PATH}/${firstCard.id}`);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     site.availability.heading.replace(/<\/?em>/g, ''),
   );
@@ -186,11 +186,11 @@ test('coming-soon page returns to the shared card when the card is known', async
   await expect(page).toHaveURL(new RegExp(`${CARD_PATH}$`));
 });
 
-test('coming-soon page offers the demo without a card context', async ({ page }) => {
+test('coming-soon page offers the demo, and an unknown card has no coming-soon page', async ({
+  page,
+}) => {
   test.skip(APP_STORE_LIVE, 'The coming-soon page redirects to the App Store after launch');
-  await openPath(page, `${COMING_SOON_PATH}?card=unknown`);
-  await expect(page.getByRole('main')).not.toContainText(site.availability.appDidNotOpen);
-  await expect(page.getByRole('link', { name: site.availability.backToCard })).toHaveCount(0);
+  await openPath(page, `${COMING_SOON_PATH}/unknown`, 404);
   await openPath(page, COMING_SOON_PATH);
   const main = page.getByRole('main');
 
@@ -205,7 +205,7 @@ test('saved coming-soon URLs redirect directly to the App Store after launch', a
 }) => {
   test.skip(!APP_STORE_LIVE, 'The fallback page is available before launch');
 
-  for (const path of [COMING_SOON_PATH, `${COMING_SOON_PATH}?card=${firstCard.id}`]) {
+  for (const path of [COMING_SOON_PATH, `${COMING_SOON_PATH}/${firstCard.id}`]) {
     const response = await requestWithoutRedirect(request, path);
 
     expect(response.status(), path).toBe(307);
