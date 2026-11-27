@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
-import { cn } from '@shared/styles/cn';
-
 import { FlavorStamp } from './flavor-stamp';
 
 /** The collectible a lesson or module awards. */
@@ -23,23 +21,17 @@ export interface RewardCardProps {
   reward: RewardCardData;
   /** Shows only the badge, title and drawing, for a card the viewer has not earned. */
   preview?: boolean;
-  /** Drops the lines between the details, for the small screen of the lesson demo. */
-  compact?: boolean;
   /** The card's original drawing, imported and rendered as a standalone image. */
   illustration?: string;
 }
 
 /**
- * The card face, with reading content when earned.
+ * The card face: badge, title, stamp and drawing, then the summary, details and
+ * memorable fact unless it is a preview.
  * It rises in once on mount. No client hooks besides `useTranslations`, so it
  * renders in both server and client trees.
  */
-export function RewardCard({
-  reward,
-  illustration,
-  preview = false,
-  compact = false,
-}: RewardCardProps) {
+export function RewardCard({ reward, illustration, preview = false }: RewardCardProps) {
   const translate = useTranslations('reward');
   const rows = reward.meta ?? [];
 
@@ -86,10 +78,7 @@ export function RewardCard({
             {rows.map(([label, value]) => (
               <div
                 key={label}
-                className={cn(
-                  'grid grid-cols-1 items-baseline gap-1.5 py-3.5 @min-[240px]:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] @min-[240px]:gap-4',
-                  !compact && 'border-b border-rule last:border-b-0',
-                )}
+                className="grid grid-cols-1 items-baseline gap-1.5 py-3.5 @min-[240px]:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] @min-[240px]:gap-4"
               >
                 <dt className="smallcaps wrap-anywhere">{label}</dt>
                 <dd className="ff-mono m-0 min-w-0 text-support wrap-anywhere text-ink @min-[240px]:text-right">
@@ -99,7 +88,7 @@ export function RewardCard({
             ))}
           </dl>
 
-          <div className={cn('mt-4 pt-3.5', !compact && 'border-t border-rule')}>
+          <div className="mt-4 pt-3.5">
             <div className="smallcaps mb-1.5">{translate('memorable')}</div>
             <p className="ff-display m-0 text-heading leading-[1.4] font-normal text-pretty text-ink">
               {reward.fact}

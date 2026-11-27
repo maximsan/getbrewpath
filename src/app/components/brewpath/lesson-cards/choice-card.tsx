@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useId } from 'react';
 
 import { cn } from '@shared/styles/cn';
 
@@ -36,6 +37,7 @@ export function choiceVerdict<T>(value: T, answer: T, picked: T | null): Choice[
 }
 
 interface ChoiceCardProps {
+  /** A ref callback for the title, such as one that moves focus to it when the card appears. */
   focusTitle?: (heading: HTMLHeadingElement | null) => void;
   /** The question or statement, set in Fraunces at title size. */
   title: string;
@@ -60,16 +62,18 @@ export function ChoiceCard({
 }: ChoiceCardProps) {
   const translate = useTranslations('lesson');
   const answered = pickedCorrect !== null;
+  const titleId = useId();
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div
         role="region"
-        aria-label={title}
+        aria-labelledby={titleId}
         tabIndex={0}
         className="min-h-0 flex-1 scrollbar-none overflow-y-auto px-6 pt-1 pb-3 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
       >
         <h2
+          id={titleId}
           ref={focusTitle}
           tabIndex={focusTitle ? -1 : undefined}
           className={cn(

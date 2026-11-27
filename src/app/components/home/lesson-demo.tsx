@@ -15,13 +15,17 @@ import { Roasty } from '@components/brewpath/roasty/roasty';
 import { RewardCard, type RewardCardData } from '@components/brewpath/reward-card/reward-card';
 import { AppDownloadLink } from '@components/link-button/link-button';
 import { ScaledFrame } from '@components/scaled-frame/scaled-frame';
-import { cn } from '@shared/styles/cn';
 import { twoColumnClass } from '@components/section/section';
+import { cn } from '@shared/styles/cn';
 
 import { CoffeeBurst } from './coffee-burst';
 
 /** The three cards of the demo, in order. */
 const CARD_COUNT = 3;
+/** The step after the last card: Roasty's "Lesson complete" screen. */
+const CELEBRATION_STEP = CARD_COUNT;
+/** The step after the celebration: the lesson result. */
+const RESULT_STEP = CARD_COUNT + 1;
 const COMPLETION_HOLD_MS = 3000;
 
 interface LessonDemoProps {
@@ -29,12 +33,9 @@ interface LessonDemoProps {
   reward?: RewardCardData;
 }
 
-function focusButton(button: HTMLButtonElement | null) {
-  button?.focus();
-}
-
-function focusHeading(heading: HTMLHeadingElement | null) {
-  heading?.focus();
+/** A ref callback that moves keyboard focus to the element when it mounts. */
+function focusOnMount(element: HTMLElement | null) {
+  element?.focus();
 }
 
 /** Three questions based on lesson one, playable in a phone frame. */
@@ -48,15 +49,16 @@ export function LessonDemo({ reward }: LessonDemoProps) {
   const [cardOpen, setCardOpen] = useState(false);
   const [hasOpenedCard, setHasOpenedCard] = useState(false);
   const [moreToRead, setMoreToRead] = useState(false);
-  const scrollCueId = useId();
+  const scrollHintId = useId();
+  const resultCountId = useId();
   const celebrationButton = useRef<HTMLButtonElement>(null);
   const [focusResult, setFocusResult] = useState(false);
 
-  const celebrating = step === CARD_COUNT;
-  const done = step > CARD_COUNT;
+  const celebrating = step === CELEBRATION_STEP;
+  const showingResult = step === RESULT_STEP;
   const showReward = () => {
     setFocusResult(true);
-    setStep(CARD_COUNT + 1);
+    setStep(RESULT_STEP);
   };
 
   useEffect(() => {
@@ -67,14 +69,14 @@ export function LessonDemo({ reward }: LessonDemoProps) {
     celebrationButton.current?.focus();
     const timer = window.setTimeout(() => {
       setFocusResult(document.activeElement === celebrationButton.current);
-      setStep(CARD_COUNT + 1);
+      setStep(RESULT_STEP);
     }, COMPLETION_HOLD_MS);
 
     return () => window.clearTimeout(timer);
   }, [celebrating]);
   const perfect = score === CARD_COUNT;
-  const rewardScore = perfect ? 'scorePerfect' : 'scorePartial';
-  const readingCard = done && perfect && reward && cardOpen;
+  const scoreMessage = perfect ? 'scorePerfect' : 'scorePartial';
+  const readingCard = showingResult && perfect && reward && cardOpen;
   const backToResult = () => {
     setCardOpen(false);
     setHasOpenedCard(true);
@@ -83,7 +85,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
   const openCard = () => {
     setCardOpen(true);
   };
-  const next = () => setStep((current) => Math.min(current + 1, CARD_COUNT));
+  const next = () => setStep((current) => Math.min(current + 1, CELEBRATION_STEP));
   const countCorrect = () => setScore((current) => current + 1);
   const restart = () => {
     setStep(0);
@@ -131,10 +133,10 @@ export function LessonDemo({ reward }: LessonDemoProps) {
           {translate('body')}
         </p>
         <div>
-          {done ? (
+          {showingResult ? (
             <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-card border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-5.5 py-5">
               <h3 className="ff-display m-0 text-[22px] leading-[1.15] font-normal">
-                {translate(reward ? rewardScore : 'scoreOnly', {
+                {translate(reward ? scoreMessage : 'scoreOnly', {
                   correctAnswers: score,
                   total: CARD_COUNT,
                 })}
@@ -164,13 +166,13 @@ export function LessonDemo({ reward }: LessonDemoProps) {
         {/* Placed outside the layout, so showing it never moves the phone. */}
         {readingCard && (
           <p
-            id={scrollCueId}
+            id={scrollHintId}
             className={cn(
               'ff-ui absolute inset-x-0 bottom-full mt-0 mb-3 text-center text-sm text-ink-mute',
               !moreToRead && 'invisible',
             )}
           >
-            {translate('scrollReward')} <span aria-hidden="true">↓</span>
+            {translate('scrollHint')} <span aria-hidden="true">↓</span>
           </p>
         )}
         <ScaledFrame className="aspect-demo-phone w-full max-w-demo-phone">
@@ -184,7 +186,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                 <div key={run} className="relative h-demo-app-height w-demo-app overflow-hidden">
                   {readingCard ? (
                     <button
-                      ref={focusButton}
+                      ref={focusOnMount}
                       type="button"
                       aria-label={translate('backToResult')}
                       onClick={backToResult}
@@ -206,7 +208,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                         />
                       </svg>
                     </button>
-                  ) : !done ? (
+                  ) : !showingResult ? (
                     <ProgressTopbar
                       onClose={restart}
                       cardIndex={Math.min(step, CARD_COUNT - 1)}
@@ -219,7 +221,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                     {step === 0 && (
                       <MCQCard
                         card={cards[0]}
-                        focusTitle={run > 0 ? focusHeading : undefined}
+                        focusTitle={run > 0 ? focusOnMount : undefined}
                         onContinue={next}
                         onCorrect={countCorrect}
                       />
@@ -227,7 +229,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                     {step === 1 && (
                       <TrueFalseCard
                         card={cards[1]}
-                        focusTitle={focusHeading}
+                        focusTitle={focusOnMount}
                         onContinue={next}
                         onCorrect={countCorrect}
                       />
@@ -235,7 +237,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                     {step === 2 && (
                       <MCQCard
                         card={cards[2]}
-                        focusTitle={focusHeading}
+                        focusTitle={focusOnMount}
                         onContinue={next}
                         onCorrect={countCorrect}
                       />
@@ -257,24 +259,28 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                         {!hasOpenedCard && <CoffeeBurst />}
                         <EarnedReward
                           reward={reward}
-                          cueId={moreToRead ? scrollCueId : undefined}
+                          scrollHintId={moreToRead ? scrollHintId : undefined}
                           onMoreToReadChange={setMoreToRead}
                         />
                       </>
                     )}
-                    {done && !readingCard && (
+                    {showingResult && !readingCard && (
                       <div className="flex min-h-0 flex-1 flex-col px-6">
                         <div className="min-h-0 flex-1 scrollbar-none overflow-y-auto px-1 pt-3 pb-4">
                           <div className="flex min-h-full flex-col gap-8">
                             <div className="text-center">
                               <h2
-                                ref={focusResult && !hasOpenedCard ? focusHeading : undefined}
+                                ref={focusResult && !hasOpenedCard ? focusOnMount : undefined}
                                 tabIndex={-1}
+                                aria-describedby={resultCountId}
                                 className="ff-display m-0 text-title/tight font-normal text-balance"
                               >
                                 {translate('lessonTitle')}
                               </h2>
-                              <p className="ff-mono mt-3 mb-0 text-body text-ink-mute">
+                              <p
+                                id={resultCountId}
+                                className="ff-mono mt-3 mb-0 text-body text-ink-mute"
+                              >
                                 {translate('resultCount', {
                                   correctAnswers: score,
                                   total: CARD_COUNT,
@@ -292,7 +298,7 @@ export function LessonDemo({ reward }: LessonDemoProps) {
                             {reward &&
                               (perfect ? (
                                 <button
-                                  ref={hasOpenedCard ? focusButton : undefined}
+                                  ref={hasOpenedCard ? focusOnMount : undefined}
                                   type="button"
                                   onClick={openCard}
                                   className="ff-ui mt-auto flex w-full items-center justify-between gap-4 rounded-card border border-rule bg-surface px-4 py-3 text-left text-body"
@@ -349,15 +355,15 @@ export function LessonDemo({ reward }: LessonDemoProps) {
   );
 }
 
-function EarnedReward({
-  reward,
-  cueId,
-  onMoreToReadChange,
-}: {
+interface EarnedRewardProps {
   reward: RewardCardData;
-  cueId?: string;
+  /** The id of the scroll hint above the phone, while there is more of the card to read. */
+  scrollHintId?: string;
   onMoreToReadChange: (moreToRead: boolean) => void;
-}) {
+}
+
+/** The earned Coffee Card inside the phone, scrollable when it is taller than the screen. */
+function EarnedReward({ reward, scrollHintId, onMoreToReadChange }: EarnedRewardProps) {
   const viewport = useRef<HTMLDivElement>(null);
   const content = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
@@ -399,12 +405,12 @@ function EarnedReward({
         ref={viewport}
         role="region"
         aria-label={reward.title}
-        aria-describedby={cueId}
+        aria-describedby={scrollHintId}
         tabIndex={0}
         className="min-h-0 flex-1 animate-save-note-in scrollbar-none overflow-y-auto px-6 pb-3 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
       >
         <div ref={content} className="flex min-h-full items-center justify-center py-3">
-          <RewardCard reward={reward} compact />
+          <RewardCard reward={reward} />
         </div>
       </div>
     </div>

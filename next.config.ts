@@ -6,9 +6,9 @@ import {
   APP_LINKS_HOST,
   APP_STORE_LIVE,
   APP_STORE_URL,
-  COMING_SOON_PATH,
   SITE_URL,
 } from './src/domains/site/site-config';
+import { comingSoonPath } from './src/domains/site/routes';
 import { routing } from './src/i18n/routing';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
@@ -29,7 +29,7 @@ const defaultLocaleAddress = `/:path((?!(?-i:${locales.join('|')})(?:/|$))(?!_ne
 const onAppLinksHost = [{ type: 'host' as const, value: APP_LINKS_HOST }];
 
 /**
- * If iOS doesn't open a card in the app, send the browser to the launch page
+ * If iOS doesn't open a card in the app, send the browser to the coming-soon page
  * or the App Store. Other addresses go to the same path on the main site.
  * The Apple link file is left out, because iOS rejects it behind a redirect.
  * Files in `public/` are left out too: Cloudflare serves them before these rules.
@@ -38,7 +38,7 @@ const appLinksHostRedirects = [
   {
     source: '/card/:id',
     has: onAppLinksHost,
-    destination: APP_STORE_LIVE ? APP_STORE_URL : `${SITE_URL}${COMING_SOON_PATH}/:id`,
+    destination: APP_STORE_LIVE ? APP_STORE_URL : `${SITE_URL}${comingSoonPath(':id')}`,
     permanent: false,
   },
   {
@@ -51,7 +51,7 @@ const appLinksHostRedirects = [
 
 /** After launch, saved coming-soon addresses go to the App Store. */
 const comingSoonRedirects = APP_STORE_LIVE
-  ? [{ source: `${COMING_SOON_PATH}/:id?`, destination: APP_STORE_URL, permanent: false }]
+  ? [{ source: `${comingSoonPath()}/:id?`, destination: APP_STORE_URL, permanent: false }]
   : [];
 
 const nextConfig: NextConfig = {

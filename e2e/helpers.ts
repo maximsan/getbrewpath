@@ -1,13 +1,15 @@
 import type { APIRequestContext, Page } from '@playwright/test';
 
+import { comingSoonPath } from '@domains/site/routes';
 import {
   APP_STORE_LIVE,
   APP_STORE_URL,
-  COMING_SOON_PATH,
   MAILTO_HI,
   WEB_ANALYTICS_SCRIPT,
   WEB_ANALYTICS_SITE_ID,
 } from '@domains/site/site';
+
+import site from '@messages/en/site.json' with { type: 'json' };
 
 import { expect } from './fixtures';
 
@@ -75,9 +77,15 @@ export async function expectSiteLinks(page: Page) {
     }
   } else {
     expect(await linkTargets(page, `a[href*="${APP_STORE_HOST}"]`)).toEqual([]);
-    expect(await linkTargets(page, `a[href^="${COMING_SOON_PATH}"]`)).toEqual([]);
-    await expect(page.getByRole('link', { name: 'Coming soon', exact: true })).toHaveCount(0);
-    await expect(page.getByRole('button', { name: 'Coming soon', exact: true })).toHaveCount(0);
-    await expect(page.getByText('Coming soon', { exact: true }).first()).toBeAttached();
+    expect(await linkTargets(page, `a[href^="${comingSoonPath()}"]`)).toEqual([]);
+    await expect(
+      page.getByRole('link', { name: site.availability.comingSoon, exact: true }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole('button', { name: site.availability.comingSoon, exact: true }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByText(site.availability.comingSoon, { exact: true }).first(),
+    ).toBeAttached();
   }
 }

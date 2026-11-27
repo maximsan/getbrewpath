@@ -92,7 +92,7 @@ export interface ProgressTopbarProps {
   onClose: () => void;
   /** Zero-based index of the current card. */
   cardIndex: number;
-  /** Number of steps. */
+  /** Number of cards. */
   total: number;
   /** Every card is answered: the meter and counter show total of total. */
   done?: boolean;
@@ -100,7 +100,7 @@ export interface ProgressTopbarProps {
   closeLabel?: string;
 }
 
-/** The top bar while playing a lesson's cards: close on the left, the roast-bean meter and a step counter centred. */
+/** The top bar while playing a lesson's cards: close on the left, the roast-bean meter and a card counter centred. */
 export function ProgressTopbar({
   onClose,
   cardIndex,

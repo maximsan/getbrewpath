@@ -1,5 +1,8 @@
-import { ComingSoon, generateComingSoonMetadata } from '@components/coming-soon/coming-soon';
+import type { Metadata } from 'next';
+
+import { ComingSoon, comingSoonMetadata } from '@components/coming-soon/coming-soon';
 import { cardRouteParams } from '@domains/course/course';
+import { comingSoonPath } from '@domains/site/routes';
 import { setPageLocale } from '@i18n/page-locale';
 
 interface CardComingSoonProps {
@@ -11,7 +14,9 @@ export const dynamicParams = false;
 
 export const generateStaticParams = cardRouteParams;
 
-export const generateMetadata = generateComingSoonMetadata;
+export async function generateMetadata({ params }: CardComingSoonProps): Promise<Metadata> {
+  return comingSoonMetadata(await setPageLocale(params), comingSoonPath((await params).id));
+}
 
 export default async function CardComingSoonPage({ params }: CardComingSoonProps) {
   await setPageLocale(params);

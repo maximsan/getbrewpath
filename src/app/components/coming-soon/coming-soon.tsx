@@ -4,15 +4,24 @@ import { getTranslations } from 'next-intl/server';
 import { Roasty } from '@components/brewpath/roasty/roasty';
 import { LinkButton } from '@components/link-button/link-button';
 import { sectionHref } from '@components/site-header/nav-items';
+import { pageMetadata } from '@domains/site/page-metadata';
 import { cardPath } from '@domains/site/routes';
 import { Link } from '@i18n/navigation';
-import { type LocaleParams, setPageLocale } from '@i18n/page-locale';
+import type { Locale } from '@i18n/routing';
 
-export async function generateComingSoonMetadata({ params }: LocaleParams): Promise<Metadata> {
-  const locale = await setPageLocale(params);
+/** Metadata for a coming-soon page, which search engines leave out. */
+export async function comingSoonMetadata(locale: Locale, path: string): Promise<Metadata> {
   const translate = await getTranslations({ locale, namespace: 'availability' });
 
-  return { title: translate('title'), robots: { index: false } };
+  return {
+    ...pageMetadata({
+      locale,
+      title: translate('title'),
+      description: translate('description'),
+      path,
+    }),
+    robots: { index: false },
+  };
 }
 
 interface ComingSoonProps {

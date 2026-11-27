@@ -92,7 +92,7 @@
     "earnedCard": "Coffee Card",
     "backToResult": "Back to lesson result",
     "continueToResult": "Lesson complete. Show result",
-    "scrollReward": "Scroll to read the full card",
+    "scrollHint": "Scroll to read the full card",
     "scoreOnly": "{correctAnswers} of {total} correct.",
     "title": "Try a coffee lesson",
     "body": "Try three questions based on the app’s first lesson, “What coffee actually is”. Pick an answer, read the explanation and tap Continue.",
@@ -211,6 +211,7 @@
   "availability": {
     "comingSoon": "Coming soon",
     "title": "BrewPath is coming to the App Store",
+    "description": "BrewPath is coming to the App Store. Until then, try a coffee lesson on the website.",
     "heading": "BrewPath is coming <em>to the App Store.</em>",
     "body": "In the meantime, try a coffee lesson right here on the website.",
     "appDidNotOpen": "BrewPath didn’t open.",

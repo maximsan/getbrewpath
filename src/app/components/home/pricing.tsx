@@ -3,9 +3,9 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { CheckIcon } from '@components/icons/icons';
 import { AppDownloadLink } from '@components/link-button/link-button';
 import { Section, SectionHeading } from '@components/section/section';
-import { APP_STORE_LIVE } from '@domains/site/site';
 import type { Course } from '@domains/course/build-course';
 import { courseCounts } from '@domains/course/course';
+import { APP_STORE_LIVE } from '@domains/site/site';
 import { cn } from '@shared/styles/cn';
 
 export async function Pricing({ course }: { course: Course }) {

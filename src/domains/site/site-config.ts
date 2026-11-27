@@ -14,6 +14,9 @@ export const APP_LINKS_HOST = 'open.getbrewpath.com';
 export const APP_STORE_ID = '6827754824';
 export const APP_STORE_URL = `https://apps.apple.com/app/brewpath/id${APP_STORE_ID}`;
 
-// Enable after the public App Store listing is verified.
+/**
+ * The launch switch. Set it to `true` once the public App Store listing is
+ * verified: download buttons then link to the App Store, and coming-soon
+ * addresses redirect there.
+ */
 export const APP_STORE_LIVE: boolean = false;
-export const COMING_SOON_PATH = '/coming-soon';

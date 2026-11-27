@@ -2,12 +2,11 @@ import course from '@content/en/course.json' with { type: 'json' };
 import site from '@messages/en/site.json' with { type: 'json' };
 import { BRAND_COLORS } from '@domains/site/brand';
 import { legalPageSource } from '@domains/site/legal-pages';
-import { cardPath, LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
+import { cardPath, comingSoonPath, LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import {
   APP_LINKS_HOST,
   APP_STORE_LIVE,
   APP_STORE_URL,
-  COMING_SOON_PATH,
   mailtoHref,
   SITE_HOST,
   SITE_URL,
@@ -155,12 +154,12 @@ test('the Apple link file lets the app open only card links, on both domains', a
   }
 });
 
-test(`${APP_LINKS_HOST} redirects browsers to the site or the active card fallback`, async ({
+test(`${APP_LINKS_HOST} redirects to the site, and a card link to the coming-soon page or the App Store`, async ({
   request,
 }) => {
   const cardDestination = APP_STORE_LIVE
     ? APP_STORE_URL
-    : `${SITE_URL}${COMING_SOON_PATH}/${firstCard.id}`;
+    : `${SITE_URL}${comingSoonPath(firstCard.id)}`;
   const destinations = {
     '/': `${SITE_URL}/`,
     [PAGE_ROUTES.terms]: `${SITE_URL}${PAGE_ROUTES.terms}`,
@@ -177,7 +176,7 @@ test(`${APP_LINKS_HOST} redirects browsers to the site or the active card fallba
 
 test('coming-soon page returns to the shared card when the card is known', async ({ page }) => {
   test.skip(APP_STORE_LIVE, 'The coming-soon page redirects to the App Store after launch');
-  await openPath(page, `${COMING_SOON_PATH}/${firstCard.id}`);
+  await openPath(page, comingSoonPath(firstCard.id));
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     site.availability.heading.replace(/<\/?em>/g, ''),
   );
@@ -190,8 +189,8 @@ test('coming-soon page offers the demo, and an unknown card has no coming-soon p
   page,
 }) => {
   test.skip(APP_STORE_LIVE, 'The coming-soon page redirects to the App Store after launch');
-  await openPath(page, `${COMING_SOON_PATH}/unknown`, 404);
-  await openPath(page, COMING_SOON_PATH);
+  await openPath(page, comingSoonPath('unknown'), 404);
+  await openPath(page, comingSoonPath());
   const main = page.getByRole('main');
 
   await expect(main).not.toContainText(site.availability.appDidNotOpen);
@@ -205,7 +204,7 @@ test('saved coming-soon URLs redirect directly to the App Store after launch', a
 }) => {
   test.skip(!APP_STORE_LIVE, 'The fallback page is available before launch');
 
-  for (const path of [COMING_SOON_PATH, `${COMING_SOON_PATH}/${firstCard.id}`]) {
+  for (const path of [comingSoonPath(), comingSoonPath(firstCard.id)]) {
     const response = await requestWithoutRedirect(request, path);
 
     expect(response.status(), path).toBe(307);

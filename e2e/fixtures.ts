@@ -37,7 +37,7 @@ export const test = base.extend<{
     },
     { auto: true },
   ],
-  /** Every test fails if a script on the page throws, such as the inline mood script. */
+  /** Every test fails if a script on the page throws, such as the one that sets the colour mood before the page appears. */
   throwsNoErrors: [
     async ({ page }, use) => {
       const errors: string[] = [];

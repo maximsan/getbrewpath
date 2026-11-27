@@ -1,5 +1,8 @@
+import courseFile from '@content/en/course.json' with { type: 'json' };
+import { courseSchema } from '@domains/course/build-course';
 import site from '@messages/en/site.json' with { type: 'json' };
 import lesson from '@messages/en/lesson.json' with { type: 'json' };
+import reward from '@messages/en/reward.json' with { type: 'json' };
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import { legalPageSource } from '@domains/site/legal-pages';
 import { MAILTO_HI } from '@domains/site/site';
@@ -7,6 +10,24 @@ import { NAV_SECTIONS } from '../src/app/components/site-header/nav-items';
 
 import { expect, test } from './fixtures';
 import { openPath } from './helpers';
+
+/** The Coffee Card the lesson demo awards: lesson one's, the course's first card. */
+const demoReward = courseSchema.parse(courseFile).cards[0]?.reward;
+
+if (!demoReward) {
+  throw new Error('The course has no cards');
+}
+
+const DEMO_CARD_COUNT = 3;
+
+/** A demo result message with the score filled in. */
+const demoScore = (
+  message: 'scorePerfect' | 'scorePartial' | 'resultCount',
+  correctAnswers: number,
+) =>
+  site.demo[message]
+    .replace('{correctAnswers}', String(correctAnswers))
+    .replace('{total}', String(DEMO_CARD_COUNT));
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -143,24 +164,24 @@ for (const perfect of [true, false]) {
     const celebration = demo.getByRole('button', { name: site.demo.continueToResult });
 
     await expect(celebration).toBeFocused();
-    await expect(demo.getByRole('heading', { name: 'The Coffee Cherry', exact: true })).toHaveCount(
-      0,
-    );
+    await expect(demo.getByRole('heading', { name: demoReward.title, exact: true })).toHaveCount(0);
     await celebration.press('Enter');
     await page.clock.resume();
     const score = demo.getByText(
-      perfect ? '3 of 3. That card is yours.' : '2 of 3. Get every answer right to earn the card.',
+      perfect ? demoScore('scorePerfect', 3) : demoScore('scorePartial', 2),
       { exact: true },
     );
 
     const title = demo.getByRole('heading', { name: site.demo.lessonTitle, exact: true });
     const replay = demo.getByRole('button', { name: site.demo.again, exact: true });
-    const card = demo.getByRole('region', { name: 'The Coffee Cherry' });
-    const openCard = demo.getByRole('button', { name: 'Coffee Card The Coffee Cherry' });
+    const card = demo.getByRole('region', { name: demoReward.title });
+    const openCard = demo.getByRole('button', {
+      name: `${site.demo.earnedCard} ${demoReward.title}`,
+    });
 
     await expect(score).toBeVisible();
     await expect(title).toBeFocused();
-    await expect(demo.getByText(perfect ? '3 / 3 correct' : '2 / 3 correct')).toBeVisible();
+    await expect(demo.getByText(demoScore('resultCount', perfect ? 3 : 2))).toBeVisible();
     await expect(card).toHaveCount(0);
     await expect(replay).toHaveCount(1);
     await expect(demo.getByRole('button', { name: site.demo.restart, exact: true })).toHaveCount(0);
@@ -169,7 +190,7 @@ for (const perfect of [true, false]) {
     if (perfect) {
       const tab = browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab';
       const back = demo.getByRole('button', { name: site.demo.backToResult, exact: true });
-      const fact = card.getByText('Cherries ripen unevenly on the same branch', { exact: false });
+      const fact = card.getByText(demoReward.fact, { exact: true });
 
       await page.keyboard.press(tab);
       await expect(openCard).toBeFocused();
@@ -177,7 +198,7 @@ for (const perfect of [true, false]) {
       await expect(back).toBeFocused();
       await expect(card).toBeVisible();
       await expect(replay).toHaveCount(0);
-      await expect(demo.getByText(site.demo.scrollReward)).toBeHidden();
+      await expect(demo.getByText(site.demo.scrollHint)).toBeHidden();
       await expect
         .poll(() => card.evaluate((region) => region.scrollHeight - region.clientHeight))
         .toBeLessThanOrEqual(1);
@@ -187,18 +208,16 @@ for (const perfect of [true, false]) {
       await back.press('Enter');
       await expect(card).toHaveCount(0);
       await expect(openCard).toBeFocused();
-      await expect(demo.getByText('3 / 3 correct')).toBeVisible();
+      await expect(demo.getByText(demoScore('resultCount', 3))).toBeVisible();
     } else {
       await expect(openCard).toHaveCount(0);
-      await expect(
-        demo.getByText('Get every answer right to earn this Coffee Card.'),
-      ).toBeVisible();
+      await expect(demo.getByText(reward.earnCard)).toBeVisible();
     }
     await replay.click();
     await expect(demo.getByRole('heading', { name: site.demo.card0.prompt })).toBeFocused();
     await finish(perfect ? site.demo.card0.choices.c1 : site.demo.card0.choices.c2);
     await expect(celebration).toBeFocused();
-    const lessonLink = page.getByRole('link', { name: 'Try a lesson first', exact: true });
+    const lessonLink = page.getByRole('link', { name: site.hero.tryFirst, exact: true });
 
     await lessonLink.focus();
     await page.clock.runFor(2999);
@@ -206,12 +225,9 @@ for (const perfect of [true, false]) {
     await page.clock.runFor(1);
     await page.clock.resume();
     await expect(
-      demo.getByText(
-        perfect
-          ? '2 of 3. Get every answer right to earn the card.'
-          : '3 of 3. That card is yours.',
-        { exact: true },
-      ),
+      demo.getByText(perfect ? demoScore('scorePartial', 2) : demoScore('scorePerfect', 3), {
+        exact: true,
+      }),
     ).toBeVisible();
     await expect(lessonLink).toBeFocused();
     await demo.getByRole('button', { name: site.demo.again, exact: true }).click();
