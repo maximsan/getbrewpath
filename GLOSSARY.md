@@ -30,6 +30,10 @@ _Avoid_: Field Guide, as the name for the kind of card
 earned.
 _Avoid_: deck, in copy
 
+**Coming-soon page** — the page a browser shows before launch when a shared
+Coffee Card link doesn't open the app. Each card has its own, e.g.
+`/coming-soon/c1`.
+
 **Practice game** — a short game in the app that quizzes what one lesson
 taught. Example: _Fix the cup_.
 _Avoid_: mini-game (the app's internal name), in site copy
