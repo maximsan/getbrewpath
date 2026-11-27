@@ -84,8 +84,5 @@ export async function expectSiteLinks(page: Page) {
     await expect(
       page.getByRole('button', { name: site.availability.comingSoon, exact: true }),
     ).toHaveCount(0);
-    await expect(
-      page.getByText(site.availability.comingSoon, { exact: true }).first(),
-    ).toBeAttached();
   }
 }

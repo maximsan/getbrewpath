@@ -42,6 +42,11 @@ export function LinkButton({ tone, size, className, ...props }: LinkButtonProps)
   return <Link className={cn(linkButtonClass(tone, size), className)} {...props} />;
 }
 
+interface AppDownloadLinkProps extends Omit<LinkButtonProps, 'href'> {
+  /** Shows nothing before launch, instead of the "Coming soon" label. */
+  hideBeforeLaunch?: boolean;
+}
+
 /**
  * The App Store download button. Before launch (`APP_STORE_LIVE` is false) it
  * shows a "Coming soon" label instead, in the same size, and ignores `tone`
@@ -51,11 +56,16 @@ export function AppDownloadLink({
   children,
   className,
   size,
+  hideBeforeLaunch = false,
   ...props
-}: Omit<LinkButtonProps, 'href'>) {
+}: AppDownloadLinkProps) {
   const translate = useTranslations('availability');
 
   if (!APP_STORE_LIVE) {
+    if (hideBeforeLaunch) {
+      return null;
+    }
+
     return (
       <span
         className={cn(PILL_CLASS, 'gap-2 bg-accent/10 text-accent', SIZE_CLASSES[size], className)}

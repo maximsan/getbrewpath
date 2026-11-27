@@ -129,10 +129,10 @@ export function LessonDemo({ reward }: LessonDemoProps) {
         <h2 className="ff-display m-0 text-[clamp(28px,3.6vw,44px)] leading-[1.05] font-normal tracking-[-0.02em] text-balance">
           {translate('title')}
         </h2>
-        <p className="ff-ui mt-4.5 mb-0 max-w-[46ch] text-base leading-[1.6] text-pretty text-ink-mute stacked:mx-auto">
-          {translate('body')}
-        </p>
-        <div>
+        <div className="max-w-[46ch] stacked:mx-auto">
+          <p className="ff-ui mt-4.5 mb-0 text-base leading-[1.6] text-pretty text-ink-mute">
+            {translate('body')}
+          </p>
           {showingResult ? (
             <div className="mt-7 flex animate-save-note-in flex-col gap-3 rounded-card border border-[color-mix(in_oklab,var(--sage)_50%,var(--rule))] bg-[color-mix(in_oklab,var(--sage)_10%,transparent)] px-5.5 py-5">
               <h3 className="ff-display m-0 text-[22px] leading-[1.15] font-normal">

@@ -112,7 +112,7 @@ export default async function CardPage({ params }: CardPageProps) {
         </div>
       </div>
 
-      <div className="mt-[clamp(56px,8vw,96px)] grid grid-cols-[repeat(auto-fit,minmax(min(100%,240px),1fr))] gap-8">
+      <div className="mt-[clamp(56px,8vw,96px)] grid gap-8 tablet:grid-cols-3">
         {PITCH.map(({ key, Icon }) => (
           <div key={key} className="flex flex-col gap-3 border-t border-rule pt-5.5">
             <span className="inline-flex text-accent">

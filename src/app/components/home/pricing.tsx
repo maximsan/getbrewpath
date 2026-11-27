@@ -5,7 +5,6 @@ import { AppDownloadLink } from '@components/link-button/link-button';
 import { Section, SectionHeading } from '@components/section/section';
 import type { Course } from '@domains/course/build-course';
 import { courseCounts } from '@domains/course/course';
-import { APP_STORE_LIVE } from '@domains/site/site';
 import { cn } from '@shared/styles/cn';
 
 export async function Pricing({ course }: { course: Course }) {
@@ -30,11 +29,9 @@ export async function Pricing({ course }: { course: Course }) {
         >
           <PlanHeading name={translate('free')} note={translate('freeNote')} />
           <Checklist items={freeItems} tone="sage" />
-          {APP_STORE_LIVE && (
-            <AppDownloadLink tone="outline" size="lg" className="mt-auto w-full">
-              {translate('freeCta')}
-            </AppDownloadLink>
-          )}
+          <AppDownloadLink tone="outline" size="lg" hideBeforeLaunch className="mt-auto w-full">
+            {translate('freeCta')}
+          </AppDownloadLink>
         </div>
         <div
           data-reveal
@@ -45,11 +42,14 @@ export async function Pricing({ course }: { course: Course }) {
           <div className="pointer-events-none absolute right-[-20%] -bottom-1/2 aspect-square w-[70%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_24%,transparent),transparent)]" />
           <PlanHeading name={translate('foundations')} note={translate('foundationsNote')} />
           <Checklist items={foundationsItems} tone="accent" />
-          {APP_STORE_LIVE && (
-            <AppDownloadLink tone="accent" size="lg" className="relative mt-auto w-full">
-              {translate('foundationsCta')}
-            </AppDownloadLink>
-          )}
+          <AppDownloadLink
+            tone="accent"
+            size="lg"
+            hideBeforeLaunch
+            className="relative mt-auto w-full"
+          >
+            {translate('foundationsCta')}
+          </AppDownloadLink>
         </div>
       </div>
       <p className="ff-ui mx-auto mt-5 mb-0 flex flex-col gap-0.5 text-center text-[13px] leading-normal text-ink-mute">

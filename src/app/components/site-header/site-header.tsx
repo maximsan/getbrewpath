@@ -169,6 +169,7 @@ export function SiteHeader() {
           <AppDownloadLink
             tone="accent"
             size="sm"
+            hideBeforeLaunch
             className="hidden flex-none min-[980px]:inline-flex"
           >
             {translate('getApp')}
@@ -207,7 +208,7 @@ export function SiteHeader() {
             aria-label={translate('primary')}
             className="page-width box-border flex min-h-full flex-col px-4 pt-5 pb-8 tablet:px-6"
           >
-            {/* The links sit a little above the middle of the space the store button leaves. */}
+            {/* The links sit a little above the middle of the space above the footer links. */}
             <div className="flex-1" />
             {NAV_SECTIONS.map((section, index) => (
               // The wrapper slides in; the link inside moves on its own when pressed.
@@ -235,7 +236,12 @@ export function SiteHeader() {
                 MENU_ENTER_DELAY_CLASSES[NAV_SECTIONS.length],
               )}
             >
-              <AppDownloadLink tone="accent" size="hero" className="mx-auto flex w-full max-w-90">
+              <AppDownloadLink
+                tone="accent"
+                size="hero"
+                hideBeforeLaunch
+                className="mx-auto flex w-full max-w-90"
+              >
                 {translate('getApp')}
               </AppDownloadLink>
               <div className="flex flex-wrap justify-center gap-x-5.5 gap-y-2.5">

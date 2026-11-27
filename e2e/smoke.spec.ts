@@ -75,6 +75,24 @@ test("while the phone menu is open, the page under it can't be reached by keyboa
   await expect(page.locator('main')).toHaveJSProperty('inert', false);
 });
 
+test('before launch, the page shows Coming soon labels, but the header and phone menu show none', async ({
+  page,
+}) => {
+  test.skip(APP_STORE_LIVE, 'After launch, download buttons replace the labels');
+  await openPath(page, PAGE_ROUTES.home);
+  await expect(page.locator('main').getByText(site.availability.comingSoon).first()).toBeVisible();
+  await expect(page.locator('header').getByText(site.availability.comingSoon)).toHaveCount(0);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const menuButton = page.getByRole('button', { name: site.nav.menu });
+
+  await menuButton.click();
+  const menu = page.locator(`#${await menuButton.getAttribute('aria-controls')}`);
+
+  await expect(menu.getByRole('link', { name: site.footer.terms })).toBeVisible();
+  await expect(menu.getByText(site.availability.comingSoon)).toHaveCount(0);
+});
+
 for (const doc of LEGAL_PAGES) {
   test(`${doc} page shows its heading and contact address`, async ({ page }) => {
     await openPath(page, PAGE_ROUTES[doc]);
