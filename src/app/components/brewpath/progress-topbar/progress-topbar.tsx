@@ -90,9 +90,9 @@ const padCount = (count: number) => String(count).padStart(COUNTER_DIGITS, '0');
 export interface ProgressTopbarProps {
   /** Called by the close cross. */
   onClose: () => void;
-  /** Zero-based index of the current step. */
-  pos: number;
-  /** Number of steps. */
+  /** Zero-based index of the current card. */
+  cardIndex: number;
+  /** Number of cards. */
   total: number;
   /** Every card is answered: the meter and counter show total of total. */
   done?: boolean;
@@ -100,23 +100,20 @@ export interface ProgressTopbarProps {
   closeLabel?: string;
 }
 
-/** The top bar while playing a lesson's cards: close on the left, the roast-bean meter and a step counter centred. */
+/** The top bar while playing a lesson's cards: close on the left, the roast-bean meter and a card counter centred. */
 export function ProgressTopbar({
   onClose,
-  pos,
+  cardIndex,
   total,
   done = false,
   closeLabel,
 }: ProgressTopbarProps) {
   const translate = useTranslations('lesson');
   /** The card number the counter shows, counting from one. */
-  const cardNumber = done ? total : pos + 1;
+  const cardNumber = done ? total : cardIndex + 1;
 
   return (
-    // Sits under the phone's status bar; the demo's content clears it with 134px of top padding.
-    // The bar's solid top covers the gap under the phone's status bar, so scrolled content
-    // stays hidden behind the clock.
-    <div className="absolute inset-x-0 top-status-bar z-10 grid grid-cols-[32px_1fr_32px] items-center border-b border-rule bg-bg px-5 py-3 before:absolute before:inset-x-0 before:bottom-full before:h-status-bar before:bg-inherit">
+    <div className="absolute inset-x-0 top-status-bar z-10 grid grid-cols-[32px_1fr_32px] items-center px-5 py-3">
       {/* A 44px hit area without a 44px box: the glyph stays where it is aligned. */}
       <button
         type="button"

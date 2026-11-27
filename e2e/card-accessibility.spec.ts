@@ -91,7 +91,7 @@ test('skip navigation transfers keyboard focus into each Coffee Card', async ({ 
     await expect(page.getByRole('main')).toBeFocused();
     await page.keyboard.press('Tab');
     await expect(
-      page.getByRole('main').getByRole('link', { name: site.card.get, exact: true }),
+      page.getByRole('main').getByRole('link', { name: site.card.open, exact: true }),
     ).toBeFocused();
   }
 });

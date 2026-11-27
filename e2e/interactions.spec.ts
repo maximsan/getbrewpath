@@ -1,5 +1,8 @@
+import courseFile from '@content/en/course.json' with { type: 'json' };
+import { courseSchema } from '@domains/course/build-course';
 import site from '@messages/en/site.json' with { type: 'json' };
 import lesson from '@messages/en/lesson.json' with { type: 'json' };
+import reward from '@messages/en/reward.json' with { type: 'json' };
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import { legalPageSource } from '@domains/site/legal-pages';
 import { MAILTO_HI } from '@domains/site/site';
@@ -7,6 +10,24 @@ import { NAV_SECTIONS } from '../src/app/components/site-header/nav-items';
 
 import { expect, test } from './fixtures';
 import { openPath } from './helpers';
+
+/** The Coffee Card the lesson demo awards: lesson one's, the course's first card. */
+const demoReward = courseSchema.parse(courseFile).cards[0]?.reward;
+
+if (!demoReward) {
+  throw new Error('The course has no cards');
+}
+
+const DEMO_CARD_COUNT = 3;
+
+/** A demo result message with the score filled in. */
+const demoScore = (
+  message: 'scorePerfect' | 'scorePartial' | 'resultCount',
+  correctAnswers: number,
+) =>
+  site.demo[message]
+    .replace('{correctAnswers}', String(correctAnswers))
+    .replace('{total}', String(DEMO_CARD_COUNT));
 
 test.use({ reducedMotion: 'reduce' });
 
@@ -90,39 +111,127 @@ test('the mood switch changes and persists the selected mood', async ({ page }) 
 for (const perfect of [true, false]) {
   test(`the lesson demo grades a ${perfect ? 'perfect' : 'partial'} run and resets`, async ({
     page,
+    browserName,
   }) => {
+    await page.clock.install();
     await openPath(page, '/#demo');
     const demo = page.locator('#demo');
     const next = demo.getByRole('button', { name: lesson.continue, exact: true });
-    const answers = [
-      perfect ? site.demo.card0.choices.c2 : site.demo.card0.choices.c1,
-      lesson.false,
-      site.demo.card2.choices.c2,
-    ];
+    const staysAboveHomeIndicator = async (button: typeof next) => {
+      await expect
+        .poll(() =>
+          button.evaluate((element) => {
+            const indicator = element.closest('#demo')?.querySelector('[data-demo-home-indicator]');
 
-    for (const answer of answers) {
-      await expect(next).toBeDisabled();
-      // Choice labels include a decorative answer letter, so match their text suffix.
-      const selected = demo.getByRole('button', { name: new RegExp(`${answer}$`) });
+            return (
+              indicator !== undefined &&
+              indicator !== null &&
+              element.getBoundingClientRect().bottom < indicator.getBoundingClientRect().top
+            );
+          }),
+        )
+        .toBe(true);
+    };
+    const finish = async (firstAnswer: string) => {
+      const answers = [firstAnswer, lesson.false, site.demo.card2.choices.c2];
+      const nextQuestions = [site.demo.card1.statement, site.demo.card2.prompt];
 
-      await selected.click();
-      await expect(selected).toHaveAttribute('aria-pressed', 'true');
-      await expect(selected).toHaveAttribute('aria-disabled', 'true');
-      await selected.press('Enter');
-      await expect(next).toBeEnabled();
-      await next.click();
-    }
-    await expect(demo).toContainText(perfect ? '3 of 3. That card is yours.' : '2 of 3. Close');
-    await expect(demo.getByRole('link', { name: site.demo.get, exact: true })).toHaveAttribute(
-      'href',
-      'https://apps.apple.com/app/brewpath/id6827754824',
+      for (const [index, answer] of answers.entries()) {
+        await expect(next).toBeDisabled();
+        // Choice labels include a decorative answer letter, so match their text suffix.
+        const selected = demo.getByRole('button', { name: new RegExp(`${answer}$`) });
+
+        await selected.press('Enter');
+        await expect(selected).toHaveAttribute('aria-pressed', 'true');
+        await expect(selected).toHaveAttribute('aria-disabled', 'true');
+        await selected.press('Enter');
+        await expect(next).toBeEnabled();
+        await staysAboveHomeIndicator(next);
+        const nextQuestion = nextQuestions[index];
+
+        if (!nextQuestion) {
+          await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
+        }
+        await next.press('Enter');
+
+        if (nextQuestion) {
+          await expect(demo.getByRole('heading', { name: nextQuestion })).toBeFocused();
+        }
+      }
+    };
+
+    await finish(perfect ? site.demo.card0.choices.c2 : site.demo.card0.choices.c1);
+    const celebration = demo.getByRole('button', { name: site.demo.continueToResult });
+
+    await expect(celebration).toBeFocused();
+    await expect(demo.getByRole('heading', { name: demoReward.title, exact: true })).toHaveCount(0);
+    await celebration.press('Enter');
+    await page.clock.resume();
+    const score = demo.getByText(
+      perfect ? demoScore('scorePerfect', 3) : demoScore('scorePartial', 2),
+      { exact: true },
     );
+
+    const title = demo.getByRole('heading', { name: site.demo.lessonTitle, exact: true });
+    const replay = demo.getByRole('button', { name: site.demo.again, exact: true });
+    const card = demo.getByRole('region', { name: demoReward.title });
+    const openCard = demo.getByRole('button', {
+      name: `${site.demo.earnedCard} ${demoReward.title}`,
+    });
+
+    await expect(score).toBeVisible();
+    await expect(title).toBeFocused();
+    await expect(demo.getByText(demoScore('resultCount', perfect ? 3 : 2))).toBeVisible();
+    await expect(card).toHaveCount(0);
+    await expect(replay).toHaveCount(1);
+    await expect(demo.getByRole('button', { name: site.demo.restart, exact: true })).toHaveCount(0);
+    await staysAboveHomeIndicator(replay);
+
+    if (perfect) {
+      const tab = browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab';
+      const back = demo.getByRole('button', { name: site.demo.backToResult, exact: true });
+      const fact = card.getByText(demoReward.fact, { exact: true });
+
+      await page.keyboard.press(tab);
+      await expect(openCard).toBeFocused();
+      await openCard.press('Enter');
+      await expect(back).toBeFocused();
+      await expect(card).toBeVisible();
+      await expect(replay).toHaveCount(0);
+      await expect(demo.getByText(site.demo.scrollHint)).toBeHidden();
+      await expect
+        .poll(() => card.evaluate((region) => region.scrollHeight - region.clientHeight))
+        .toBeLessThanOrEqual(1);
+      await page.keyboard.press(tab);
+      await expect(card).toBeFocused();
+      await expect(fact).toBeInViewport({ ratio: 0.99 });
+      await back.press('Enter');
+      await expect(card).toHaveCount(0);
+      await expect(openCard).toBeFocused();
+      await expect(demo.getByText(demoScore('resultCount', 3))).toBeVisible();
+    } else {
+      await expect(openCard).toHaveCount(0);
+      await expect(demo.getByText(reward.earnCard)).toBeVisible();
+    }
+    await replay.click();
+    await expect(demo.getByRole('heading', { name: site.demo.card0.prompt })).toBeFocused();
+    await finish(perfect ? site.demo.card0.choices.c1 : site.demo.card0.choices.c2);
+    await expect(celebration).toBeFocused();
+    const lessonLink = page.getByRole('link', { name: site.hero.tryFirst, exact: true });
+
+    await lessonLink.focus();
+    await page.clock.runFor(2999);
+    await expect(celebration).toBeVisible();
+    await page.clock.runFor(1);
+    await page.clock.resume();
+    await expect(
+      demo.getByText(perfect ? demoScore('scorePartial', 2) : demoScore('scorePerfect', 3), {
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(lessonLink).toBeFocused();
     await demo.getByRole('button', { name: site.demo.again, exact: true }).click();
-    await expect(next).toBeDisabled();
-    await demo.getByRole('button', { name: new RegExp(`${site.demo.card0.choices.c2}$`) }).click();
-    await next.click();
-    await demo.getByRole('button', { name: site.demo.restart, exact: true }).click();
-    await expect(demo.getByText(site.demo.card0.prompt, { exact: true })).toBeVisible();
+    await expect(demo.getByRole('heading', { name: site.demo.card0.prompt })).toBeFocused();
     await expect(next).toBeDisabled();
   });
 }

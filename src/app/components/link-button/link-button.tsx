@@ -1,5 +1,7 @@
+import { useTranslations } from 'next-intl';
 import type { ComponentProps } from 'react';
 
+import { APP_STORE_LIVE, APP_STORE_URL } from '@domains/site/site';
 import { Link } from '@i18n/navigation';
 import { cn } from '@shared/styles/cn';
 
@@ -17,10 +19,15 @@ const SIZE_CLASSES = {
   hero: 'min-h-14 px-7 py-3.5 text-base',
 } as const;
 
+/** The pill shape that the buttons and the coming-soon label share. */
+const PILL_CLASS =
+  'ff-ui inline-flex items-center justify-center rounded-full text-center leading-[1.15] font-medium';
+
 /** The pill-shaped call to action every page uses. */
 export const linkButtonClass = (tone: keyof typeof TONE_CLASSES, size: keyof typeof SIZE_CLASSES) =>
   cn(
-    'ff-ui inline-flex items-center justify-center rounded-full text-center leading-[1.15] font-medium transition-transform duration-150',
+    PILL_CLASS,
+    'transition-transform duration-150',
     'hover:no-underline hover:brightness-[1.06] active:scale-[.97]',
     TONE_CLASSES[tone],
     SIZE_CLASSES[size],
@@ -33,4 +40,45 @@ interface LinkButtonProps extends ComponentProps<typeof Link> {
 
 export function LinkButton({ tone, size, className, ...props }: LinkButtonProps) {
   return <Link className={cn(linkButtonClass(tone, size), className)} {...props} />;
+}
+
+interface AppDownloadLinkProps extends Omit<LinkButtonProps, 'href'> {
+  /** Shows nothing before launch, instead of the "Coming soon" label. */
+  hideBeforeLaunch?: boolean;
+}
+
+/**
+ * The App Store download button. Before launch (`APP_STORE_LIVE` is false) it
+ * shows a "Coming soon" label instead, in the same size, and ignores `tone`
+ * and `children`.
+ */
+export function AppDownloadLink({
+  children,
+  className,
+  size,
+  hideBeforeLaunch = false,
+  ...props
+}: AppDownloadLinkProps) {
+  const translate = useTranslations('availability');
+
+  if (!APP_STORE_LIVE) {
+    if (hideBeforeLaunch) {
+      return null;
+    }
+
+    return (
+      <span
+        className={cn(PILL_CLASS, 'gap-2 bg-accent/10 text-accent', SIZE_CLASSES[size], className)}
+      >
+        <span aria-hidden="true" className="size-1.5 rounded-full bg-current" />
+        {translate('comingSoon')}
+      </span>
+    );
+  }
+
+  return (
+    <LinkButton {...props} size={size} className={className} href={APP_STORE_URL}>
+      {children}
+    </LinkButton>
+  );
 }

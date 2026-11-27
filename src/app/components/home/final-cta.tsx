@@ -1,14 +1,13 @@
 import { getTranslations } from 'next-intl/server';
 
-import { LinkButton } from '@components/link-button/link-button';
+import { AppDownloadLink } from '@components/link-button/link-button';
 import { Section } from '@components/section/section';
-import { APP_STORE_URL } from '@domains/site/site';
 
 export async function FinalCta() {
   const translate = await getTranslations('cta');
 
   return (
-    <Section>
+    <Section className="pt-[clamp(40px,6vw,72px)]">
       <div
         data-mood="dark-roast"
         data-reveal
@@ -23,9 +22,9 @@ export async function FinalCta() {
             {translate('body')}
           </p>
         </div>
-        <LinkButton href={APP_STORE_URL} tone="accent" size="hero" className="relative">
+        <AppDownloadLink tone="accent" size="hero" className="relative">
           {translate('download')}
-        </LinkButton>
+        </AppDownloadLink>
       </div>
     </Section>
   );

@@ -4,10 +4,11 @@ import createNextIntlPlugin from 'next-intl/plugin';
 import { SECURITY_HEADERS } from './src/config/security-headers';
 import {
   APP_LINKS_HOST,
-  APP_STORE_ID,
+  APP_STORE_LIVE,
   APP_STORE_URL,
   SITE_URL,
 } from './src/domains/site/site-config';
+import { comingSoonPath } from './src/domains/site/routes';
 import { routing } from './src/i18n/routing';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
@@ -28,18 +29,18 @@ const defaultLocaleAddress = `/:path((?!(?-i:${locales.join('|')})(?:/|$))(?!_ne
 const onAppLinksHost = [{ type: 'host' as const, value: APP_LINKS_HOST }];
 
 /**
- * Redirects for `APP_LINKS_HOST`, the domain "Open in the app" links to. A
- * request reaches it only when the app is not installed:
- * - a card link goes to the App Store, once `APP_STORE_ID` is set;
- * - every other address goes to the same path on the site, card links included
- *   until then.
+ * If iOS doesn't open a card in the app, send the browser to the coming-soon page
+ * or the App Store. Other addresses go to the same path on the main site.
  * The Apple link file is left out, because iOS rejects it behind a redirect.
  * Files in `public/` are left out too: Cloudflare serves them before these rules.
  */
 const appLinksHostRedirects = [
-  ...(APP_STORE_ID === null
-    ? []
-    : [{ source: '/card/:id', has: onAppLinksHost, destination: APP_STORE_URL, permanent: false }]),
+  {
+    source: '/card/:id',
+    has: onAppLinksHost,
+    destination: APP_STORE_LIVE ? APP_STORE_URL : `${SITE_URL}${comingSoonPath(':id')}`,
+    permanent: false,
+  },
   {
     source: '/:path((?!\\.well-known/apple-app-site-association$).*)',
     has: onAppLinksHost,
@@ -47,6 +48,11 @@ const appLinksHostRedirects = [
     permanent: false,
   },
 ];
+
+/** After launch, saved coming-soon addresses go to the App Store. */
+const comingSoonRedirects = APP_STORE_LIVE
+  ? [{ source: `${comingSoonPath()}/:id?`, destination: APP_STORE_URL, permanent: false }]
+  : [];
 
 const nextConfig: NextConfig = {
   experimental: { agentUpgrade: 'security' },
@@ -60,6 +66,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       ...appLinksHostRedirects,
+      ...comingSoonRedirects,
       { source: `/${defaultLocale}/:path*`, destination: '/:path*', permanent: false },
     ];
   },

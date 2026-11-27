@@ -16,6 +16,7 @@ export interface TrueFalseCardData {
 
 export interface TrueFalseCardProps {
   card: TrueFalseCardData;
+  focusTitle?: (heading: HTMLHeadingElement | null) => void;
   /** Continue is enabled once True or False is picked. */
   onContinue?: () => void;
   /** Called once when the pick is the right one. */
@@ -24,8 +25,8 @@ export interface TrueFalseCardProps {
 
 const ANSWERS = [true, false] as const;
 
-/** A true-or-false card: cue, statement, True and False buttons, feedback after one pick, and Continue. */
-export function TrueFalseCard({ card, onContinue, onCorrect }: TrueFalseCardProps) {
+/** A true-or-false card: statement, True and False buttons, feedback after one pick, and Continue. */
+export function TrueFalseCard({ card, onContinue, onCorrect, focusTitle }: TrueFalseCardProps) {
   const translate = useTranslations('lesson');
   const [picked, setPicked] = useState<boolean | null>(null);
 
@@ -49,8 +50,8 @@ export function TrueFalseCard({ card, onContinue, onCorrect }: TrueFalseCardProp
 
   return (
     <ChoiceCard
-      cue={translate('cueTrueFalse')}
       title={card.statement}
+      focusTitle={focusTitle}
       titleLeading="leading-[1.18]"
       choices={choices}
       pickedCorrect={picked === null ? null : picked === card.answer}

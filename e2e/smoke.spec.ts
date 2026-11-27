@@ -2,10 +2,10 @@ import course from '@content/en/course.json' with { type: 'json' };
 import site from '@messages/en/site.json' with { type: 'json' };
 import { BRAND_COLORS } from '@domains/site/brand';
 import { legalPageSource } from '@domains/site/legal-pages';
-import { cardPath, LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
+import { cardPath, comingSoonPath, LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
 import {
   APP_LINKS_HOST,
-  APP_STORE_ID,
+  APP_STORE_LIVE,
   APP_STORE_URL,
   mailtoHref,
   SITE_HOST,
@@ -73,6 +73,24 @@ test("while the phone menu is open, the page under it can't be reached by keyboa
   await expect(page.locator('main')).toHaveJSProperty('inert', true);
   await page.keyboard.press('Escape');
   await expect(page.locator('main')).toHaveJSProperty('inert', false);
+});
+
+test('before launch, the page shows Coming soon labels, but the header and phone menu show none', async ({
+  page,
+}) => {
+  test.skip(APP_STORE_LIVE, 'After launch, download buttons replace the labels');
+  await openPath(page, PAGE_ROUTES.home);
+  await expect(page.locator('main').getByText(site.availability.comingSoon).first()).toBeVisible();
+  await expect(page.locator('header').getByText(site.availability.comingSoon)).toHaveCount(0);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const menuButton = page.getByRole('button', { name: site.nav.menu });
+
+  await menuButton.click();
+  const menu = page.locator(`#${await menuButton.getAttribute('aria-controls')}`);
+
+  await expect(menu.getByRole('link', { name: site.footer.terms })).toBeVisible();
+  await expect(menu.getByText(site.availability.comingSoon)).toHaveCount(0);
 });
 
 for (const doc of LEGAL_PAGES) {
@@ -154,10 +172,12 @@ test('the Apple link file lets the app open only card links, on both domains', a
   }
 });
 
-test(`${APP_LINKS_HOST} redirects to the site, or a card link to the App Store`, async ({
+test(`${APP_LINKS_HOST} redirects to the site, and a card link to the coming-soon page or the App Store`, async ({
   request,
 }) => {
-  const cardDestination = APP_STORE_ID === null ? `${SITE_URL}${CARD_PATH}` : APP_STORE_URL;
+  const cardDestination = APP_STORE_LIVE
+    ? APP_STORE_URL
+    : `${SITE_URL}${comingSoonPath(firstCard.id)}`;
   const destinations = {
     '/': `${SITE_URL}/`,
     [PAGE_ROUTES.terms]: `${SITE_URL}${PAGE_ROUTES.terms}`,
@@ -169,5 +189,43 @@ test(`${APP_LINKS_HOST} redirects to the site, or a card link to the App Store`,
 
     expect(response.status(), path).toBe(307);
     expect(response.headers().location, path).toBe(destination);
+  }
+});
+
+test('coming-soon page returns to the shared card when the card is known', async ({ page }) => {
+  test.skip(APP_STORE_LIVE, 'The coming-soon page redirects to the App Store after launch');
+  await openPath(page, comingSoonPath(firstCard.id));
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    site.availability.heading.replace(/<\/?em>/g, ''),
+  );
+  await expect(page.getByRole('main')).toContainText(site.availability.appDidNotOpen);
+  await page.getByRole('link', { name: site.availability.backToCard }).click();
+  await expect(page).toHaveURL(new RegExp(`${CARD_PATH}$`));
+});
+
+test('coming-soon page offers the demo, and an unknown card has no coming-soon page', async ({
+  page,
+}) => {
+  test.skip(APP_STORE_LIVE, 'The coming-soon page redirects to the App Store after launch');
+  await openPath(page, comingSoonPath('unknown'), 404);
+  await openPath(page, comingSoonPath());
+  const main = page.getByRole('main');
+
+  await expect(main).not.toContainText(site.availability.appDidNotOpen);
+  await expect(main.getByRole('link', { name: site.availability.backToCard })).toHaveCount(0);
+  await main.getByRole('link', { name: site.availability.tryLesson }).click();
+  await expect(page).toHaveURL(/#demo$/);
+});
+
+test('saved coming-soon URLs redirect directly to the App Store after launch', async ({
+  request,
+}) => {
+  test.skip(!APP_STORE_LIVE, 'The fallback page is available before launch');
+
+  for (const path of [comingSoonPath(), comingSoonPath(firstCard.id)]) {
+    const response = await requestWithoutRedirect(request, path);
+
+    expect(response.status(), path).toBe(307);
+    expect(response.headers().location, path).toBe(APP_STORE_URL);
   }
 });

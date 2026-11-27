@@ -37,7 +37,7 @@ export async function HowItWorks() {
             </div>
             <div>
               <div className="ff-mono mb-2.5 text-[11px] tracking-[.16em] text-accent uppercase">
-                {translate('step', { n: format.number(index + 1, TWO_DIGITS) })}
+                {translate('step', { stepNumber: format.number(index + 1, TWO_DIGITS) })}
               </div>
               <h3 className="ff-display m-0 text-[26px] leading-[1.1] font-normal tracking-[-0.015em]">
                 {translate(`items.${step.key}.title`)}

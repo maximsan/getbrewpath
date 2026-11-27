@@ -5,10 +5,10 @@ import { useFormatter, useTranslations } from 'next-intl';
 import { type MouseEvent, useEffect, useId, useRef, useState } from 'react';
 
 import appIcon from '@assets/app-icon.png';
-import { LinkButton } from '@components/link-button/link-button';
+import { AppDownloadLink } from '@components/link-button/link-button';
 import { MoodSwitch } from '@components/mood/mood-switch';
 import { LEGAL_PAGES, PAGE_ROUTES } from '@domains/site/routes';
-import { APP_STORE_URL, MAILTO_HI } from '@domains/site/site';
+import { MAILTO_HI } from '@domains/site/site';
 import { Link, usePathname, useRouter } from '@i18n/navigation';
 import { TWO_DIGITS } from '@shared/format/number';
 import { cn } from '@shared/styles/cn';
@@ -166,14 +166,14 @@ export function SiteHeader() {
           </nav>
           <div className="flex-1" />
           <MoodSwitch />
-          <LinkButton
-            href={APP_STORE_URL}
+          <AppDownloadLink
             tone="accent"
             size="sm"
+            hideBeforeLaunch
             className="hidden flex-none min-[980px]:inline-flex"
           >
             {translate('getApp')}
-          </LinkButton>
+          </AppDownloadLink>
           <button
             ref={menuButton}
             type="button"
@@ -208,7 +208,7 @@ export function SiteHeader() {
             aria-label={translate('primary')}
             className="page-width box-border flex min-h-full flex-col px-4 pt-5 pb-8 tablet:px-6"
           >
-            {/* The links sit a little above the middle of the space the store button leaves. */}
+            {/* The links sit a little above the middle of the space above the footer links. */}
             <div className="flex-1" />
             {NAV_SECTIONS.map((section, index) => (
               // The wrapper slides in; the link inside moves on its own when pressed.
@@ -236,14 +236,14 @@ export function SiteHeader() {
                 MENU_ENTER_DELAY_CLASSES[NAV_SECTIONS.length],
               )}
             >
-              <LinkButton
-                href={APP_STORE_URL}
+              <AppDownloadLink
                 tone="accent"
                 size="hero"
+                hideBeforeLaunch
                 className="mx-auto flex w-full max-w-90"
               >
                 {translate('getApp')}
-              </LinkButton>
+              </AppDownloadLink>
               <div className="flex flex-wrap justify-center gap-x-5.5 gap-y-2.5">
                 <a href={MAILTO_HI} className={menuSmallLinkClass}>
                   {translateFooter('support')}

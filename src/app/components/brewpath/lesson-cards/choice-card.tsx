@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useId } from 'react';
 
 import { cn } from '@shared/styles/cn';
 
@@ -36,7 +37,8 @@ export function choiceVerdict<T>(value: T, answer: T, picked: T | null): Choice[
 }
 
 interface ChoiceCardProps {
-  cue: string;
+  /** A ref callback for the title, such as one that moves focus to it when the card appears. */
+  focusTitle?: (heading: HTMLHeadingElement | null) => void;
   /** The question or statement, set in Fraunces at title size. */
   title: string;
   /** Tailwind line-height class for the title. */
@@ -48,11 +50,11 @@ interface ChoiceCardProps {
   onContinue?: () => void;
 }
 
-/** The shared layout of a one-pick card: cue, title, choices, verdict after the pick, and Continue. */
+/** The shared layout of a one-pick card: title, choices, verdict after the pick, and Continue. */
 export function ChoiceCard({
-  cue,
   title,
   titleLeading,
+  focusTitle,
   choices,
   pickedCorrect,
   explain,
@@ -60,50 +62,56 @@ export function ChoiceCard({
 }: ChoiceCardProps) {
   const translate = useTranslations('lesson');
   const answered = pickedCorrect !== null;
+  const titleId = useId();
 
   return (
-    <div className="flex min-h-lesson-card-height flex-[1_0_auto] flex-col px-6">
-      <div className="smallcaps mb-3 flex items-center gap-2 leading-none text-accent">
-        <span className="text-support leading-none">{cue}</span>
-      </div>
-      <h2
-        className={cn(
-          'ff-display m-0 text-title font-normal tracking-[-0.01em] text-pretty text-ink',
-          titleLeading,
-        )}
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div
+        role="region"
+        aria-labelledby={titleId}
+        tabIndex={0}
+        className="min-h-0 flex-1 scrollbar-none overflow-y-auto px-6 pt-1 pb-3 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
       >
-        {title}
-      </h2>
+        <h2
+          id={titleId}
+          ref={focusTitle}
+          tabIndex={focusTitle ? -1 : undefined}
+          className={cn(
+            'ff-display m-0 text-title font-normal tracking-[-0.01em] text-pretty text-ink',
+            titleLeading,
+          )}
+        >
+          {title}
+        </h2>
 
-      <div className="mt-6 flex flex-col gap-2.5">
-        {choices.map((choice) => (
-          <button
-            key={choice.key}
-            type="button"
-            className={cn(
-              'ff-ui block w-full cursor-pointer rounded-card border border-rule bg-surface px-5 py-4.5 text-left text-body font-medium text-ink transition-all duration-150 ease-[ease] not-aria-disabled:active:scale-[.985] aria-disabled:cursor-default',
-              choice.verdict && VERDICT_CLASSES[choice.verdict],
-              // Only the learner's own pick moves: a right pick pops, but the right answer
-              // revealed after a wrong pick stays still.
-              choice.verdict === 'correct' && pickedCorrect && 'animate-answer-pop',
-            )}
-            // Not `disabled`: that would drop keyboard focus from the answer just picked.
-            // The cards ignore a second pick.
-            aria-disabled={answered}
-            aria-pressed={choice.picked}
-            onClick={choice.onSelect}
-          >
-            {choice.label}
-          </button>
-        ))}
+        <div className="mt-6 flex flex-col gap-2.5">
+          {choices.map((choice) => (
+            <button
+              key={choice.key}
+              type="button"
+              className={cn(
+                'ff-ui block w-full cursor-pointer rounded-card border border-rule bg-surface px-5 py-4.5 text-left text-body font-medium text-ink transition-all duration-150 ease-[ease] not-aria-disabled:active:scale-[.985] aria-disabled:cursor-default',
+                choice.verdict && VERDICT_CLASSES[choice.verdict],
+                // Only the learner's own pick moves: a right pick pops, but the right answer
+                // revealed after a wrong pick stays still.
+                choice.verdict === 'correct' && pickedCorrect && 'animate-answer-pop',
+              )}
+              // Not `disabled`: that would drop keyboard focus from the answer just picked.
+              // The cards ignore a second pick.
+              aria-disabled={answered}
+              aria-pressed={choice.picked}
+              onClick={choice.onSelect}
+            >
+              {choice.label}
+            </button>
+          ))}
+        </div>
+
+        <div aria-live="polite">
+          {answered && <AnswerFeedback correct={pickedCorrect} text={explain} />}
+        </div>
       </div>
-
-      <div aria-live="polite">
-        {answered && <AnswerFeedback correct={pickedCorrect} text={explain} />}
-      </div>
-
-      <div className="flex-1" />
-      <div className="pt-8">
+      <div className="shrink-0 px-6 pt-3">
         <button type="button" className="btn btn-primary" onClick={onContinue} disabled={!answered}>
           {translate('continue')}
         </button>
