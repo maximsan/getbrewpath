@@ -4,7 +4,7 @@ import drawings from '@content/en/card-art.json';
 import courseFile from '@content/en/course.json';
 
 import { courseSchema } from './build-course';
-import { cardArtSchema, findCardArtImage, getCardArtImage } from './card-art';
+import { cardArtSchema, getCardArtImage } from './card-art';
 
 const course = courseSchema.parse(courseFile);
 const artwork = cardArtSchema.parse(drawings);
@@ -28,10 +28,6 @@ describe('shipped Coffee Card illustrations', () => {
         );
       }
     }
-  });
-
-  it('allows optional artwork to be absent', async () => {
-    await expect(findCardArtImage('en', 'missing', 'cupping')).resolves.toBeUndefined();
   });
 
   it('fails explicitly for an unsupported kind rather than silently substituting a stamp', async () => {

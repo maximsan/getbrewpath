@@ -168,10 +168,10 @@
     },
     "foundationsList": {
       "item1": "All {modules, plural, =5 {five} other {#}} modules and their lessons",
-      "item2": "Lesson questions about fixing flavours and choosing grind settings",
+      "item2": "Lesson questions about fixing flavours, choosing grind settings and more",
       "item3": "The complete Dictionary",
       "item4": "Unlimited saved terms and cards",
-      "item5": "The Studio lets you dress Roasty and choose your plant."
+      "item5": "The Studio lets you dress Roasty and choose your plant"
     },
     "note": "The app shows the plans and the price for your country before you buy.",
     "updatesIncluded": "Fixes and improvements are included."

@@ -21,7 +21,9 @@ export interface RewardCardData {
 
 export interface RewardCardProps {
   reward: RewardCardData;
+  /** Shows only the badge, title and drawing, for a card the viewer has not earned. */
   preview?: boolean;
+  /** Drops the lines between the details, for the small screen of the lesson demo. */
   compact?: boolean;
   /** The card's original drawing, imported and rendered as a standalone image. */
   illustration?: string;
